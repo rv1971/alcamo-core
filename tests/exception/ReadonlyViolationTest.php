@@ -43,6 +43,7 @@ class ReadonlyViolationTest extends TestCase {
         null,
         "Attempt to modify readonly alcamo\\exception\\ReadonlyViolationTest object through testConstruct()"
       ],
+
       'separate-object' => [
         $object,
         __FUNCTION__,
@@ -52,6 +53,7 @@ class ReadonlyViolationTest extends TestCase {
         __FUNCTION__,
         "Attempt to modify readonly DOMDocument object through constructProvider()"
         ],
+
       'custom-message' => [
         null,
         'fooBar',
@@ -60,6 +62,16 @@ class ReadonlyViolationTest extends TestCase {
         null,
         'fooBar',
         $message
+        ],
+
+      'extra-message' => [
+        null,
+        null,
+        '; consetetur sadipscing elitr',
+        null,
+        null,
+        null,
+        "Attempt to modify readonly alcamo\\exception\\ReadonlyViolationTest object through testConstruct(); consetetur sadipscing elitr"
         ]
     ];
   }

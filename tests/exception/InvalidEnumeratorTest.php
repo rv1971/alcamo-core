@@ -38,6 +38,14 @@ class InvalidEnumeratorTest extends TestCase {
         'At vero eos et accusam',
         43,
         'At vero eos et accusam'
+      ],
+
+      'extra-message' => [
+        'qux',
+        [ 'quux', 'bar', 'baz' ],
+        '; at vero eos et accusam',
+        44,
+        "Invalid value 'qux', expected one of: 'quux', 'bar', 'baz'; at vero eos et accusam"
       ]
     ];
   }

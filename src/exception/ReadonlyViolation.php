@@ -6,6 +6,8 @@ namespace alcamo\exception;
 class ReadonlyViolation extends \LogicException {
   public $validValues;
 
+  /** If $message starts with a ';', it is appended to the generated message,
+   *  otherwise it replaces the generated one. */
   function __construct(
     ?object $object = null,
     ?string $method = null,
@@ -17,9 +19,10 @@ class ReadonlyViolation extends \LogicException {
 
     $this->method = $method ?? \debug_backtrace()[1]['function'];
 
-    if ( !$message ) {
+    if ( !$message || $message[0] == ';' ) {
       $message = "Attempt to modify readonly " . get_class( $this->object )
-        . " object through {$this->method}()";
+        . " object through {$this->method}()"
+        . $message;
     }
 
     parent::__construct( $message, $code, $previous );

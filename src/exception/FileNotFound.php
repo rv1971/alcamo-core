@@ -6,6 +6,8 @@ namespace alcamo\exception;
 class FileNotFound extends FileException {
   public $places;
 
+  /** If $message starts with a ';', it is appended to the generated message,
+   *  otherwise it replaces the generated one. */
   function __construct(
     $filename,
     ?string $places = null,
@@ -15,12 +17,11 @@ class FileNotFound extends FileException {
   ) {
     $this->places = $places;
 
-    if ( !$message ) {
-      $message = "File '$filename' not found";
-
-      if ( isset( $places ) ) {
-        $message .= " in '$places'";
-      }
+    if ( !$message || $message[0] == ';' ) {
+      $message =
+        "File '$filename' not found"
+        . (isset( $places ) ? " in '$places'" : '')
+        . $message;
     }
 
     parent::__construct( $filename, $message, $code, $previous );

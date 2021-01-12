@@ -45,10 +45,18 @@ class FileNotFoundTest extends TestCase {
 
       'custom-message' => [
         'baz.json',
-        'on remote disk',
+        'remote disk',
         'Lorem ipsum',
         42,
         'Lorem ipsum'
+      ],
+
+      'extra-message' => [
+        'qux.xml',
+        'DVD',
+        '; stet clita kasd gubergren',
+        43,
+        "File 'qux.xml' not found in 'DVD'; stet clita kasd gubergren"
       ]
     ];
   }
