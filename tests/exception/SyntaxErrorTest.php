@@ -29,7 +29,7 @@ class SyntaxErrorTest extends TestCase {
         7,
         null,
         null,
-        "Syntax error in \"At vero# eos et accusam et justo duo dolores et ea rebum.\" at 7: \"# eos et a...\""
+        "Syntax error in \"At vero# eos et accusam et justo duo dol...\" at 7: \"# eos et a...\""
       ],
 
       'no-offset' => [
@@ -37,7 +37,7 @@ class SyntaxErrorTest extends TestCase {
         null,
         null,
         4711,
-        "Syntax error in \"At vero eos et accusam et %justo duo dolores et ea rebum.\""
+        "Syntax error in \"At vero eos et accusam et %justo duo dol...\""
       ],
 
       'custom-message' => [

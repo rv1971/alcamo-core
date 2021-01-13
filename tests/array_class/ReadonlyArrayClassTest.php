@@ -33,6 +33,14 @@ class ReadonlyArrayClassTest extends TestCase {
     $this->assertFalse( isset( $a[4] ) );
 
     $this->assertFalse( isset( $a[5] ) );
+
+    $b = new ReadonlyArrayClass();
+
+    $this->assertSame( count( $b ), 0 );
+
+    $this->assertSame( $b->first(), null );
+
+    $this->assertSame( $b->last(), null );
   }
 
   public function testUnset() {

@@ -49,5 +49,13 @@ class ArrayClassTest extends TestCase {
     $this->assertNull( $a[0] );
 
     $this->assertSame( $a->first(), 'bar' );
+
+    $b = new ArrayClass();
+
+    $this->assertSame( count( $b ), 0 );
+
+    $this->assertSame( $b->first(), null );
+
+    $this->assertSame( $b->last(), null );
   }
 }

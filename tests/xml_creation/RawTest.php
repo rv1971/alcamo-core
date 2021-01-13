@@ -1,0 +1,20 @@
+<?php
+
+namespace alcamo\xml_creation;
+
+use PHPUnit\Framework\TestCase;
+
+use alcamo\exception\SyntaxError;
+
+class RawTest extends TestCase {
+  public function testAll() {
+    $text =
+      '<strong>At vero eos et accusam</strong> et justo duo dolores et ea rebum.';
+
+    $raw = new Raw( $text );
+
+    $this->assertSame( $raw->getContent(), $text );
+
+    $this->assertEquals( (string)$raw, $text );
+  }
+}

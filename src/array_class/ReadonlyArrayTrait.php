@@ -9,5 +9,5 @@ trait ReadonlyArrayTrait {
   use ReadArrayAccessTrait;
   use PreventWriteArrayAccessTrait;
 
-  private $data_;
+  private $data_ = [];
 }

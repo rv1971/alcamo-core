@@ -19,10 +19,20 @@ class SyntaxError extends \DomainException {
     $this->offset = $offset;
 
     if ( !$message || $message[0] == ';' ) {
+      $shortText =
+        strlen( $text ) <= 40 ? $text : (substr( $text, 0, 40 ) . '...');
+
+      if ( isset( $offset ) ) {
+        $shortOffendingText =
+          strlen( $text ) <= $offset + 10
+          ? substr( $text, $offset )
+          : (substr( $text, $offset, 10 ) . '...');
+      }
+
       $message =
-        "Syntax error in \"$text\""
+        "Syntax error in \"$shortText\""
         . (isset( $offset )
-           ? (" at $offset: \"" . substr( $text, $offset, 10 ) . '..."')
+           ? (" at $offset: \"$shortOffendingText\"")
            : '')
         . $message;
     }

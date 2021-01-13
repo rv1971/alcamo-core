@@ -2,10 +2,13 @@
 
 namespace alcamo\xml_creation;
 
+use alcamo\exception\SyntaxError;
+
 /// XML comment.
-class Comment implements NodeInterface {
+class Comment extends AbstractNode {
   function __construct( $content ) {
     if ( strpos( $content, '--' ) !== false ) {
+      /** @throw SyntaxError if $content contains double hyphen. */
       throw new SyntaxError(
         $content, strpos( $content, '--' ), '; double-hyphen in XML comment' );
     }

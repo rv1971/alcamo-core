@@ -1,0 +1,1126 @@
+]0;~
+rve@rveV2nb ~
+$ ]0;~
+rve@rveV2nb ~
+$ ]0;~
+rve@rveV2nb ~
+$ ]0;~
+rve@rveV2nb ~
+$ cd src/alcamo-core/
+]0;~/src/alcamo-core
+rve@rveV2nb ~/src/alcamo-core
+$ cd src/xml_creation/
+]0;~/src/alcamo-core/src/xml_creation
+rve@rveV2nb ~/src/alcamo-core/src/xml_creation
+$ ll
+total 10
+-rw-r--r-- 1 rve WEAT+Group(513) 359 Jan 12 23:09 AbstractNode.php
+-rw-r--r-- 1 rve WEAT+Group(513) 350 Jan 12 23:07 AbstractNode.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 413 Jan 12 23:30 Comment.php
+-rw-r--r-- 1 rve WEAT+Group(513) 370 Jan 12 22:37 Comment.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 238 Jan 12 23:06 NodeInterface.php
+-rw-r--r-- 1 rve WEAT+Group(513) 136 Jan 12 22:32 NodeInterface.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 553 Jan 12 23:55 ProcessingInstruction.php
+-rw-r--r-- 1 rve WEAT+Group(513) 407 Jan 12 23:52 ProcessingInstruction.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 191 Jan 12 23:09 Raw.php
+-rw-r--r-- 1 rve WEAT+Group(513) 286 Jan 12 22:32 Raw.php~
+]0;~/src/alcamo-core/src/xml_creation
+rve@rveV2nb ~/src/alcamo-core/src/xml_creation
+$ ll *.php
+-rw-r--r-- 1 rve WEAT+Group(513)  491 Jan 13 11:56 AbstractNode.php
+-rw-r--r-- 1 rve WEAT+Group(513)  954 Jan 13 12:35 Attribute.php
+-rw-r--r-- 1 rve WEAT+Group(513)  409 Jan 13 12:07 Comment.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1578 Jan 13 12:37 Element.php
+-rw-r--r-- 1 rve WEAT+Group(513)  238 Jan 12 23:06 NodeInterface.php
+-rw-r--r-- 1 rve WEAT+Group(513)  580 Jan 13 12:07 ProcessingInstruction.php
+-rw-r--r-- 1 rve WEAT+Group(513)  191 Jan 12 23:09 Raw.php
+]0;~/src/alcamo-core/src/xml_creation
+rve@rveV2nb ~/src/alcamo-core/src/xml_creation
+$ cd ../../tests/exception/
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ll
+total 32
+-rw-r--r-- 1 rve WEAT+Group(513) 1282 Jan 12 23:36 FileNotFoundTest.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1075 Jan  8 15:14 FileNotFoundTest.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 1171 Jan 12 23:38 InvalidEnumeratorTest.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1105 Jan  8 17:24 InvalidEnumeratorTest.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 1692 Jan 12 23:39 ReadonlyViolationTest.php
+-rw-r--r-- 1 rve WEAT+Group(513)  944 Jan 11 18:16 ReadonlyViolationTest.php~
+-rw-r--r-- 1 rve WEAT+Group(513) 1523 Jan 12 23:50 SyntaxErrorTest.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1171 Jan 12 23:40 SyntaxErrorTest.php~
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ cp InvalidEnumeratorTest.php InvalidTypeTest.php
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+E                                                                   1 / 1 (100%)
+
+Time: 00:00.080, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Error
+The data provider specified for alcamo\exception\InvalidTypeTest::testConstruct is invalid.
+ArgumentCountError: Too few arguments to function alcamo\exception\InvalidType::__construct(), 0 passed in /home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php on line 36 and at least 2 expected
+/home/rve/src/alcamo-core/src/exception/InvalidType.php:10
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:36
+
+ERRORS!
+Tests: 1, Assertions: 0, Errors: 1.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+EEE                                                                 3 / 3 (100%)
+
+Time: 00:00.030, Memory: 4.00 MB
+
+There were 3 errors:
+
+1) alcamo\exception\InvalidTypeTest::testConstruct with data set "typical-use" (alcamo\exception\InvalidTypeTest Object (...), array('string', 'int'), null, null, 'Invalid type 'alcamoxception... 'int'')
+Object of class alcamo\exception\InvalidTypeTest could not be converted to string
+
+/home/rve/src/alcamo-core/src/exception/InvalidEnumerator.php:21
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:14
+
+2) alcamo\exception\InvalidTypeTest::testConstruct with data set "custom-message" (alcamo\exception\SyntaxError Object (...), array('alcamo\exception\InvalidTypeTest'), 'At vero eos et accusam', 7, 'At vero eos et accusam')
+Undefined property: alcamo\exception\InvalidEnumerator::$validTypes
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:18
+
+3) alcamo\exception\InvalidTypeTest::testConstruct with data set "extra-message" (42, array('string'), '; at vero eos et accusam', 8, 'Invalid type 'int', expected ...tring'')
+Undefined property: alcamo\exception\InvalidEnumerator::$validTypes
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:18
+
+ERRORS!
+Tests: 3, Assertions: 2, Errors: 3.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+F.F                                                                 3 / 3 (100%)
+
+Time: 00:00.040, Memory: 4.00 MB
+
+There were 2 failures:
+
+1) alcamo\exception\InvalidTypeTest::testConstruct with data set "typical-use" (alcamo\exception\InvalidTypeTest Object (...), array('string', 'int'), null, null, 'Invalid type 'alcamoxception... 'int'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid Type alcamo\exception\InvalidTypeTest, expected one of: 'string', 'int''
++'Invalid type 'alcamoxception\InvalidTypeTest', expected one of: 'string', 'int''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+2) alcamo\exception\InvalidTypeTest::testConstruct with data set "extra-message" (42, array('string'), '; at vero eos et accusam', 8, 'Invalid type 'int', expected ...tring'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid Type integer, expected one of: 'string'; at vero eos et accusam'
++'Invalid type 'int', expected one of: 'string''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+FAILURES!
+Tests: 3, Assertions: 10, Failures: 2.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+F.F                                                                 3 / 3 (100%)
+
+Time: 00:00.014, Memory: 4.00 MB
+
+There were 2 failures:
+
+1) alcamo\exception\InvalidTypeTest::testConstruct with data set "typical-use" (alcamo\exception\InvalidTypeTest Object (...), array('string', 'int'), null, null, 'Invalid type 'alcamo\exceptio... 'int'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid Type alcamo\exception\InvalidTypeTest, expected one of: 'string', 'int''
++'Invalid type 'alcamo\exception\InvalidTypeTest', expected one of: 'string', 'int''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+2) alcamo\exception\InvalidTypeTest::testConstruct with data set "extra-message" (42, array('string'), '; at vero eos et accusam', 8, 'Invalid type 'int', expected ...tring'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid Type integer, expected one of: 'string'; at vero eos et accusam'
++'Invalid type 'int', expected one of: 'string''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+FAILURES!
+Tests: 3, Assertions: 10, Failures: 2.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..F                                                                 3 / 3 (100%)
+
+Time: 00:00.017, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\exception\InvalidTypeTest::testConstruct with data set "extra-message" (42, array('string'), '; at vero eos et accusam', 8, 'Invalid type 'int', expected ...tring'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid type 'integer', expected one of: 'string'; at vero eos et accusam'
++'Invalid type 'int', expected one of: 'string''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+FAILURES!
+Tests: 3, Assertions: 11, Failures: 1.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+F.F                                                                 3 / 3 (100%)
+
+Time: 00:00.014, Memory: 4.00 MB
+
+There were 2 failures:
+
+1) alcamo\exception\InvalidTypeTest::testConstruct with data set "typical-use" (alcamo\exception\InvalidTypeTest Object (...), array('string', 'integer'), null, null, 'Invalid type 'alcamo\exceptio... 'int'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid type 'alcamo\exception\InvalidTypeTest', expected one of: 'string', 'integer''
++'Invalid type 'alcamo\exception\InvalidTypeTest', expected one of: 'string', 'int''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+2) alcamo\exception\InvalidTypeTest::testConstruct with data set "extra-message" (42, array('string'), '; at vero eos et accusam', 8, 'Invalid type 'integer', expec...tring'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid type 'integer', expected one of: 'string'; at vero eos et accusam'
++'Invalid type 'integer', expected one of: 'string''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+FAILURES!
+Tests: 3, Assertions: 10, Failures: 2.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+F..                                                                 3 / 3 (100%)
+
+Time: 00:00.033, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\exception\InvalidTypeTest::testConstruct with data set "typical-use" (alcamo\exception\InvalidTypeTest Object (...), array('string', 'integer'), null, null, 'Invalid type 'alcamo\exceptio... 'int'')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Invalid type 'alcamo\exception\InvalidTypeTest', expected one of: 'string', 'integer''
++'Invalid type 'alcamo\exception\InvalidTypeTest', expected one of: 'string', 'int''
+
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:20
+
+FAILURES!
+Tests: 3, Assertions: 11, Failures: 1.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit InvalidTypeTest.php
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+...                                                                 3 / 3 (100%)
+
+Time: 00:00.013, Memory: 4.00 MB
+
+OK (3 tests, 12 assertions)
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ cd ..
+]0;~/src/alcamo-core/tests
+rve@rveV2nb ~/src/alcamo-core/tests
+$ ll
+total 16
+drwxr-xr-x+ 1 rve WEAT+Group(513) 0 Jan  8 22:33 alcamo
+drwxr-xr-x+ 1 rve WEAT+Group(513) 0 Jan 12 22:02 array_class
+drwxr-xr-x+ 1 rve WEAT+Group(513) 0 Jan  8 22:48 conf
+drwxr-xr-x+ 1 rve WEAT+Group(513) 0 Jan 13 15:15 exception
+]0;~/src/alcamo-core/tests
+rve@rveV2nb ~/src/alcamo-core/tests
+$ md xml_creation
+]0;~/src/alcamo-core/tests
+rve@rveV2nb ~/src/alcamo-core/tests
+$ cd xml_creation/
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ cp ../array_class/ArrayClassTest.php CommentTest.php
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.F                                                                  2 / 2 (100%)
+
+Time: 00:00.045, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) alcamo\xml_creation\CommentTest::testException
+Failed asserting that exception of type "Error" matches expected exception "alcamo\exception\SyntaxError". Message was: "Class 'alcamo\xml_creation\SyntaxError' not found" at
+/home/rve/src/alcamo-core/src/xml_creation/Comment.php:9
+/home/rve/src/alcamo-core/tests/xml_creation/CommentTest.php:27
+.
+
+FAILURES!
+Tests: 2, Assertions: 3, Failures: 1.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.F                                                                  2 / 2 (100%)
+
+Time: 00:00.027, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\xml_creation\CommentTest::testException
+Failed asserting that exception message 'Syntax error in "Stet clita kasd gubergren -- no sea takimata sanctus est Lorem ipsum dolor sit amet." at 26: "-- no sea ..."; double-hyphen in XML comment' contains 'Syntax error in "Stet clita kasd gubergren -- no sea takimata sanctus est Lorem ipsum dolor sit amet."; double-hyphen in XML comment'.
+
+FAILURES!
+Tests: 2, Assertions: 4, Failures: 1.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.F                                                                  2 / 2 (100%)
+
+Time: 00:00.016, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\xml_creation\CommentTest::testException
+Failed asserting that exception message 'Syntax error in "Stet clita kasd gubergren -- no sea takimata sanctus est Lorem ipsum dolor sit amet." at 26: "-- no sea ..."; double-hyphen in XML comment' contains 'Syntax error in "Stet clita kasd gubergren -- no sea takimata sanctus est Lorem ipsum dolor sit amet." at 26; double-hyphen in XML comment'.
+
+FAILURES!
+Tests: 2, Assertions: 4, Failures: 1.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..                                                                  2 / 2 (100%)
+
+Time: 00:00.015, Memory: 4.00 MB
+
+OK (2 tests, 4 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ cd ../exception/
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......E....EEEE                                                  16 / 16 (100%)
+
+Time: 00:00.036, Memory: 6.00 MB
+
+There were 5 errors:
+
+1) Error
+The data provider specified for alcamo\exception\InvalidTypeTest::testConstruct is invalid.
+ParseError: syntax error, unexpected '='
+/home/rve/src/alcamo-core/src/exception/SyntaxError.php:23
+/home/rve/src/alcamo-core/tests/exception/InvalidTypeTest.php:36
+
+2) alcamo\exception\SyntaxErrorTest::testConstruct with data set "typical-use" ('At vero# eos et accusam et ju...rebum.', 7, null, null, 'Syntax error in "At vero# eos... a..."')
+ParseError: syntax error, unexpected '='
+
+/home/rve/src/alcamo-core/src/exception/SyntaxError.php:23
+/home/rve/src/alcamo-core/tests/exception/SyntaxErrorTest.php:14
+
+3) alcamo\exception\SyntaxErrorTest::testConstruct with data set "no-offset" ('At vero eos et accusam et %ju...rebum.', null, null, 4711, 'Syntax error in "At vero eos ...ol..."')
+ParseError: syntax error, unexpected '='
+
+/home/rve/src/alcamo-core/src/exception/SyntaxError.php:23
+/home/rve/src/alcamo-core/tests/exception/SyntaxErrorTest.php:14
+
+4) alcamo\exception\SyntaxErrorTest::testConstruct with data set "custom-message" ('no sea takimata', 0, 'First character must be uppercase', null, 'First character must be uppercase')
+ParseError: syntax error, unexpected '='
+
+/home/rve/src/alcamo-core/src/exception/SyntaxError.php:23
+/home/rve/src/alcamo-core/tests/exception/SyntaxErrorTest.php:14
+
+5) alcamo\exception\SyntaxErrorTest::testConstruct with data set "extra-message" ('labore et dolor*e magna aliquyam erat', 15, '; asterisk not allowed', null, 'Syntax error in "labore et do...llowed')
+ParseError: syntax error, unexpected '='
+
+/home/rve/src/alcamo-core/src/exception/SyntaxError.php:23
+/home/rve/src/alcamo-core/tests/exception/SyntaxErrorTest.php:14
+
+ERRORS!
+Tests: 16, Assertions: 44, Errors: 5.
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..................                                                18 / 18 (100%)
+
+Time: 00:00.017, Memory: 4.00 MB
+
+OK (18 tests, 72 assertions)
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ cd ../xml_creation/
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.F                                                                  2 / 2 (100%)
+
+Time: 00:00.138, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\xml_creation\CommentTest::testException
+Failed asserting that exception message 'Syntax error in "Stet clita kasd gubergren -- no sea taki..." at 26: "-- no sea ..."; double-hyphen in XML comment' contains 'Syntax error in Stet clita kasd gubergren -- no sea taki..." at 26: "-- no sea ..."; double-hyphen in XML comment'.
+
+FAILURES!
+Tests: 2, Assertions: 4, Failures: 1.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..                                                                  2 / 2 (100%)
+
+Time: 00:00.015, Memory: 4.00 MB
+
+OK (2 tests, 4 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..FF                                                                4 / 4 (100%)
+
+Time: 00:00.026, Memory: 4.00 MB
+
+There were 2 failures:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'<?foo At vero eos et accusam et justo duo dolores et ea rebum.?>'
++'<?foo At vero eos et accusam et justo duo dolores et ea rebum. ?>'
+
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:17
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testException
+Failed asserting that exception message 'Syntax error in "dolor sit amet ?>" at 15: "?>..."; "?>" in XML PI' contains 'Syntax error in "dolor sit amet ?>..." at 25: "?>"; "?>" in XML PI'.
+
+FAILURES!
+Tests: 4, Assertions: 8, Failures: 2.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..FF                                                                4 / 4 (100%)
+
+Time: 00:00.018, Memory: 4.00 MB
+
+There were 2 failures:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'<?foo At vero eos et accusam et justo duo dolores et ea rebum.?>'
++'<?foo At vero eos et accusam et justo duo dolores et ea rebum. ?>'
+
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:17
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testException
+Failed asserting that exception message 'Syntax error in "dolor sit amet ?>" at 15: "?>..."; "?>" in XML PI' contains 'Syntax error in "dolor sit amet ?>" at 25: "?>"; "?>" in XML PI'.
+
+FAILURES!
+Tests: 4, Assertions: 8, Failures: 2.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..FF                                                                4 / 4 (100%)
+
+Time: 00:00.017, Memory: 4.00 MB
+
+There were 2 failures:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'<?foo At vero eos et accusam et justo duo dolores et ea rebum.?>'
++'<?foo At vero eos et accusam et justo duo dolores et ea rebum. ?>'
+
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:17
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testException
+Failed asserting that exception message 'Syntax error in "dolor sit amet ?>" at 15: "?>..."; "?>" in XML PI' contains 'Syntax error in "dolor sit amet ?>" at 15: "?>"; "?>" in XML PI'.
+
+FAILURES!
+Tests: 4, Assertions: 8, Failures: 2.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ cd ../exception/
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..................                                                18 / 18 (100%)
+
+Time: 00:00.041, Memory: 4.00 MB
+
+OK (18 tests, 72 assertions)
+]0;~/src/alcamo-core/tests/exception
+rve@rveV2nb ~/src/alcamo-core/tests/exception
+$ cd -
+/home/rve/src/alcamo-core/tests/xml_creation
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..F.                                                                4 / 4 (100%)
+
+Time: 00:00.016, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'<?foo At vero eos et accusam et justo duo dolores et ea rebum.?>'
++'<?foo At vero eos et accusam et justo duo dolores et ea rebum. ?>'
+
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:17
+
+FAILURES!
+Tests: 4, Assertions: 8, Failures: 1.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+....                                                                4 / 4 (100%)
+
+Time: 00:00.016, Memory: 4.00 MB
+
+OK (4 tests, 8 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.....                                                               5 / 5 (100%)
+
+Time: 00:00.022, Memory: 4.00 MB
+
+OK (5 tests, 10 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ll ../../src/xml_creation/*.php
+-rw-r--r-- 1 rve WEAT+Group(513)  491 Jan 13 11:56 ../../src/xml_creation/AbstractNode.php
+-rw-r--r-- 1 rve WEAT+Group(513)  954 Jan 13 12:35 ../../src/xml_creation/Attribute.php
+-rw-r--r-- 1 rve WEAT+Group(513)  444 Jan 13 15:21 ../../src/xml_creation/Comment.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1594 Jan 13 13:03 ../../src/xml_creation/Element.php
+-rw-r--r-- 1 rve WEAT+Group(513)  238 Jan 12 23:06 ../../src/xml_creation/NodeInterface.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1172 Jan 13 13:09 ../../src/xml_creation/Nodes.php
+-rw-r--r-- 1 rve WEAT+Group(513)  615 Jan 13 15:21 ../../src/xml_creation/ProcessingInstruction.php
+-rw-r--r-- 1 rve WEAT+Group(513)  191 Jan 12 23:09 ../../src/xml_creation/Raw.php
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ cd ../../src/xml_creation
+]0;~/src/alcamo-core/src/xml_creation
+rve@rveV2nb ~/src/alcamo-core/src/xml_creation
+$ ll *.php
+-rw-r--r-- 1 rve WEAT+Group(513)  491 Jan 13 11:56 AbstractNode.php
+-rw-r--r-- 1 rve WEAT+Group(513)  954 Jan 13 12:35 Attribute.php
+-rw-r--r-- 1 rve WEAT+Group(513)  444 Jan 13 15:21 Comment.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1594 Jan 13 13:03 Element.php
+-rw-r--r-- 1 rve WEAT+Group(513)  238 Jan 12 23:06 NodeInterface.php
+-rw-r--r-- 1 rve WEAT+Group(513) 1172 Jan 13 13:09 Nodes.php
+-rw-r--r-- 1 rve WEAT+Group(513)  615 Jan 13 15:21 ProcessingInstruction.php
+-rw-r--r-- 1 rve WEAT+Group(513)  191 Jan 12 23:09 Raw.php
+]0;~/src/alcamo-core/src/xml_creation
+rve@rveV2nb ~/src/alcamo-core/src/xml_creation
+$ cd -
+/home/rve/src/alcamo-core/tests/xml_creation
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.026, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.019, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.021, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.020, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.025, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.019, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.020, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.021, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.022, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.021, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.021, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 34
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 34
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 34
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 34
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.022, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 28
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 28
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 28
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 28
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.020, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.038, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.022, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.024, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.021, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.020, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.020, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 32
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.020, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+..EEEE.                                                             7 / 7 (100%)
+
+Time: 00:00.024, Memory: 4.00 MB
+
+There were 4 errors:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testAll
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:13
+
+2) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #0 ('123', 'bar="baz"', 'Syntax error in "123"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+3) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; not a ...target')
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:27
+
+4) alcamo\xml_creation\ProcessingInstructionTest::testContentException
+preg_match(): Compilation failed: range out of order in character class at offset 33
+
+/home/rve/src/alcamo-core/src/xml_creation/ProcessingInstruction.php:13
+/home/rve/src/alcamo-core/tests/xml_creation/ProcessingInstructionTest.php:56
+
+ERRORS!
+Tests: 7, Assertions: 6, Errors: 4.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.019, Memory: 4.00 MB
+
+OK (7 tests, 14 assertions)
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ ~/src/alcamo-core/vendor/bin/phpunit .
+PHPUnit 9.5.0 by Sebastian Bergmann and contributors.
+
+....F..                                                             7 / 7 (100%)
+
+Time: 00:00.018, Memory: 4.00 MB
+
+There was 1 failure:
+
+1) alcamo\xml_creation\ProcessingInstructionTest::testTargetException with data set #1 ('XmL', 'bar="baz"', 'Syntax error in "XmL"; noxt a...target')
+Failed asserting that exception message 'Syntax error in "XmL"; not a valid XML PI target' contains 'Syntax error in "XmL"; noxt a valid XML PI target'.
+
+FAILURES!
+Tests: 7, Assertions: 14, Failures: 1.
+]0;~/src/alcamo-core/tests/xml_creation
+rve@rveV2nb ~/src/alcamo-core/tests/xml_creation
+$ 

@@ -9,5 +9,5 @@ trait ArrayTrait {
   use ReadArrayAccessTrait;
   use WriteArrayAccessTrait;
 
-  private $data_;
+  private $data_ = [];
 }
