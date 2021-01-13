@@ -13,8 +13,8 @@ class RawTest extends TestCase {
 
     $raw = new Raw( $text );
 
-    $this->assertSame( $raw->getContent(), $text );
+    $this->assertSame( $text, $raw->getContent() );
 
-    $this->assertEquals( (string)$raw, $text );
+    $this->assertEquals( $text, (string)$raw );
   }
 }

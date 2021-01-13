@@ -13,10 +13,10 @@ class DoctypeDeclTest extends TestCase {
   public function testAll( $name, $externalId, $intSubset, $expectedString ) {
     $decl = new DoctypeDecl( $name, $externalId, $intSubset );
 
-    $this->assertSame( $decl->getName(), $name );
-    $this->assertSame( $decl->getExternalId(), $externalId );
-    $this->assertSame( $decl->getContent(), $intSubset );
-    $this->assertEquals( (string)$decl, $expectedString );
+    $this->assertSame( $name, $decl->getName() );
+    $this->assertSame( $externalId, $decl->getExternalId() );
+    $this->assertSame( $intSubset, $decl->getContent() );
+    $this->assertEquals( $expectedString, (string)$decl );
   }
 
   public function allProvider() {

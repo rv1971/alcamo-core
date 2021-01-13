@@ -14,13 +14,13 @@ class ElementTest extends TestCase {
   public function testAll( $tagName, $attrs, $content, $expectedString ) {
     $attr = new Element( $tagName, $attrs, $content );
 
-    $this->assertSame( $attr->getTagName(), $tagName );
+    $this->assertSame( $tagName, $attr->getTagName() );
 
-    $this->assertSame( $attr->getAttrs(), (array)$attrs );
+    $this->assertSame( (array)$attrs, $attr->getAttrs() );
 
-    $this->assertSame( $attr->getContent(), $content );
+    $this->assertSame( $content, $attr->getContent() );
 
-    $this->assertEquals( (string)$attr, $expectedString );
+    $this->assertEquals( $expectedString, (string)$attr );
   }
 
   public function allProvider() {
@@ -85,7 +85,7 @@ class ElementTest extends TestCase {
     try {
       new Element( 'quux', [ '424242' => 'bar' ] );
     } catch ( SyntaxError $e ) {
-      $this->assertSame( $e->tagName, 'quux' );
+      $this->assertSame( 'quux', $e->tagName );
 
       throw $e;
     }

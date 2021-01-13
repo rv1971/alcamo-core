@@ -17,14 +17,14 @@ class LoaderTest extends TestCase {
     $data1 = $loader->load( [ 'bar.ini', 'foo.json' ] );
 
     $this->assertSame(
-      $data1,
       [
         'quux' => 45,
         'corge' => 'foo bar baz',
         'bar' => 46,
         'baz' => 'Stet clita kasd gubergren',
         'qux' => true
-      ]
+      ],
+      $data1
     );
   }
 

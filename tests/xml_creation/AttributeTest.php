@@ -14,11 +14,11 @@ class AttributeTest extends TestCase {
   public function testAll( $name, $content, $expectedString ) {
     $attr = new Attribute( $name, $content );
 
-    $this->assertSame( $attr->getName(), $name );
+    $this->assertSame( $name, $attr->getName() );
 
-    $this->assertSame( $attr->getContent(), $content );
+    $this->assertSame( $content, $attr->getContent() );
 
-    $this->assertEquals( (string)$attr, $expectedString );
+    $this->assertEquals( $expectedString, (string)$attr );
   }
 
   public function allProvider() {

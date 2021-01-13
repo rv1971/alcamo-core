@@ -19,13 +19,13 @@ class ReadonlyViolationTest extends TestCase {
   ) {
     $e = new ReadonlyViolation( $object, $method, $message, $code );
 
-    $this->assertSame( $e->object, $expectedObject ?? $this );
+    $this->assertSame( $expectedObject ?? $this, $e->object );
 
-    $this->assertSame( $e->method, $expectedMethod ?? __FUNCTION__ );
+    $this->assertSame( $expectedMethod ?? __FUNCTION__, $e->method );
 
-    $this->assertSame( $e->getMessage(), $expectedMessage );
+    $this->assertSame( $expectedMessage, $e->getMessage() );
 
-    $this->assertEquals( $e->getCode(), $code );
+    $this->assertEquals( $code, $e->getCode() );
   }
 
   public function constructProvider() : array {

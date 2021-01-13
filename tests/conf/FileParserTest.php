@@ -16,12 +16,12 @@ class FileParserTest extends TestCase {
     $iniData = $parser->parse( $iniFilename );
 
     $this->assertSame(
-      $iniData,
       [
         'quux' => 45,
         'corge' => 'foo bar baz',
         'bar' => 46
-      ]
+      ],
+      $iniData
     );
   }
 
@@ -34,12 +34,12 @@ class FileParserTest extends TestCase {
     $jsonData = $parser->parse( $jsonFileName );
 
     $this->assertSame(
-      $jsonData,
       [
         'bar' => 44,
         'baz' => 'Stet clita kasd gubergren',
         'qux' => true
-        ]
+      ],
+      $jsonData
     );
   }
 

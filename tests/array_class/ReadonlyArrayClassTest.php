@@ -12,11 +12,11 @@ class ReadonlyArrayClassTest extends TestCase {
 
     $a = new ReadonlyArrayClass( $data );
 
-    $this->assertSame( count( $a ), count( $data ) );
+    $this->assertSame( count( $data ), count( $a ) );
 
-    $this->assertSame( $a->first(), 'foo' );
+    $this->assertSame( 'foo', $a->first() );
 
-    $this->assertSame( $a->last(), 'qux' );
+    $this->assertSame( 'qux', $a->last() );
 
     $data2 = [];
 
@@ -24,9 +24,9 @@ class ReadonlyArrayClassTest extends TestCase {
       $data2[$key] = $value;
     }
 
-    $this->assertEquals( $data2, $data );
+    $this->assertEquals( $data, $data2 );
 
-    $this->assertSame( $a[2], 'baz' );
+    $this->assertSame( 'baz', $a[2] );
 
     $this->assertTrue( isset( $a[2] ) );
 
@@ -36,11 +36,11 @@ class ReadonlyArrayClassTest extends TestCase {
 
     $b = new ReadonlyArrayClass();
 
-    $this->assertSame( count( $b ), 0 );
+    $this->assertSame( 0, count( $b ) );
 
-    $this->assertSame( $b->first(), null );
+    $this->assertSame( null, $b->first() );
 
-    $this->assertSame( $b->last(), null );
+    $this->assertSame( null, $b->last() );
   }
 
   public function testUnset() {

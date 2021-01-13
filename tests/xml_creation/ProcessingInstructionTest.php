@@ -14,11 +14,11 @@ class ProcessingInstructionTest extends TestCase {
 
     $pi = new ProcessingInstruction( $target, $text );
 
-    $this->assertSame( $pi->getTarget(), $target );
+    $this->assertSame( $target, $pi->getTarget() );
 
-    $this->assertSame( $pi->getContent(), $text );
+    $this->assertSame( $text, $pi->getContent() );
 
-    $this->assertEquals( (string)$pi, "<?foo $text?>" );
+    $this->assertEquals( "<?foo $text?>", (string)$pi );
   }
 
   /**

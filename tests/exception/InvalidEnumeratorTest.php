@@ -13,13 +13,13 @@ class InvalidEnumeratorTest extends TestCase {
   ) {
     $e = new InvalidEnumerator( $value, $validValues, $message, $code );
 
-    $this->assertSame( $e->value, $value );
+    $this->assertSame( $value, $e->value );
 
-    $this->assertSame( $e->validValues, $validValues );
+    $this->assertSame( $validValues, $e->validValues );
 
-    $this->assertSame( $e->getMessage(), $expectedMessage );
+    $this->assertSame( $expectedMessage, $e->getMessage() );
 
-    $this->assertEquals( $e->getCode(), $code );
+    $this->assertEquals( $code, $e->getCode() );
   }
 
   public function constructProvider() : array {

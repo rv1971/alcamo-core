@@ -15,11 +15,11 @@ class XdgFileFinderTest extends TestCase {
   ) {
     $finder = new XdgFileFinder( $subdir, $type );
 
-    $this->assertSame( $finder->getSubdir(), $subdir ?? 'alcamo' );
+    $this->assertSame( $subdir ?? 'alcamo', $finder->getSubdir() );
 
     $pathname = $finder->find( $filename );
 
-    $this->assertSame( $pathname, $expectedPathname );
+    $this->assertSame( $expectedPathname, $pathname );
 
   }
 

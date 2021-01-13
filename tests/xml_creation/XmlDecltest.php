@@ -16,10 +16,10 @@ class XmlDeclTest extends TestCase {
     $decl = new XmlDecl( $version, $encoding, $standalone );
 
     $this->assertNull( $decl->getContent() );
-    $this->assertEquals( $decl->getVersion(), $version ?? '1.0' );
-    $this->assertEquals( $decl->getEncoding(), $encoding ?? 'UTF-8' );
-    $this->assertEquals( $decl->getStandalone(), $standalone ?? false );
-    $this->assertEquals( (string)$decl, $expectedString );
+    $this->assertEquals( $version ?? '1.0', $decl->getVersion() );
+    $this->assertEquals( $encoding ?? 'UTF-8', $decl->getEncoding() );
+    $this->assertEquals( $standalone ?? false, $decl->getStandalone() );
+    $this->assertEquals( $expectedString, (string)$decl );
   }
 
   public function allProvider() {

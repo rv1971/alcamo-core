@@ -13,13 +13,13 @@ class SyntaxErrorTest extends TestCase {
   ) {
     $e = new SyntaxError( $text, $offset, $message, $code );
 
-    $this->assertEquals( $e->text, $text );
+    $this->assertEquals( $text, $e->text );
 
-    $this->assertEquals( $e->offset, $offset );
+    $this->assertEquals( $offset, $e->offset );
 
-    $this->assertSame( $e->getMessage(), $expectedMessage );
+    $this->assertSame( $expectedMessage, $e->getMessage() );
 
-    $this->assertEquals( $e->getCode(), $code );
+    $this->assertEquals( $code, $e->getCode() );
   }
 
   public function constructProvider() : array {

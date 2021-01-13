@@ -13,13 +13,13 @@ class FileNotFoundTest extends TestCase {
   ) {
     $e = new FileNotFound( $filename, $places, $message, $code );
 
-    $this->assertSame( $e->filename, $filename );
+    $this->assertSame( $filename, $e->filename );
 
-    $this->assertSame( $e->places, $places );
+    $this->assertSame( $places, $e->places );
 
-    $this->assertSame( $e->getMessage(), $expectedMessage );
+    $this->assertSame( $expectedMessage, $e->getMessage() );
 
-    $this->assertEquals( $e->getCode(), $code );
+    $this->assertEquals( $code, $e->getCode() );
   }
 
   public function constructProvider() : array {

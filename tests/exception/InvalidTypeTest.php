@@ -13,13 +13,13 @@ class InvalidTypeTest extends TestCase {
   ) {
     $e = new InvalidType( $value, $validTypes, $message, $code );
 
-    $this->assertSame( $e->value, $value );
+    $this->assertSame( $value, $e->value );
 
-    $this->assertSame( $e->validTypes, $validTypes );
+    $this->assertSame( $validTypes, $e->validTypes );
 
-    $this->assertSame( $e->getMessage(), $expectedMessage );
+    $this->assertSame( $expectedMessage, $e->getMessage() );
 
-    $this->assertEquals( $e->getCode(), $code );
+    $this->assertEquals( $code, $e->getCode() );
   }
 
   public function constructProvider() : array {

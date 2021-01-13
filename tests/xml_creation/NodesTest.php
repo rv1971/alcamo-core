@@ -16,6 +16,6 @@ class NodesTest extends TestCase {
 
     $nodes = new Nodes( [ $data1, [ $data2, [ $data3 ] ] ] );
 
-    $this->assertEquals( $nodes->getNodes(), $allData );
+    $this->assertEquals( $allData, $nodes->getNodes() );
   }
 }

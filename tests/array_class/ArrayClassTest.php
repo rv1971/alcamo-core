@@ -10,11 +10,11 @@ class ArrayClassTest extends TestCase {
 
     $a = new ArrayClass( $data );
 
-    $this->assertSame( count( $a ), count( $data ) );
+    $this->assertSame( count( $data ), count( $a ) );
 
-    $this->assertSame( $a->first(), 'foo' );
+    $this->assertSame( 'foo', $a->first() );
 
-    $this->assertSame( $a->last(), 'baz' );
+    $this->assertSame( 'baz', $a->last() );
 
     $data2 = [];
 
@@ -24,9 +24,9 @@ class ArrayClassTest extends TestCase {
 
     $data2 = array_flip( $data2 );
 
-    $this->assertEquals( $data2, $data );
+    $this->assertEquals( $data, $data2 );
 
-    $this->assertSame( $a[1], 'bar' );
+    $this->assertSame( 'bar', $a[1] );
 
     $this->assertTrue( isset( $a[2] ) );
 
@@ -36,26 +36,26 @@ class ArrayClassTest extends TestCase {
 
     $a[3] = 'qux';
 
-    $this->assertSame( count( $a ), count( $data ) + 1 );
+    $this->assertSame( count( $data ) + 1, count( $a ) );
 
-    $this->assertSame( $a->first(), 'foo' );
+    $this->assertSame( 'foo', $a->first() );
 
-    $this->assertSame( $a->last(), 'qux' );
+    $this->assertSame( 'qux', $a->last() );
 
-    $this->assertSame( $a[3], 'qux' );
+    $this->assertSame( 'qux', $a[3] );
 
     unset( $a[0] );
 
     $this->assertNull( $a[0] );
 
-    $this->assertSame( $a->first(), 'bar' );
+    $this->assertSame( 'bar', $a->first() );
 
     $b = new ArrayClass();
 
-    $this->assertSame( count( $b ), 0 );
+    $this->assertSame( 0, count( $b ) );
 
-    $this->assertSame( $b->first(), null );
+    $this->assertSame( null, $b->first() );
 
-    $this->assertSame( $b->last(), null );
+    $this->assertSame( null, $b->last() );
   }
 }

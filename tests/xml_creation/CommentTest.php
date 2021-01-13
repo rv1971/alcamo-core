@@ -12,9 +12,9 @@ class CommentTest extends TestCase {
 
     $comment = new Comment( $text );
 
-    $this->assertSame( $comment->getContent(), $text );
+    $this->assertSame( $text, $comment->getContent() );
 
-    $this->assertEquals( (string)$comment, "<!-- $text -->" );
+    $this->assertEquals( "<!-- $text -->", (string)$comment );
   }
 
   public function testException() {
