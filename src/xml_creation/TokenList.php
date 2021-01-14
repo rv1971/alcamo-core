@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @file
- *
- * @brief Class TokenList.
- */
-
 namespace alcamo\xml_creation;
 
 use Ds\Set;
@@ -27,9 +21,12 @@ class TokenList implements \Countable, \IteratorAggregate, \ArrayAccess {
   protected $data_;
 
   function __construct( $tokens = null ) {
-    /** Convert anything that is not iterable to a string and split it at
-     * whitespace. */
-    if ( !is_iterable( $tokens ) ) {
+    if ( !isset( $tokens ) ) {
+      $this->data_ = new Set();
+      return;
+    } elseif ( !is_iterable( $tokens ) ) {
+      /** Convert anything that is not iterable to a string and split it at
+       * whitespace. */
       $tokens = preg_split( '/\s+/', $tokens );
     }
 

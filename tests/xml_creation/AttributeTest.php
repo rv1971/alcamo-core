@@ -37,6 +37,12 @@ class AttributeTest extends TestCase {
         "bar=\"123 &lt;4567&gt; 'quux'\""
       ],
 
+      'empty-array-content' => [
+        'baz',
+        [],
+        "baz=\"\""
+      ],
+
       'iterable-object-content' => [
         'BAZ:QUX',
         new Collection( [ 'FOO', '"Foo', 'foo' ] ),

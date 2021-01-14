@@ -27,8 +27,10 @@ class Attribute extends AbstractNode {
     if( is_array( $this->content_ ) ) {
       $valueString = implode( ' ', $this->content_ );
     } elseif( is_iterable( $this->content_ ) ) {
+      $valueString = '';
+
       foreach ( $this->content_ as $item ) {
-        if ( isset( $valueString ) ) {
+        if ( $valueString ) {
           $valueString .= " $item";
         } else {
           $valueString = $item;

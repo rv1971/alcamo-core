@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 use alcamo\exception\SyntaxError;
 
+/* This also tests IteratorAggregateTrait and DecoratorTrait. */
+
 class TokenListTest extends TestCase {
   public function testAll() {
     $tokens1 = 'foo bar baz qux';
