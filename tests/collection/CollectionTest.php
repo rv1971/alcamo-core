@@ -1,14 +1,14 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 use PHPUnit\Framework\TestCase;
 
-class ArrayClassTest extends TestCase {
+class CollectionTest extends TestCase {
   public function testAll() {
     $data = [ 'foo', 'bar', 'baz' ];
 
-    $a = new ArrayClass( $data );
+    $a = new Collection( $data );
 
     $this->assertSame( count( $data ), count( $a ) );
 
@@ -50,7 +50,7 @@ class ArrayClassTest extends TestCase {
 
     $this->assertSame( 'bar', $a->first() );
 
-    $b = new ArrayClass();
+    $b = new Collection();
 
     $this->assertSame( 0, count( $b ) );
 

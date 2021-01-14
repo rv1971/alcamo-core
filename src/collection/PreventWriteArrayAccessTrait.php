@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 use alcamo\exception\ReadonlyViolation;
 

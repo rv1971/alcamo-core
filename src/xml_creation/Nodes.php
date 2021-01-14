@@ -2,10 +2,10 @@
 
 namespace alcamo\xml_creation;
 
-use alcamo\array_class\ArrayClass;
+use alcamo\collection\Collection;
 
 /// Array of nodes that can be converted to a string
-class Nodes extends ArrayClass {
+class Nodes extends Collection {
   /**
    * @brief Return xml representation.
    *

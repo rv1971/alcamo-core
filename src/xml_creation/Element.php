@@ -2,7 +2,7 @@
 
 namespace alcamo\xml_creation;
 
-use alcamo\array_class\ReadonlyArrayTrait;
+use alcamo\collection\ReadonlyCollectionTrait;
 use alcamo\exception\SyntaxError;
 
 /**
@@ -13,7 +13,7 @@ use alcamo\exception\SyntaxError;
 class Element
   extends AbstractNode
   implements \Countable, \Iterator, \ArrayAccess {
-  use ReadonlyArrayTrait;
+  use ReadonlyCollectionTrait;
 
   protected $tagName_; ///< Tag name
 

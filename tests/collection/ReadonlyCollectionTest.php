@@ -1,16 +1,16 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 use PHPUnit\Framework\TestCase;
 
 use alcamo\exception\ReadonlyViolation;
 
-class ReadonlyArrayClassTest extends TestCase {
+class ReadonlyCollectionTest extends TestCase {
   public function testAll() {
     $data = [ 'foo', 'bar', 'baz', 'qux' ];
 
-    $a = new ReadonlyArrayClass( $data );
+    $a = new ReadonlyCollection( $data );
 
     $this->assertSame( count( $data ), count( $a ) );
 
@@ -34,7 +34,7 @@ class ReadonlyArrayClassTest extends TestCase {
 
     $this->assertFalse( isset( $a[5] ) );
 
-    $b = new ReadonlyArrayClass();
+    $b = new ReadonlyCollection();
 
     $this->assertSame( 0, count( $b ) );
 
@@ -44,22 +44,22 @@ class ReadonlyArrayClassTest extends TestCase {
   }
 
   public function testUnset() {
-    $a = new ReadonlyArrayClass( [ 'x' ] );
+    $a = new ReadonlyCollection( [ 'x' ] );
 
     $this->expectException( ReadonlyViolation::class );
     $this->expectExceptionMessage(
-      'Attempt to modify readonly ' . ReadonlyArrayClass::class
+      'Attempt to modify readonly ' . ReadonlyCollection::class
         . ' object through offsetUnset()' );
 
     unset( $a[0] );
   }
 
   public function testSet() {
-    $a = new ReadonlyArrayClass( [] );
+    $a = new ReadonlyCollection( [] );
 
     $this->expectException( ReadonlyViolation::class );
     $this->expectExceptionMessage(
-      'Attempt to modify readonly ' . ReadonlyArrayClass::class
+      'Attempt to modify readonly ' . ReadonlyCollection::class
         . ' object through offsetSet()' );
 
     $a[0] = 1;

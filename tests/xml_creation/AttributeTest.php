@@ -4,7 +4,7 @@ namespace alcamo\xml_creation;
 
 use PHPUnit\Framework\TestCase;
 
-use alcamo\array_class\ArrayClass;
+use alcamo\collection\Collection;
 use alcamo\exception\SyntaxError;
 
 class AttributeTest extends TestCase {
@@ -39,7 +39,7 @@ class AttributeTest extends TestCase {
 
       'iterable-object-content' => [
         'BAZ:QUX',
-        new ArrayClass( [ 'FOO', '"Foo', 'foo' ] ),
+        new Collection( [ 'FOO', '"Foo', 'foo' ] ),
         'BAZ:QUX="FOO &quot;Foo foo"'
       ]
     ];

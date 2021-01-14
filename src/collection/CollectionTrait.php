@@ -1,9 +1,9 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 /// Provide array interfaces accessing a class property $data_
-trait ArrayTrait {
+trait CollectionTrait {
   use CountableTrait;
   use IteratorTrait;
   use ReadArrayAccessTrait;

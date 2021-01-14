@@ -4,7 +4,7 @@ namespace alcamo\xml_creation;
 
 use PHPUnit\Framework\TestCase;
 
-use alcamo\array_class\ArrayClass;
+use alcamo\collection\Collection;
 use alcamo\exception\SyntaxError;
 
 class ElementTest extends TestCase {
@@ -58,7 +58,7 @@ class ElementTest extends TestCase {
         new Element(
           'div',
           [ 'class' => 'main' ],
-          new ArrayClass( [
+          new Collection( [
             'Stet clita kasd gubergren, ',
             new Element( 'i', null, 'no sea takimata' ),
             '.'

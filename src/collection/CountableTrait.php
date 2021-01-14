@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 // Provide Countable access to a class property $data_
 trait CountableTrait {

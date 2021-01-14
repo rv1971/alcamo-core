@@ -1,10 +1,10 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 /// Class behaving as a readonly array
-class ArrayClass implements \Countable, \Iterator, \ArrayAccess {
-  use ArrayTrait;
+class Collection implements \Countable, \Iterator, \ArrayAccess {
+  use CollectionTrait;
 
   function __construct( array $data = NULL ) {
     $this->data_ = (array)$data;

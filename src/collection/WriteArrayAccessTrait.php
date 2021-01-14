@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\array_class;
+namespace alcamo\collection;
 
 // Provide writing ArrayAccess to a class property $data_
 trait WriteArrayAccessTrait {

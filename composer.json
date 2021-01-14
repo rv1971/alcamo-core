@@ -2,6 +2,7 @@
     "name": "alcamo/alcamo",
     "require": {
         "php": "7.3 - 7.4",
+        "php-ds/php-ds": "^1.3",
         "dnoegel/php-xdg-base-dir": "^0.1"
     },
     "autoload": {
@@ -11,5 +12,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "test": "phpunit tests"
     }
 }
