@@ -7,7 +7,7 @@ use alcamo\html_creation\AbstractSpecificElement;
 class Script extends AbstractSpecificElement {
   const TAG_NAME = "script";
 
-  function __construct( ?iterable $attrs = null, $content = null ) {
-    parent::__construct( $attrs, $content ?? '' );
+  function __construct( $content = null, ?iterable $attrs = null ) {
+    parent::__construct( $content ?? '', $attrs );
   }
 }

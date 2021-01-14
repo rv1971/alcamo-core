@@ -8,6 +8,15 @@ class Link extends AbstractSpecificElement {
   const TAG_NAME = "link";
 
   public function __construct( $rel, $href, ?array $attrs = null ) {
-    parent::__construct( (array)$attrs + compact( [ 'rel', 'href' ] ) );
+    $attrs = (array)$attrs;
+
+    parent::__construct(
+      null,
+      [
+        'rel' => $rel ?? $attrs['rel'],
+        'href' => $href ?? $attrs['href']
+      ]
+      + $attrs
+    );
   }
 }

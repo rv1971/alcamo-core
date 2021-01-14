@@ -20,7 +20,7 @@ class InputTest extends TestCase {
 
     $this->assertInstanceOf( TokenList::class, $input['class'] );
 
-    $this->assertSame( $attrs['type'] ?? $type, $input['type'] );
+    $this->assertSame( $type ?? $attrs['type'], $input['type'] );
 
     $this->assertNull( $input->getContent() );
 
@@ -32,7 +32,7 @@ class InputTest extends TestCase {
       'typical-use' => [
         'text',
         [ 'name' => 'foo' ],
-        '<input name="foo" type="text"/>'
+        '<input type="text" name="foo"/>'
       ],
 
       'empty-arg' => [
@@ -41,15 +41,15 @@ class InputTest extends TestCase {
         '<input type="date" id="startDate"/>'
       ],
 
-      'override-arg' => [
+      'override-attrs' => [
         'date',
         [ 'type' => 'datetime-local', 'maxlength' => '30' ],
-        '<input type="datetime-local" maxlength="30"/>'
+        '<input type="date" maxlength="30"/>'
       ]
     ];
   }
 
-  public function testException() {
+  public function testInvalidType() {
     $this->expectException( InvalidEnumerator::class );
     $this->expectExceptionMessage(
       'Invalid value "foo", expected one of: "'
@@ -57,5 +57,13 @@ class InputTest extends TestCase {
       .'"; not a valid <input> type' );
 
     new Input( 'foo', [ 'name' => 'bar' ] );
+  }
+
+  public function testMissingType() {
+    $this->expectError();
+
+    $this->expectErrorMessage( 'Undefined index: type' );
+
+    new Input( null, [ 'name' => 'bar' ] );
   }
 }

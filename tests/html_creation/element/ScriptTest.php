@@ -11,9 +11,9 @@ class ScriptTest extends TestCase {
    * @dataProvider allProvider
    */
   public function testAll(
-    $attrs, $content, $expectedString
+    $content, $attrs, $expectedString
   ) {
-    $script = new Script( $attrs, $content );
+    $script = new Script( $content, $attrs );
 
     $this->assertSame( 'script', $script->getTagName() );
 
@@ -27,20 +27,20 @@ class ScriptTest extends TestCase {
   public function allProvider() {
     return [
       'typcial-use' => [
-        [ 'href' => 'foo.js' ],
         null,
+        [ 'href' => 'foo.js' ],
         '<script href="foo.js"></script>'
       ],
 
       'with-content' => [
-        null,
         'alert( "Hello World!" );',
+        null,
         '<script>alert( "Hello World!" );</script>'
       ],
 
       'with-json-content' => [
-        [ 'type' => 'application/json' ],
         '{ "foo": "bar" }',
+        [ 'type' => 'application/json' ],
         '<script type="application/json">{ "foo": "bar" }</script>'
       ]
     ];

@@ -13,9 +13,9 @@ class DivTest extends TestCase {
    * @dataProvider allProvider
    */
   public function testAll(
-    $attrs, $content, $expectedClassCount, $expectedString
+    $content, $attrs, $expectedClassCount, $expectedString
   ) {
-    $div = new Div( $attrs, $content );
+    $div = new Div( $content, $attrs );
 
     $this->assertSame( 'div', $div->getTagName() );
 
@@ -33,25 +33,25 @@ class DivTest extends TestCase {
       'empty-tag' => [ null, null, 0, '<div/>' ],
 
       'without-class' => [
-        [ 'id' => 'foo' ],
         'Stet clita kasd gubergren',
+        [ 'id' => 'foo' ],
         0,
         '<div id="foo">Stet clita kasd gubergren</div>'
       ],
 
       'with-class' => [
-        [ 'class' => 'green bold collapsed' ],
         'At vero eos et accusam et justo duo dolores et ea rebum.',
+        [ 'class' => 'green bold collapsed' ],
         3,
         '<div class="green bold collapsed">At vero eos et accusam et justo duo dolores et ea rebum.</div>'
       ],
 
       'nested' => [
-        [ 'class' => 'main' ],
         [
-          new B( [ 'class' => 'red' ], 'Lorem' ),
+          new B( 'Lorem', [ 'class' => 'red' ] ),
           ' ipsum'
         ],
+        [ 'class' => 'main' ],
         1,
         '<div class="main"><b class="red">Lorem</b> ipsum</div>'
       ]
