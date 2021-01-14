@@ -5,4 +5,5 @@ namespace alcamo\html_creation\element;
 use alcamo\html_creation\AbstractSpecificElement;
 
 class Ol extends AbstractSpecificElement {
+  const TAG_NAME = "ol";
 }
