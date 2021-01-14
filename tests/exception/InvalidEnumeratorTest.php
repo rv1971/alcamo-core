@@ -29,7 +29,7 @@ class InvalidEnumeratorTest extends TestCase {
         [ 'bar', 'baz' ],
         null,
         null,
-        "Invalid value 'foo', expected one of: 'bar', 'baz'"
+        "Invalid value \"foo\", expected one of: \"bar\", \"baz\""
       ],
 
       'custom-message' => [
@@ -45,7 +45,7 @@ class InvalidEnumeratorTest extends TestCase {
         [ 'quux', 'bar', 'baz' ],
         '; at vero eos et accusam',
         44,
-        "Invalid value 'qux', expected one of: 'quux', 'bar', 'baz'; at vero eos et accusam"
+        "Invalid value \"qux\", expected one of: \"quux\", \"bar\", \"baz\"; at vero eos et accusam"
       ]
     ];
   }

@@ -23,7 +23,7 @@ class Nodes extends Collection {
         $output .= static::xmlString( $item );
       }
     } else {
-      $output .= htmlspecialchars( $data );
+      $output .= htmlspecialchars( $data, ENT_NOQUOTES );
     }
 
     return $output;

@@ -18,8 +18,8 @@ class InvalidEnumerator extends ValueException {
     $this->validValues = $validValues;
 
     if ( !$message || $message[0] == ';' ) {
-      $message = "Invalid value '$value', expected one of: '"
-        . implode( "', '", $validValues ) . "'"
+      $message = "Invalid value \"$value\", expected one of: \""
+        . implode( "\", \"", $validValues ) . '"'
         . $message;
     }
 
