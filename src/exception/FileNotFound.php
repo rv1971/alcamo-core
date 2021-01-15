@@ -19,8 +19,8 @@ class FileNotFound extends FileException {
 
     if ( !$message || $message[0] == ';' ) {
       $message =
-        "File '$filename' not found"
-        . (isset( $places ) ? " in '$places'" : '')
+        "File \"$filename\" not found"
+        . (isset( $places ) ? " in \"$places\"" : '')
         . $message;
     }
 

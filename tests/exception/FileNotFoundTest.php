@@ -32,7 +32,7 @@ class FileNotFoundTest extends TestCase {
         "$path1:$path2",
         null,
         null,
-        "File 'foo.txt' not found in '$path1:$path2'"
+        "File \"foo.txt\" not found in \"$path1:$path2\""
       ],
 
       'no-path' => [
@@ -40,7 +40,7 @@ class FileNotFoundTest extends TestCase {
         null,
         null,
         null,
-        "File 'BAR' not found"
+        "File \"BAR\" not found"
       ],
 
       'custom-message' => [
@@ -56,7 +56,7 @@ class FileNotFoundTest extends TestCase {
         'DVD',
         '; stet clita kasd gubergren',
         43,
-        "File 'qux.xml' not found in 'DVD'; stet clita kasd gubergren"
+        "File \"qux.xml\" not found in \"DVD\"; stet clita kasd gubergren"
       ]
     ];
   }
