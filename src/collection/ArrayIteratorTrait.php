@@ -2,8 +2,8 @@
 
 namespace alcamo\collection;
 
-// Provide Iterator access to a class property $data_
-trait IteratorTrait {
+// Provide Iterator access to a class property $data_ which is an array
+trait ArrayIteratorTrait {
   public function rewind() {
     reset( $this->data_ );
   }

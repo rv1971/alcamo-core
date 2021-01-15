@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
+use Ds\Map;
 use PHPUnit\Framework\TestCase;
 
 use alcamo\xml_creation\TokenList;
@@ -34,7 +35,7 @@ class DivTest extends TestCase {
 
       'without-class' => [
         'Stet clita kasd gubergren',
-        [ 'id' => 'foo' ],
+        new Map( [ 'id' => 'foo' ] ),
         0,
         '<div id="foo">Stet clita kasd gubergren</div>'
       ],

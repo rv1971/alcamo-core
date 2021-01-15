@@ -31,7 +31,7 @@ class Loader implements LoaderInterface {
   /**
    * @brief Load and parse files.
    *
-   * @param $filename array|string file names to find and to load
+   * @param $filename iterable|string file names to find and to load
    *
    * Each file is parsed into an array. The arrays are merged such that files
    * earlier in the list take precedence over files later in the list.
@@ -41,7 +41,11 @@ class Loader implements LoaderInterface {
   public function load( $filenames ) : array {
     $result = [];
 
-    foreach ( (array)$filenames as $filename ) {
+    if ( !is_iterable( $filenames ) ) {
+      $filenames = (array)$filenames;
+    }
+
+    foreach ( $filenames as $filename ) {
       $pathname = $this->fileFinder_->find( $filename );
 
       if ( !isset( $pathname ) ) {

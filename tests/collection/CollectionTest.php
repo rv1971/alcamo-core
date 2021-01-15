@@ -16,6 +16,10 @@ class CollectionTest extends TestCase {
 
     $this->assertSame( 'baz', $a->last() );
 
+    $this->assertTrue( $a->contains( 'foo' ) );
+
+    $this->assertFalse( $a->contains( 'FOO' ) );
+
     $data2 = [];
 
     foreach ( $a as $key => $value ) {

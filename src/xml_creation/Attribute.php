@@ -8,7 +8,7 @@ use alcamo\exception\SyntaxError;
 class Attribute extends AbstractNode {
   protected $name_; ///< Attribute name.
 
-  function __construct( $name, $content ) {
+  function __construct( string $name, $content ) {
     if ( !preg_match( self::NAME_REGEXP, $name ) ) {
       /** @throw SyntaxError if $name is not a valid name. */
       throw new SyntaxError( $name, null, '; not a valid XML attribute name' );
@@ -19,7 +19,7 @@ class Attribute extends AbstractNode {
     parent::__construct( $content );
   }
 
-  public function getName() {
+  public function getName() : string {
     return $this->name_;
   }
 

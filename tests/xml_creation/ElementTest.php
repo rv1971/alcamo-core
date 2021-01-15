@@ -2,6 +2,7 @@
 
 namespace alcamo\xml_creation;
 
+use Ds\Map;
 use PHPUnit\Framework\TestCase;
 
 use alcamo\collection\Collection;
@@ -16,7 +17,10 @@ class ElementTest extends TestCase {
 
     $this->assertSame( $tagName, $attr->getTagName() );
 
-    $this->assertSame( (array)$attrs, $attr->getAttrs() );
+    $this->assertSame(
+      $attrs instanceof Map ?  $attrs->toArray() : (array)$attrs,
+      $attr->getAttrs()
+    );
 
     $this->assertSame( $content, $attr->getContent() );
 
@@ -52,9 +56,12 @@ class ElementTest extends TestCase {
         [ 'Lorem ', new Element( 'xh:b', null, 'ipsum' ), ' dolor sit amet' ],
         '<ns42:quux rdf:ID="element-42">Lorem <xh:b>ipsum</xh:b> dolor sit amet</ns42:quux>'
       ],
-      'tag-with-complex-content-and-attrs' => [
+      'tag-with-complex-content-and-attr-object' => [
         'body',
-        [ 'xmlns' => 'http://www.w3.org/1999/xhtml', 'class' => 'overview' ],
+        new Map( [
+          'xmlns' => 'http://www.w3.org/1999/xhtml',
+          'class' => 'overview'
+        ] ),
         new Element(
           'div',
           [ 'class' => 'main' ],

@@ -8,7 +8,7 @@ use alcamo\exception\SyntaxError;
 class ProcessingInstruction extends AbstractNode {
   protected $target_; ///< PI target.
 
-  function __construct( $target, $content ) {
+  function __construct( string $target, $content ) {
     if (
       !preg_match( self::NAME_REGEXP, $target )
       || strtolower( substr( $target, 0, 3 ) ) == 'xml'
@@ -27,7 +27,7 @@ class ProcessingInstruction extends AbstractNode {
     parent::__construct( $content );
   }
 
-  public function getTarget() {
+  public function getTarget() : string {
     return $this->target_;
   }
 

@@ -7,5 +7,5 @@ namespace alcamo\conf;
  */
 
 interface LoaderInterface {
-  public function load( array $filenames ) : array;
+  public function load( $filenames ) : array;
 }

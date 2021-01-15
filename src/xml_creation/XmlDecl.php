@@ -41,15 +41,15 @@ class XmlDecl implements NodeInterface {
     return null;
   }
 
-  public function getVersion() {
+  public function getVersion() : string {
     return $this->version_;
   }
 
-  public function getEncoding() {
+  public function getEncoding() : string {
     return $this->encoding_;
   }
 
-  public function getStandalone() {
+  public function getStandalone() : bool {
     return $this->standalone_;
   }
 

@@ -20,7 +20,9 @@ class Element
 
   protected $tagName_; ///< Tag name
 
-  function __construct( $tagName, ?iterable $attrs = null, $content = null ) {
+  function __construct(
+    string $tagName, ?iterable $attrs = null, $content = null
+  ) {
     if ( !preg_match( self::NAME_REGEXP, $tagName ) ) {
       /** @throw SyntaxError if $tagName is not a valid name. */
       throw new SyntaxError( $tagName, null, '; not a valid XML tag name' );
@@ -47,7 +49,7 @@ class Element
     parent::__construct( $content );
   }
 
-  public function getTagName() {
+  public function getTagName() : string {
     return $this->tagName_;
   }
 

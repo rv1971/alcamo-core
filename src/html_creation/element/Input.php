@@ -33,7 +33,7 @@ class Input extends AbstractSpecificElement {
     "week"
   ];
 
-  public function __construct( $type, array $attrs ) {
+  public function __construct( string $type, array $attrs ) {
     if ( !in_array( $type, static::TYPES ) ) {
       throw new InvalidEnumerator(
         $type, static::TYPES, '; not a valid <input> type' );

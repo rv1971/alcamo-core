@@ -10,18 +10,20 @@ class Element extends XmlElement {
   /// Attribute class used for serialization of attributes
   const ATTR_CLASS = Attribute::class;
 
-  /// Ensure the `class` attribute is always present and is a TokenList
-  public static function sanitizeAttrs( $attrs ) {
-    if ( !isset( $attrs['class'] ) ) {
-      $attrs['class'] = new TokenList;
-    } elseif ( !($attrs['class'] instanceof TokenList) ) {
-      $attrs['class'] = new TokenList( $attrs['class'] );
-    }
+  function __construct(
+    string $tagName, ?iterable $attrs = null, $content = null
+  ) {
+    parent::__construct( $tagName, $attrs, $content );
 
-    return $attrs;
+    $this->sanitizeAttrs_();
   }
 
-  function __construct( $tagName, ?iterable $attrs = null, $content = null ) {
-    parent::__construct( $tagName, static::sanitizeAttrs( $attrs ), $content );
+  /// Ensure the `class` attribute is always present and is a TokenList
+  protected function sanitizeAttrs_() {
+    if ( !isset( $this->data_['class'] ) ) {
+      $this->data_['class'] = new TokenList;
+    } elseif ( !($this->data_['class'] instanceof TokenList) ) {
+      $this->data_['class'] = new TokenList( $this->data_['class'] );
+    }
   }
 }

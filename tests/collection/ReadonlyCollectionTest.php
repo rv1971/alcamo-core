@@ -8,7 +8,7 @@ use alcamo\exception\ReadonlyViolation;
 
 class ReadonlyCollectionTest extends TestCase {
   public function testBasics() {
-    $data = [ 'foo', 'bar', 'baz', 'qux' ];
+    $data = [ 'foo', 'bar', 'baz', 42, 'qux' ];
 
     $a = new ReadonlyCollection( $data );
 
@@ -17,6 +17,12 @@ class ReadonlyCollectionTest extends TestCase {
     $this->assertSame( 'foo', $a->first() );
 
     $this->assertSame( 'qux', $a->last() );
+
+    $this->assertTrue( $a->contains( 42 ) );
+
+    $this->assertFalse( $a->contains( '42' ) );
+
+    $this->assertTrue( $a->contains( 'foo' ) );
 
     $data2 = [];
 
@@ -30,9 +36,9 @@ class ReadonlyCollectionTest extends TestCase {
 
     $this->assertTrue( isset( $a[2] ) );
 
-    $this->assertFalse( isset( $a[4] ) );
-
     $this->assertFalse( isset( $a[5] ) );
+
+    $this->assertFalse( isset( $a[6] ) );
 
     $b = new ReadonlyCollection();
 

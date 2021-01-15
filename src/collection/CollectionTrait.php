@@ -4,10 +4,11 @@ namespace alcamo\collection;
 
 /// Provide array interfaces accessing a class property $data_
 trait CollectionTrait {
-  use CountableTrait;
-  use IteratorTrait;
-  use ReadArrayAccessTrait;
-  use WriteArrayAccessTrait;
+  use CountableTrait,
+    ArrayIteratorTrait,
+    ReadArrayAccessTrait,
+    WriteArrayAccessTrait,
+    ArrayContainsTrait;
 
-  private $data_ = [];
+  protected $data_ = [];
 }

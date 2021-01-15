@@ -9,7 +9,7 @@ class DoctypeDecl extends AbstractNode {
   protected $name_;
   protected $externalId_;
 
-  function __construct( $name, $externalId = null, $intSubset = null ) {
+  function __construct( string $name, $externalId = null, $intSubset = null ) {
     if ( !preg_match( self::NAME_REGEXP, $name ) ) {
       /** @throw SyntaxError if $name is not a valid doctype name. */
       throw new SyntaxError( $name, null, '; not a valid XML doctype name' );
@@ -21,7 +21,7 @@ class DoctypeDecl extends AbstractNode {
     parent::__construct( $intSubset );
   }
 
-  public function getName() {
+  public function getName() : string {
     return $this->name_;
   }
 
