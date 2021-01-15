@@ -34,15 +34,11 @@ class Input extends AbstractSpecificElement {
   ];
 
   public function __construct( $type, array $attrs ) {
-    if ( !isset( $type ) ) {
-      $type = $attrs['type'];
-    }
-
     if ( !in_array( $type, static::TYPES ) ) {
       throw new InvalidEnumerator(
         $type, static::TYPES, '; not a valid <input> type' );
     }
 
-    parent::__construct( null, [ 'type' => $type ] + $attrs );
+    parent::__construct( null, compact( [ 'type' ] ) + $attrs );
   }
 }

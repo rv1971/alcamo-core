@@ -35,12 +35,6 @@ class InputTest extends TestCase {
         '<input type="text" name="foo"/>'
       ],
 
-      'empty-arg' => [
-        null,
-        [ 'type' => 'date', 'id' => 'startDate' ],
-        '<input type="date" id="startDate"/>'
-      ],
-
       'override-attrs' => [
         'date',
         [ 'type' => 'datetime-local', 'maxlength' => '30' ],
@@ -57,13 +51,5 @@ class InputTest extends TestCase {
       .'"; not a valid <input> type' );
 
     new Input( 'foo', [ 'name' => 'bar' ] );
-  }
-
-  public function testMissingType() {
-    $this->expectError();
-
-    $this->expectErrorMessage( 'Undefined index: type' );
-
-    new Input( null, [ 'name' => 'bar' ] );
   }
 }
