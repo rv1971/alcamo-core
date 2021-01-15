@@ -7,11 +7,13 @@ use PHPUnit\Framework\TestCase;
 use alcamo\exception\InvalidEnumerator;
 use alcamo\xml_creation\TokenList;
 
+/* This also tests html_creation\Attribute */
+
 class InputTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll(
+  public function testBasics(
     $type, $attrs, $expectedString
   ) {
     $input = new Input( $type, $attrs );
@@ -20,25 +22,25 @@ class InputTest extends TestCase {
 
     $this->assertInstanceOf( TokenList::class, $input['class'] );
 
-    $this->assertSame( $type ?? $attrs['type'], $input['type'] );
+    $this->assertSame( $type, $input['type'] );
 
     $this->assertNull( $input->getContent() );
 
     $this->assertEquals( $expectedString, (string)$input );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       'typical-use' => [
         'text',
-        [ 'name' => 'foo' ],
+        [ 'name' => 'foo', 'disabled' => false ],
         '<input type="text" name="foo"/>'
       ],
 
       'override-attrs' => [
         'date',
-        [ 'type' => 'datetime-local', 'maxlength' => '30' ],
-        '<input type="date" maxlength="30"/>'
+        [ 'type' => 'datetime-local', 'maxlength' => '30', 'disabled' => true ],
+        '<input type="date" maxlength="30" disabled="disabled"/>'
       ]
     ];
   }

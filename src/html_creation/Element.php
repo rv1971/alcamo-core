@@ -6,8 +6,10 @@ use alcamo\xml_creation\Element as XmlElement;
 use alcamo\xml_creation\TokenList;
 
 /// HTML element.
-class Element extends XmlElement
-{
+class Element extends XmlElement {
+  /// Attribute class used for serialization of attributes
+  const ATTR_CLASS = Attribute::class;
+
   /// Ensure the `class` attribute is always present and is a TokenList
   public static function sanitizeAttrs( $attrs ) {
     if ( !isset( $attrs['class'] ) ) {

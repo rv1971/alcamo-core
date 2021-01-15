@@ -40,6 +40,9 @@ class Attribute extends AbstractNode {
       $valueString = (string)$this->content_;
     }
 
-    return "{$this->name_}=\"" . htmlspecialchars( $valueString ) . '"';
+    /** Return empty string if attribute value is empty */
+    return $valueString
+      ? "{$this->name_}=\"" . htmlspecialchars( $valueString ) . '"'
+      : '';
   }
 }

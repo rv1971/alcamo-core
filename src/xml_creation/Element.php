@@ -15,6 +15,9 @@ class Element
   implements \Countable, \Iterator, \ArrayAccess {
   use ReadonlyCollectionTrait;
 
+  /// Attribute class used for serialization of attributes
+  const ATTR_CLASS = Attribute::class;
+
   protected $tagName_; ///< Tag name
 
   function __construct( $tagName, ?iterable $attrs = null, $content = null ) {
@@ -55,15 +58,14 @@ class Element
   function __toString() {
     $result = "<{$this->tagName_}";
 
+    $attrClass = static::ATTR_CLASS;
+
     foreach ( $this as $attrName => $attrValue ) {
-      $attrString = (string)(new Attribute( $attrName, $attrValue ));
+      $attrString = (string)(new $attrClass( $attrName, $attrValue ));
 
-      /// Ignore empty attributes.
-      if( substr( $attrString, -2 ) == '""' ) {
-        continue;
+      if ( $attrString ) {
+        $result .= " $attrString";
       }
-
-      $result .= " $attrString";
     }
 
     if ( isset( $this->content_ ) ) {
