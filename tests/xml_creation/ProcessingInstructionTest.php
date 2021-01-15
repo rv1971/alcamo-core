@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use alcamo\exception\SyntaxError;
 
 class ProcessingInstructionTest extends TestCase {
-  public function testAll() {
+  public function testBasics() {
     $text = 'At vero eos et accusam et justo duo dolores et ea rebum.';
 
     $target = 'foo';

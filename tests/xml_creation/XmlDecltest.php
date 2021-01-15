@@ -8,9 +8,9 @@ use alcamo\exception\SyntaxError;
 
 class XmlDeclTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll(
+  public function testBasics(
     $version, $encoding, $standalone, $expectedString
   ) {
     $decl = new XmlDecl( $version, $encoding, $standalone );
@@ -22,7 +22,7 @@ class XmlDeclTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$decl );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       [ null, null, null, '<?xml version="1.0" encoding="UTF-8"?>' ],
       [

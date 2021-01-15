@@ -8,9 +8,9 @@ use alcamo\xml_creation\TokenList;
 
 class LinkTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll(
+  public function testBasics(
     $rel, $href, $attrs, $expectedString
   ) {
     $link = new Link( $rel, $href, $attrs );
@@ -19,16 +19,16 @@ class LinkTest extends TestCase {
 
     $this->assertInstanceOf( TokenList::class, $link['class'] );
 
-    $this->assertSame( $rel ?? $attrs['rel'], $link['rel'] );
+    $this->assertSame( $rel, $link['rel'] );
 
-    $this->assertSame( $href ?? $attrs['href'], $link['href'] );
+    $this->assertSame( $href, $link['href'] );
 
     $this->assertNull( $link->getContent() );
 
     $this->assertEquals( $expectedString, (string)$link );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       'typical-use' => [
         'stylesheet',

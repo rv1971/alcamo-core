@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use alcamo\exception\ReadonlyViolation;
 
 class ReadonlyCollectionTest extends TestCase {
-  public function testAll() {
+  public function testBasics() {
     $data = [ 'foo', 'bar', 'baz', 'qux' ];
 
     $a = new ReadonlyCollection( $data );

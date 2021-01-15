@@ -9,9 +9,9 @@ use alcamo\exception\SyntaxError;
 
 class ElementTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll( $tagName, $attrs, $content, $expectedString ) {
+  public function testBasics( $tagName, $attrs, $content, $expectedString ) {
     $attr = new Element( $tagName, $attrs, $content );
 
     $this->assertSame( $tagName, $attr->getTagName() );
@@ -23,7 +23,7 @@ class ElementTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$attr );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       'empty-tag' => [
         'foo', null, null, '<foo/>'

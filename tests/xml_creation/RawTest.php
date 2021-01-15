@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use alcamo\exception\SyntaxError;
 
 class RawTest extends TestCase {
-  public function testAll() {
+  public function testBasics() {
     $text =
       '<strong>At vero eos et accusam</strong> et justo duo dolores et ea rebum.';
 

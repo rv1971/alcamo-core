@@ -8,9 +8,9 @@ use alcamo\exception\InvalidEnumerator;
 
 class XdgFileFinderTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll(
+  public function testBasics(
     $subdir, $type, $filename, $expectedPathname
   ) {
     $finder = new XdgFileFinder( $subdir, $type );
@@ -23,7 +23,7 @@ class XdgFileFinderTest extends TestCase {
 
   }
 
-  public function allProvider() : array {
+  public function basicsProvider() : array {
     $configHome = dirname( __DIR__ );
     $dataHome1 = __DIR__;
     $dataHome2 = dirname( $configHome ) . DIRECTORY_SEPARATOR . 'src';

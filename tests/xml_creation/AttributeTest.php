@@ -9,9 +9,9 @@ use alcamo\exception\SyntaxError;
 
 class AttributeTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll( $name, $content, $expectedString ) {
+  public function testBasics( $name, $content, $expectedString ) {
     $attr = new Attribute( $name, $content );
 
     $this->assertSame( $name, $attr->getName() );
@@ -21,7 +21,7 @@ class AttributeTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$attr );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     $content = 'bar="baz"';
 
     return [
@@ -40,7 +40,7 @@ class AttributeTest extends TestCase {
       'empty-array-content' => [
         'baz',
         [],
-        "baz=\"\""
+        ''
       ],
 
       'iterable-object-content' => [

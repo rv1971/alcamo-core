@@ -5,7 +5,7 @@ namespace alcamo\collection;
 use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase {
-  public function testAll() {
+  public function testBasics() {
     $data = [ 'foo', 'bar', 'baz' ];
 
     $a = new Collection( $data );

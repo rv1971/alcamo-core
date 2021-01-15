@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 /* xmlString() is implicitely tested in ElementTest.php */
 
 class NodesTest extends TestCase {
-  public function testAll() {
+  public function testBasics() {
     $data1 = [ 'a', 'B' ];
     $data2 = [ 'CC', 'ddd' ];
     $data3 = [ 'eeee', 'fffff' ];

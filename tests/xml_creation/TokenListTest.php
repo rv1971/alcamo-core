@@ -9,7 +9,7 @@ use alcamo\exception\SyntaxError;
 /* This also tests IteratorAggregateTrait and DecoratorTrait. */
 
 class TokenListTest extends TestCase {
-  public function testAll() {
+  public function testBasics() {
     $tokens1 = 'foo bar baz qux';
 
     $list1 = new TokenList( $tokens1 );

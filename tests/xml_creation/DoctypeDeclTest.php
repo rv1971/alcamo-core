@@ -8,9 +8,11 @@ use alcamo\exception\SyntaxError;
 
 class DoctypeDeclTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll( $name, $externalId, $intSubset, $expectedString ) {
+  public function testBasics(
+    $name, $externalId, $intSubset, $expectedString
+  ) {
     $decl = new DoctypeDecl( $name, $externalId, $intSubset );
 
     $this->assertSame( $name, $decl->getName() );
@@ -19,7 +21,7 @@ class DoctypeDeclTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$decl );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       [ 'html', null, null, '<!DOCTYPE html>' ],
       [

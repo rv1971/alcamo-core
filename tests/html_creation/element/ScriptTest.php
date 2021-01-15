@@ -8,9 +8,9 @@ use alcamo\xml_creation\TokenList;
 
 class ScriptTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll(
+  public function testBasics(
     $content, $attrs, $expectedString
   ) {
     $script = new Script( $content, $attrs );
@@ -24,7 +24,7 @@ class ScriptTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$script );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       'typcial-use' => [
         null,

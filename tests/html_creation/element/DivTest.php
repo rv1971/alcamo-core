@@ -10,9 +10,9 @@ use alcamo\xml_creation\TokenList;
 
 class DivTest extends TestCase {
   /**
-   * @dataProvider allProvider
+   * @dataProvider basicsProvider
    */
-  public function testAll(
+  public function testBasics(
     $content, $attrs, $expectedClassCount, $expectedString
   ) {
     $div = new Div( $content, $attrs );
@@ -28,7 +28,7 @@ class DivTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$div );
   }
 
-  public function allProvider() {
+  public function basicsProvider() {
     return [
       'empty-tag' => [ null, null, 0, '<div/>' ],
 

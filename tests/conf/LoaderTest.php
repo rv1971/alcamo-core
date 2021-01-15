@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use alcamo\exception\FileNotFound;
 
 class LoaderTest extends TestCase {
-  public function testload() {
+  public function testLoad() {
     $configHome = dirname( __DIR__ );
 
     putenv( "XDG_CONFIG_HOME=$configHome" );
