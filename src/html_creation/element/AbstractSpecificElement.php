@@ -1,6 +1,8 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_creation\element;
+
+use alcamo\html_creation\Element;
 
 /// Base class for HTML element classes for specific tag names
 abstract class AbstractSpecificElement extends Element {

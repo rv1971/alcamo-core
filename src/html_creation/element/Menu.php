@@ -2,8 +2,6 @@
 
 namespace alcamo\html_creation\element;
 
-use alcamo\html_creation\AbstractSpecificElement;
-
 class Menu extends AbstractSpecificElement {
   const TAG_NAME = "menu";
 }

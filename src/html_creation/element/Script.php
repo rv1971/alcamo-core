@@ -2,9 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-use alcamo\html_creation\AbstractSpecificElement;
-
-class Script extends AbstractSpecificElement {
+class Script extends AbstractScriptSupportingElement {
   const TAG_NAME = "script";
 
   function __construct( $content = null, ?iterable $attrs = null ) {

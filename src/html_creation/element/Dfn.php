@@ -2,8 +2,6 @@
 
 namespace alcamo\html_creation\element;
 
-use alcamo\html_creation\AbstractSpecificElement;
-
 class Dfn extends AbstractSpecificElement {
   const TAG_NAME = "dfn";
 }
