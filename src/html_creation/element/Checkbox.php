@@ -4,9 +4,9 @@ namespace alcamo\html_creation\element;
 
 class Checkbox extends Input {
   function __construct(
-    string $name, $value, $compareTo = null, ?array $attrs = null
+    $name, $value, $compareTo = null, ?array $attrs = null
   ) {
-    $attrs = compact( [ 'name', 'value' ] ) + (array)$attrs;
+    $attrs = compact( 'name', 'value' ) + (array)$attrs;
 
     if ( isset( $compareTo ) ) {
       switch ( true ) {

@@ -37,6 +37,6 @@ class Input extends AbstractSpecificElement {
         $type, static::TYPES, '; not a valid <input> type' );
     }
 
-    parent::__construct( null, compact( [ 'type' ] ) + $attrs );
+    parent::__construct( null, compact( 'type' ) + $attrs );
   }
 }

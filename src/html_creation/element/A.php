@@ -9,6 +9,6 @@ class A extends AbstractSpecificElement {
     $href, $content = null, ?array $attrs = null
   ) : self {
     return
-      new self( $content ?? $href, compact( [ 'href' ] ) + (array)$attrs );
+      new self( $content ?? $href, compact( 'href' ) + (array)$attrs );
   }
 }

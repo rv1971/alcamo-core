@@ -8,7 +8,11 @@ class Option extends AbstractSpecificElement {
   function __construct(
     $value, $content = null, $compareTo = null, ?array $attrs = null
   ) {
-    $attrs = compact( [ 'value' ] ) + (array)$attrs;
+    /* If $content is unset, $value will be used as content, and in this case
+     * the `value` attribute is redundant. */
+    $attrs = isset( $content )
+      ? compact( 'value' ) + (array)$attrs
+      : (array)$attrs;
 
     if ( isset( $compareTo ) ) {
       switch ( true ) {
