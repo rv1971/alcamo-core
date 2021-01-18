@@ -45,4 +45,51 @@ class LinkTest extends TestCase {
       ]
     ];
   }
+
+  /**
+   * @dataProvider newFromLocalUrlProvider
+   */
+  public function testNewFromLocalUrl(
+    $rel, $href, $attrs, $path, $expectedString
+  ) {
+    $link = Link::newFromLocalUrl( $rel, $href, $attrs, $path );
+
+    $this->assertSame( 'link', $link->getTagName() );
+
+    $this->assertInstanceOf( TokenList::class, $link['class'] );
+
+    $this->assertSame( $rel, $link['rel'] );
+
+    $this->assertNull( $link->getContent() );
+
+    $this->assertEquals( $expectedString, (string)$link );
+  }
+
+  public function newFromLocalUrlProvider() {
+    $baseDir = __DIR__ . DIRECTORY_SEPARATOR;
+
+    $mCss = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo.css" ) );
+
+    $baseDir2 = dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR
+      . 'alcamo' . DIRECTORY_SEPARATOR;
+
+    $mJson = gmdate( 'YmdHis', filemtime( "${baseDir2}foo.json" ) );
+
+    return [
+      'css' => [
+        'stylesheet',
+        "${baseDir}alcamo.css",
+        [ 'disable' => true ],
+        null,
+        "<link rel=\"stylesheet\" href=\"${baseDir}alcamo.css?m=$mCss\" disable=\"disable\"/>"
+      ],
+      'json' => [
+        'manifest',
+        "/foo.json?baz=qux",
+        [ 'id' => 'FOO' ],
+        "${baseDir2}foo.json",
+        "<link rel=\"manifest\" href=\"/foo.json?baz=qux&amp;m=$mJson\" type=\"application/json\" id=\"FOO\"/>"
+      ]
+    ];
+  }
 }

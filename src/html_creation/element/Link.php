@@ -2,7 +2,11 @@
 
 namespace alcamo\html_creation\element;
 
+use alcamo\iana\MediaType;
+
 class Link extends AbstractSpecificElement {
+  use LinkTrait;
+
   const TAG_NAME = "link";
 
   public static function newFromLocalUrl(
@@ -10,7 +14,12 @@ class Link extends AbstractSpecificElement {
   ) {
     $href = static::augmentLocalUrl( $href, $path );
 
-    return new self( null, compact( 'href' ) + (array)$attrs );
+    if ( $rel != 'stylesheet' ) {
+      $attrs =
+        [ 'type' => MediaType::newFromFilename( $path ) ] + (array)$attrs;
+    }
+
+    return new self( $rel, $href, $attrs );
   }
 
   public function __construct( $rel, $href, ?array $attrs = null ) {
