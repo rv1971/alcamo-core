@@ -100,24 +100,38 @@ class MediaType {
       $finfo->file( $filename, FILEINFO_MIME )
     );
 
-    if ( $mediaType->getType() != 'text' ) {
-      // finfo returns a charset also for non-text types
-      unset( $mediaType->params_['charset'] );
-    } else {
-      // finfo does not recognize CSS and JS
-      switch ( pathinfo( $filename, PATHINFO_EXTENSION ) ) {
-        case 'css':
-          $mediaType = new self( 'text', 'css', $mediaType->getParams() );
-          break;
+    switch ( $mediaType->getType() ) {
+      case 'text':
+        // finfo does not recognize CSS and JS
+        switch ( pathinfo( $filename, PATHINFO_EXTENSION ) ) {
+          case 'css':
+            $mediaType = new self( 'text', 'css', $mediaType->getParams() );
+            break;
 
-      case 'js':
-	$mediaType = new self( 'application', 'javascript' );
-	break;
+          case 'js':
+            $mediaType = new self( 'application', 'javascript' );
+            break;
 
-      case 'json':
-	$mediaType = new self( 'application', 'json' );
-	break;
-      }
+          case 'json':
+            $mediaType = new self( 'application', 'json' );
+            break;
+        }
+
+        break;
+
+      case 'image':
+        unset( $mediaType->params_['charset'] );
+
+        switch ( $mediaType->getSubtype() ) {
+          case 'x-icon':
+            $mediaType = new self( 'image', 'vnd.microsoft.icon' );
+            break;
+        }
+
+        break;
+
+      default:
+        unset( $mediaType->params_['charset'] );
     }
 
     return $mediaType;

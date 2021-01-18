@@ -47,12 +47,12 @@ class LinkTest extends TestCase {
   }
 
   /**
-   * @dataProvider newFromLocalUrlProvider
+   * @dataProvider newFromRelAndLocalUrlProvider
    */
   public function testNewFromLocalUrl(
     $rel, $href, $attrs, $path, $expectedString
   ) {
-    $link = Link::newFromLocalUrl( $rel, $href, $attrs, $path );
+    $link = Link::newFromRelAndLocalUrl( $rel, $href, $attrs, $path );
 
     $this->assertSame( 'link', $link->getTagName() );
 
@@ -65,7 +65,7 @@ class LinkTest extends TestCase {
     $this->assertEquals( $expectedString, (string)$link );
   }
 
-  public function newFromLocalUrlProvider() {
+  public function newFromRelAndLocalUrlProvider() {
     $baseDir = __DIR__ . DIRECTORY_SEPARATOR;
 
     $mCss = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo.css" ) );

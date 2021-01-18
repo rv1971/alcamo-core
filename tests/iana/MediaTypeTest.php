@@ -5,7 +5,7 @@ namespace alcamo\iana;
 use Ds\Map;
 use PHPUnit\Framework\TestCase;
 
-use alcamo\exception\{InvalidEnumerator, SyntaxError};
+use alcamo\exception\{FileNotFound, InvalidEnumerator, SyntaxError};
 
 class MediaTypeTest extends TestCase {
   /**
@@ -166,7 +166,32 @@ class MediaTypeTest extends TestCase {
         'png',
         [],
         'image/png'
+      ],
+      'svg' => [
+        dirname( __DIR__ ) . DIRECTORY_SEPARATOR
+        . 'html_creation' . DIRECTORY_SEPARATOR
+        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.svg',
+        'image',
+        'svg+xml',
+        [],
+        'image/svg+xml'
+      ],
+      'svg' => [
+        dirname( __DIR__ ) . DIRECTORY_SEPARATOR
+        . 'html_creation' . DIRECTORY_SEPARATOR
+        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.ico',
+        'image',
+        'vnd.microsoft.icon',
+        [],
+        'image/vnd.microsoft.icon'
       ]
     ];
+  }
+
+  public function testNewFromFilenameException() {
+    $this->expectException( FileNotFound::class );
+    $this->expectExceptionMessage( 'File "none.json" not found' );
+
+    MediaType::newFromFilename( 'none.json' );
   }
 }

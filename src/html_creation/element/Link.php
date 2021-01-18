@@ -9,8 +9,8 @@ class Link extends AbstractSpecificElement {
 
   const TAG_NAME = "link";
 
-  public static function newFromLocalUrl(
-    $rel,  $href, ?array $attrs = null, $path = null
+  public static function newFromRelAndLocalUrl(
+    $rel, $href, ?array $attrs = null, $path = null
   ) {
     $href = static::augmentLocalUrl( $href, $path );
 
