@@ -2,7 +2,7 @@
 
 namespace alcamo\html_creation;
 
-use alcamo\exception\{DirectoryNotFound, FileNotFound};
+use alcamo\exception\DirectoryNotFound;
 
 class DirMapUrlFactory extends AbstractUrlFactory {
   /// Real path of htdocs directory, without trailing delimiter.
@@ -12,7 +12,10 @@ class DirMapUrlFactory extends AbstractUrlFactory {
   private $htdocsUrl_;
 
   public function __construct(
-    string $htdocsDir, string $htdocsUrl, ?bool $appendMtime = null
+    string $htdocsDir,
+    string $htdocsUrl,
+    ?bool $appendMtime = null,
+    ?bool $preferGz = null
   ) {
     $this->htdocsDir_ = realpath( $htdocsDir );
 
@@ -24,7 +27,7 @@ class DirMapUrlFactory extends AbstractUrlFactory {
 
     $this->htdocsUrl_ = rtrim( $htdocsUrl, '/' );
 
-    parent::__construct( $appendMtime );
+    parent::__construct( $appendMtime, $preferGz );
   }
 
   public function getHtdocsDir() : string {
@@ -36,12 +39,7 @@ class DirMapUrlFactory extends AbstractUrlFactory {
   }
 
   public function createFromPath( string $path ) : string {
-    $realpath = realpath( $path );
-
-    if ( !$realpath ) {
-      /** @throw FileNotFound if realpath of $path culd not be obtained. */
-      throw new FileNotFound( $path );
-    }
+    $realpath = $this->realpath( $path );
 
     /**
      * Replace a prefix corresponding to $htdocsDir_ with $htdocsUrl_. If
