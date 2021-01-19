@@ -14,7 +14,7 @@ class Link extends AbstractSpecificElement {
   ) {
     $href = static::augmentLocalUrl( $href, $path );
 
-    if ( $rel != 'stylesheet' ) {
+    if ( $rel != 'stylesheet' && !isset( $attrs['type'] ) ) {
       $attrs =
         [ 'type' => MediaType::newFromFilename( $path ) ] + (array)$attrs;
     }

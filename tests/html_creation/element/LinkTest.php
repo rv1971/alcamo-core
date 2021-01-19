@@ -89,6 +89,13 @@ class LinkTest extends TestCase {
         [ 'id' => 'FOO' ],
         "${baseDir2}foo.json",
         "<link rel=\"manifest\" href=\"/foo.json?baz=qux&amp;m=$mJson\" type=\"application/json\" id=\"FOO\"/>"
+      ],
+      'explicit-type' => [
+        'dc:isVersionOf',
+        "/foo.json?baz=qux",
+        [ 'type' => 'application/x-quux' ],
+        "${baseDir2}foo.json",
+        "<link rel=\"dc:isVersionOf\" href=\"/foo.json?baz=qux&amp;m=$mJson\" type=\"application/x-quux\"/>"
       ]
     ];
   }

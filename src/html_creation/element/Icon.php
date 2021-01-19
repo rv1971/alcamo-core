@@ -12,7 +12,11 @@ class Icon extends Link {
   ) {
     $href = static::augmentLocalUrl( $href, $path );
 
-    $type = MediaType::newFromFilename( $path );
+    $type = isset( $attrs['type'] )
+      ? ($attrs['type'] instanceof MediaType
+         ? $attrs['type']
+         : MediaType::newFromString( $attrs['type'] ))
+      : MediaType::newFromFilename( $path );
 
     if ( $type->getType() == 'image' ) {
       $computedAttrs = [ 'type' => $type ];

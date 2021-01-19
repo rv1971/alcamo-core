@@ -62,6 +62,7 @@ class IconTest extends TestCase {
 
     $m16 = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo-16.png" ) );
     $m32 = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo-32.png" ) );
+    $m64 = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo-64.png" ) );
     $mJpeg = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo-16.jpeg" ) );
     $mSvg = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo.svg" ) );
     $mIco = gmdate( 'YmdHis', filemtime( "${baseDir}alcamo.ico" ) );
@@ -100,7 +101,16 @@ class IconTest extends TestCase {
         null,
         null,
         "<link rel=\"icon\" href=\"${baseDir}alcamo.ico?m=$mIco\" type=\"image/vnd.microsoft.icon\" sizes=\"64x64\"/>"
-      ]
+      ],
+
+      'explicit-type' => [
+        "${baseDir}alcamo-64.png",
+        [ 'type' => 'image/x-foo' ],
+        null,
+        "<link rel=\"icon\" href=\"${baseDir}alcamo-64.png?m=$m64\" type=\"image/x-foo\" sizes=\"64x64\"/>"
+      ],
+
+
     ];
   }
 }
