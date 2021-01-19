@@ -43,7 +43,9 @@ class Nodes extends Collection {
 
   /** Build a flat array of nodes. */
   public function append( $data ) {
-    if ( is_iterable( $data ) ) {
+    if ( $data instanceof NodeInterface ) {
+      $this->data_[] = $data;
+    } elseif ( is_iterable( $data ) ) {
       foreach ( $data as $item ) {
         $this->append( $item );
       }
