@@ -184,6 +184,10 @@ class MediaType {
     return $this->params_;
   }
 
+  public function getTypeAndSubtype() : string {
+    return "{$this->type_}/{$this->subtype_}";
+  }
+
   /**
    * @return Media type representation in lowercase with all parameters as
    * quoted strings, without folding.

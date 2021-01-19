@@ -90,12 +90,19 @@ class LinkTest extends TestCase {
         "${baseDir2}foo.json",
         "<link rel=\"manifest\" href=\"/foo.json?baz=qux&amp;m=$mJson\" type=\"application/json\" id=\"FOO\"/>"
       ],
-      'explicit-type' => [
+      'explicit-type-and-modtime' => [
         'dc:isVersionOf',
-        "/foo.json?baz=qux",
+        "/foo.json?m=19700101000000",
         [ 'type' => 'application/x-quux' ],
         "${baseDir2}foo.json",
-        "<link rel=\"dc:isVersionOf\" href=\"/foo.json?baz=qux&amp;m=$mJson\" type=\"application/x-quux\"/>"
+        "<link rel=\"dc:isVersionOf\" href=\"/foo.json?m=19700101000000\" type=\"application/x-quux\"/>"
+      ],
+      'explicit-modtime-2' => [
+        'dc:isPartOf',
+        "/foo.json?bar=foo&m=19700101000000",
+        null,
+        "${baseDir2}foo.json",
+        "<link rel=\"dc:isPartOf\" href=\"/foo.json?bar=foo&amp;m=19700101000000\" type=\"application/json\"/>"
       ]
     ];
   }
