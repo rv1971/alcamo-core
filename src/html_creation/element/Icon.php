@@ -9,7 +9,7 @@ class Icon extends Link {
 
   public static function newFromLocalUrl(
     $href, ?array $attrs = null, $path = null
-  ) {
+  ) : self {
     $href = static::augmentLocalUrl( $href, $path );
 
     /** Determine media type from filename unless the type is set in

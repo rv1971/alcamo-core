@@ -9,7 +9,7 @@ class Script extends AbstractScriptSupportingElement {
 
   public static function newFromLocalUrl(
     $src, ?array $attrs = null, $path = null
-  ) {
+  ) : self {
     return new self(
       null,
       [ 'src' => static::augmentLocalUrl( $src, $path ) ] + (array)$attrs

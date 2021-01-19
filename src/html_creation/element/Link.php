@@ -11,7 +11,7 @@ class Link extends AbstractSpecificElement {
 
   public static function newFromRelAndLocalUrl(
     $rel, $href, ?array $attrs = null, $path = null
-  ) {
+  ) : self {
     $href = static::augmentLocalUrl( $href, $path );
 
     /** Determine media type from filename unless `$rel` is `stylesheet` or the
