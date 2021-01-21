@@ -29,7 +29,7 @@ class Nodes extends Collection {
     return $output;
   }
 
-  public function __construct( $data ) {
+  public function __construct( ...$data ) {
     $this->append( $data );
   }
 
