@@ -2,7 +2,6 @@
 
 namespace alcamo\xml_creation;
 
-/// Raw XML code that is taken as-is within Nodes.
 abstract class AbstractNode implements NodeInterface {
   /// Regular expression for XML names
   const NAME_REGEXP =

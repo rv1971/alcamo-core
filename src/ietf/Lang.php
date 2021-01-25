@@ -10,7 +10,7 @@ use alcamo\exception\{SyntaxError};
  *
  * @invariant Immutable class.
  *
- * Only supports ISO 639 primary tags and ISO3166-1 region subtags.
+ * Only supports ISO 639 primary tags and ISO 3166-1 region subtags.
  */
 class Lang {
   const PRIMARY_TAG_REGEXP = '/^[a-z]{2,3}$/';
