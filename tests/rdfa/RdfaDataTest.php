@@ -9,7 +9,7 @@ use alcamo\iana\MediaType;
 use alcamo\ietf\Lang;
 use alcamo\time\Duration;
 
-require __DIR__ . DIRECTORY_SEPARATOR . 'FactoryTestAux.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'FactoryTestAux.php';
 
 class RdfaDataTest extends TestCase {
   /**
