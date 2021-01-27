@@ -32,23 +32,7 @@ class Factory extends StaticNamespaceFactory {
     }
   }
 
-  public function createArray( iterable $data ) : array {
-    $result = parent::createArray( $data );
-
-    /** Add `meta:charset` from dc:format if appropriate. */
-    if (
-      !isset( $result['meta:charset'] )
-      && isset( $result['dc:format'] )
-      && isset( $result['dc:format']->getObject()->getParams()['charset'] )
-    ) {
-      $result =
-        [
-          'meta:charset'
-          => new MetaCharset( $result['dc:format']->getObject()->getParams()['charset'] )
-        ]
-        + $result;
-    }
-
-    return $result;
+  public function createRdfaData( iterable $data ) : RdfaData {
+    return RdfaData::newFromIterable( $data, $this );
   }
 }

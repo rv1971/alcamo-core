@@ -32,6 +32,8 @@ abstract class AbstractFactory implements FactoryInterface {
    * For each item:
    * - Compute the class name from the key.
    * - If the value is an instance of that class, leave it unchanged.
+   * - Else if the value is iterable with only one item, create an instance
+   *   for that item.
    * - Else if the value is iterable, create an array of instances for the
    *   items.
    * - Else create an instance from that value.
@@ -51,7 +53,7 @@ abstract class AbstractFactory implements FactoryInterface {
           $items[] = $this->createFromClassName( $className, $valueItem );
         }
 
-        $result[$name] = $items;
+        $result[$name] = isset( $items[1] ) ? $items : $items[0];
       } else {
         $result[$name] = $this->createFromClassName( $className, $value );
       }

@@ -9,6 +9,8 @@ use alcamo\iana\MediaType;
 use alcamo\ietf\Lang;
 use alcamo\time\Duration;
 
+require __DIR__ . DIRECTORY_SEPARATOR . 'FactoryTestAux.php';
+
 class FactoryTest extends TestCase {
   /**
    * @dataProvider createArrayProvider
@@ -18,44 +20,9 @@ class FactoryTest extends TestCase {
 
     $data = $factory->createArray( $inputData );
 
-    $i = 0;
-    foreach ( $data as $key => $item ) {
-      $expectedItem = $expectedData[$i++];
+    $aux = new FactoryTestAux();
 
-      $this->assertSame( $expectedItem['key'], $key );
-
-      if ( is_array( $item ) ) {
-        $j = 0;
-        foreach ( $item as $subitem ) {
-          $this->testItem_( $subitem, $expectedItem[$j++] );
-        }
-      } else {
-        $this->testItem_( $item, $expectedItem );
-      }
-    }
-  }
-
-  private function testItem_( $item, $expectedItem ) {
-    $expectedItemClass = $expectedItem['class'];
-
-    $this->assertSame( $expectedItem['property'], $item->getProperty() );
-    $this->assertInstanceOf( $expectedItemClass, $item );
-
-    if ( defined( "$expectedItemClass::OBJECT_CLASS" ) ) {
-      $this->assertInstanceOf(
-        $expectedItemClass::OBJECT_CLASS, $item->getObject()
-      );
-    }
-
-    $this->assertSame( $expectedItem['isResource'], $item->isResource() );
-
-    $this->assertSame( $expectedItem['string'], (string)$item );
-
-    $this->assertSame( $expectedItem['xmlAttrs'], $item->toXmlAttrs() );
-
-    $this->assertSame( $expectedItem['html'], (string)$item->toHtmlNodes() );
-
-    $this->assertSame( $expectedItem['httpHeaders'], $item->toHttpHeaders() );
+    $aux->testData( $data, $expectedData );
   }
 
   public function createArrayProvider() {
@@ -789,7 +756,9 @@ class FactoryTest extends TestCase {
 
           'dc:modified' => '1971-02-03 04:05:06+01:00',
 
-          'header:expires' => 'P40D'
+          'header:expires' => 'P40D',
+
+          'dc:creator' => [ [ 'Alice', false ] ]
         ],
         [
           [
@@ -865,6 +834,21 @@ class FactoryTest extends TestCase {
               'content' => 'P40D'
             ],
             'html' => '',
+            'httpHeaders' => null
+          ],
+
+          [
+            'key' => 'dc:creator',
+            'class' => DcCreator::class,
+            'property' => 'dc:creator',
+            'isResource' => false,
+            'string' => 'Alice',
+            'xmlAttrs' => [
+              'property' => 'dc:creator',
+              'content' => 'Alice'
+            ],
+            'html' =>
+            '<meta property="dc:creator" content="Alice" name="author"/>',
             'httpHeaders' => null
           ]
         ]
