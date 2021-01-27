@@ -22,89 +22,48 @@ class FactoryTest extends TestCase {
     foreach ( $data as $key => $item ) {
       $expectedItem = $expectedData[$i++];
 
-      $expectedItemClass = $expectedItem['class'];
-
       $this->assertSame( $expectedItem['key'], $key );
-      $this->assertSame( $expectedItem['property'], $item->getProperty() );
-      $this->assertInstanceOf( $expectedItemClass, $item );
 
-      if ( defined( "$expectedItemClass::OBJECT_CLASS" ) ) {
-        $this->assertInstanceOf(
-          $expectedItemClass::OBJECT_CLASS, $item->getObject()
-        );
+      if ( is_array( $item ) ) {
+        $j = 0;
+        foreach ( $item as $subitem ) {
+          $this->testItem_( $subitem, $expectedItem[$j++] );
+        }
+      } else {
+        $this->testItem_( $item, $expectedItem );
       }
-
-      $this->assertSame( $expectedItem['isResource'], $item->isResource() );
-
-      $this->assertSame( $expectedItem['string'], (string)$item );
-
-      $this->assertSame( $expectedItem['xmlAttrs'], $item->toXmlAttrs() );
-
-      $this->assertSame( $expectedItem['html'], (string)$item->toHtmlNodes() );
-
-      $this->assertSame( $expectedItem['httpHeaders'], $item->toHttpHeaders() );
     }
+  }
+
+  private function testItem_( $item, $expectedItem ) {
+    $expectedItemClass = $expectedItem['class'];
+
+    $this->assertSame( $expectedItem['property'], $item->getProperty() );
+    $this->assertInstanceOf( $expectedItemClass, $item );
+
+    if ( defined( "$expectedItemClass::OBJECT_CLASS" ) ) {
+      $this->assertInstanceOf(
+        $expectedItemClass::OBJECT_CLASS, $item->getObject()
+      );
+    }
+
+    $this->assertSame( $expectedItem['isResource'], $item->isResource() );
+
+    $this->assertSame( $expectedItem['string'], (string)$item );
+
+    $this->assertSame( $expectedItem['xmlAttrs'], $item->toXmlAttrs() );
+
+    $this->assertSame( $expectedItem['html'], (string)$item->toHtmlNodes() );
+
+    $this->assertSame( $expectedItem['httpHeaders'], $item->toHttpHeaders() );
   }
 
   public function createArrayProvider() {
     return [
-      'complete-objects' => [
+      'complete-objects/1' => [
         [
           'dc:abstract'
-          => new DcAbstract( 'Lorem ipsum dolor sit amet.' ),
-
-          'dc:conformsTo'
-          => new DcConformsTo( 'https://semver.org/spec/v2.0.0.html' ),
-
-          'dc:created'
-          => new DcCreated( new \DateTime( '1970-01-01' ) ),
-
-          'dc:creator'
-          => [
-            new DcCreator( 'Dilbert', false ),
-            new DcCreator( 'https://dilbert.example.org', true )
-          ],
-
-          'dc:format'
-          => new DcFormat( MediaType::newFromString( 'application/xml' ) ),
-
-          'dc:identifier'
-          => new DcIdentifier( 'foo.bar' ),
-
-          'dc:language'
-          => new DcLanguage( Lang::newFromString( 'oc-FR' ) ),
-
-          'dc:modified'
-          => new DcModified( new \DateTime( '1971-02-03 04:05:06+01:00' ) ),
-
-          'dc:publisher'
-          => [
-            new DcPublisher( 'http://garfield.example.org', true ),
-            new DcPublisher( 'Garfield', false ),
-            new DcPublisher( 'http://jerry.example.org', true )
-          ],
-
-          'dc:source'
-          => new DcSource( 'https://factory.test.example.com' ),
-
-          'dc:title'
-          => new DcTitle( 'Lorem ipsum' ),
-
-          'header:cache-control'
-          => new HeaderCacheControl( 'public' ),
-
-          'header:content-disposition'
-          => new HeaderContentDisposition( 'baz.json' ),
-
-          'header:content-length'
-          => HeaderContentLength::newFromFilename(
-            __DIR__ . DIRECTORY_SEPARATOR . 'foo.txt' ),
-
-          'header:expires'
-          => new HeaderExpires( new Duration( 'P40D' ) ),
-
-          'meta:charset'
-          => new MetaCharset( 'UTF-8' )
+          => new DcAbstract( 'Lorem ipsum dolor sit amet.' )
         ],
         [
           [
@@ -120,8 +79,19 @@ class FactoryTest extends TestCase {
             'html' =>
             '<meta property="dc:abstract" content="Lorem ipsum dolor sit amet." name="description"/>',
             'httpHeaders' => null
-          ],
+          ]
+        ]
+      ],
 
+      'complete-objects/2' => [
+        [
+          'dc:conformsTo'
+          => new DcConformsTo( 'https://semver.org/spec/v2.0.0.html' ),
+
+          'dc:created'
+          => new DcCreated( new \DateTime( '1970-01-01' ) ),
+        ],
+        [
           [
             'key' => 'dc:conformsTo',
             'class' => DcConformsTo::class,
@@ -150,36 +120,53 @@ class FactoryTest extends TestCase {
             'html' =>
             '<meta property="dc:created" content="1970-01-01T00:00:00+00:00"/>',
             'httpHeaders' => null
+          ]
+        ]
+      ],
+
+      'complete-objects/3' => [
+        [
+          'dc:creator'
+          => [
+            new DcCreator( 'Dilbert', false ),
+            new DcCreator( 'https://dilbert.example.org', true )
           ],
 
-          [
-            'key' => 'dc:creator/1',
-            'class' => DcCreator::class,
-            'property' => 'dc:creator',
-            'isResource' => false,
-            'string' => 'Dilbert',
-            'xmlAttrs' => [
-              'property' => 'dc:creator',
-              'content' => 'Dilbert'
-            ],
-            'html' =>
-            '<meta property="dc:creator" content="Dilbert" name="author"/>',
-            'httpHeaders' => null
-          ],
+          'dc:format'
+          => new DcFormat( MediaType::newFromString( 'application/xml' ) ),
 
+          'dc:identifier'
+          => new DcIdentifier( 'foo.bar' ),
+        ],
+        [
           [
-            'key' => 'dc:creator/2',
-            'class' => DcCreator::class,
-            'property' => 'dc:creator',
-            'isResource' => true,
-            'string' => 'https://dilbert.example.org',
-            'xmlAttrs' => [
+            'key' => 'dc:creator',
+            [
+              'class' => DcCreator::class,
               'property' => 'dc:creator',
-              'resource' => 'https://dilbert.example.org'
+              'isResource' => false,
+              'string' => 'Dilbert',
+              'xmlAttrs' => [
+                'property' => 'dc:creator',
+                  'content' => 'Dilbert'
+              ],
+              'html' =>
+              '<meta property="dc:creator" content="Dilbert" name="author"/>',
+              'httpHeaders' => null
             ],
-            'html' =>
-            '<link rel="dc:creator author" href="https://dilbert.example.org"/>',
-            'httpHeaders' => null
+            [
+              'class' => DcCreator::class,
+              'property' => 'dc:creator',
+              'isResource' => true,
+              'string' => 'https://dilbert.example.org',
+              'xmlAttrs' => [
+                'property' => 'dc:creator',
+                'resource' => 'https://dilbert.example.org'
+              ],
+              'html' =>
+              '<link rel="dc:creator author" href="https://dilbert.example.org"/>',
+              'httpHeaders' => null
+            ]
           ],
 
           [
@@ -211,8 +198,29 @@ class FactoryTest extends TestCase {
             'html' =>
             '<meta property="dc:identifier" content="foo.bar"/>',
             'httpHeaders' => null
+          ]
+        ]
+      ],
+
+      'complete-objects/4' => [
+        [
+          'dc:language'
+          => new DcLanguage( Lang::newFromString( 'oc-FR' ) ),
+
+          'dc:modified'
+          => new DcModified( new \DateTime( '1971-02-03 04:05:06+01:00' ) ),
+
+          'dc:publisher'
+          => [
+            new DcPublisher( 'http://garfield.example.org', true ),
+            new DcPublisher( 'Garfield', false ),
+            new DcPublisher( 'http://jerry.example.org', true )
           ],
 
+          'dc:source'
+          => new DcSource( 'https://factory.test.example.com' )
+        ],
+        [
           [
             'key' => 'dc:language',
             'class' => DcLanguage::class,
@@ -245,48 +253,46 @@ class FactoryTest extends TestCase {
           ],
 
           [
-            'key' => 'dc:publisher/1',
-            'class' => DcPublisher::class,
-            'property' => 'dc:publisher',
-            'isResource' => true,
-            'string' => 'http://garfield.example.org',
-            'xmlAttrs' => [
+            'key' => 'dc:publisher',
+            [
+              'class' => DcPublisher::class,
               'property' => 'dc:publisher',
-              'resource' => 'http://garfield.example.org'
+              'isResource' => true,
+              'string' => 'http://garfield.example.org',
+              'xmlAttrs' => [
+                'property' => 'dc:publisher',
+                'resource' => 'http://garfield.example.org'
+              ],
+              'html' =>
+              '<link rel="dc:publisher" href="http://garfield.example.org"/>',
+              'httpHeaders' => null
             ],
-            'html' =>
-            '<link rel="dc:publisher" href="http://garfield.example.org"/>',
-            'httpHeaders' => null
-          ],
-
-          [
-            'key' => 'dc:publisher/2',
-            'class' => DcPublisher::class,
-            'property' => 'dc:publisher',
-            'isResource' => false,
-            'string' => 'Garfield',
-            'xmlAttrs' => [
+            [
+              'class' => DcPublisher::class,
               'property' => 'dc:publisher',
-              'content' => 'Garfield'
+              'isResource' => false,
+              'string' => 'Garfield',
+              'xmlAttrs' => [
+                'property' => 'dc:publisher',
+                'content' => 'Garfield'
+              ],
+              'html' =>
+              '<meta property="dc:publisher" content="Garfield"/>',
+              'httpHeaders' => null
             ],
-            'html' =>
-            '<meta property="dc:publisher" content="Garfield"/>',
-            'httpHeaders' => null
-          ],
-
-          [
-            'key' => 'dc:publisher/3',
-            'class' => DcPublisher::class,
-            'property' => 'dc:publisher',
-            'isResource' => true,
-            'string' => 'http://jerry.example.org',
-            'xmlAttrs' => [
+            [
+              'class' => DcPublisher::class,
               'property' => 'dc:publisher',
-              'resource' => 'http://jerry.example.org'
-            ],
-            'html' =>
-            '<link rel="dc:publisher" href="http://jerry.example.org"/>',
-            'httpHeaders' => null
+              'isResource' => true,
+              'string' => 'http://jerry.example.org',
+              'xmlAttrs' => [
+                'property' => 'dc:publisher',
+                'resource' => 'http://jerry.example.org'
+              ],
+              'html' =>
+              '<link rel="dc:publisher" href="http://jerry.example.org"/>',
+              'httpHeaders' => null
+            ]
           ],
 
           [
@@ -304,8 +310,29 @@ class FactoryTest extends TestCase {
             'httpHeaders' => [
               'Link' => 'Link: <https://factory.test.example.com>; rel="canonical"'
             ]
-          ],
+          ]
+        ]
+      ],
 
+      'complete-objects/5' => [
+        [
+          'dc:title'
+          => new DcTitle( 'Lorem ipsum' ),
+
+          'header:cache-control'
+          => new HeaderCacheControl( 'public' ),
+
+          'header:content-disposition'
+          => new HeaderContentDisposition( 'baz.json' ),
+
+          'header:content-length'
+          => HeaderContentLength::newFromFilename(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.txt' ),
+
+          'header:expires'
+          => new HeaderExpires( new Duration( 'P40D' ) ),
+        ],
+        [
           [
             'key' => 'dc:title',
             'class' => DcTitle::class,
@@ -379,8 +406,16 @@ class FactoryTest extends TestCase {
             ],
             'html' => '',
             'httpHeaders' => null
-          ],
+          ]
+        ]
+      ],
 
+      'complete-objects/6' => [
+        [
+          'meta:charset'
+          => new MetaCharset( 'UTF-8' )
+        ],
+        [
           [
             'key' => 'meta:charset',
             'class' => MetaCharset::class,
@@ -398,46 +433,13 @@ class FactoryTest extends TestCase {
         ]
       ],
 
-      'inner-objects' => [
+      'inner-objects/1' => [
         [
           'dc:abstract' => 'Lorem ipsum dolor sit amet.',
 
           'dc:conformsTo' => 'https://semver.org/spec/v2.0.0.html',
 
-          'dc:created' => new \DateTime( '1970-01-01' ),
-
-          'dc:creator' => [
-            [ 'Dilbert', false ],
-            [ 'https://dilbert.example.org', true ]
-          ],
-
-          'dc:format' => MediaType::newFromString( 'application/xml' ),
-
-          'dc:identifier' => 'foo.bar',
-
-          'dc:language' => Lang::newFromString( 'oc-FR' ),
-
-          'dc:modified' => new \DateTime( '1971-02-03 04:05:06+01:00' ),
-
-          'dc:publisher' => [
-            [ 'http://garfield.example.org', true ],
-            [ 'Garfield', false ],
-            [ 'http://jerry.example.org', true ]
-          ],
-
-          'dc:source' => 'https://factory.test.example.com',
-
-          'dc:title' => 'Lorem ipsum',
-
-          'header:cache-control' => 'public',
-
-          'header:content-disposition' => 'baz.json',
-
-          'header:content-length' => 123456,
-
-          'header:expires' => new Duration( 'P40D' ),
-
-          'meta:charset' => 'UTF-8'
+          'dc:created' => new \DateTime( '1970-01-01' )
         ],
         [
           [
@@ -483,38 +485,67 @@ class FactoryTest extends TestCase {
             'html' =>
             '<meta property="dc:created" content="1970-01-01T00:00:00+00:00"/>',
             'httpHeaders' => null
-          ],
+          ]
+        ]
+      ],
 
+      'inner-objects/2' => [
+        [
+          'dc:creator' => [
+            [ 'Dilbert', false ],
+            [ 'https://dilbert.example.org', true ]
+          ]
+        ],
+        [
           [
-            'key' => 'dc:creator/1',
-            'class' => DcCreator::class,
-            'property' => 'dc:creator',
-            'isResource' => false,
-            'string' => 'Dilbert',
-            'xmlAttrs' => [
+            'key' => 'dc:creator',
+            [
+              'class' => DcCreator::class,
               'property' => 'dc:creator',
-              'content' => 'Dilbert'
+              'isResource' => false,
+              'string' => 'Dilbert',
+              'xmlAttrs' => [
+                'property' => 'dc:creator',
+                  'content' => 'Dilbert'
+              ],
+              'html' =>
+              '<meta property="dc:creator" content="Dilbert" name="author"/>',
+              'httpHeaders' => null
             ],
-            'html' =>
-            '<meta property="dc:creator" content="Dilbert" name="author"/>',
-            'httpHeaders' => null
-          ],
-
-          [
-            'key' => 'dc:creator/2',
-            'class' => DcCreator::class,
-            'property' => 'dc:creator',
-            'isResource' => true,
-            'string' => 'https://dilbert.example.org',
-            'xmlAttrs' => [
+            [
+              'class' => DcCreator::class,
               'property' => 'dc:creator',
-              'resource' => 'https://dilbert.example.org'
-            ],
-            'html' =>
-            '<link rel="dc:creator author" href="https://dilbert.example.org"/>',
-            'httpHeaders' => null
-          ],
+              'isResource' => true,
+              'string' => 'https://dilbert.example.org',
+              'xmlAttrs' => [
+                'property' => 'dc:creator',
+                'resource' => 'https://dilbert.example.org'
+              ],
+              'html' =>
+              '<link rel="dc:creator author" href="https://dilbert.example.org"/>',
+              'httpHeaders' => null
+            ]
+          ]
+        ]
+      ],
 
+      'inner-objects/3' => [
+        [
+          'dc:format' => MediaType::newFromString( 'application/xml' ),
+
+          'dc:identifier' => 'foo.bar',
+
+          'dc:language' => Lang::newFromString( 'oc-FR' ),
+
+          'dc:modified' => new \DateTime( '1971-02-03 04:05:06+01:00' ),
+
+          'dc:publisher' => [
+            [ 'http://garfield.example.org', true ],
+            [ 'Garfield', false ],
+            [ 'http://jerry.example.org', true ]
+          ]
+        ],
+        [
           [
             'key' => 'dc:format',
             'class' => DcFormat::class,
@@ -578,50 +609,67 @@ class FactoryTest extends TestCase {
           ],
 
           [
-            'key' => 'dc:publisher/1',
-            'class' => DcPublisher::class,
-            'property' => 'dc:publisher',
-            'isResource' => true,
-            'string' => 'http://garfield.example.org',
-            'xmlAttrs' => [
+            'key' => 'dc:publisher',
+            [
+              'class' => DcPublisher::class,
               'property' => 'dc:publisher',
-              'resource' => 'http://garfield.example.org'
+              'isResource' => true,
+              'string' => 'http://garfield.example.org',
+              'xmlAttrs' => [
+                'property' => 'dc:publisher',
+                'resource' => 'http://garfield.example.org'
+              ],
+              'html' =>
+              '<link rel="dc:publisher" href="http://garfield.example.org"/>',
+              'httpHeaders' => null
             ],
-            'html' =>
-            '<link rel="dc:publisher" href="http://garfield.example.org"/>',
-            'httpHeaders' => null
-          ],
-
-          [
-            'key' => 'dc:publisher/2',
-            'class' => DcPublisher::class,
-            'property' => 'dc:publisher',
-            'isResource' => false,
-            'string' => 'Garfield',
-            'xmlAttrs' => [
+            [
+              'class' => DcPublisher::class,
               'property' => 'dc:publisher',
-              'content' => 'Garfield'
+              'isResource' => false,
+              'string' => 'Garfield',
+              'xmlAttrs' => [
+                'property' => 'dc:publisher',
+                'content' => 'Garfield'
+              ],
+              'html' =>
+              '<meta property="dc:publisher" content="Garfield"/>',
+              'httpHeaders' => null
             ],
-            'html' =>
-            '<meta property="dc:publisher" content="Garfield"/>',
-            'httpHeaders' => null
-          ],
-
-          [
-            'key' => 'dc:publisher/3',
-            'class' => DcPublisher::class,
-            'property' => 'dc:publisher',
-            'isResource' => true,
-            'string' => 'http://jerry.example.org',
-            'xmlAttrs' => [
+            [
+              'class' => DcPublisher::class,
               'property' => 'dc:publisher',
-              'resource' => 'http://jerry.example.org'
-            ],
-            'html' =>
-            '<link rel="dc:publisher" href="http://jerry.example.org"/>',
-            'httpHeaders' => null
-          ],
+              'isResource' => true,
+              'string' => 'http://jerry.example.org',
+              'xmlAttrs' => [
+                'property' => 'dc:publisher',
+                'resource' => 'http://jerry.example.org'
+              ],
+              'html' =>
+              '<link rel="dc:publisher" href="http://jerry.example.org"/>',
+              'httpHeaders' => null
+            ]
+          ]
+        ]
+      ],
 
+      'inner-objects/4' => [
+        [
+          'dc:source' => 'https://factory.test.example.com',
+
+          'dc:title' => 'Lorem ipsum',
+
+          'header:cache-control' => 'public',
+
+          'header:content-disposition' => 'baz.json',
+
+          'header:content-length' => 123456,
+
+          'header:expires' => new Duration( 'P40D' ),
+
+          'meta:charset' => 'UTF-8'
+        ],
+        [
           [
             'key' => 'dc:source',
             'class' => DcSource::class,
