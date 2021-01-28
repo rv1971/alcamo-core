@@ -75,7 +75,7 @@ class RdfaDataTest extends TestCase {
             'html' =>
             '<meta property="dc:format" content="text/plain; charset=&quot;UTF-8&quot;"/>',
             'httpHeaders'
-            => [ 'Content-Type' => 'Content-Type: text/plain; charset="UTF-8"' ]
+            => [ 'Content-Type' => 'text/plain; charset="UTF-8"' ]
           ],
           [
             'key' => 'dc:source',
@@ -90,7 +90,7 @@ class RdfaDataTest extends TestCase {
             'html' =>
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
             'httpHeaders' => [
-              'Link' => 'Link: <https://factory.test.example.com>; rel="canonical"'
+              'Link' => '<https://factory.test.example.com>; rel="canonical"'
             ]
           ],
           [
@@ -113,8 +113,8 @@ class RdfaDataTest extends TestCase {
           . '<meta property="dc:format" content="text/plain; charset=&quot;UTF-8&quot;"/>'
           . '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
           'httpHeaders' => [
-            'Content-Type' => 'Content-Type: text/plain; charset="UTF-8"',
-            'Link' => 'Link: <https://factory.test.example.com>; rel="canonical"'
+            'Content-Type' => 'text/plain; charset="UTF-8"',
+            'Link' => '<https://factory.test.example.com>; rel="canonical"'
           ]
         ]
       ]

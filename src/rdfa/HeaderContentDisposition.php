@@ -14,9 +14,6 @@ class HeaderContentDisposition extends AbstractStmt {
   const HTTP_HEADER = 'Content-Disposition';
 
   public function toHttpHeaders() : ?array {
-    return [
-      static::HTTP_HEADER
-      => static::HTTP_HEADER . ": attachment; filename=\"$this\""
-    ];
+    return [ static::HTTP_HEADER => "attachment; filename=\"$this\"" ];
   }
 }

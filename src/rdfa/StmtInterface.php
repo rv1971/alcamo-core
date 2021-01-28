@@ -30,6 +30,6 @@ interface StmtInterface {
   /// Returns an HTML representation, if any
   function toHtmlNodes() : ?Nodes;
 
-  /// Returns an array of HTTP headers, if any
+  /// Returns a map of HTTP headers to values, if any
   public function toHttpHeaders() : ?array;
 }
