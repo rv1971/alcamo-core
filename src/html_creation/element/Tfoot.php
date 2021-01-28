@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Tfoot extends AbstractRowgroupElement
 {
-    const TAG_NAME = "tfoot";
+    public const TAG_NAME = "tfoot";
 }

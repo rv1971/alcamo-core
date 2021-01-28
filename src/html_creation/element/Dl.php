@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Dl extends AbstractSpecificElement
 {
-    const TAG_NAME = "dl";
+    public const TAG_NAME = "dl";
 }

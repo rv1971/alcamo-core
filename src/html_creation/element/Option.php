@@ -4,9 +4,9 @@ namespace alcamo\html_creation\element;
 
 class Option extends AbstractSpecificElement
 {
-    const TAG_NAME = "option";
+    public const TAG_NAME = "option";
 
-    function __construct(
+    public function __construct(
         $value,
         $content = null,
         $compareTo = null,

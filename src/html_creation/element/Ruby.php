@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Ruby extends AbstractSpecificElement
 {
-    const TAG_NAME = "ruby";
+    public const TAG_NAME = "ruby";
 }

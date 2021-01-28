@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Select extends AbstractOptionList
 {
-    const TAG_NAME = "select";
+    public const TAG_NAME = "select";
 
   /// Create from sequence of values
     public static function newFromValueSequence(

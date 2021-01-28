@@ -2,8 +2,9 @@
 
 namespace alcamo\object_creation;
 
-abstract class AbstractFactory implements FactoryInterface {
-  abstract public function name2className( string $name ) : string;
+abstract class AbstractFactory implements FactoryInterface
+{
+    abstract public function name2className(string $name): string;
 
   /**
    * @return
@@ -11,22 +12,24 @@ abstract class AbstractFactory implements FactoryInterface {
    * - Else if $value is iterable, return an instance of $className taking the
    * $value items as constructor arguments.
    */
-  public function createFromClassName( $className, $value ) : object {
-    if ( $value instanceof $className ) {
-      return $value;
+    public function createFromClassName($className, $value): object
+    {
+        if ($value instanceof $className) {
+            return $value;
+        }
+
+        if (is_iterable($value)) {
+            return new $className(...$value);
+        }
+
+        return new $className($value);
     }
 
-    if ( is_iterable( $value ) ) {
-      return new $className( ...$value );
+    public function createFromName($name, $value): object
+    {
+        return
+        $this->createFromClassName($this->name2className($name), $value);
     }
-
-    return new $className( $value );
-  }
-
-  public function createFromName( $name, $value ) : object {
-    return
-      $this->createFromClassName( $this->name2className( $name ), $value );
-  }
 
   /**
    * For each item:
@@ -38,27 +41,28 @@ abstract class AbstractFactory implements FactoryInterface {
    *   items.
    * - Else create an instance from that value.
    */
-  public function createArray( iterable $data ) : array {
-    $result = [];
+    public function createArray(iterable $data): array
+    {
+        $result = [];
 
-    foreach ( $data as $name => $value ) {
-      $className = $this->name2className( $name );
+        foreach ($data as $name => $value) {
+            $className = $this->name2className($name);
 
-      if ( $value instanceof $className ) {
-        $result[$name] = $value;
-      } elseif ( is_iterable( $value ) ) {
-        $items = [];
+            if ($value instanceof $className) {
+                $result[$name] = $value;
+            } elseif (is_iterable($value)) {
+                $items = [];
 
-        foreach ( $value as $valueItem ) {
-          $items[] = $this->createFromClassName( $className, $valueItem );
+                foreach ($value as $valueItem) {
+                    $items[] = $this->createFromClassName($className, $valueItem);
+                }
+
+                $result[$name] = isset($items[1]) ? $items : $items[0];
+            } else {
+                $result[$name] = $this->createFromClassName($className, $value);
+            }
         }
 
-        $result[$name] = isset( $items[1] ) ? $items : $items[0];
-      } else {
-        $result[$name] = $this->createFromClassName( $className, $value );
-      }
+        return $result;
     }
-
-    return $result;
-  }
 }

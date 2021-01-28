@@ -3,56 +3,61 @@
 namespace alcamo\html_creation\element;
 
 use PHPUnit\Framework\TestCase;
-
 use alcamo\xml_creation\TokenList;
 
-class RadioTest extends TestCase {
+class RadioTest extends TestCase
+{
   /**
    * @dataProvider constructProvider
    */
-  public function testConstruct(
-    $name, $value, $compareTo, $attrs, $expectedString
-  ) {
-    $radio = new Radio( $name, $value, $compareTo, $attrs );
+    public function testConstruct(
+        $name,
+        $value,
+        $compareTo,
+        $attrs,
+        $expectedString
+    ) {
+        $radio = new Radio($name, $value, $compareTo, $attrs);
 
-    $this->assertSame( 'input', $radio->getTagName() );
+        $this->assertSame('input', $radio->getTagName());
 
-    $this->assertSame( 'radio', $radio['type'] );
+        $this->assertSame('radio', $radio['type']);
 
-    $this->assertInstanceOf( TokenList::class, $radio['class'] );
+        $this->assertInstanceOf(TokenList::class, $radio['class']);
 
-    if ( isset( $compareTo ) ) {
-      $this->assertSame( $value == $compareTo, $radio['checked'] );
+        if (isset($compareTo)) {
+            $this->assertSame($value == $compareTo, $radio['checked']);
+        }
+
+        $this->assertEquals($expectedString, (string)$radio);
     }
 
-    $this->assertEquals( $expectedString, (string)$radio );
-  }
-
-  public function constructProvider() {
-    return [
-      'no-comparison' => [
+    public function constructProvider()
+    {
+        return [
+        'no-comparison' => [
         'foo',
         'bar',
         null,
         [ 'id' => 'BAR' ],
         '<input type="radio" name="foo" value="bar" id="BAR"/>'
-      ],
+        ],
 
-      'unchecked' => [
+        'unchecked' => [
         'foo',
         'bar',
         'barr',
         [ 'id' => 'BAR' ],
         '<input type="radio" name="foo" value="bar" id="BAR"/>'
-      ],
+        ],
 
-      'checked' => [
+        'checked' => [
         'baz',
         42,
         42,
         null,
         '<input type="radio" name="baz" value="42" checked="checked"/>'
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 }

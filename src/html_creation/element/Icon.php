@@ -6,7 +6,7 @@ use alcamo\iana\MediaType;
 
 class Icon extends Link
 {
-    const REL = 'icon';
+    public const REL = 'icon';
 
     public static function newFromLocalUrl(
         $href,

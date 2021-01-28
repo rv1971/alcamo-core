@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Meter extends AbstractSpecificElement
 {
-    const TAG_NAME = "meter";
+    public const TAG_NAME = "meter";
 }

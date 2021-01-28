@@ -8,13 +8,17 @@ use alcamo\xml_creation\Nodes;
 /**
  * @sa [dc:title](http://purl.org/dc/terms/title).
  */
-class DcTitle extends AbstractStmt {
-  use LiteralContentTrait;
+class DcTitle extends AbstractStmt
+{
+    use LiteralContentTrait;
 
-  const PROPERTY = 'dc:title';
+    public const PROPERTY = 'dc:title';
 
- function toHtmlNodes() : ?Nodes {
-   return new Nodes( new Title(
-     $this->getObject(), [ 'property' => static::PROPERTY ] ) );
-  }
+    public function toHtmlNodes(): ?Nodes
+    {
+        return new Nodes(new Title(
+            $this->getObject(),
+            [ 'property' => static::PROPERTY ]
+        ));
+    }
 }

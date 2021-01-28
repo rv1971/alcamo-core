@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Tr extends AbstractSpecificElement
 {
-    const TAG_NAME = "tr";
+    public const TAG_NAME = "tr";
 
   /** Wrap each item into a Td if it is not yet an element allowed within
    * TAG_NAME. */

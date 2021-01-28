@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Aside extends AbstractSpecificElement
 {
-    const TAG_NAME = "aside";
+    public const TAG_NAME = "aside";
 }

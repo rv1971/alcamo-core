@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Checkbox extends Input
 {
-    function __construct(
+    public function __construct(
         $name,
         $value,
         $compareTo = null,

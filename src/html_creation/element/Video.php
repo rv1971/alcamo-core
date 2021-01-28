@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Video extends AbstractSpecificElement
 {
-    const TAG_NAME = "video";
+    public const TAG_NAME = "video";
 }

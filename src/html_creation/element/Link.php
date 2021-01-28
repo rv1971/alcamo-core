@@ -8,7 +8,7 @@ class Link extends AbstractSpecificElement
 {
     use LinkTrait;
 
-    const TAG_NAME = "link";
+    public const TAG_NAME = "link";
 
     public static function newFromRelAndLocalUrl(
         $rel,

@@ -3,65 +3,70 @@
 namespace alcamo\conf;
 
 use PHPUnit\Framework\TestCase;
-
 use alcamo\exception\InvalidEnumerator;
 
-class XdgFileFinderTest extends TestCase {
+class XdgFileFinderTest extends TestCase
+{
   /**
    * @dataProvider basicsProvider
    */
-  public function testBasics(
-    $subdir, $type, $filename, $expectedPathname
-  ) {
-    $finder = new XdgFileFinder( $subdir, $type );
+    public function testBasics(
+        $subdir,
+        $type,
+        $filename,
+        $expectedPathname
+    ) {
+        $finder = new XdgFileFinder($subdir, $type);
 
-    $this->assertSame( $subdir ?? 'alcamo', $finder->getSubdir() );
+        $this->assertSame($subdir ?? 'alcamo', $finder->getSubdir());
 
-    $pathname = $finder->find( $filename );
+        $pathname = $finder->find($filename);
 
-    $this->assertSame( $expectedPathname, $pathname );
+        $this->assertSame($expectedPathname, $pathname);
+    }
 
-  }
+    public function basicsProvider(): array
+    {
+        $configHome = dirname(__DIR__);
+        $dataHome1 = __DIR__;
+        $dataHome2 = dirname($configHome) . DIRECTORY_SEPARATOR . 'src';
 
-  public function basicsProvider() : array {
-    $configHome = dirname( __DIR__ );
-    $dataHome1 = __DIR__;
-    $dataHome2 = dirname( $configHome ) . DIRECTORY_SEPARATOR . 'src';
+        putenv("XDG_CONFIG_HOME=$configHome");
+        putenv("XDG_DATA_DIRS=$dataHome1:$dataHome2");
 
-    putenv( "XDG_CONFIG_HOME=$configHome" );
-    putenv( "XDG_DATA_DIRS=$dataHome1:$dataHome2" );
-
-    return [
-      'typical-use' => [
+        return [
+        'typical-use' => [
         null,
         null,
         'foo.json',
         $configHome . DIRECTORY_SEPARATOR
         . 'alcamo' . DIRECTORY_SEPARATOR . 'foo.json'
-      ],
+        ],
 
-      'custom-subdir' => [
+        'custom-subdir' => [
         'conf',
         null,
         'XdgFileFinderTest.php',
         __FILE__
-      ],
+        ],
 
-      'data-file' => [
+        'data-file' => [
         'conf',
         'DATA',
         'XdgFileFinder.php',
         $dataHome2 . DIRECTORY_SEPARATOR
         . 'conf' . DIRECTORY_SEPARATOR . 'XdgFileFinder.php'
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 
-  public function testException() {
-    $this->expectException( InvalidEnumerator::class );
-    $this->expectExceptionMessage(
-      'Invalid value "FOO", expected one of: "CONFIG", "DATA"' );
+    public function testException()
+    {
+        $this->expectException(InvalidEnumerator::class);
+        $this->expectExceptionMessage(
+            'Invalid value "FOO", expected one of: "CONFIG", "DATA"'
+        );
 
-    new XdgFileFinder( null, 'FOO' );
-  }
+        new XdgFileFinder(null, 'FOO');
+    }
 }

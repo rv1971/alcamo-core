@@ -3,7 +3,6 @@
 namespace alcamo\rdfa;
 
 use PHPUnit\Framework\TestCase;
-
 use alcamo\exception\SyntaxError;
 use alcamo\iana\MediaType;
 use alcamo\ietf\Lang;
@@ -11,26 +10,29 @@ use alcamo\time\Duration;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'FactoryTestAux.php';
 
-class FactoryTest extends TestCase {
+class FactoryTest extends TestCase
+{
   /**
    * @dataProvider createArrayProvider
    */
-  public function testCreateArray( $inputData, $expectedData ) {
-    $factory = new Factory();
+    public function testCreateArray($inputData, $expectedData)
+    {
+        $factory = new Factory();
 
-    $data = $factory->createArray( $inputData );
+        $data = $factory->createArray($inputData);
 
-    $aux = new FactoryTestAux();
+        $aux = new FactoryTestAux();
 
-    $aux->testData( $data, $expectedData );
-  }
+        $aux->testData($data, $expectedData);
+    }
 
-  public function createArrayProvider() {
-    return [
-      'complete-objects/1' => [
+    public function createArrayProvider()
+    {
+        return [
+        'complete-objects/1' => [
         [
           'dc:abstract'
-          => new DcAbstract( 'Lorem ipsum dolor sit amet.' )
+          => new DcAbstract('Lorem ipsum dolor sit amet.')
         ],
         [
           [
@@ -48,15 +50,15 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'complete-objects/2' => [
+        'complete-objects/2' => [
         [
           'dc:conformsTo'
-          => new DcConformsTo( 'https://semver.org/spec/v2.0.0.html' ),
+          => new DcConformsTo('https://semver.org/spec/v2.0.0.html'),
 
           'dc:created'
-          => new DcCreated( new \DateTime( '1970-01-01' ) ),
+          => new DcCreated(new \DateTime('1970-01-01')),
         ],
         [
           [
@@ -89,21 +91,21 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'complete-objects/3' => [
+        'complete-objects/3' => [
         [
           'dc:creator'
           => [
-            new DcCreator( 'Dilbert', false ),
-            new DcCreator( 'https://dilbert.example.org', true )
+            new DcCreator('Dilbert', false),
+            new DcCreator('https://dilbert.example.org', true)
           ],
 
           'dc:format'
-          => new DcFormat( MediaType::newFromString( 'application/xml' ) ),
+          => new DcFormat(MediaType::newFromString('application/xml')),
 
           'dc:identifier'
-          => new DcIdentifier( 'foo.bar' ),
+          => new DcIdentifier('foo.bar'),
         ],
         [
           [
@@ -167,25 +169,25 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'complete-objects/4' => [
+        'complete-objects/4' => [
         [
           'dc:language'
-          => new DcLanguage( Lang::newFromString( 'oc-FR' ) ),
+          => new DcLanguage(Lang::newFromString('oc-FR')),
 
           'dc:modified'
-          => new DcModified( new \DateTime( '1971-02-03 04:05:06+01:00' ) ),
+          => new DcModified(new \DateTime('1971-02-03 04:05:06+01:00')),
 
           'dc:publisher'
           => [
-            new DcPublisher( 'http://garfield.example.org', true ),
-            new DcPublisher( 'Garfield', false ),
-            new DcPublisher( 'http://jerry.example.org', true )
+            new DcPublisher('http://garfield.example.org', true),
+            new DcPublisher('Garfield', false),
+            new DcPublisher('http://jerry.example.org', true)
           ],
 
           'dc:source'
-          => new DcSource( 'https://factory.test.example.com' )
+          => new DcSource('https://factory.test.example.com')
         ],
         [
           [
@@ -279,25 +281,26 @@ class FactoryTest extends TestCase {
             ]
           ]
         ]
-      ],
+        ],
 
-      'complete-objects/5' => [
+        'complete-objects/5' => [
         [
           'dc:title'
-          => new DcTitle( 'Lorem ipsum' ),
+          => new DcTitle('Lorem ipsum'),
 
           'header:cache-control'
-          => new HeaderCacheControl( 'public' ),
+          => new HeaderCacheControl('public'),
 
           'header:content-disposition'
-          => new HeaderContentDisposition( 'baz.json' ),
+          => new HeaderContentDisposition('baz.json'),
 
           'header:content-length'
           => HeaderContentLength::newFromFilename(
-            __DIR__ . DIRECTORY_SEPARATOR . 'foo.txt' ),
+              __DIR__ . DIRECTORY_SEPARATOR . 'foo.txt'
+          ),
 
           'header:expires'
-          => new HeaderExpires( new Duration( 'P40D' ) ),
+          => new HeaderExpires(new Duration('P40D')),
         ],
         [
           [
@@ -375,12 +378,12 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'complete-objects/6' => [
+        'complete-objects/6' => [
         [
           'meta:charset'
-          => new MetaCharset( 'UTF-8' )
+          => new MetaCharset('UTF-8')
         ],
         [
           [
@@ -398,15 +401,15 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'inner-objects/1' => [
+        'inner-objects/1' => [
         [
           'dc:abstract' => 'Lorem ipsum dolor sit amet.',
 
           'dc:conformsTo' => 'https://semver.org/spec/v2.0.0.html',
 
-          'dc:created' => new \DateTime( '1970-01-01' )
+          'dc:created' => new \DateTime('1970-01-01')
         ],
         [
           [
@@ -454,9 +457,9 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'inner-objects/2' => [
+        'inner-objects/2' => [
         [
           'dc:creator' => [
             [ 'Dilbert', false ],
@@ -494,17 +497,17 @@ class FactoryTest extends TestCase {
             ]
           ]
         ]
-      ],
+        ],
 
-      'inner-objects/3' => [
+        'inner-objects/3' => [
         [
-          'dc:format' => MediaType::newFromString( 'application/xml' ),
+          'dc:format' => MediaType::newFromString('application/xml'),
 
           'dc:identifier' => 'foo.bar',
 
-          'dc:language' => Lang::newFromString( 'oc-FR' ),
+          'dc:language' => Lang::newFromString('oc-FR'),
 
-          'dc:modified' => new \DateTime( '1971-02-03 04:05:06+01:00' ),
+          'dc:modified' => new \DateTime('1971-02-03 04:05:06+01:00'),
 
           'dc:publisher' => [
             [ 'http://garfield.example.org', true ],
@@ -618,9 +621,9 @@ class FactoryTest extends TestCase {
             ]
           ]
         ]
-      ],
+        ],
 
-      'inner-objects/4' => [
+        'inner-objects/4' => [
         [
           'dc:source' => 'https://factory.test.example.com',
 
@@ -632,7 +635,7 @@ class FactoryTest extends TestCase {
 
           'header:content-length' => 123456,
 
-          'header:expires' => new Duration( 'P40D' ),
+          'header:expires' => new Duration('P40D'),
 
           'meta:charset' => 'UTF-8'
         ],
@@ -744,9 +747,9 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ],
+        ],
 
-      'no-objects' => [
+        'no-objects' => [
         [
           'dc:created' => '1970-01-01',
 
@@ -852,7 +855,7 @@ class FactoryTest extends TestCase {
             'httpHeaders' => null
           ]
         ]
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 }

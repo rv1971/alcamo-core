@@ -2,12 +2,14 @@
 
 namespace alcamo\rdfa;
 
-class MetaCharset extends AbstractStmt {
-  use LiteralContentTrait;
+class MetaCharset extends AbstractStmt
+{
+    use LiteralContentTrait;
 
-  const PROPERTY = 'meta:charset';
+    public const PROPERTY = 'meta:charset';
 
-  public function toHtmlAttrs() : ?array {
-    return [ 'charset' => (string)$this ];
-  }
+    public function toHtmlAttrs(): ?array
+    {
+        return [ 'charset' => (string)$this ];
+    }
 }

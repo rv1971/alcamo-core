@@ -6,7 +6,7 @@ class Img extends AbstractSpecificElement
 {
     use LinkTrait;
 
-    const TAG_NAME = "img";
+    public const TAG_NAME = "img";
 
     public static function newFromLocalUrl(
         $src,

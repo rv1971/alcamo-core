@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class A extends AbstractSpecificElement
 {
-    const TAG_NAME = "a";
+    public const TAG_NAME = "a";
 
     public static function newFromUrl(
         $href,

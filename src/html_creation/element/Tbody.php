@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Tbody extends AbstractRowgroupElement
 {
-    const TAG_NAME = "tbody";
+    public const TAG_NAME = "tbody";
 }

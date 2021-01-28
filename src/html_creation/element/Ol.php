@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Ol extends AbstractSpecificElement
 {
-    const TAG_NAME = "ol";
+    public const TAG_NAME = "ol";
 
   /** Wrap each item into an Li if it is not yet an element allowed within
    * TAG_NAME. */

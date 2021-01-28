@@ -3,43 +3,46 @@
 namespace alcamo\conf;
 
 use PHPUnit\Framework\TestCase;
-
 use alcamo\exception\FileNotFound;
 
-class LoaderTest extends TestCase {
-  public function testLoad() {
-    $configHome = dirname( __DIR__ );
+class LoaderTest extends TestCase
+{
+    public function testLoad()
+    {
+        $configHome = dirname(__DIR__);
 
-    putenv( "XDG_CONFIG_HOME=$configHome" );
+        putenv("XDG_CONFIG_HOME=$configHome");
 
-    $loader = new Loader();
+        $loader = new Loader();
 
-    $data1 = $loader->load( [ 'bar.ini', 'foo.json' ] );
+        $data1 = $loader->load([ 'bar.ini', 'foo.json' ]);
 
-    $this->assertSame(
-      [
-        'quux' => 45,
-        'corge' => 'foo bar baz',
-        'bar' => 46,
-        'baz' => 'Stet clita kasd gubergren',
-        'qux' => true
-      ],
-      $data1
-    );
-  }
+        $this->assertSame(
+            [
+            'quux' => 45,
+            'corge' => 'foo bar baz',
+            'bar' => 46,
+            'baz' => 'Stet clita kasd gubergren',
+            'qux' => true
+            ],
+            $data1
+        );
+    }
 
-  public function testFileNotFound() {
-    $configHome = dirname( __DIR__ );
+    public function testFileNotFound()
+    {
+        $configHome = dirname(__DIR__);
 
-    $this->expectException( FileNotFound::class );
-    $this->expectExceptionMessage(
-      "File \"foo.ini\" not found in \"$configHome:" . __DIR__ . '"' );
+        $this->expectException(FileNotFound::class);
+        $this->expectExceptionMessage(
+            "File \"foo.ini\" not found in \"$configHome:" . __DIR__ . '"'
+        );
 
-    putenv( "XDG_CONFIG_HOME=$configHome" );
-    putenv( "XDG_CONFIG_DIRS=" . __DIR__ );
+        putenv("XDG_CONFIG_HOME=$configHome");
+        putenv("XDG_CONFIG_DIRS=" . __DIR__);
 
-    $loader = new Loader();
+        $loader = new Loader();
 
-    $loader->load( 'foo.ini' );
-  }
+        $loader->load('foo.ini');
+    }
 }

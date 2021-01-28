@@ -4,44 +4,49 @@ namespace alcamo\html_creation\element;
 
 use Ds\{Map, Set};
 use PHPUnit\Framework\TestCase;
-
 use alcamo\xml_creation\TokenList;
 
 /* This also tests Element. */
 
-class OptgroupTest extends TestCase {
+class OptgroupTest extends TestCase
+{
   /**
    * @dataProvider newFromValueSequenceProvider
    */
-  public function testNewFromValueSequence(
-    $label, $values, $compareTo, $attrs, $expectedString
-  ) {
-    $optgroup =
-      Optgroup::newFromValueSequence( $label, $values, $compareTo, $attrs );
+    public function testNewFromValueSequence(
+        $label,
+        $values,
+        $compareTo,
+        $attrs,
+        $expectedString
+    ) {
+        $optgroup =
+        Optgroup::newFromValueSequence($label, $values, $compareTo, $attrs);
 
-    $this->assertSame( 'optgroup', $optgroup->getTagName() );
+        $this->assertSame('optgroup', $optgroup->getTagName());
 
-    $this->assertInstanceOf( TokenList::class, $optgroup['class'] );
+        $this->assertInstanceOf(TokenList::class, $optgroup['class']);
 
-    $this->assertSame( count( $values ), count( $optgroup->getContent() ) );
+        $this->assertSame(count($values), count($optgroup->getContent()));
 
-    $this->assertEquals( $expectedString, (string)$optgroup );
-  }
+        $this->assertEquals($expectedString, (string)$optgroup);
+    }
 
-  public function newFromValueSequenceProvider() {
-    return [
-      'empty' => [
+    public function newFromValueSequenceProvider()
+    {
+        return [
+        'empty' => [
         'None',
         [],
         null,
         null,
         '<optgroup label="None"></optgroup>'
-      ],
+        ],
 
-      'array' => [
+        'array' => [
         'Foo',
         [ 'a', 'b', 'c', 'd' ],
-        new Set( [ 'a', 'd' ] ),
+        new Set([ 'a', 'd' ]),
         [ 'id' => 'foo' ],
         '<optgroup label="Foo" id="foo">'
         . '<option selected="selected">a</option>'
@@ -51,9 +56,9 @@ class OptgroupTest extends TestCase {
         . '</optgroup>'
         ],
 
-      'set' => [
+        'set' => [
         'Bar',
-        new Set( [ 1, 3, 5, 7, 11, 13, 17 ] ),
+        new Set([ 1, 3, 5, 7, 11, 13, 17 ]),
         [ 3, 7, 17 ],
         null,
         '<optgroup label="Bar">'
@@ -65,38 +70,43 @@ class OptgroupTest extends TestCase {
         . '<option>13</option>'
         . '<option selected="selected">17</option>'
         . '</optgroup>'
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 
   /**
    * @dataProvider newFromMapProvider
    */
-  public function testNewFromMap(
-    $label, $values, $compareTo, $attrs, $expectedString
-  ) {
-    $optgroup = Optgroup::newFromMap( $label, $values, $compareTo, $attrs );
+    public function testNewFromMap(
+        $label,
+        $values,
+        $compareTo,
+        $attrs,
+        $expectedString
+    ) {
+        $optgroup = Optgroup::newFromMap($label, $values, $compareTo, $attrs);
 
-    $this->assertSame( 'optgroup', $optgroup->getTagName() );
+        $this->assertSame('optgroup', $optgroup->getTagName());
 
-    $this->assertInstanceOf( TokenList::class, $optgroup['class'] );
+        $this->assertInstanceOf(TokenList::class, $optgroup['class']);
 
-    $this->assertSame( count( $values ), count( $optgroup->getContent() ) );
+        $this->assertSame(count($values), count($optgroup->getContent()));
 
-    $this->assertEquals( $expectedString, (string)$optgroup );
-  }
+        $this->assertEquals($expectedString, (string)$optgroup);
+    }
 
-  public function newFromMapProvider() {
-    return [
-      'empty' => [
+    public function newFromMapProvider()
+    {
+        return [
+        'empty' => [
         'None',
         [],
         null,
         null,
         '<optgroup label="None"></optgroup>'
-      ],
+        ],
 
-      'array' => [
+        'array' => [
         'Foo',
         [
           'a' => 'Ancona',
@@ -104,7 +114,7 @@ class OptgroupTest extends TestCase {
           'c' => 'Cagliari',
           'd' => 'Domodossola'
         ],
-        new Set( [ 'a', 'd' ] ),
+        new Set([ 'a', 'd' ]),
         [ 'id' => 'foo' ],
         '<optgroup label="Foo" id="foo">'
         . '<option value="a" selected="selected">Ancona</option>'
@@ -114,9 +124,9 @@ class OptgroupTest extends TestCase {
         . '</optgroup>'
         ],
 
-      'set' => [
+        'set' => [
         'Bar',
-        new Map( [
+        new Map([
           1 => 'one',
           3 => 'three',
           5 => 'five',
@@ -124,7 +134,7 @@ class OptgroupTest extends TestCase {
           11 => 'eleven',
           13 => 'thirteen',
           17 => 'seventeen'
-        ] ),
+        ]),
         [ 3, 7, 17 ],
         null,
         '<optgroup label="Bar">'
@@ -136,7 +146,7 @@ class OptgroupTest extends TestCase {
         . '<option value="13">thirteen</option>'
         . '<option value="17" selected="selected">seventeen</option>'
         . '</optgroup>'
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 }

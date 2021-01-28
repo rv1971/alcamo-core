@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Optgroup extends AbstractOptionList
 {
-    const TAG_NAME = "optgroup";
+    public const TAG_NAME = "optgroup";
 
   /// Create from sequence of values
     public static function newFromValueSequence(

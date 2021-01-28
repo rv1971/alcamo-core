@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Textarea extends AbstractSpecificElement
 {
-    const TAG_NAME = "textarea";
+    public const TAG_NAME = "textarea";
 }

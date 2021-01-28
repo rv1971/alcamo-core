@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Table extends AbstractRowgroupElement
 {
-    const TAG_NAME = "table";
+    public const TAG_NAME = "table";
 
   /**
    * @param $thead Thead|Tr|iterable|null Thead or Tr element or iterable of

@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Bdi extends AbstractSpecificElement
 {
-    const TAG_NAME = "bdi";
+    public const TAG_NAME = "bdi";
 }

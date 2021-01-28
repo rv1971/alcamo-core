@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Param extends AbstractSpecificElement
 {
-    const TAG_NAME = "param";
+    public const TAG_NAME = "param";
 }

@@ -3,7 +3,6 @@
 namespace alcamo\rdfa;
 
 use PHPUnit\Framework\TestCase;
-
 use alcamo\exception\SyntaxError;
 use alcamo\iana\MediaType;
 use alcamo\ietf\Lang;
@@ -11,37 +10,41 @@ use alcamo\time\Duration;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'FactoryTestAux.php';
 
-class RdfaDataTest extends TestCase {
+class RdfaDataTest extends TestCase
+{
   /**
    * @dataProvider createProvider
    */
-  public function testCreateFromFactory( $inputData, $expectedData ) {
-    $factory = new Factory();
+    public function testCreateFromFactory($inputData, $expectedData)
+    {
+        $factory = new Factory();
 
-    $this->testData_( $factory->createRdfaData( $inputData ), $expectedData );
-  }
+        $this->testData($factory->createRdfaData($inputData), $expectedData);
+    }
 
   /**
    * @dataProvider createProvider
    */
-  public function testCreateFromRdfaData( $inputData, $expectedData ) {
-    $this->testData_( RdfaData::newFromIterable( $inputData ), $expectedData );
-  }
+    public function testCreateFromRdfaData($inputData, $expectedData)
+    {
+        $this->testData(RdfaData::newFromIterable($inputData), $expectedData);
+    }
 
-  private function testData_( $data, $expectedData ) {
-    $aux = new FactoryTestAux();
+    private function testData($data, $expectedData)
+    {
+        $aux = new FactoryTestAux();
 
-    $aux->testData( $data, $expectedData );
+        $aux->testData($data, $expectedData);
 
-    $this->assertSame( $expectedData['html'], (string)$data->toHtmlNodes() );
+        $this->assertSame($expectedData['html'], (string)$data->toHtmlNodes());
 
-    $this->assertSame( $expectedData['httpHeaders'], $data->toHttpHeaders() );
+        $this->assertSame($expectedData['httpHeaders'], $data->toHttpHeaders());
+    }
 
-  }
-
-  public function createProvider() {
-    return [
-      'simple' => [
+    public function createProvider()
+    {
+        return [
+        'simple' => [
         [
           'dc:title' => 'Lorem ipsum',
           'dc:format' => 'text/plain; charset=UTF-8',
@@ -117,29 +120,32 @@ class RdfaDataTest extends TestCase {
             'Link' => '<https://factory.test.example.com>; rel="canonical"'
           ]
         ]
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 
   /**
    * @dataProvider addProvider
    */
-  public function testAdd( $data1, $data2, $expectedData ) {
-    $data1 = RdfaData::newFromIterable( $data1 );
-    $data2 = RdfaData::newFromIterable( $data2 );
+    public function testAdd($data1, $data2, $expectedData)
+    {
+        $data1 = RdfaData::newFromIterable($data1);
+        $data2 = RdfaData::newFromIterable($data2);
 
-    $data1->add( $data2 );
+        $data1->add($data2);
 
-    $expectedData = RdfaData::newFromIterable( $expectedData );
+        $expectedData = RdfaData::newFromIterable($expectedData);
 
-    $this->assertSame(
-      (string)$expectedData->toHtmlNodes(), (string)$data1->toHtmlNodes()
-    );
-  }
+        $this->assertSame(
+            (string)$expectedData->toHtmlNodes(),
+            (string)$data1->toHtmlNodes()
+        );
+    }
 
-  public function addProvider() {
-    return [
-      'simple' => [
+    public function addProvider()
+    {
+        return [
+        'simple' => [
         [
           'dc:title' => 'Lorem ipsum',
           'dc:creator' => [ [ 'Dilbert', false ] ],
@@ -166,29 +172,32 @@ class RdfaDataTest extends TestCase {
           ],
           'dc:identifier' => 'foo.bar.baz'
         ]
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 
   /**
    * @dataProvider replaceProvider
    */
-  public function testReplace( $data1, $data2, $expectedData ) {
-    $data1 = RdfaData::newFromIterable( $data1 );
-    $data2 = RdfaData::newFromIterable( $data2 );
+    public function testReplace($data1, $data2, $expectedData)
+    {
+        $data1 = RdfaData::newFromIterable($data1);
+        $data2 = RdfaData::newFromIterable($data2);
 
-    $data1->replace( $data2 );
+        $data1->replace($data2);
 
-    $expectedData = RdfaData::newFromIterable( $expectedData );
+        $expectedData = RdfaData::newFromIterable($expectedData);
 
-    $this->assertSame(
-      (string)$expectedData->toHtmlNodes(), (string)$data1->toHtmlNodes()
-    );
-  }
+        $this->assertSame(
+            (string)$expectedData->toHtmlNodes(),
+            (string)$data1->toHtmlNodes()
+        );
+    }
 
-  public function replaceProvider() {
-    return [
-      'simple' => [
+    public function replaceProvider()
+    {
+        return [
+        'simple' => [
         [
           'dc:title' => 'Lorem ipsum',
           'dc:creator' => [ [ 'Dilbert', false ] ],
@@ -212,19 +221,20 @@ class RdfaDataTest extends TestCase {
           ],
           'dc:title' => 'Lorem ipsum',
         ]
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 
-  public function testAlterSession() {
-    $data = '{ "header:cache-control": "public", "header-expires": "PT42M" }';
+    public function testAlterSession()
+    {
+        $data = '{ "header:cache-control": "public", "header-expires": "PT42M" }';
 
-    exec(
-      'php '
-      . __DIR__ . DIRECTORY_SEPARATOR . "AlterSessionAux.php '$data'",
-      $output
-    );
+        exec(
+            'php '
+            . __DIR__ . DIRECTORY_SEPARATOR . "AlterSessionAux.php '$data'",
+            $output
+        );
 
-    $this->assertSame( $output, [ 'public', '42' ] );
-  }
+        $this->assertSame($output, [ 'public', '42' ]);
+    }
 }

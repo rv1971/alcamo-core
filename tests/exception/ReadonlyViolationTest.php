@@ -4,37 +4,39 @@ namespace alcamo\exception;
 
 use PHPUnit\Framework\TestCase;
 
-class ReadonlyViolationTest extends TestCase {
+class ReadonlyViolationTest extends TestCase
+{
   /**
    * @dataProvider constructProvider
    */
-  public function testConstruct(
-    $object,
-    $method,
-    $message,
-    $code,
-    $expectedObject,
-    $expectedMethod,
-    $expectedMessage
-  ) {
-    $e = new ReadonlyViolation( $object, $method, $message, $code );
+    public function testConstruct(
+        $object,
+        $method,
+        $message,
+        $code,
+        $expectedObject,
+        $expectedMethod,
+        $expectedMessage
+    ) {
+        $e = new ReadonlyViolation($object, $method, $message, $code);
 
-    $this->assertSame( $expectedObject ?? $this, $e->object );
+        $this->assertSame($expectedObject ?? $this, $e->object);
 
-    $this->assertSame( $expectedMethod ?? __FUNCTION__, $e->method );
+        $this->assertSame($expectedMethod ?? __FUNCTION__, $e->method);
 
-    $this->assertSame( $expectedMessage, $e->getMessage() );
+        $this->assertSame($expectedMessage, $e->getMessage());
 
-    $this->assertEquals( $code, $e->getCode() );
-  }
+        $this->assertEquals($code, $e->getCode());
+    }
 
-  public function constructProvider() : array {
-    $object = new \DOMDocument();
+    public function constructProvider(): array
+    {
+        $object = new \DOMDocument();
 
-    $message = 'Lorem ipsum dolor sit amet';
+        $message = 'Lorem ipsum dolor sit amet';
 
-    return [
-      'typical-use' => [
+        return [
+        'typical-use' => [
         null,
         null,
         null,
@@ -42,9 +44,9 @@ class ReadonlyViolationTest extends TestCase {
         null,
         null,
         "Attempt to modify readonly alcamo\\exception\\ReadonlyViolationTest object through testConstruct()"
-      ],
+        ],
 
-      'separate-object' => [
+        'separate-object' => [
         $object,
         __FUNCTION__,
         null,
@@ -54,7 +56,7 @@ class ReadonlyViolationTest extends TestCase {
         "Attempt to modify readonly DOMDocument object through constructProvider()"
         ],
 
-      'custom-message' => [
+        'custom-message' => [
         null,
         'fooBar',
         $message,
@@ -64,15 +66,16 @@ class ReadonlyViolationTest extends TestCase {
         $message
         ],
 
-      'extra-message' => [
+        'extra-message' => [
         null,
         null,
         '; consetetur sadipscing elitr',
         null,
         null,
         null,
-        "Attempt to modify readonly alcamo\\exception\\ReadonlyViolationTest object through testConstruct(); consetetur sadipscing elitr"
+        "Attempt to modify readonly alcamo\\exception\\ReadonlyViolationTest "
+        . "object through testConstruct(); consetetur sadipscing elitr"
         ]
-    ];
-  }
+        ];
+    }
 }

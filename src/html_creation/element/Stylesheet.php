@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Stylesheet extends Link
 {
-    const REL = 'stylesheet';
+    public const REL = 'stylesheet';
 
     public static function newFromLocalUrl(
         $href,

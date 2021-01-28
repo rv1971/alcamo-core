@@ -6,7 +6,7 @@ class Script extends AbstractScriptSupportingElement
 {
     use LinkTrait;
 
-    const TAG_NAME = "script";
+    public const TAG_NAME = "script";
 
     public static function newFromLocalUrl(
         $src,
@@ -19,7 +19,7 @@ class Script extends AbstractScriptSupportingElement
         );
     }
 
-    function __construct($content = null, ?iterable $attrs = null)
+    public function __construct($content = null, ?iterable $attrs = null)
     {
         parent::__construct($content ?? '', $attrs);
     }

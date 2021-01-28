@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Caption extends AbstractSpecificElement
 {
-    const TAG_NAME = "caption";
+    public const TAG_NAME = "caption";
 }

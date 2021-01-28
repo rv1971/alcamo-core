@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Label extends AbstractSpecificElement
 {
-    const TAG_NAME = "label";
+    public const TAG_NAME = "label";
 }

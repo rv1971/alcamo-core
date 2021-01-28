@@ -6,9 +6,9 @@ use alcamo\exception\InvalidEnumerator;
 
 class Input extends AbstractSpecificElement
 {
-    const TAG_NAME = "input";
+    public const TAG_NAME = "input";
 
-    const TYPES = [
+    public const TYPES = [
     "button",
     "checkbox",
     "color",

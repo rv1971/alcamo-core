@@ -4,7 +4,7 @@ namespace alcamo\html_creation\element;
 
 class Ul extends AbstractSpecificElement
 {
-    const TAG_NAME = "ul";
+    public const TAG_NAME = "ul";
 
   /** Wrap each item into an Li if it is not yet an element allowed within
    * TAG_NAME. */

@@ -4,5 +4,5 @@ namespace alcamo\html_creation\element;
 
 class Map extends AbstractSpecificElement
 {
-    const TAG_NAME = "map";
+    public const TAG_NAME = "map";
 }
