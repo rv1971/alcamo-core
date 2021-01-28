@@ -8,14 +8,16 @@ namespace alcamo\conf;
 
 use alcamo\exception\FileNotFound;
 
-class JsonFileParser implements FileParserInterface {
-  public function parse( string $filename ) : array {
-    try {
-      $contents = file_get_contents( $filename );
-    } catch ( \Throwable $e ) {
-      throw new FileNotFound( $filename );
-    }
+class JsonFileParser implements FileParserInterface
+{
+    public function parse(string $filename): array
+    {
+        try {
+            $contents = file_get_contents($filename);
+        } catch (\Throwable $e) {
+            throw new FileNotFound($filename);
+        }
 
-    return json_decode( $contents, true );
-  }
+        return json_decode($contents, true);
+    }
 }

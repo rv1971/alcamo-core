@@ -3,12 +3,15 @@
 namespace alcamo\collection;
 
 // Provide writing ArrayAccess to a class property $data_
-trait WriteArrayAccessTrait {
-  public function offsetSet( $offset, $value ) {
-    $this->data_[$offset] = $value;
-  }
+trait WriteArrayAccessTrait
+{
+    public function offsetSet($offset, $value)
+    {
+        $this->data_[$offset] = $value;
+    }
 
-  public function offsetUnset( $offset ) {
-    unset( $this->data_[$offset] );
-  }
+    public function offsetUnset($offset)
+    {
+        unset($this->data_[$offset]);
+    }
 }
