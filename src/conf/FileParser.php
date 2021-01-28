@@ -2,11 +2,11 @@
 
 namespace alcamo\conf;
 
+use alcamo\exception\InvalidEnumerator;
+
 /**
  * @brief Parse an INI or JSON configuration file into an array.
  */
-
-use alcamo\exception\InvalidEnumerator;
 
 class FileParser implements FileParserInterface
 {

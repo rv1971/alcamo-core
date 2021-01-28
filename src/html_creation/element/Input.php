@@ -3,10 +3,12 @@
 namespace alcamo\html_creation\element;
 
 use alcamo\exception\InvalidEnumerator;
-class Input extends AbstractSpecificElement {
-  const TAG_NAME = "input";
 
-  const TYPES = [
+class Input extends AbstractSpecificElement
+{
+    const TAG_NAME = "input";
+
+    const TYPES = [
     "button",
     "checkbox",
     "color",
@@ -29,14 +31,18 @@ class Input extends AbstractSpecificElement {
     "time",
     "url",
     "week"
-  ];
+    ];
 
-  public function __construct( string $type, array $attrs ) {
-    if ( !in_array( $type, static::TYPES ) ) {
-      throw new InvalidEnumerator(
-        $type, static::TYPES, '; not a valid <input> type' );
+    public function __construct(string $type, array $attrs)
+    {
+        if (!in_array($type, static::TYPES)) {
+            throw new InvalidEnumerator(
+                $type,
+                static::TYPES,
+                '; not a valid <input> type'
+            );
+        }
+
+        parent::__construct(null, compact('type') + $attrs);
     }
-
-    parent::__construct( null, compact( 'type' ) + $attrs );
-  }
 }

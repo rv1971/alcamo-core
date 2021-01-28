@@ -2,11 +2,11 @@
 
 namespace alcamo\conf;
 
+use alcamo\exception\FileNotFound;
+
 /**
  * @brief Load JSON or INI files from $XDG_DATA_DIRS/subdir.
  */
-
-use alcamo\exception\FileNotFound;
 
 class Loader implements LoaderInterface
 {

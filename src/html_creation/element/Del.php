@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-class Del extends AbstractSpecificElement {
-  const TAG_NAME = "del";
+class Del extends AbstractSpecificElement
+{
+    const TAG_NAME = "del";
 }

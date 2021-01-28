@@ -9,7 +9,7 @@ class InvalidEnumerator extends ValueException
 
     /** If $message starts with a ';', it is appended to the generated message,
      *  otherwise it replaces the generated one. */
-    function __construct(
+    public function __construct(
         $value,
         array $validValues,
         $message = null,

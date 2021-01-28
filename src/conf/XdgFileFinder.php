@@ -2,8 +2,7 @@
 
 namespace alcamo\conf;
 
-use \XdgBaseDir\Xdg;
-
+use XdgBaseDir\Xdg;
 use alcamo\exception\InvalidEnumerator;
 
 /**
@@ -14,7 +13,7 @@ use alcamo\exception\InvalidEnumerator;
 
 class XdgFileFinder extends \XdgBaseDir\Xdg implements FileFinderInterface
 {
-    const SUBDIR = 'alcamo';
+    public const SUBDIR = 'alcamo';
 
     private $subdir_;
     private $dirs_;

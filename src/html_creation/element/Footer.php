@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-class Footer extends AbstractSpecificElement {
-  const TAG_NAME = "footer";
+class Footer extends AbstractSpecificElement
+{
+    const TAG_NAME = "footer";
 }

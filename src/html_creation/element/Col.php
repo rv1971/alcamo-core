@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-class Col extends AbstractSpecificElement {
-  const TAG_NAME = "col";
+class Col extends AbstractSpecificElement
+{
+    const TAG_NAME = "col";
 }

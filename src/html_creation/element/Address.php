@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-class Address extends AbstractSpecificElement {
-  const TAG_NAME = "address";
+class Address extends AbstractSpecificElement
+{
+    const TAG_NAME = "address";
 }

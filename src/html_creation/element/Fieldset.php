@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-class Fieldset extends AbstractSpecificElement {
-  const TAG_NAME = "fieldset";
+class Fieldset extends AbstractSpecificElement
+{
+    const TAG_NAME = "fieldset";
 }

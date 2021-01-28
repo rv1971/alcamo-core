@@ -2,6 +2,7 @@
 
 namespace alcamo\html_creation\element;
 
-class Datalist extends AbstractSpecificElement {
-  const TAG_NAME = "datalist";
+class Datalist extends AbstractSpecificElement
+{
+    const TAG_NAME = "datalist";
 }

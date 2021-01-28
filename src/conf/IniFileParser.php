@@ -2,11 +2,11 @@
 
 namespace alcamo\conf;
 
+use alcamo\exception\FileNotFound;
+
 /**
  * @brief Parse an INI configuration file into an array.
  */
-
-use alcamo\exception\FileNotFound;
 
 class IniFileParser implements FileParserInterface
 {
