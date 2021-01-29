@@ -6,9 +6,4 @@ namespace alcamo\collection;
 class ReadonlyCollection implements \Countable, \Iterator, \ArrayAccess
 {
     use ReadonlyCollectionTrait;
-
-    public function __construct(?array $data = null)
-    {
-        $this->data_ = (array)$data;
-    }
 }

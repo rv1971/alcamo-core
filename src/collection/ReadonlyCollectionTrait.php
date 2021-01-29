@@ -12,4 +12,9 @@ trait ReadonlyCollectionTrait
     use ArrayContainsTrait;
 
     protected $data_ = [];
+
+    public function __construct(?array $data = null)
+    {
+        $this->data_ = (array)$data;
+    }
 }
