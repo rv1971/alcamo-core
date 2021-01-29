@@ -10,11 +10,14 @@ use alcamo\exception\SyntaxError;
  *
  * Provides array access to attributes.
  */
-class Element extends AbstractNode implements \Countable, \Iterator, \ArrayAccess
+class Element extends AbstractNode implements
+    \Countable,
+    \Iterator,
+    \ArrayAccess
 {
     use ReadonlyCollectionTrait;
 
-  /// Attribute class used for serialization of attributes
+    /// Attribute class used for serialization of attributes
     public const ATTR_CLASS = Attribute::class;
 
     protected $tagName_; ///< Tag name
@@ -25,7 +28,7 @@ class Element extends AbstractNode implements \Countable, \Iterator, \ArrayAcces
         $content = null
     ) {
         if (!preg_match(self::NAME_REGEXP, $tagName)) {
-          /** @throw SyntaxError if $tagName is not a valid name. */
+            /** @throw SyntaxError if $tagName is not a valid name. */
             throw new SyntaxError($tagName, null, '; not a valid XML tag name');
         }
 
