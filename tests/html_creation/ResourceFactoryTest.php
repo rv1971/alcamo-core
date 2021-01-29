@@ -65,7 +65,7 @@ class ResourceFactoryTest extends TestCase
 
         return [
         'simple' => [
-        new DirMapUrlFactory(__DIR__, '/test/'),
+        new DirMapUrlFactory(__DIR__, '/test/', true, true),
         [
           $cssPath,
           [ $jsonPath, 'manifest' ],
@@ -87,7 +87,7 @@ class ResourceFactoryTest extends TestCase
         . "<link rel=\"icon\" href=\"/test/element/alcamo.svg?m=$mSvg\" type=\"image/svg+xml\" sizes=\"any\"/>"
         ],
         'gz-with-attrs' => [
-        new DirMapUrlFactory(__DIR__, '/test/', true, true),
+        new DirMapUrlFactory(__DIR__, '/test/'),
         [
           [ $jsPath, [ 'id' => 'JS' ] ],
           $cssPath,
