@@ -6,28 +6,28 @@ use alcamo\exception\FileNotFound;
 
 abstract class AbstractUrlFactory implements UrlFactoryInterface
 {
-  /// Whether to append the file modification timestamp as a GET parameter
-    private $appendMtime_;
+    /// Whether to prefer a gzipped version, if available
+    private $disablePreferGz_;
 
-  /// Whether to prefer a gzipped version, if available
-    private $preferGz_;
+    /// Whether to append the file modification timestamp as a GET parameter
+    private $disableAppendMtime_;
 
     public function __construct(
-        ?bool $appendMtime = null,
-        ?bool $preferGz = null
+        ?bool $disablePreferGz = null,
+        ?bool $disableAppendMtime = null
     ) {
-        $this->appendMtime_ = (bool)$appendMtime;
-        $this->preferGz_ = (bool)$preferGz;
+        $this->disablePreferGz_ = (bool)$disablePreferGz;
+        $this->disableAppendMtime_ = (bool)$disableAppendMtime;
     }
 
-    public function getAppendMtime(): bool
+    public function getDisablePreferGz(): bool
     {
-        return $this->appendMtime_;
+        return $this->disablePreferGz_;
     }
 
-    public function getPreferGz(): bool
+    public function getDisableAppendMtime(): bool
     {
-        return $this->preferGz_;
+        return $this->disableAppendMtime_;
     }
 
     public function realpath(string $path): string
@@ -44,7 +44,7 @@ abstract class AbstractUrlFactory implements UrlFactoryInterface
         $gzPath =
         substr($realpath, -4) == '.svg' ? "${realpath}z" : "$realpath.gz";
 
-        if ($this->preferGz_ && is_readable($gzPath)) {
+        if (!$this->disablePreferGz_ && is_readable($gzPath)) {
             return $gzPath;
         }
 
@@ -53,9 +53,9 @@ abstract class AbstractUrlFactory implements UrlFactoryInterface
 
     public function createQuery(string $path): ?string
     {
-        return $this->appendMtime_
-        ? '?m=' . gmdate('YmdHis', filemtime($path))
-        : null;
+        return $this->disableAppendMtime_
+            ? null
+            : '?m=' . gmdate('YmdHis', filemtime($path));
     }
 
     abstract public function createFromPath(string $path): string;

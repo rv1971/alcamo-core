@@ -6,17 +6,27 @@ use alcamo\exception\DirectoryNotFound;
 
 class DirMapUrlFactory extends AbstractUrlFactory
 {
-  /// Real path of htdocs directory, without trailing delimiter.
+    /// Real path of htdocs directory, without trailing delimiter.
     private $htdocsDir_;
 
-  /// URL pointing to htdocs directory, without trailing delimiter.
+    /// URL pointing to htdocs directory, without trailing delimiter.
     private $htdocsUrl_;
+
+    public function newFromConf(array $conf): self
+    {
+        return new self(
+            $conf['htdocsDir'],
+            $conf['htdocsUrl'],
+            $conf['disablePreferGz'] ?? null,
+            $conf['disableAppendMtime'] ?? null
+        );
+    }
 
     public function __construct(
         string $htdocsDir,
         string $htdocsUrl,
-        ?bool $appendMtime = null,
-        ?bool $preferGz = null
+        ?bool $disablePreferGz = null,
+        ?bool $disableAppendMtime = null
     ) {
         $this->htdocsDir_ = realpath($htdocsDir);
 
@@ -28,7 +38,7 @@ class DirMapUrlFactory extends AbstractUrlFactory
 
         $this->htdocsUrl_ = rtrim($htdocsUrl, '/');
 
-        parent::__construct($appendMtime, $preferGz);
+        parent::__construct($disablePreferGz, $disableAppendMtime);
     }
 
     public function getHtdocsDir(): string
