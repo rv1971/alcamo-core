@@ -66,9 +66,9 @@ class Element extends AbstractNode implements
         return $this->data_;
     }
 
-    public function __toString()
+    public function createAttrString(): string
     {
-        $result = "<{$this->tagName_}";
+        $result = '';
 
         $attrClass = static::ATTR_CLASS;
 
@@ -80,10 +80,28 @@ class Element extends AbstractNode implements
             }
         }
 
+        return $result;
+    }
+
+    public function createOpeningTag(): string
+    {
+        return "<{$this->tagName_}{$this->createAttrString()}>";
+    }
+
+    public function createClosingTag(): string
+    {
+        return "</{$this->tagName_}>";
+    }
+
+
+    public function __toString()
+    {
+        $result = "<{$this->tagName_}{$this->createAttrString()}";
+
         if (isset($this->content_)) {
             $result .= '>'
-            . Nodes::xmlString($this->content_)
-            . "</{$this->tagName_}>";
+                . Nodes::xmlString($this->content_)
+                . "</{$this->tagName_}>";
         } else {
             $result .= '/>';
         }

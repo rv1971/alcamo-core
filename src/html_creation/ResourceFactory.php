@@ -8,16 +8,11 @@ use alcamo\xml_creation\Nodes;
 
 class ResourceFactory
 {
-    private $urlFactory_; ///< UrlFactoryInterface
+    use HasUrlFactoryTrait;
 
     public function __construct(UrlFactoryInterface $urlFactory)
     {
         $this->urlFactory_ = $urlFactory;
-    }
-
-    public function getUrlFactory(): UrlFactoryInterface
-    {
-        return $this->urlFactory_;
     }
 
     public function createElementFromPath(

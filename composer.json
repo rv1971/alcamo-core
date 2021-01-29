@@ -22,7 +22,11 @@
         "test": [
             "phpunit tests",
             "phpcs --standard=PSR12 -p -s src",
-            "phpcs --standard=PSR12 -p -s --exclude=PSR1.Files.SideEffects tests"
+            "phpcs --standard=PSR12 -p -s --exclude=PSR1.Classes.ClassDeclaration,PSR1.Files.SideEffects tests"
+        ],
+        "fix": [
+            "phpcbf --standard=PSR12 -p -s src",
+            "phpcbf --standard=PSR12 -p -s --exclude=PSR1.Classes.ClassDeclaration,PSR1.Files.SideEffects tests"
         ]
     }
 }
