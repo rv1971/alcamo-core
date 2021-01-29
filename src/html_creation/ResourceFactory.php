@@ -70,9 +70,10 @@ class ResourceFactory
 
         foreach ($items as $item) {
             switch (true) {
-                /** - If an item is an array, then take the first element as the
-                 *    path. If the second element is an array, take it as an array of
-                 *    attributes, otherwise as the value for the `rel` attribute. */
+                /** - If an item is an array, then take the first element as
+                 *    the path. If the second element is an array, take it as
+                 *    an array of attributes, otherwise as the value for the
+                 *    `rel` attribute. */
                 case is_array($item):
                     $nodes[] = $this->createElementFromPath(
                         $item[0],
