@@ -3,7 +3,7 @@
 namespace alcamo\exception;
 
 /// Value-related exception
-class ValueException extends \DomainException
+class ValueException extends \UnexpectedValueException
 {
     public $value;
 
