@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?xml-stylesheet href="foo.xsl" type="text/xsl"?>
+
+<foo
+    xmlns="http://foo.example.org"
+    xmlns:dc="http://purl.org/dc/terms/"
+    xml:lang="oc"
+    qux="quux">
+  <dc:title>Lorem ipsum</dc:title>
+  <bar xml:id="x">
+    <baz xml:id="a">At eos</baz>
+    <baz xml:id="b">vero</baz>
+    <baz xml:id="c"/>
+    <baz xml:id="d"/>
+  </bar>
+</foo>

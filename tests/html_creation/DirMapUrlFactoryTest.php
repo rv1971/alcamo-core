@@ -105,8 +105,8 @@ class DirMapUrlFactoryTest extends TestCase
         $factory = new DirMapUrlFactory(__DIR__, '/');
 
         $this->expectException(FileNotFound::class);
-        $this->expectExceptionMessage('File "foo.xml" not found');
+        $this->expectExceptionMessage('File "foofoo.xml" not found');
 
-        $factory->createFromPath('foo.xml');
+        $factory->createFromPath('foofoo.xml');
     }
 }
