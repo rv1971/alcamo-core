@@ -40,7 +40,7 @@ class UnknownNamespacePrefixTest extends TestCase
                 null,
                 null,
                 null,
-                'Invalid prefix "foo"'
+                'Unknown namespace prefix "foo"'
             ],
 
             'custom-message' => [
@@ -56,7 +56,7 @@ class UnknownNamespacePrefixTest extends TestCase
                 [ 'foo', 'bar' ],
                 '; at vero eos et accusam',
                 44,
-                'Invalid prefix "baz", expected one of: "foo", "bar"; at vero eos et accusam'
+                'Unknown namespace prefix "baz", expected one of: "foo", "bar"; at vero eos et accusam'
             ]
         ];
     }

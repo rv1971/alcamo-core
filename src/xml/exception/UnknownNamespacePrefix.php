@@ -23,7 +23,7 @@ class UnknownNamespacePrefix extends \UnexpectedValueException
         $this->validPrefixes = $validPrefixes;
 
         if (!$message || $message[0] == ';') {
-            $message = "Invalid prefix \"$prefix\""
+            $message = "Unknown namespace prefix \"$prefix\""
                 . (isset($validPrefixes)
                    ? (", expected one of: \""
                       . implode("\", \"", $validPrefixes) . '"')
