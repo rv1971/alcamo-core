@@ -101,20 +101,29 @@ class DocumentTest extends TestCase
 
     public function testScope()
     {
+        $elem1 = $this->scopeAux1();
+
+        $this->assertInstanceOf(Element::class, $elem1);
+
         /** If the Document object goes out of scope, it is destroyed, and the
          *  `$ownerDocument` property returns the underlying base object
          *  only. */
-        $this->assertInstanceOf(
-            \DOMDocument::class,
-            $this->scopeAux1()->ownerDocument
-        );
+        $this->assertInstanceOf(\DOMDocument::class, $elem1->ownerDocument);
 
-        /** If the Document object is still stored somewhere, the
+        $this->assertFalse($elem1->ownerDocument instanceof Document);
+
+        $elem2 = $this->scopeAux2();
+
+        $this->assertInstanceOf(Element::class, $elem2);
+
+        /** If the Document object is still referenced somewhere, the
          *  `$ownerDocument` property returns the complete derived object. */
-        $this->assertInstanceOf(
-            Document::class,
-            $this->scopeAux2()->ownerDocument
-        );
+        $this->assertInstanceOf(Document::class, $elem2->ownerDocument);
+
+        $elem2->ownerDocument->unconserve();
+
+        $this->assertInstanceOf(\DOMDocument::class, $elem2->ownerDocument);
+        $this->assertFalse($elem2->ownerDocument instanceof Document);
     }
 
     public function scopeAux1()
@@ -126,10 +135,10 @@ class DocumentTest extends TestCase
 
     public function scopeAux2()
     {
-        global $scopeAux2Doc;
-
         $scopeAux2Doc =
             Document::newFromUrl(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xml');
+
+        $scopeAux2Doc->conserve();
 
         return $scopeAux2Doc->documentElement;
     }

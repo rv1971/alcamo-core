@@ -72,6 +72,8 @@ class Document extends \DOMDocument implements \ArrayAccess
         return $doc;
     }
 
+    private static $docRegistry_ = [];
+
     private $xPath_;          ///< XPath object.
     private $xsltProcessor_;  ///< XSLTProcessor object or FALSE.
 
@@ -100,6 +102,20 @@ class Document extends \DOMDocument implements \ArrayAccess
         }
 
         return $this->afterLoad();
+    }
+
+    /** Ensure there is always a reference to the complete object so that it
+     *  remains available through the `$ownerDocument` property of its
+     *  nodes. */
+    public function conserve()
+    {
+        self::$docRegistry_[spl_object_hash($this)] = $this;
+    }
+
+    /** Allow the object to be destroyed. */
+    public function unconserve()
+    {
+        unset(self::$docRegistry_[spl_object_hash($this)]);
     }
 
     public function offsetExists($id)
