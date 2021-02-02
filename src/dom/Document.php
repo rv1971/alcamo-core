@@ -107,9 +107,9 @@ class Document extends \DOMDocument implements \ArrayAccess
     /** Ensure there is always a reference to the complete object so that it
      *  remains available through the `$ownerDocument` property of its
      *  nodes. */
-    public function conserve()
+    public function conserve(): self
     {
-        self::$docRegistry_[spl_object_hash($this)] = $this;
+        return (self::$docRegistry_[spl_object_hash($this)] = $this);
     }
 
     /** Allow the object to be destroyed. */

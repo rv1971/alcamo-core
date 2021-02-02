@@ -101,7 +101,9 @@ class DocumentTest extends TestCase
 
     public function testScope()
     {
-        $elem1 = $this->scopeAux1();
+        $elem1 = (Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+        ))->documentElement;
 
         $this->assertInstanceOf(Element::class, $elem1);
 
@@ -112,7 +114,9 @@ class DocumentTest extends TestCase
 
         $this->assertFalse($elem1->ownerDocument instanceof Document);
 
-        $elem2 = $this->scopeAux2();
+        $elem2 = (Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+        ))->conserve()->documentElement;
 
         $this->assertInstanceOf(Element::class, $elem2);
 
@@ -124,22 +128,5 @@ class DocumentTest extends TestCase
 
         $this->assertInstanceOf(\DOMDocument::class, $elem2->ownerDocument);
         $this->assertFalse($elem2->ownerDocument instanceof Document);
-    }
-
-    public function scopeAux1()
-    {
-        $doc = Document::newFromUrl(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xml');
-
-        return $doc->documentElement;
-    }
-
-    public function scopeAux2()
-    {
-        $scopeAux2Doc =
-            Document::newFromUrl(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xml');
-
-        $scopeAux2Doc->conserve();
-
-        return $scopeAux2Doc->documentElement;
     }
 }
