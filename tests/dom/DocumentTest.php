@@ -2,8 +2,9 @@
 
 namespace alcamo\dom;
 
+use GuzzleHttp\Psr7\{Uri, UriResolver};
 use PHPUnit\Framework\TestCase;
-use alcamo\exception\Uninitialized;
+use alcamo\exception\{FileLoadFailed, Uninitialized};
 
 class DocumentTest extends TestCase
 {
@@ -43,7 +44,7 @@ class DocumentTest extends TestCase
 
         $this->assertSame(
             'Lorem ipsum',
-            (string)$doc->query('//dc:title/text()')[0]
+            (string)$doc->query('//rdfs:comment/text()')[0]
         );
 
         $this->assertSame(4, (int)$doc->evaluate('count(//foo:baz)'));
@@ -128,5 +129,74 @@ class DocumentTest extends TestCase
 
         $this->assertInstanceOf(\DOMDocument::class, $elem2->ownerDocument);
         $this->assertFalse($elem2->ownerDocument instanceof Document);
+    }
+
+    public function testNoSchemaLocation()
+    {
+        $baz = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'baz.xml'
+        )->validate();
+
+        $this->assertSame([], $baz->getSchemaLocations());
+    }
+
+    public function testNoNsValidate()
+    {
+        $bar = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml'
+        )->validate();
+
+        $this->assertEquals(
+            UriResolver::resolve(
+                new Uri($bar->documentURI),
+                new Uri('bar.xsd')
+            ),
+            $bar->getSchemaLocations()[0]
+        );
+
+        $this->expectException(FileLoadFailed::class);
+
+        $bar->validateWithSchema(__DIR__ . DIRECTORY_SEPARATOR . 'baz.xsd');
+    }
+
+    public function testValidate()
+    {
+        $bar = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+        )->validate();
+
+        $this->assertEquals(
+            [
+                'http://foo.example.org',
+                'http://www.w3.org/2000/01/rdf-schema#'
+            ],
+            array_keys($bar->getSchemaLocations())
+        );
+    }
+
+    public function testNoNsValidateException()
+    {
+        ValidatedDocument::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml'
+        );
+
+        $this->expectException(FileLoadFailed::class);
+
+        ValidatedDocument::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'bar-invalid.xml'
+        );
+    }
+
+    public function testValidateException()
+    {
+        ValidatedDocument::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+        );
+
+        $this->expectException(FileLoadFailed::class);
+
+        ValidatedDocument::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo-invalid.xml'
+        );
     }
 }

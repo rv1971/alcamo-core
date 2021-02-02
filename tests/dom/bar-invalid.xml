@@ -3,6 +3,5 @@
 <bar
     xmlns:dc="http://purl.org/dc/terms/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="bar.xsd"
-    dc:identifier="bar-bar"
+    xsi:noNamespaceSchemaLocation="baz.xsd"
     />

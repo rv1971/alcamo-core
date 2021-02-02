@@ -2,6 +2,7 @@
 
 namespace alcamo\dom;
 
+use GuzzleHttp\Psr7\{Uri, UriResolver};
 use alcamo\collection\PreventWriteArrayAccessTrait;
 use alcamo\exception\{FileLoadFailed, Uninitialized};
 
@@ -76,6 +77,7 @@ class Document extends \DOMDocument implements \ArrayAccess
 
     private $xPath_;          ///< XPath object.
     private $xsltProcessor_;  ///< XSLTProcessor object or FALSE.
+    private $schemaLocations_; ///< Array of schema locations or FALSE.
 
     public function __construct($version = null, $encoding = null)
     {
@@ -184,24 +186,137 @@ class Document extends \DOMDocument implements \ArrayAccess
 
             $this->xsltProcessor_ = new \XSLTProcessor();
 
-            $xslFilename =
-                substr(
-                    $this->documentURI,
-                    0,
-                    strrpos($this->documentURI, '/') + 1
-                )
-                . $pseudoAttrs['href'];
+            $xslUrl = UriResolver::resolve(
+                new Uri($this->documentURI),
+                new Uri($pseudoAttrs['href'])
+            );
 
             if (
                 !$this->xsltProcessor_->importStylesheet(
-                    self::newFromUrl($xslFilename)
+                    self::newFromUrl($xslUrl)
                 )
             ) {
-                throw new FileLoadFailed($xslFilename);
+                throw new FileLoadFailed($xslUrl);
             }
         }
 
         return $this->xsltProcessor_;
+    }
+    /**
+     * @return Array of Uri objects.
+     * - If there is a `schemaLocation` attribute, indexed by namespace.
+     * - Otherwise, if there is a `noNamespaceSchemaLocation` attribute, one
+     *   numerically-indexed item.
+     * - Otherwise, empty array.
+     */
+    public function getSchemaLocations(): array
+    {
+        if (!isset($this->schemaLocations_)) {
+            $baseUri = new Uri($this->documentURI);
+
+            if (
+                $this->documentElement->hasAttributeNS(
+                    self::NS['xsi'],
+                    'schemaLocation'
+                )
+            ) {
+                $items = preg_split(
+                    '/\s+/',
+                    $this->documentElement->getAttributeNS(
+                        self::NS['xsi'],
+                        'schemaLocation'
+                    )
+                );
+
+                $this->schemaLocations_ = [];
+
+                for ($i = 0; isset($items[$i]); $i += 2) {
+                    $this->schemaLocations_[$items[$i]] = UriResolver::resolve(
+                        $baseUri,
+                        new Uri($items[$i + 1])
+                    );
+                }
+            } elseif (
+                $this->documentElement->hasAttributeNS(
+                    self::NS['xsi'],
+                    'noNamespaceSchemaLocation'
+                )
+            ) {
+                $this->schemaLocations_ = [
+                    UriResolver::resolve(
+                        $baseUri,
+                        new Uri(
+                            $this->documentElement->getAttributeNS(
+                                self::NS['xsi'],
+                                'noNamespaceSchemaLocation'
+                            )
+                        )
+                    )
+                ];
+            } else {
+                $this->schemaLocations_ = [];
+            }
+        }
+
+        return $this->schemaLocations_;
+    }
+
+    /**
+     * @brief Validate with given XML Schema.
+     *
+     * @param $schemaUrl Url of the schema document. Relative URLs are
+     * interpreted as relative the the document URL.
+     */
+    public function validateWithSchema(
+        string $schemaUrl,
+        ?int $libXmlOptions = null
+    ): self {
+        $schemaUrl = UriResolver::resolve(
+            new Uri($this->documentURI),
+            new Uri($schemaUrl)
+        );
+
+        libxml_use_internal_errors(true);
+        libxml_clear_errors();
+
+        if (!$this->schemaValidate($schemaUrl, $libXmlOptions)) {
+            $messages = [];
+
+            foreach (libxml_get_errors() as $error) {
+                /* Suppress warnings. */
+                if (
+                    strpos($error->message, 'namespace was already imported')
+                     !== false
+                ) {
+                    continue;
+                }
+
+                $messages[] = "$error->file:$error->line $error->message";
+            }
+
+            throw new FileLoadFailed(
+                $this->documentURI,
+                '; ' . implode('', $messages)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @brief Validate with schemas given in xsi:schemaLocation or
+     * xsi:noNamespaceSchemaLocation.
+     */
+    public function validate(?int $libXmlOptions = null)
+    {
+        foreach ($this->getSchemaLocations() as $ns => $schemaUrl) {
+            if ($ns === 0 || $ns === $this->documentElement->namespaceURI) {
+                $this->validateWithSchema($schemaUrl, $libXmlOptions);
+                break;
+            }
+        }
+
+        return $this;
     }
 
     // Any initialization to be done after document loading
