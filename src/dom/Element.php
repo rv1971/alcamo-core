@@ -5,6 +5,8 @@ namespace alcamo\dom;
 /// Element class for use in DOMDocument::registerNodeClass().
 class Element extends \DOMElement implements \IteratorAggregate
 {
+    use HasXNameTrait;
+
     public function __toString()
     {
         return $this->textContent;
