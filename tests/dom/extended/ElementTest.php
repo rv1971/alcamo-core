@@ -89,7 +89,7 @@ class ElementTest extends TestCase
                 $doc->documentElement, Document::NS['xml'] . ' lang', true, 'oc'
             ],
             'unset-without-namespace' => [
-                $doc->documentElement, 'bar', false, null
+                $doc->documentElement, 'barbarbar', false, null
             ],
             'unset-namespace-prefix' => [
                 $doc->documentElement, 'dc:title', false, null

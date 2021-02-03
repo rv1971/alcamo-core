@@ -14,6 +14,10 @@
       schemaLocation="../../xsd/rdfs.xsd"/>
 
   <xsd:import
+      namespace="http://purl.org/dc/terms/"
+      schemaLocation="../../xsd/dc.xsd"/>
+
+  <xsd:import
       namespace="http://www.w3.org/XML/1998/namespace"
       schemaLocation="../../xsd/xml.xsd"/>
 
@@ -42,7 +46,13 @@
       </xsd:sequence>
 
       <xsd:attribute ref="xml:lang"/>
+      <xsd:attribute ref="dc:source"/>
       <xsd:attribute name="qux"/>
+      <xsd:attribute name="bar" type="xsd:boolean"/>
+      <xsd:attribute name="baz" type="xsd:boolean"/>
+      <xsd:attribute name="foobar"/>
+      <xsd:attribute name="barbaz" type="xsd:integer"/>
+      <xsd:attribute name="bazbaz"/>
     </xsd:complexType>
   </xsd:element>
 </xsd:schema>

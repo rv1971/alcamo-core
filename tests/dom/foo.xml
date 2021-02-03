@@ -9,7 +9,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://foo.example.org foo.xsd http://www.w3.org/2000/01/rdf-schema# ../../xsd/rdfs.xsd"
     xml:lang="oc"
-    qux="quux">
+    dc:source="http://www.example.org/foo"
+    qux="quux"
+    bar="true"
+    baz="false"
+    foobar="foo   bar	baz"
+    barbaz="42"
+    bazbaz="dc:title">
   <rdfs:comment>Lorem ipsum</rdfs:comment>
   <bar xml:id="x">
     <baz xml:id="a">At eos</baz>
