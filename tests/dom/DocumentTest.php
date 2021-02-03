@@ -2,9 +2,10 @@
 
 namespace alcamo\dom;
 
-use GuzzleHttp\Psr7\{Uri, UriResolver};
+use GuzzleHttp\Psr7\UriResolver;
 use PHPUnit\Framework\TestCase;
 use alcamo\exception\{FileLoadFailed, Uninitialized};
+use alcamo\ietf\Uri;
 
 class DocumentTest extends TestCase
 {
@@ -71,8 +72,18 @@ class DocumentTest extends TestCase
         $doc2->getXPath()->registerNamespace('foo', 'http://foo.example.org');
 
         return [
-            'from-url' => [ $doc1, __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml' ],
-            'from-xml' => [ $doc2, __DIR__ . DIRECTORY_SEPARATOR ]
+            'from-url' => [
+                $doc1,
+                (string)Uri::newFromFilesystemPath(
+                    __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+                )
+            ],
+            'from-xml' => [
+                $doc2,
+                (string)Uri::newFromFilesystemPath(
+                    __DIR__ . DIRECTORY_SEPARATOR
+                )
+            ]
         ];
     }
 
