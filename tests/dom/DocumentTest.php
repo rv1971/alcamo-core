@@ -76,6 +76,32 @@ class DocumentTest extends TestCase
         ];
     }
 
+    public function testXName()
+    {
+        $doc = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+        );
+
+        $foo = $doc->documentElement;
+
+        $this->assertSame(
+            'http://foo.example.org foo',
+            (string)$foo->getXName()
+        );
+
+        $this->assertSame(
+            'qux',
+            (string)$foo->getAttributeNode('qux')->getXName()
+        );
+
+        $this->assertSame(
+            Document::NS['xml'] . ' lang',
+            (string)$foo
+                ->getAttributeNodeNS(Document::NS['xml'], 'lang')
+                ->getXName()
+        );
+    }
+
     public function testXPathException()
     {
         $doc = new Document();

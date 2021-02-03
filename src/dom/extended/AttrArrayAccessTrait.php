@@ -60,18 +60,18 @@ trait AttrArrayAccessTrait
         }
 
         if (strpos($attrName, ' ') === false) {
-            if (strpos($attrName, ':') === false ) {
+            if (strpos($attrName, ':') === false) {
                 $attrNode = $this->getAttributeNode($attrName);
             } else {
                 $a = explode(':', $attrName, 2);
 
-                $attrNode $this->getAttributeNS(
+                $attrNode = $this->getAttributeNodeNS(
                     $this->ownerDocument::NS[$a[0]],
                     $a[1]
                 );
             }
         } else {
-            $attrNode = $this->getAttributeNS(...explode(' ', $attrName));
+            $attrNode = $this->getAttributeNodeNS(...explode(' ', $attrName));
         }
 
         if (!$attrNode) {

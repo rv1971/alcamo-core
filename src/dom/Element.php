@@ -20,12 +20,12 @@ class Element extends \DOMElement implements \IteratorAggregate
     /// Run XPath query with this node as context node.
     public function query(string $expr)
     {
-        return $this->ownerDocument->xPath()->query($expr, $this);
+        return $this->ownerDocument->getXPath()->query($expr, $this);
     }
 
     /// Run and evaluate XPath query with this node as context node.
     public function evaluate(string $expr)
     {
-        return $this->ownerDocument->xPath()->evaluate($expr, $this);
+        return $this->ownerDocument->getXPath()->evaluate($expr, $this);
     }
 }

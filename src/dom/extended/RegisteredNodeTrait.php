@@ -8,7 +8,7 @@ trait RegisteredNodeTrait
 
     public function hash()
     {
-        if (!isset($this->hash_) ) {
+        if (!isset($this->hash_)) {
             $this->ownerDocument->register(
                 $this,
                 ($this->hash_ = spl_object_hash($this))

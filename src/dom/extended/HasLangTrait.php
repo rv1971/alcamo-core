@@ -11,7 +11,7 @@ trait HasLangTrait
     private $lang_; ///< Lang object, or false.
 
     /// Return xml:lang of element or closest ancestor, or false.
-    public function lang()
+    public function getLang()
     {
         if (!isset($this->lang_)) {
             // Ensure conservation of the derived object.
@@ -20,9 +20,9 @@ trait HasLangTrait
             /* For efficiency, first check if the element itself has an
              * xml:lang attribute since this is a frequent case in
              * practice. */
-            if ($this->hasAttributeNS(self::NS['xml'], 'lang')) {
+            if ($this->hasAttributeNS(Document::NS['xml'], 'lang')) {
                 $this->lang_ = Lang::newFromString(
-                    $this->getAttributeNS(self::NS['xml'], 'lang')
+                    $this->getAttributeNS(Document::NS['xml'], 'lang')
                 );
             } else {
                 $langAttr = $this->query('ancestor::*[@xml:lang]/@xml:lang')[0];
