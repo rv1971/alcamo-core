@@ -23,8 +23,8 @@ class Element extends BaseElement
                  * counting from 1, to the unique name of the parent node. */
                 $localName = isset($this['name'])
                     ? $this['name']
-                    : ($this->parentNode->getUniqueName()->localName()
-                       . ' '
+                    : ($this->parentNode->getUniqueName()->getLocalName()
+                       . '/'
                        . ($this->evaluate('count(preceding-sibling::*)') + 1));
 
                 $this->uniqueName_ = new XName(

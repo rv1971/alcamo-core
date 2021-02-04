@@ -44,9 +44,9 @@ class Attr extends BaseAttr
         if (isset(static::NAME2CONVERTER[$name])) {
             $converter = static::NAME2CONVERTER[$name];
 
-            return $this->converter();
+            return $this->$converter();
         } else {
-            return $value;
+            return $this->value;
         }
     }
 }
