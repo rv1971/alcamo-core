@@ -4,7 +4,7 @@ namespace alcamo\dom;
 
 use GuzzleHttp\Psr7\{Uri, UriResolver};
 use alcamo\collection\PreventWriteArrayAccessTrait;
-use alcamo\exception\{FileLoadFailed, Uninitialized};
+use alcamo\exception\{AbsoluteUriNeeded, FileLoadFailed, Uninitialized};
 
 /**
  * @brief DOM Document class having factory methods with validation.
@@ -53,11 +53,35 @@ class Document extends \DOMDocument implements \ArrayAccess
     public const LIBXML_OPTIONS =
         LIBXML_COMPACT | LIBXML_NOBLANKS | LIBXML_NSCLEAN | LIBXML_PEDANTIC;
 
-    public static function newFromUrl(string $url, ?int $libXmlOptions = null)
-    {
+    public static function newFromUrl(
+        string $url,
+        ?bool $useCache = null,
+        ?int $libXmlOptions = null
+    ) {
+        if ($useCache) {
+            if (!Uri::isAbsolute(new Uri($url))) {
+                /** @throw AbsoluteUriNeeded when attempting to use a
+                 * non-absolute URL as a cache key. */
+                throw new AbsoluteUriNeeded($url);
+            }
+
+            if (isset(self::$docCache_[$url])) {
+                return self::$docCache_[$url];
+            }
+        }
+
         $doc = new static();
 
         $doc->loadUrl($url, $libXmlOptions);
+
+        // ensure the file:// protocol is preserved in the document URI
+        if (substr($url, 0, 5) == 'file:' && $doc->documentURI[0] == '/') {
+            $doc->documentURI = "file://$doc->documentURI";
+        }
+
+        if ($useCache) {
+            self::$docCache_[$url] = $doc;
+        }
 
         return $doc;
     }
@@ -73,7 +97,8 @@ class Document extends \DOMDocument implements \ArrayAccess
         return $doc;
     }
 
-    private static $docRegistry_ = [];
+    private static $docRegistry_ = []; ///< Used for conserve()
+    private static $docCache_    = []; ///< Used for newFromUrl()
 
     private $xPath_;          ///< XPath object.
     private $xsltProcessor_;  ///< XSLTProcessor object or FALSE.
@@ -118,6 +143,22 @@ class Document extends \DOMDocument implements \ArrayAccess
     public function unconserve()
     {
         unset(self::$docRegistry_[spl_object_hash($this)]);
+    }
+
+    public function addToCache()
+    {
+        if (!Uri::isAbsolute(new Uri($this->documentURI))) {
+            /** @throw AbsoluteUriNeeded when attempting to use a
+             * non-absolute URL as a cache key. */
+            throw new AbsoluteUriNeeded($this->documentURI);
+        }
+
+        self::$docCache_[$this->documentURI] = $this;
+    }
+
+    public function removeFromCache()
+    {
+        unset(self::$docCache_[$this->documentURI]);
     }
 
     public function offsetExists($id)

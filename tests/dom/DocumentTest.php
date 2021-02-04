@@ -4,7 +4,7 @@ namespace alcamo\dom;
 
 use GuzzleHttp\Psr7\UriResolver;
 use PHPUnit\Framework\TestCase;
-use alcamo\exception\{FileLoadFailed, Uninitialized};
+use alcamo\exception\{AbsoluteUriNeeded, FileLoadFailed, Uninitialized};
 use alcamo\ietf\Uri;
 
 class DocumentTest extends TestCase
@@ -235,5 +235,73 @@ class DocumentTest extends TestCase
         ValidatedDocument::newFromUrl(
             __DIR__ . DIRECTORY_SEPARATOR . 'foo-invalid.xml'
         );
+    }
+
+    public function testCache()
+    {
+        $barUrl = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml';
+
+        $bar = Document::newFromUrl($barUrl, true);
+
+        $this->assertEquals($barUrl, $bar->documentURI);
+
+        $bar->documentElement->setAttribute('foo', 'FOO');
+
+        $this->assertSame('FOO', $bar->documentElement->getAttribute('foo'));
+
+        // $bar2 does not use the cache, so it does not see the change to $bar
+        $bar2 = Document::newFromUrl($barUrl);
+
+        $this->assertFalse($bar2->documentElement->hasAttribute('foo'));
+
+        // $bar3 uses the cache, so so it sees the change
+        $bar3 = Document::newFromUrl($barUrl, true);
+
+        $this->assertSame($bar, $bar3);
+        $this->assertSame('FOO', $bar3->documentElement->getAttribute('foo'));
+
+        // adding $bar2 to the cache overwrites $bar
+        $bar2->addToCache();
+
+        $bar2->documentElement->setAttribute('baz', 'BAZ');
+
+        // $bar4 uses the cache, so so it sees $bar2
+        $bar4 = Document::newFromUrl($barUrl, true);
+
+        $this->assertSame($bar4, $bar2);
+        $this->assertFalse($bar4->documentElement->hasAttribute('foo'));
+        $this->assertSame('BAZ', $bar4->documentElement->getAttribute('baz'));
+
+        $bar2->removeFromCache();
+
+        // $bar5 is loaded anew because the cache is empty
+        $bar5 = Document::newFromUrl($barUrl, true);
+
+        $this->assertFalse($bar5->documentElement->hasAttribute('foo'));
+        $this->assertFalse($bar5->documentElement->hasAttribute('baz'));
+    }
+
+    public function testCacheException1()
+    {
+        $this->expectException(AbsoluteUriNeeded::class);
+        $this->expectExceptionMessage(
+            'Relative URI "bar.xml" given where absolute URI is needed'
+        );
+
+        $bar = Document::newFromUrl('bar.xml', true);
+    }
+
+    public function testCacheException2()
+    {
+        $barUrl = __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml';
+
+        $bar = Document::newFromUrl($barUrl);
+
+        $this->expectException(AbsoluteUriNeeded::class);
+        $this->expectExceptionMessage(
+            "Relative URI \"$barUrl\" given where absolute URI is needed"
+        );
+
+        $bar->addToCache();
     }
 }
