@@ -17,7 +17,7 @@
     barbaz="42"
     bazbaz="dc:title">
   <rdfs:comment>Lorem ipsum</rdfs:comment>
-  <bar xml:id="x">
+  <bar xsi:type="Bar" xml:id="x">
     <baz xml:id="a">At eos</baz>
     <baz xml:id="b">vero</baz>
     <baz xml:id="c"/>

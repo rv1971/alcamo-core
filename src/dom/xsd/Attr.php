@@ -6,7 +6,9 @@ use alcamo\dom\extended\Attr as BaseAttr;
 
 class Attr extends BaseAttr
 {
-    public const NAME2CONVERTER = [
+    public const XSD_NS = Document::NS['xsd'];
+
+    public const XSD_CONVERTERS = [
         'maxOccurs'         => 'toAllNNI',
 
         'abstract'          => 'toBool',
@@ -39,14 +41,15 @@ class Attr extends BaseAttr
 
     public function getValue()
     {
-        $name = (string)$this->getXName();
+        if ($this->parentNode->namespaceURI == self::XSD_NS
+            && !isset($this->namespaceURI)) {
+            $converter = static::XSD_CONVERTERS[$this->localName] ?? null;
 
-        if (isset(static::NAME2CONVERTER[$name])) {
-            $converter = static::NAME2CONVERTER[$name];
-
-            return $this->$converter();
-        } else {
-            return $this->value;
+            if (isset($converter)) {
+                return $this->$converter();
+            }
         }
+
+        return parent::getValue();
     }
 }

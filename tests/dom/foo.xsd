@@ -26,23 +26,7 @@
       <xsd:sequence>
         <xsd:element ref="rdfs:comment"/>
 
-        <xsd:element name="bar">
-          <xsd:complexType>
-            <xsd:sequence>
-              <xsd:element name="baz" maxOccurs="unbounded">
-                <xsd:complexType>
-                  <xsd:simpleContent>
-                    <xsd:extension base="xsd:string">
-                      <xsd:attribute ref="xml:id"/>
-                    </xsd:extension>
-                  </xsd:simpleContent>
-                </xsd:complexType>
-              </xsd:element>
-            </xsd:sequence>
-
-            <xsd:attribute ref="xml:id"/>
-          </xsd:complexType>
-        </xsd:element>
+        <xsd:element name="bar" type="AbstractBar"/>
       </xsd:sequence>
 
       <xsd:attribute ref="xml:lang"/>
@@ -55,4 +39,26 @@
       <xsd:attribute name="bazbaz"/>
     </xsd:complexType>
   </xsd:element>
+
+  <xsd:complexType name="AbstractBar" abstract="true"/>
+
+  <xsd:complexType name="Bar">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractBar">
+        <xsd:sequence>
+          <xsd:element name="baz" maxOccurs="unbounded">
+            <xsd:complexType>
+              <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                  <xsd:attribute ref="xml:id"/>
+                </xsd:extension>
+              </xsd:simpleContent>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+
+        <xsd:attribute ref="xml:id"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 </xsd:schema>
