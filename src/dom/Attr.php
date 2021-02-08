@@ -3,10 +3,10 @@
 namespace alcamo\dom;
 
 use alcamo\ietf\Uri;
-use alcamo\xml\XName;
+use alcamo\xml\{HasXNameInterface, XName};
 
 /// Attribute class for use in DOMDocument::registerNodeClass().
-class Attr extends \DOMAttr
+class Attr extends \DOMAttr implements HasXNameInterface
 {
     use HasXNameTrait;
 

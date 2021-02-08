@@ -36,7 +36,7 @@ class ElementTest extends TestCase
             ],
             'no-lang' => [
                 $barDoc->documentElement,
-                false
+                null
             ]
         ];
     }

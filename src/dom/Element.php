@@ -2,8 +2,12 @@
 
 namespace alcamo\dom;
 
+use alcamo\xml\HasXNameInterface;
+
 /// Element class for use in DOMDocument::registerNodeClass().
-class Element extends \DOMElement implements \IteratorAggregate
+class Element extends \DOMElement implements
+    \IteratorAggregate,
+    HasXNameInterface
 {
     use HasXNameTrait;
 

@@ -8,12 +8,12 @@ trait HasLangTrait
 {
     use RegisteredNodeTrait;
 
-    private $lang_; ///< Lang object, or false.
+    private $lang_ = false; ///< ?Lang
 
     /// Return xml:lang of element or closest ancestor, or false.
-    public function getLang()
+    public function getLang(): ?Lang
     {
-        if (!isset($this->lang_)) {
+        if ($this->lang_ === false) {
             // Ensure conservation of the derived object.
             $this->hash();
 
@@ -30,7 +30,7 @@ trait HasLangTrait
                 if (isset($langAttr)) {
                     $this->lang_ = Lang::newFromString($langAttr->value);
                 } else {
-                    $this->lang_ = false;
+                    $this->lang_ = null;
                 }
             }
         }
