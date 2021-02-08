@@ -4,12 +4,22 @@ namespace alcamo\dom\schema;
 
 use GuzzleHttp\Psr7\UriResolver;
 use alcamo\dom\extended\Document;
+use alcamo\dom\schema\component\{
+    Attr,
+    AttrGroup,
+    ComplexType,
+    Element,
+    Group,
+    PredefinedType,
+    SimpleType
+};
 use alcamo\dom\xsd\Document as Xsd;
 use alcamo\ietf\Uri;
 
 class Schema
 {
     public const XSD_NS = Xsd::NS['xsd'];
+    public const XSI_NS = Xsd::NS['xsi'];
 
     private static $schemaCache_ = [];
 
@@ -64,14 +74,54 @@ class Schema
 
     private $xsds_ = [];             ///< Map of URI string to Xsd
 
-    private $globalAttrs_ = [];      ///< Map of XName to Component.
-    private $globalAttrGroups_ = []; ///< Map of XName to Component.
-    private $globalElements_ = [];   ///< Map of XName to Component.
-    private $globalGroups_ = [];     ///< Map of XName to Component.
-    private $globalTypes_ = [];      ///< Map of XName to Component.
+    private $globalAttrs_ = [];      ///< Map of XName string to Attr.
+    private $globalAttrGroups_ = []; ///< Map of XName string to AttrGroup.
+    private $globalElements_ = [];   ///< Map of XName string to Element.
+    private $globalGroups_ = [];     ///< Map of XName string to Group.
+    private $globalTypes_ = [];      ///< Map of XName string to AbstractType.
+
+    /// @todo describe type
+    private $elementMap_;
 
     /** @throw AbsoluteUriNeeded when an XSD has a non-absolute URI. */
     private function __construct(iterable $xsds)
+    {
+        $this->loadXsds();
+        $this->initGlobals();
+        $this->initElements();
+    }
+
+    public function getXsds(): array
+    {
+        return $this->xsds_;
+    }
+
+    public function getGlobalAttrs(): array
+    {
+        return $this->globalAttrs_;
+    }
+
+    public function getGlobalAttrGroups(): array
+    {
+        return $this->globalAttrGroups_;
+    }
+
+    public function getGlobalElements(): array
+    {
+        return $this->globalElements_;
+    }
+
+    public function getGlobalGroups(): array
+    {
+        return $this->globalGroups_;
+    }
+
+    public function getGlobalTypes(): array
+    {
+        return $this->globalTypes_;
+    }
+
+    private function loadXsds(iterable $xsds)
     {
         // always load XMLSchema.xsd
         $xmlSchemaXsd = Xsd::newFromUrl(
@@ -113,33 +163,18 @@ class Schema
                 }
             }
         }
+    }
 
+    private function initGlobals()
+    {
         // setup maps of all global definitions
         $globalDefs = [
-            'attribute' => [
-                AttrComponent::class,
-                &$this->globalAttrs_
-            ],
-            'attributeGroup' => [
-                AttrGroupComponent::class,
-                &$this->globalAttrGroups_
-            ],
-            'complexType' => [
-                ComplexTypeComponent::class,
-                &$this->globalTypes_
-            ],
-            'element' => [
-                ElementComponent::class,
-                &$this->globalElements_
-            ],
-            'group' => [
-                GroupComponent::class,
-                &$this->globalGroups_
-            ],
-            'simpleType' => [
-                SimpleTypeComponent::class,
-                &$this->globalTypes_
-                ]
+            'attribute'      => [ Attr::class, &$this->globalAttrs_ ],
+            'attributeGroup' => [ AttrGroup::class, &$this->globalAttrGroups_ ],
+            'complexType'    => [ ComplexType::class, &$this->globalTypes_ ],
+            'element'        => [ Element::class, &$this->globalElements_ ],
+            'group'          => [ Group::class, &$this->globalGroups_ ],
+            'simpleType'     => [ SimpleType::class, &$this->globalTypes_ ]
         ];
 
         foreach ($this->xsds_ as $xsd) {
@@ -148,70 +183,56 @@ class Schema
             // loop top-level XSD elements having name attributes
             foreach ($xsd->documentElement as $elem) {
                 if (isset($elem['name'])) {
-                    [ $componentClass, $prop ] = $globalDefs[$elem->localName];
+                    switch ($elem->localName) {
+                        case 'simpleType':
+                            $this->globalTypes_ =
+                                AbstractSimpleType::newFromSchemaAndXsdElement(
+                                    $schema,
+                                    $elem
+                                );
+                            break;
 
-                    $prop[(string)(new XName($targetNs, $elem['name']))] =
-                        new $componentClass($schema, $elem);
+                        default:
+                            [ $componentClass, $prop ] =
+                                $globalDefs[$elem->localName];
+
+                            $prop[(string)(new XName($targetNs, $elem['name']))] =
+                                new $componentClass($schema, $elem);
+                    }
                 }
             }
         }
 
-        /** @todo fill types */
-
         // Add `anyType`.
         $anyType =
-            new ComplexType(new XName(self::XSD_NS, 'anyType'));
+            new PredefinedType($this, new XName(self::XSD_NS, 'anyType'));
 
-        $this->globalTypes_[(string)$anyType->getXName()] =
-            new PredefinedTypeComponent($this, $anyType);
+        $this->globalTypes_[(string)$anyType->getXName()] = $anyType;
 
         // Add `anySimpleType`.
-        $anySimpleType =
-            new AtomicType(new XName(self::XSD_NS, 'anySimpleType'));
+        $anySimpleType = new PredefinedType(
+            $this,
+            new XName(self::XSD_NS, 'anySimpleType'),
+            $anyType
+        );
 
         $this->globalTypes_[(string)$anySimpleType->getXName()] =
-            new PredefinedTypeComponent($this, $anySimpleType, null, $anyType);
+            $anySimpleType;
 
         // Add `xsi:type` to be `xsd:QName` if undefined.
-        $xsiTypeXName = new XName(Xsd::NS['xsi'], 'type');
+        $xsiTypeXName = new XName(self::XSI_NS, 'type');
 
         if (!isset($this->globalAttrs_[(string)$xsiTypeXName])) {
             $this->globalAttrs_[(string)$xsiTypeXName] =
-            new PredefinedComponent(
-                $this,
-                $this->globalTypes_[self::XSD_NS . ' QName']->getType(),
-                $xsiTypeXName
-            );
+                new PredefinedAttr(
+                    $this,
+                    $xsiTypeXName
+                    $this->globalTypes_[self::XSD_NS . ' QName']
+                );
         }
     }
 
-    public function getXsds(): array
+    private function initElements()
     {
-        return $this->xsds_;
-    }
-
-    public function getGlobalAttrs(): array
-    {
-        return $this->globalAttrs_;
-    }
-
-    public function getGlobalAttrGroups(): array
-    {
-        return $this->globalAttrGroups_;
-    }
-
-    public function getGlobalElements(): array
-    {
-        return $this->globalElements_;
-    }
-
-    public function getGlobalGroups(): array
-    {
-        return $this->globalGroups_;
-    }
-
-    public function getGlobalTypes(): array
-    {
-        return $this->globalTypes_;
     }
 }
