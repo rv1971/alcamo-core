@@ -9,7 +9,8 @@ class Enumerator implements \IteratorAggregate, \ArrayAccess
 {
     use DecoratorTrait;
 
-    function __toString() {
+    public function __toString()
+    {
         return $this->handler_['value'];
     }
 }

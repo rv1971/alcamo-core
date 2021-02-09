@@ -12,7 +12,7 @@ class ElementTest extends TestCase
      */
     public function testGetUniqueName($elem, $expectedName)
     {
-        $this->assertEquals($expectedName, $elem->getUniqueName());
+        $this->assertEquals($expectedName, $elem->getComponentXName());
     }
 
     public function getUniqueNameProvider()
@@ -23,21 +23,17 @@ class ElementTest extends TestCase
         )->conserve();
 
         return [
-            'name' => [
+            'type' => [
                 $doc->query('//*[@name = "openAttrs"]')[0],
                 new XName(Document::NS['xsd'], 'openAttrs')
             ],
-            'name-1' => [
+            'annotation' => [
                 $doc->query('//*[@name = "openAttrs"]/*')[0],
-                new XName(Document::NS['xsd'], 'openAttrs/1')
+                null
             ],
-            'name-2' => [
-                $doc->query('//*[@name = "openAttrs"]/*')[1],
-                new XName(Document::NS['xsd'], 'openAttrs/2')
-            ],
-            'name-2-1-1' => [
-                $doc->query('//*[@name = "openAttrs"]/*[2]/*/*')[0],
-                new XName(Document::NS['xsd'], 'openAttrs/2/1/1')
+            'attribute' => [
+                $doc->query('//*[@name = "id"]')[0],
+                new XName(Document::NS['xsd'], 'id')
             ]
         ];
     }

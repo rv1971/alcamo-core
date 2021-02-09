@@ -16,7 +16,7 @@ class EnumerationUnionType extends UnionType implements EnumerationTypeInterface
                 $this->enums_ += $memberType->getEnums();
             }
 
-            ksort( $this->enums_ );
+            ksort($this->enums_);
         }
 
         return $this->enums_;

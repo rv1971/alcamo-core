@@ -20,9 +20,4 @@ abstract class AbstractXsdComponent extends AbstractComponent
     {
         return $this->xsdElement_;
     }
-
-    public function getXName(): XName
-    {
-        return $this->xsdElement_->getUniqueName();
-    }
 }

@@ -41,8 +41,10 @@ class Attr extends BaseAttr
 
     public function getValue()
     {
-        if ($this->parentNode->namespaceURI == self::XSD_NS
-            && !isset($this->namespaceURI)) {
+        if (
+            $this->parentNode->namespaceURI == self::XSD_NS
+            && !isset($this->namespaceURI)
+        ) {
             $converter = static::XSD_CONVERTERS[$this->localName] ?? null;
 
             if (isset($converter)) {

@@ -18,7 +18,7 @@ class EnumerationType extends AtomicType implements EnumerationTypeInterface
             ) {
                 $this->enums_[$enum['value']] = new Enumerator($enum);
             }
-    }
+        }
 
         return $this->enums_;
     }

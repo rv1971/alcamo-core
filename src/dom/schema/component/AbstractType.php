@@ -20,7 +20,7 @@ class AbstractType extends AbstractXsdComponent
     {
         if ($this->baseType === false) {
             $baseXName =
-                $this->xsdElement_->query( 'xsd:*/xsd:*[@base]' )[0]['base'];
+                $this->xsdElement_->query('xsd:*/xsd:*[@base]')[0]['base'];
 
             $this->baseType_ = isset($baseXName)
                 ? $this->schema_->getGlobalTypes()[(string)$baseXName]

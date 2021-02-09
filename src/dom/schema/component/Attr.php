@@ -7,6 +7,11 @@ class Attr extends AbstractXsdComponent
     private $refAttr_ = false; ///< ?Attr
     private $type_;            ///< SimpleType
 
+    public function getXName(): XName
+    {
+        return $this->xsdElement_->getComponentXName();
+    }
+
     public function getRefAttr(): ?self
     {
         if ($this->refAttr_ === false) {
@@ -34,7 +39,7 @@ class Attr extends AbstractXsdComponent
                     break;
 
                 case ($simpleTypeElement =
-                      $this->xsdElement_->query( 'xsd:simpleType' )[0]):
+                      $this->xsdElement_->query('xsd:simpleType')[0]):
                     $this->type_ =
                         new SimpleType($this->schema_, $simpleTypeElement);
                     break;

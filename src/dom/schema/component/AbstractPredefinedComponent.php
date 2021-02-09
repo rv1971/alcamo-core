@@ -6,7 +6,7 @@ use alcamo\xml\XName;
 
 abstract class AbstractPredefinedComponent extends AbstractComponent
 {
-    private $xName_;         ///< XName
+    private $xName_; ///< XName
 
     public function __construct(Schema $schema, XName $xName)
     {

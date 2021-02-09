@@ -3,8 +3,9 @@
 namespace alcamo\dom\schema;
 
 use GuzzleHttp\Psr7\UriResolver;
-use alcamo\dom\extended\Document;
+use alcamo\dom\extended\{Document, Element as ExtElement};
 use alcamo\dom\schema\component\{
+    AbstractType,
     Attr,
     AttrGroup,
     ComplexType,
@@ -16,6 +17,9 @@ use alcamo\dom\schema\component\{
 use alcamo\dom\xsd\Document as Xsd;
 use alcamo\ietf\Uri;
 
+/**
+ * @warning `\<redefine>` is not supported.
+ */
 class Schema
 {
     public const XSD_NS = Xsd::NS['xsd'];
@@ -30,7 +34,7 @@ class Schema
         $baseUri = new Uri($doc->baseURI);
 
         foreach ($doc->documentElement['xsi:schemaLocation'] as $i => $item) {
-            if ( $i & 1 ) {
+            if ($i & 1) {
                 $urls[] = UriResolver::resolve($baseUri, new Uri($item));
             }
         }
@@ -74,14 +78,13 @@ class Schema
 
     private $xsds_ = [];             ///< Map of URI string to Xsd
 
-    private $globalAttrs_ = [];      ///< Map of XName string to Attr.
-    private $globalAttrGroups_ = []; ///< Map of XName string to AttrGroup.
-    private $globalElements_ = [];   ///< Map of XName string to Element.
-    private $globalGroups_ = [];     ///< Map of XName string to Group.
-    private $globalTypes_ = [];      ///< Map of XName string to AbstractType.
+    private $globalAttrs_ = [];      ///< Map of XName string to Attr
+    private $globalAttrGroups_ = []; ///< Map of XName string to AttrGroup
+    private $globalElements_ = [];   ///< Map of XName string to Element
+    private $globalGroups_ = [];     ///< Map of XName string to Group
+    private $globalTypes_ = [];      ///< Map of XName string to AbstractType
 
-    /// @todo describe type
-    private $elementMap_;
+    private $localComplexTypes_ = []; ///< Map of hash() string to ComplexType
 
     /** @throw AbsoluteUriNeeded when an XSD has a non-absolute URI. */
     private function __construct(iterable $xsds)
@@ -119,6 +122,25 @@ class Schema
     public function getGlobalTypes(): array
     {
         return $this->globalTypes_;
+    }
+
+    public function lookupElementType(ExtElement $element): ?AbstractType
+    {
+        // lookup global type if explicitely given in `xsi:type`
+        if (isset($element['xsi:type'])) {
+            return $this->globalTypes_[(string)$element['xsi:type']];
+        }
+
+        // lookup global element, if there is one
+        $elementName = (string)$element->getXName();
+
+        if (isset($this->globalElements_[$elementName])) {
+            return $this->globalElements_[$elementName]->getType();
+        }
+
+        // go recursively via parent element
+        return $this->lookupType($element->parentNode)
+            ->lookupElementType($element);
     }
 
     private function loadXsds(iterable $xsds)
@@ -234,5 +256,38 @@ class Schema
 
     private function initElements()
     {
+        // collect global complex type definitions
+        foreach ($this->globalTypes_ as $type) {
+            if ($type instanceof ComplexType) {
+                $this->allComplexTypes_[$type->hash()] = $type;
+            }
+        }
+
+        $map = [];
+
+        // collect global element declarations
+        foreach ($this->globalElements_ as $elementName => $element) {
+            $map[$elementName] = [ '' => $element->getType() ];
+        }
+
+        foreach ($this->xsds_ as $xsd) {
+            $targetNs = $xsd->documentElement['targetNamespace'];
+
+            // collect local element declarations
+            foreach ($xsd->query('*//xsd:element[@name]') as $xsdElement) {
+                $elementName = (string)$xsdElement->getComponentXName();
+
+                if (!isset($map[$elementName])) {
+                    $map[$elementName] = [];
+                }
+
+                $parentType =
+                    $xsdElement->query('ancestor::xsd:complexType')[0];
+
+                if (isset($this->localComplexTypes_[$parentType->hash()]
+
+                    $map[$elementName][$parentType->hash()] = new ComplexType($this,
+            }
+        }
     }
 }

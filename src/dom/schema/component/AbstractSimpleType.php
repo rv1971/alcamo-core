@@ -19,7 +19,7 @@ abstract class AbstractSimpleType extends AbstractType
                     $schema->globalTypes()[(string)$restrictionElement['base']];
             }
 
-            if ($baseType instanceOf ListType) {
+            if ($baseType instanceof ListType) {
                 return new ListType(
                     $schema,
                     $xsdElement,
@@ -38,7 +38,7 @@ abstract class AbstractSimpleType extends AbstractType
         $listElement = $xsdElement->query('xsd:list')[0];
 
         if (isset($listElement)) {
-            if (isset($listElement['itemType']) ) {
+            if (isset($listElement['itemType'])) {
                 $itemType =
                     $schema->globalTypes()[(string)$listElement['itemType']];
             } else {
@@ -63,8 +63,9 @@ abstract class AbstractSimpleType extends AbstractType
                 }
             }
 
-            foreach ($unionElement->query('xsd:simpleType')
-                     as $memberTypeElement) {
+            foreach (
+                $unionElement->query('xsd:simpleType') as $memberTypeElement
+            ) {
                 $memberTypes[] = self::newFromSchemaAndXsdElement(
                     $schema,
                     $memberTypeElement
@@ -74,7 +75,7 @@ abstract class AbstractSimpleType extends AbstractType
             $isEnumeration = true;
 
             foreach ($memberTypes as $memberType) {
-                if (!($memberType instanceOf EnumerationTypeInterface) ) {
+                if (!($memberType instanceof EnumerationTypeInterface)) {
                     $isEnumeration = false;
                     break;
                 }

@@ -34,13 +34,13 @@ class Element extends AbstractXsdComponent
                     break;
 
                 case ($simpleTypeElement =
-                      $this->xsdElement_->query( 'xsd:simpleType' )[0]):
+                      $this->xsdElement_->query('xsd:simpleType')[0]):
                     $this->type_ =
                         new SimpleType($this->schema_, $simpleTypeElement);
                     break;
 
                 case ($complexTypeElement =
-                      $this->xsdElement_->query( 'xsd:complexType' )[0]):
+                      $this->xsdElement_->query('xsd:complexType')[0]):
                     $this->type_ =
                         new ComplexType($this->schema_, $complexTypeElement);
                     break;

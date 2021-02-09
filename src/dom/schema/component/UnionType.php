@@ -11,7 +11,7 @@ class UnionType extends AbstractSimpleType
 {
     protected $memberTypes_; ///< Array of AbstractSimpleType.
 
-    function __construct(
+    public function __construct(
         Schema $schema,
         Element $xsdElement,
         array $memberTypes

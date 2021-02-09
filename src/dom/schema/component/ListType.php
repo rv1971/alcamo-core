@@ -11,7 +11,7 @@ class ListType extends AbstractSimpleType
 {
     protected $itemType_; ///< AbstractSimpleType.
 
-    function __construct(
+    public function __construct(
         Schema $schema,
         Element $xsdElement,
         AbstractSimpleType $baseType,

@@ -2,9 +2,7 @@
 
 namespace alcamo\dom\schema\component;
 
-use alcamo\xml\{HasXNameInterface, XName};
-
-abstract class AbstractComponent implements HasXNameInterface
+abstract class AbstractComponent
 {
     protected $schema_; ///< Schema
 
@@ -16,12 +14,5 @@ abstract class AbstractComponent implements HasXNameInterface
     public function getSchema(): Schema
     {
         return $this->schema_;
-    }
-
-    abstract public function getXName(): XName;
-
-    public function __toString()
-    {
-        return (string)$this->getXName();
     }
 }
