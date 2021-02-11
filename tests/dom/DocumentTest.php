@@ -171,7 +171,7 @@ class DocumentTest extends TestCase
     public function testNoSchemaLocation()
     {
         $baz = Document::newFromUrl(
-            __DIR__ . DIRECTORY_SEPARATOR . 'baz.xml'
+            __DIR__ . DIRECTORY_SEPARATOR . 'qux.xml'
         )->validate();
 
         $this->assertSame([], $baz->getSchemaLocations());
