@@ -3,7 +3,7 @@
 namespace alcamo\dom\schema\component;
 
 use alcamo\dom\extended\Element as ExtElement;
-use alcamo\dom\xsd\Element as ExtElement;
+use alcamo\dom\xsd\Element as XsdElement;
 
 class Group extends AbstractXsdComponent
 {

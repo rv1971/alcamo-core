@@ -2,10 +2,23 @@
 
 namespace alcamo\dom\schema\component;
 
+use alcamo\dom\schema\Schema;
+use alcamo\dom\xsd\Element;
+
 class Attr extends AbstractXsdComponent
 {
-    private $refAttr_ = false; ///< ?Attr
-    private $type_;            ///< SimpleType
+    private $refAttr_; ///< ?Attr
+    private $type_;    ///< SimpleType
+
+    public function __construct(Schema $schema, Element $xsdElement)
+    {
+        parent::__construct($schema, $xsdElement);
+
+        if (isset($this->xsdElement_['ref'])) {
+            $this->refAttr_ =
+                $this->schema_->getGlobalAttr($this->xsdElement_['ref']);
+        }
+    }
 
     public function getXName(): XName
     {
@@ -14,14 +27,6 @@ class Attr extends AbstractXsdComponent
 
     public function getRefAttr(): ?self
     {
-        if ($this->refAttr_ === false) {
-            $refXName = $this->xsdAttr_['ref'];
-
-            $this->refAttr_ = isset($refXName)
-                ? $this->schema_->getGlobalAttrs()[(string)$refXName]
-                : null;
-        }
-
         return $this->refAttr_;
     }
 
@@ -29,24 +34,26 @@ class Attr extends AbstractXsdComponent
     {
         if (!isset($this->type_)) {
             switch (true) {
-                case $this->getRefAttr():
-                    $this->type_ = $this->getRefAttr()->getType();
+                case isset($this->refAttr_):
+                    $this->type_ = $this->refAttr_->getType();
                     break;
 
                 case isset($this->xsdElement_['type']):
-                    $this->type_ = $this->schema_->getGlobalTypes()
-                        [(string)$this->xsdElement_['type']];
+                    $this->type_ =
+                        $this->schema_->getGlobalType($this->xsdElement_['type']);
                     break;
 
                 case ($simpleTypeElement =
                       $this->xsdElement_->query('xsd:simpleType')[0]):
                     $this->type_ =
-                        new SimpleType($this->schema_, $simpleTypeElement);
+                        AbstractSimpleType::newFromSchemaAndXsdElement(
+                            $this->schema_,
+                            $simpleTypeElement
+                        );
                     break;
 
                 default:
-                    $this->type_ = $this->schema_->getGlobalTypes()
-                        [Schema::XSD_NS . ' anySimpleType'];
+                    $this->type_ = $this->schema_->getAnySimpleType();
             }
         }
 

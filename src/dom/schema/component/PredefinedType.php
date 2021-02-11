@@ -2,6 +2,7 @@
 
 namespace alcamo\dom\schema\component;
 
+use alcamo\dom\schema\Schema;
 use alcamo\xml\XName;
 
 class PredefinedType extends AbstractPredefinedComponent
@@ -11,7 +12,7 @@ class PredefinedType extends AbstractPredefinedComponent
     public function __construct(
         Schema $schema,
         XName $xName,
-        ?self $baseComponent = null
+        ?AbstractComponent $baseComponent = null
     ) {
         parent::__construct($schema, $xName);
 

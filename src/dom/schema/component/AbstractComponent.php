@@ -2,6 +2,8 @@
 
 namespace alcamo\dom\schema\component;
 
+use alcamo\dom\schema\Schema;
+
 abstract class AbstractComponent
 {
     protected $schema_; ///< Schema

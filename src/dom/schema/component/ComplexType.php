@@ -3,6 +3,7 @@
 namespace alcamo\dom\schema\component;
 
 use alcamo\dom\extended\Element as ExtElement;
+use alcamo\dom\schema\Schema;
 
 class ComplexType extends AbstractType
 {
@@ -72,7 +73,7 @@ class ComplexType extends AbstractType
             ) {
                 if (
                     $this->xsdElement_->isSameNode(
-                        $candidate->query->('ancestor::xsd:complexType')[0]
+                        $candidate->query('ancestor::xsd:complexType')[0]
                     )
                 ) {
                     $elementDecl = $elementDeclCandidate;
@@ -85,7 +86,7 @@ class ComplexType extends AbstractType
                 foreach ($this->xsdElement_->query(".//xsd:group") as $group) {
                     if (
                         $this->xsdElement_->isSameNode(
-                            $group->query->('ancestor::xsd:complexType')[0]
+                            $group->query('ancestor::xsd:complexType')[0]
                         )
                     ) {
                         $elementDecl = $this->schema
@@ -105,7 +106,7 @@ class ComplexType extends AbstractType
             } else {
                 // if not found, look up in parent type, if any
                 $this->elementName2Type_[$elementName] =
-                    isset($this->getBaseType())
+                    $this->getBaseType()
                     ? $this->getBaseType()->lookupElementType($element)
                     : null;
             }

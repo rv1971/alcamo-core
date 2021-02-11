@@ -2,6 +2,9 @@
 
 namespace alcamo\dom\schema\component;
 
+use alcamo\dom\schema\Schema;
+use alcamo\dom\xsd\Element;
+
 class AbstractType extends AbstractXsdComponent
 {
     private $baseType_; ///< ?AbstractType
@@ -9,7 +12,7 @@ class AbstractType extends AbstractXsdComponent
     public function __construct(
         Schema $schema,
         Element $xsdElement,
-        ?self $baseType = false
+        $baseType = false
     ) {
         parent::__construct($schema, $xsdElement);
 
@@ -23,7 +26,7 @@ class AbstractType extends AbstractXsdComponent
                 $this->xsdElement_->query('xsd:*/xsd:*[@base]')[0]['base'];
 
             $this->baseType_ = isset($baseXName)
-                ? $this->schema_->getGlobalTypes()[(string)$baseXName]
+                ? $this->schema_->getGlobalType($baseXName)
                 : null;
         }
 

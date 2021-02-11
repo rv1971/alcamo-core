@@ -2,6 +2,7 @@
 
 namespace alcamo\dom\schema\component;
 
+use alcamo\dom\schema\Schema;
 use alcamo\xml\XName;
 
 class PredefinedAttr extends AbstractPredefinedComponent
@@ -11,7 +12,7 @@ class PredefinedAttr extends AbstractPredefinedComponent
     public function __construct(
         Schema $schema,
         XName $xName,
-        SimpleType $typeComponent
+        AbstractSimpleType $typeComponent
     ) {
         parent::__construct($schema, $xName);
 

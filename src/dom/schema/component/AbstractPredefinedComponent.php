@@ -2,6 +2,7 @@
 
 namespace alcamo\dom\schema\component;
 
+use alcamo\dom\schema\Schema;
 use alcamo\xml\XName;
 
 abstract class AbstractPredefinedComponent extends AbstractComponent
@@ -11,7 +12,7 @@ abstract class AbstractPredefinedComponent extends AbstractComponent
     public function __construct(Schema $schema, XName $xName)
     {
         parent::__construct($schema);
-        $this->xName_ = $xName
+        $this->xName_ = $xName;
     }
 
     public function getXName(): XName

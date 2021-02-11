@@ -13,11 +13,8 @@ abstract class AbstractSimpleType extends AbstractType
     ): self {
         $restrictionElement = $xsdElement->query('xsd:restriction')[0];
 
-        if (isset($restrictionElement)) {
-            if (isset($restrictionElement['base'])) {
-                $baseType =
-                    $schema->globalTypes()[(string)$restrictionElement['base']];
-            }
+        if (isset($restrictionElement) && isset($restrictionElement['base'])) {
+            $baseType = $schema->getGlobalType($restrictionElement['base']);
 
             if ($baseType instanceof ListType) {
                 return new ListType(
@@ -35,12 +32,14 @@ abstract class AbstractSimpleType extends AbstractType
             return new AtomicType($schema, $xsdElement, $baseType);
         }
 
-        $listElement = $xsdElement->query('xsd:list')[0];
+        $listElement = $xsdElement->query(
+            'xsd:list|xsd:restriction/xsd:simpleType/xsd:list'
+        )[0];
 
         if (isset($listElement)) {
             if (isset($listElement['itemType'])) {
                 $itemType =
-                    $schema->globalTypes()[(string)$listElement['itemType']];
+                    $schema->getGlobalType($listElement['itemType']);
             } else {
                 $itemType = self::newFromSchemaAndXsdElement(
                     $schema,
@@ -59,7 +58,7 @@ abstract class AbstractSimpleType extends AbstractType
             if (isset($unionElement['memberTypes'])) {
                 foreach ($unionElement['memberTypes'] as $memberTypeXName) {
                     $memberTypes[] =
-                        $schema->globalTypes()[(string)$memberTypeXName];
+                        $schema->getGlobalType($memberTypeXName);
                 }
             }
 
