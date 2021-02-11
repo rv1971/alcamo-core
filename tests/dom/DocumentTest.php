@@ -250,12 +250,20 @@ class DocumentTest extends TestCase
         $this->assertSame('FOO', $bar->documentElement->getAttribute('foo'));
 
         // $bar2 does not use the cache, so it does not see the change to $bar
-        $bar2 = Document::newFromUrl($barUrl);
+        $bar2Url = 'file://' . __DIR__ . DIRECTORY_SEPARATOR
+            . 'extended' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
+            . 'bar.xml';
+
+        $bar2 = Document::newFromUrl($bar2Url);
 
         $this->assertFalse($bar2->documentElement->hasAttribute('foo'));
 
         // $bar3 uses the cache, so so it sees the change
-        $bar3 = Document::newFromUrl($barUrl, true);
+        $bar3Url = 'file://' . __DIR__ . DIRECTORY_SEPARATOR
+            . 'xsd' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
+            . 'bar.xml';
+
+        $bar3 = Document::newFromUrl($bar3Url, true);
 
         $this->assertSame($bar, $bar3);
         $this->assertSame('FOO', $bar3->documentElement->getAttribute('foo'));

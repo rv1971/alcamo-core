@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use alcamo\dom\extended\Document;
 use alcamo\dom\schema\component\PredefinedType;
 use alcamo\dom\xsd\Document as Xsd;
+use alcamo\exception\AbsoluteUriNeeded;
 use alcamo\xml\XName;
 
 class SchemaTest extends TestCase
@@ -21,9 +22,14 @@ class SchemaTest extends TestCase
             . 'baz.xml'
         );
 
+        $baz2 = Document::newFromUrl(
+            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+            . 'baz2.xml'
+        );
+
         $schema1 = Schema::newFromDocument($baz);
 
-        $schema2 = Schema::newFromDocument($baz);
+        $schema2 = Schema::newFromDocument($baz2);
 
         $this->assertSame($schema1, $schema2);
 
@@ -60,6 +66,11 @@ class SchemaTest extends TestCase
             Xsd::newFromUrl("$baseUrl/bar.xsd"),
         ];
 
+        $xsds2 = [
+            Xsd::newFromUrl("$baseUrl/foo.xsd"),
+            Xsd::newFromUrl("$baseUrl/component/../bar.xsd"),
+        ];
+
         $schema1 = Schema::newFromXsds($xsds);
 
         $schema2 = Schema::newFromXsds($xsds);
@@ -81,6 +92,18 @@ class SchemaTest extends TestCase
         foreach ($schema1->getXsds() as $url => $xsd) {
             $this->assertSame($xsds[$i++], basename($url));
         }
+    }
+    public function testNewFromXsdsException()
+    {
+        $path = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR
+            . 'xsd' . DIRECTORY_SEPARATOR . 'XMLSchema.xsd';
+
+        $this->expectException(AbsoluteUriNeeded::class);
+        $this->expectExceptionMessage(
+            "Relative URI \"$path\" given where absolute URI is needed"
+        );
+
+        Schema::newFromXsds([ Xsd::newFromUrl($path) ]);
     }
 
     /**

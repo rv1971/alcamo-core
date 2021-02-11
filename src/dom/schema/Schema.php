@@ -19,7 +19,8 @@ use alcamo\dom\schema\component\{
     SimpleType
 };
 use alcamo\dom\xsd\{Document as Xsd, Element as XsdElement};
-use alcamo\ietf\Uri;
+use alcamo\exception\AbsoluteUriNeeded;
+use alcamo\ietf\{Uri, UriNormalizer};
 use alcamo\xml\XName;
 
 /**
@@ -47,14 +48,20 @@ class Schema
         return self::newFromUrls($urls);
     }
 
-    public static function newFromUrls(array $urls): self
+    public static function newFromUrls(iterable $urls): self
     {
-        $cacheKey = implode(' ', $urls);
+        $normalizedUrls = [];
+
+        foreach ($urls as $url) {
+            $normalizedUrls[] = (string)UriNormalizer::normalize($url);
+        }
+
+        $cacheKey = implode(' ', $normalizedUrls);
 
         if (!isset(self::$schemaCache_[$cacheKey])) {
             $xsds = [];
 
-            foreach ($urls as $url) {
+            foreach ($normalizedUrls as $url) {
                 $xds[] = Xsd::newFromUrl($url, true);
             }
 
@@ -69,6 +76,17 @@ class Schema
         $urls = [];
 
         foreach ($xsds as $xsd) {
+            $url = new Uri($xsd->documentURI);
+
+            if (!Uri::isAbsolute($url)) {
+                /** @throw AbsoluteUriNeeded when attempting to use a
+                 * non-absolute URL as a cache key. */
+                throw new AbsoluteUriNeeded($xsd->documentURI);
+            }
+
+            // normalize URL for use by caching
+            $xsd->documentURI = (string)UriNormalizer::normalize($url);
+
             $urls[] = $xsd->documentURI;
         }
 

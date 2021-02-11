@@ -5,6 +5,7 @@ namespace alcamo\dom;
 use GuzzleHttp\Psr7\{Uri, UriResolver};
 use alcamo\collection\PreventWriteArrayAccessTrait;
 use alcamo\exception\{AbsoluteUriNeeded, FileLoadFailed, Uninitialized};
+use alcamo\ietf\UriNormalizer;
 
 /**
  * @brief DOM Document class having factory methods with validation.
@@ -59,11 +60,16 @@ class Document extends \DOMDocument implements \ArrayAccess
         ?int $libXmlOptions = null
     ) {
         if ($useCache) {
-            if (!Uri::isAbsolute(new Uri($url))) {
+            $url = new Uri($url);
+
+            if (!Uri::isAbsolute($url)) {
                 /** @throw AbsoluteUriNeeded when attempting to use a
                  * non-absolute URL as a cache key. */
                 throw new AbsoluteUriNeeded($url);
             }
+
+            // normalize URL when used for caching
+            $url = (string)UriNormalizer::normalize($url);
 
             if (isset(self::$docCache_[$url])) {
                 return self::$docCache_[$url];
@@ -147,11 +153,16 @@ class Document extends \DOMDocument implements \ArrayAccess
 
     public function addToCache()
     {
-        if (!Uri::isAbsolute(new Uri($this->documentURI))) {
+        $url = new Uri($this->documentURI);
+
+        if (!Uri::isAbsolute($url)) {
             /** @throw AbsoluteUriNeeded when attempting to use a
              * non-absolute URL as a cache key. */
             throw new AbsoluteUriNeeded($this->documentURI);
         }
+
+        // normalize URL for use in caching
+        $this->documentURI = (string)UriNormalizer::normalize($url);
 
         self::$docCache_[$this->documentURI] = $this;
     }
