@@ -56,8 +56,8 @@ class SchemaTest extends TestCase
         $baseUrl = 'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR;
 
         $xsds = [
-            Xsd::newFromUrl( "$baseUrl/foo.xsd" ),
-            Xsd::newFromUrl( "$baseUrl/bar.xsd" ),
+            Xsd::newFromUrl("$baseUrl/foo.xsd"),
+            Xsd::newFromUrl("$baseUrl/bar.xsd"),
         ];
 
         $schema1 = Schema::newFromXsds($xsds);

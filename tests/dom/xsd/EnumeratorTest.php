@@ -23,11 +23,11 @@ class EnumeratorTest extends TestCase
 
         return [
             [
-                new Enumerator( $doc->query('//*[@value = "qualified"]')[0] ),
+                new Enumerator($doc->query('//*[@value = "qualified"]')[0]),
                 'qualified'
             ],
             [
-                new Enumerator( $doc->query('//*[@value = "unqualified"]')[0] ),
+                new Enumerator($doc->query('//*[@value = "unqualified"]')[0]),
                 'unqualified'
             ]
         ];
