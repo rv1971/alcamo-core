@@ -16,7 +16,7 @@ class UnionType extends AbstractSimpleType
         Element $xsdElement,
         array $memberTypes
     ) {
-        parent::__construct($schema, $xsdElement);
+        parent::__construct($schema, $xsdElement, null);
 
         $this->memberTypes_ = $memberTypes;
     }

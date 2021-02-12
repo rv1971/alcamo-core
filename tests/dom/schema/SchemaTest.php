@@ -117,6 +117,10 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\Attr::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals(
+            new XName(self::XSD_NS, 'attribute'),
+            $comp->getXsdElement()->getXName()
+        );
         $this->assertEquals($xName, $comp->getXName());
     }
 
@@ -151,6 +155,10 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\AttrGroup::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals(
+            new XName(self::XSD_NS, 'attributeGroup'),
+            $comp->getXsdElement()->getXName()
+        );
         $this->assertEquals($xName, $comp->getXName());
     }
 
@@ -176,7 +184,8 @@ class SchemaTest extends TestCase
     public function testGetGlobalComplexType(
         $schema,
         $complexTypeNs,
-        $complexTypeLocalName
+        $complexTypeLocalName,
+        $expectedBaseTypeLocalName
     ) {
         $xName = new XName($complexTypeNs, $complexTypeLocalName);
 
@@ -184,13 +193,16 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\ComplexType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
-        $this->assertEquals($xName, $comp->getXName());
-        /*
         $this->assertEquals(
-            $expectedBaseTypeXName,
-            $comp->getBaseType()['name']
-        )
-        */
+            new XName(self::XSD_NS, 'complexType'),
+            $comp->getXsdElement()->getXName()
+        );
+        $this->assertEquals($xName, $comp->getXName());
+
+        $this->assertEquals(
+            $expectedBaseTypeLocalName,
+            $comp->getBaseType() ? $comp->getBaseType()->getXName()->getLocalName() : null
+        );
     }
 
     public function getGlobalComplexTypeProvider()
@@ -203,41 +215,41 @@ class SchemaTest extends TestCase
         );
 
         return [
-            'xsd:openAttrs' => [ $schema, self::XSD_NS, 'openAttrs' ],
-            'xsd:annotated' => [ $schema, self::XSD_NS, 'annotated' ],
-            'xsd:attribute' => [ $schema, self::XSD_NS, 'attribute' ],
-            'xsd:topLevelAttribute' => [ $schema, self::XSD_NS, 'topLevelAttribute' ],
-            'xsd:complexType' => [ $schema, self::XSD_NS, 'complexType' ],
-            'xsd:topLevelComplexType' => [ $schema, self::XSD_NS, 'topLevelComplexType' ],
-            'xsd:localComplexType' => [ $schema, self::XSD_NS, 'localComplexType' ],
-            'xsd:restrictionType' => [ $schema, self::XSD_NS, 'restrictionType' ],
-            'xsd:complexRestrictionType' => [ $schema, self::XSD_NS, 'complexRestrictionType' ],
-            'xsd:extensionType' => [ $schema, self::XSD_NS, 'extensionType' ],
-            'xsd:simpleRestrictionType' => [ $schema, self::XSD_NS, 'simpleRestrictionType' ],
-            'xsd:simpleExtensionType' => [ $schema, self::XSD_NS, 'simpleExtensionType' ],
-            'xsd:element' => [ $schema, self::XSD_NS, 'element' ],
-            'xsd:topLevelElement' => [ $schema, self::XSD_NS, 'topLevelElement' ],
-            'xsd:localElement' => [ $schema, self::XSD_NS, 'localElement' ],
-            'xsd:group' => [ $schema, self::XSD_NS, 'group' ],
-            'xsd:realGroup' => [ $schema, self::XSD_NS, 'realGroup' ],
-            'xsd:namedGroup' => [ $schema, self::XSD_NS, 'namedGroup' ],
-            'xsd:groupRef' => [ $schema, self::XSD_NS, 'groupRef' ],
-            'xsd:explicitGroup' => [ $schema, self::XSD_NS, 'explicitGroup' ],
-            'xsd:simpleExplicitGroup' => [ $schema, self::XSD_NS, 'simpleExplicitGroup' ],
-            'xsd:narrowMaxMin' => [ $schema, self::XSD_NS, 'narrowMaxMin' ],
-            'xsd:all' => [ $schema, self::XSD_NS, 'all' ],
-            'xsd:wildcard' => [ $schema, self::XSD_NS, 'wildcard' ],
-            'xsd:attributeGroup' => [ $schema, self::XSD_NS, 'attributeGroup' ],
-            'xsd:namedAttributeGroup' => [ $schema, self::XSD_NS, 'namedAttributeGroup' ],
-            'xsd:attributeGroupRef' => [ $schema, self::XSD_NS, 'attributeGroupRef' ],
-            'xsd:keybase' => [ $schema, self::XSD_NS, 'keybase' ],
-            'xsd:anyType' => [ $schema, self::XSD_NS, 'anyType' ],
-            'xsd:simpleType' => [ $schema, self::XSD_NS, 'simpleType' ],
-            'xsd:topLevelSimpleType' => [ $schema, self::XSD_NS, 'topLevelSimpleType' ],
-            'xsd:localSimpleType' => [ $schema, self::XSD_NS, 'localSimpleType' ],
-            'xsd:facet' => [ $schema, self::XSD_NS, 'facet' ],
-            'xsd:noFixedFacet' => [ $schema, self::XSD_NS, 'noFixedFacet' ],
-            'xsd:numFacet' => [ $schema, self::XSD_NS, 'numFacet' ]
+            'xsd:openAttrs' => [ $schema, self::XSD_NS, 'openAttrs', 'anyType' ],
+            'xsd:annotated' => [ $schema, self::XSD_NS, 'annotated', 'openAttrs' ],
+            'xsd:attribute' => [ $schema, self::XSD_NS, 'attribute', 'annotated' ],
+            'xsd:topLevelAttribute' => [ $schema, self::XSD_NS, 'topLevelAttribute', 'attribute' ],
+            'xsd:complexType' => [ $schema, self::XSD_NS, 'complexType', 'annotated' ],
+            'xsd:topLevelComplexType' => [ $schema, self::XSD_NS, 'topLevelComplexType', 'complexType' ],
+            'xsd:localComplexType' => [ $schema, self::XSD_NS, 'localComplexType', 'complexType' ],
+            'xsd:restrictionType' => [ $schema, self::XSD_NS, 'restrictionType', 'annotated' ],
+            'xsd:complexRestrictionType' => [ $schema, self::XSD_NS, 'complexRestrictionType', 'restrictionType' ],
+            'xsd:extensionType' => [ $schema, self::XSD_NS, 'extensionType', 'annotated' ],
+            'xsd:simpleRestrictionType' => [ $schema, self::XSD_NS, 'simpleRestrictionType', 'restrictionType' ],
+            'xsd:simpleExtensionType' => [ $schema, self::XSD_NS, 'simpleExtensionType', 'extensionType' ],
+            'xsd:element' => [ $schema, self::XSD_NS, 'element', 'annotated' ],
+            'xsd:topLevelElement' => [ $schema, self::XSD_NS, 'topLevelElement', 'element' ],
+            'xsd:localElement' => [ $schema, self::XSD_NS, 'localElement', 'element' ],
+            'xsd:group' => [ $schema, self::XSD_NS, 'group', 'annotated' ],
+            'xsd:realGroup' => [ $schema, self::XSD_NS, 'realGroup', 'group' ],
+            'xsd:namedGroup' => [ $schema, self::XSD_NS, 'namedGroup', 'realGroup' ],
+            'xsd:groupRef' => [ $schema, self::XSD_NS, 'groupRef', 'realGroup' ],
+            'xsd:explicitGroup' => [ $schema, self::XSD_NS, 'explicitGroup', 'group' ],
+            'xsd:simpleExplicitGroup' => [ $schema, self::XSD_NS, 'simpleExplicitGroup', 'explicitGroup' ],
+            'xsd:narrowMaxMin' => [ $schema, self::XSD_NS, 'narrowMaxMin', 'localElement' ],
+            'xsd:all' => [ $schema, self::XSD_NS, 'all', 'explicitGroup' ],
+            'xsd:wildcard' => [ $schema, self::XSD_NS, 'wildcard', 'annotated' ],
+            'xsd:attributeGroup' => [ $schema, self::XSD_NS, 'attributeGroup', 'annotated' ],
+            'xsd:namedAttributeGroup' => [ $schema, self::XSD_NS, 'namedAttributeGroup', 'attributeGroup' ],
+            'xsd:attributeGroupRef' => [ $schema, self::XSD_NS, 'attributeGroupRef', 'attributeGroup' ],
+            'xsd:keybase' => [ $schema, self::XSD_NS, 'keybase', 'annotated' ],
+            'xsd:anyType' => [ $schema, self::XSD_NS, 'anyType', null ],
+            'xsd:simpleType' => [ $schema, self::XSD_NS, 'simpleType', 'annotated' ],
+            'xsd:topLevelSimpleType' => [ $schema, self::XSD_NS, 'topLevelSimpleType', 'simpleType' ],
+            'xsd:localSimpleType' => [ $schema, self::XSD_NS, 'localSimpleType', 'simpleType' ],
+            'xsd:facet' => [ $schema, self::XSD_NS, 'facet', 'annotated' ],
+            'xsd:noFixedFacet' => [ $schema, self::XSD_NS, 'noFixedFacet', 'facet' ],
+            'xsd:numFacet' => [ $schema, self::XSD_NS, 'numFacet', 'facet' ]
         ];
     }
 
@@ -252,6 +264,10 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\Element::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals(
+            new XName(self::XSD_NS, 'element'),
+            $comp->getXsdElement()->getXName()
+        );
         $this->assertEquals($xName, $comp->getXName());
     }
 
@@ -338,6 +354,10 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\Group::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals(
+            new XName(self::XSD_NS, 'group'),
+            $comp->getXsdElement()->getXName()
+        );
         $this->assertEquals($xName, $comp->getXName());
     }
 
@@ -409,6 +429,10 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\Notation::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals(
+            new XName(self::XSD_NS, 'notation'),
+            $comp->getXsdElement()->getXName()
+        );
         $this->assertEquals($xName, $comp->getXName());
     }
 
@@ -512,7 +536,8 @@ class SchemaTest extends TestCase
     public function testGetGlobalSimpleType(
         $schema,
         $simpleTypeNs,
-        $simpleTypeLocalName
+        $simpleTypeLocalName,
+        $expectedBaseTypeLocalName
     ) {
         $xName = new XName($simpleTypeNs, $simpleTypeLocalName);
 
@@ -520,7 +545,28 @@ class SchemaTest extends TestCase
 
         $this->assertInstanceOf(component\AbstractSimpleType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals(
+            new XName(self::XSD_NS, 'simpleType'),
+            $comp->getXsdElement()->getXName()
+        );
         $this->assertEquals($xName, $comp->getXName());
+
+        switch (true) {
+            case !isset($expectedBaseTypeLocalName):
+                $this->assertNull($comp->getBaseType());
+                break;
+
+            case $expectedBaseTypeLocalName === true:
+                $this->assertInstanceOf(component\TypeInterface::class, $comp->getBaseType());
+                $this->assertNull($comp->getBaseType()->getXName());
+                break;
+
+            default:
+                $this->assertEquals(
+                    $expectedBaseTypeLocalName,
+                    $comp->getBaseType()->getXName()->getLocalName()
+                );
+        }
     }
 
     public function getGlobalSimpleTypeProvider()
@@ -533,61 +579,71 @@ class SchemaTest extends TestCase
         );
 
         return [
-            'xsd:formChoice' => [ $schema, self::XSD_NS, 'formChoice' ],
-            'xsd:reducedDerivationControl' => [ $schema, self::XSD_NS, 'reducedDerivationControl' ],
-            'xsd:derivationSet' => [ $schema, self::XSD_NS, 'derivationSet' ],
-            'xsd:typeDerivationControl' => [ $schema, self::XSD_NS, 'typeDerivationControl' ],
-            'xsd:fullDerivationSet' => [ $schema, self::XSD_NS, 'fullDerivationSet' ],
-            'xsd:allNNI' => [ $schema, self::XSD_NS, 'allNNI' ],
-            'xsd:blockSet' => [ $schema, self::XSD_NS, 'blockSet' ],
-            'xsd:namespaceList' => [ $schema, self::XSD_NS, 'namespaceList' ],
-            'xsd:public' => [ $schema, self::XSD_NS, 'public' ],
-            'xsd:string' => [ $schema, self::XSD_NS, 'string' ],
-            'xsd:boolean' => [ $schema, self::XSD_NS, 'boolean' ],
-            'xsd:float' => [ $schema, self::XSD_NS, 'float' ],
-            'xsd:double' => [ $schema, self::XSD_NS, 'double' ],
-            'xsd:decimal' => [ $schema, self::XSD_NS, 'decimal' ],
-            'xsd:duration' => [ $schema, self::XSD_NS, 'duration' ],
-            'xsd:dateTime' => [ $schema, self::XSD_NS, 'dateTime' ],
-            'xsd:time' => [ $schema, self::XSD_NS, 'time' ],
-            'xsd:date' => [ $schema, self::XSD_NS, 'date' ],
-            'xsd:gYearMonth' => [ $schema, self::XSD_NS, 'gYearMonth' ],
-            'xsd:gYear' => [ $schema, self::XSD_NS, 'gYear' ],
-            'xsd:gMonthDay' => [ $schema, self::XSD_NS, 'gMonthDay' ],
-            'xsd:gDay' => [ $schema, self::XSD_NS, 'gDay' ],
-            'xsd:gMonth' => [ $schema, self::XSD_NS, 'gMonth' ],
-            'xsd:hexBinary' => [ $schema, self::XSD_NS, 'hexBinary' ],
-            'xsd:base64Binary' => [ $schema, self::XSD_NS, 'base64Binary' ],
-            'xsd:anyURI' => [ $schema, self::XSD_NS, 'anyURI' ],
-            'xsd:QName' => [ $schema, self::XSD_NS, 'QName' ],
-            'xsd:NOTATION' => [ $schema, self::XSD_NS, 'NOTATION' ],
-            'xsd:normalizedString' => [ $schema, self::XSD_NS, 'normalizedString' ],
-            'xsd:token' => [ $schema, self::XSD_NS, 'token' ],
-            'xsd:language' => [ $schema, self::XSD_NS, 'language' ],
-            'xsd:IDREFS' => [ $schema, self::XSD_NS, 'IDREFS' ],
-            'xsd:ENTITIES' => [ $schema, self::XSD_NS, 'ENTITIES' ],
-            'xsd:NMTOKEN' => [ $schema, self::XSD_NS, 'NMTOKEN' ],
-            'xsd:NMTOKENS' => [ $schema, self::XSD_NS, 'NMTOKENS' ],
-            'xsd:Name' => [ $schema, self::XSD_NS, 'Name' ],
-            'xsd:NCName' => [ $schema, self::XSD_NS, 'NCName' ],
-            'xsd:ID' => [ $schema, self::XSD_NS, 'ID' ],
-            'xsd:IDREF' => [ $schema, self::XSD_NS, 'IDREF' ],
-            'xsd:ENTITY' => [ $schema, self::XSD_NS, 'ENTITY' ],
-            'xsd:integer' => [ $schema, self::XSD_NS, 'integer' ],
-            'xsd:nonPositiveInteger' => [ $schema, self::XSD_NS, 'nonPositiveInteger' ],
-            'xsd:negativeInteger' => [ $schema, self::XSD_NS, 'negativeInteger' ],
-            'xsd:long' => [ $schema, self::XSD_NS, 'long' ],
-            'xsd:int' => [ $schema, self::XSD_NS, 'int' ],
-            'xsd:short' => [ $schema, self::XSD_NS, 'short' ],
-            'xsd:byte' => [ $schema, self::XSD_NS, 'byte' ],
-            'xsd:nonNegativeInteger' => [ $schema, self::XSD_NS, 'nonNegativeInteger' ],
-            'xsd:unsignedLong' => [ $schema, self::XSD_NS, 'unsignedLong' ],
-            'xsd:unsignedInt' => [ $schema, self::XSD_NS, 'unsignedInt' ],
-            'xsd:unsignedShort' => [ $schema, self::XSD_NS, 'unsignedShort' ],
-            'xsd:unsignedByte' => [ $schema, self::XSD_NS, 'unsignedByte' ],
-            'xsd:positiveInteger' => [ $schema, self::XSD_NS, 'positiveInteger' ],
-            'xsd:derivationControl' => [ $schema, self::XSD_NS, 'derivationControl' ],
-            'xsd:simpleDerivationSet' => [ $schema, self::XSD_NS, 'simpleDerivationSet' ]
+            'xsd:formChoice' => [ $schema, self::XSD_NS, 'formChoice', 'NMTOKEN' ],
+            'xsd:reducedDerivationControl' => [
+                $schema,
+                self::XSD_NS,
+                'reducedDerivationControl',
+                'derivationControl'
+            ],
+            'xsd:derivationSet' => [ $schema, self::XSD_NS, 'derivationSet', null ],
+            'xsd:typeDerivationControl' => [
+                $schema,
+                self::XSD_NS,
+                'typeDerivationControl',
+                'derivationControl'
+            ],
+            'xsd:fullDerivationSet' => [ $schema, self::XSD_NS, 'fullDerivationSet', null ],
+            'xsd:allNNI' => [ $schema, self::XSD_NS, 'allNNI', null ],
+            'xsd:blockSet' => [ $schema, self::XSD_NS, 'blockSet', null ],
+            'xsd:namespaceList' => [ $schema, self::XSD_NS, 'namespaceList', null ],
+            'xsd:public' => [ $schema, self::XSD_NS, 'public', 'token' ],
+            'xsd:string' => [ $schema, self::XSD_NS, 'string', 'anySimpleType' ],
+            'xsd:boolean' => [ $schema, self::XSD_NS, 'boolean', 'anySimpleType' ],
+            'xsd:float' => [ $schema, self::XSD_NS, 'float', 'anySimpleType' ],
+            'xsd:double' => [ $schema, self::XSD_NS, 'double', 'anySimpleType' ],
+            'xsd:decimal' => [ $schema, self::XSD_NS, 'decimal', 'anySimpleType' ],
+            'xsd:duration' => [ $schema, self::XSD_NS, 'duration', 'anySimpleType' ],
+            'xsd:dateTime' => [ $schema, self::XSD_NS, 'dateTime', 'anySimpleType' ],
+            'xsd:time' => [ $schema, self::XSD_NS, 'time', 'anySimpleType' ],
+            'xsd:date' => [ $schema, self::XSD_NS, 'date', 'anySimpleType' ],
+            'xsd:gYearMonth' => [ $schema, self::XSD_NS, 'gYearMonth', 'anySimpleType' ],
+            'xsd:gYear' => [ $schema, self::XSD_NS, 'gYear', 'anySimpleType' ],
+            'xsd:gMonthDay' => [ $schema, self::XSD_NS, 'gMonthDay', 'anySimpleType' ],
+            'xsd:gDay' => [ $schema, self::XSD_NS, 'gDay', 'anySimpleType' ],
+            'xsd:gMonth' => [ $schema, self::XSD_NS, 'gMonth', 'anySimpleType' ],
+            'xsd:hexBinary' => [ $schema, self::XSD_NS, 'hexBinary', 'anySimpleType' ],
+            'xsd:base64Binary' => [ $schema, self::XSD_NS, 'base64Binary', 'anySimpleType' ],
+            'xsd:anyURI' => [ $schema, self::XSD_NS, 'anyURI', 'anySimpleType' ],
+            'xsd:QName' => [ $schema, self::XSD_NS, 'QName', 'anySimpleType' ],
+            'xsd:NOTATION' => [ $schema, self::XSD_NS, 'NOTATION', 'anySimpleType' ],
+            'xsd:normalizedString' => [ $schema, self::XSD_NS, 'normalizedString', 'string' ],
+            'xsd:token' => [ $schema, self::XSD_NS, 'token', 'normalizedString' ],
+            'xsd:language' => [ $schema, self::XSD_NS, 'language', 'token' ],
+            'xsd:IDREFS' => [ $schema, self::XSD_NS, 'IDREFS', true ],
+            'xsd:ENTITIES' => [ $schema, self::XSD_NS, 'ENTITIES', true ],
+            'xsd:NMTOKEN' => [ $schema, self::XSD_NS, 'NMTOKEN', 'token' ],
+            'xsd:NMTOKENS' => [ $schema, self::XSD_NS, 'NMTOKENS', true ],
+            'xsd:Name' => [ $schema, self::XSD_NS, 'Name', 'token' ],
+            'xsd:NCName' => [ $schema, self::XSD_NS, 'NCName', 'Name' ],
+            'xsd:ID' => [ $schema, self::XSD_NS, 'ID', 'NCName' ],
+            'xsd:IDREF' => [ $schema, self::XSD_NS, 'IDREF', 'NCName' ],
+            'xsd:ENTITY' => [ $schema, self::XSD_NS, 'ENTITY', 'NCName' ],
+            'xsd:integer' => [ $schema, self::XSD_NS, 'integer', 'decimal' ],
+            'xsd:nonPositiveInteger' => [ $schema, self::XSD_NS, 'nonPositiveInteger', 'integer' ],
+            'xsd:negativeInteger' => [ $schema, self::XSD_NS, 'negativeInteger', 'nonPositiveInteger' ],
+            'xsd:long' => [ $schema, self::XSD_NS, 'long', 'integer' ],
+            'xsd:int' => [ $schema, self::XSD_NS, 'int', 'long' ],
+            'xsd:short' => [ $schema, self::XSD_NS, 'short', 'int' ],
+            'xsd:byte' => [ $schema, self::XSD_NS, 'byte', 'short' ],
+            'xsd:nonNegativeInteger' => [ $schema, self::XSD_NS, 'nonNegativeInteger', 'integer' ],
+            'xsd:unsignedLong' => [ $schema, self::XSD_NS, 'unsignedLong', 'nonNegativeInteger' ],
+            'xsd:unsignedInt' => [ $schema, self::XSD_NS, 'unsignedInt', 'unsignedLong' ],
+            'xsd:unsignedShort' => [ $schema, self::XSD_NS, 'unsignedShort', 'unsignedInt' ],
+            'xsd:unsignedByte' => [ $schema, self::XSD_NS, 'unsignedByte', 'unsignedShort' ],
+            'xsd:positiveInteger' => [ $schema, self::XSD_NS, 'positiveInteger', 'nonNegativeInteger' ],
+            'xsd:derivationControl' => [ $schema, self::XSD_NS, 'derivationControl', 'NMTOKEN' ],
+            'xsd:simpleDerivationSet' => [ $schema, self::XSD_NS, 'simpleDerivationSet', null ]
         ];
     }
 

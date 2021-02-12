@@ -21,7 +21,10 @@ class AbstractType extends AbstractXsdComponent implements TypeInterface
 
     public function getBaseType(): ?TypeInterface
     {
-        if ($this->baseType === false) {
+        if ($this->baseType_ === false) {
+            /** This branch is executed for complex types only since
+             *  AbstractSimpleType::__construct() always initializes the base
+             *  type. */
             $baseXName =
                 $this->xsdElement_->query('xsd:*/xsd:*[@base]')[0]['base'];
 

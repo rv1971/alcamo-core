@@ -13,15 +13,20 @@ abstract class AbstractSimpleType extends AbstractType
     ): self {
         $restrictionElement = $xsdElement->query('xsd:restriction')[0];
 
-        if (isset($restrictionElement) && isset($restrictionElement['base'])) {
-            $baseType = $schema->getGlobalType($restrictionElement['base']);
+        if (isset($restrictionElement)) {
+            $baseType = isset($restrictionElement['base'])
+                ? $schema->getGlobalType($restrictionElement['base'])
+                : self::newFromSchemaAndXsdElement(
+                    $schema,
+                    $restrictionElement->query('xsd:simpleType')[0]
+                );
 
             if ($baseType instanceof ListType) {
                 return new ListType(
                     $schema,
                     $xsdElement,
                     $baseType,
-                    $baseType->itemType()
+                    $baseType->getItemType()
                 );
             }
 
@@ -85,6 +90,17 @@ abstract class AbstractSimpleType extends AbstractType
                 : new UnionType($schema, $xsdElement, $memberTypes);
         }
 
-        return new AtomicType($schema, $xsdElement);
+        return new AtomicType($schema, $xsdElement, null);
+    }
+
+    /** Unlike AbstractType::__construct(), the third parameter must be
+     *  provided, and AbstractSimpleType objects can only be created via
+     *  newFromSchemaAndXsdElement() or from derived classes. */
+    protected function __construct(
+        Schema $schema,
+        Element $xsdElement,
+        ?TypeInterface $baseType
+    ) {
+        parent::__construct($schema, $xsdElement, $baseType);
     }
 }
