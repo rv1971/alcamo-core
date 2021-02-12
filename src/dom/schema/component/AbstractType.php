@@ -5,7 +5,7 @@ namespace alcamo\dom\schema\component;
 use alcamo\dom\schema\Schema;
 use alcamo\dom\xsd\Element;
 
-class AbstractType extends AbstractXsdComponent
+class AbstractType extends AbstractXsdComponent implements TypeInterface
 {
     private $baseType_; ///< ?AbstractType
 
@@ -19,7 +19,7 @@ class AbstractType extends AbstractXsdComponent
         $this->baseType_ = $baseType;
     }
 
-    public function getBaseType(): ?self
+    public function getBaseType(): ?TypeInterface
     {
         if ($this->baseType === false) {
             $baseXName =

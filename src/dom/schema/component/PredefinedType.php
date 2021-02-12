@@ -5,22 +5,23 @@ namespace alcamo\dom\schema\component;
 use alcamo\dom\schema\Schema;
 use alcamo\xml\XName;
 
-class PredefinedType extends AbstractPredefinedComponent
+class PredefinedType extends AbstractPredefinedComponent implements
+    TypeInterface
 {
-    private $baseComponent_; ///< ?PredefinedTypeComponent
+    private $baseType_; ///< ?PredefinedType
 
     public function __construct(
         Schema $schema,
         XName $xName,
-        ?AbstractComponent $baseComponent = null
+        ?TypeInterface $baseType = null
     ) {
         parent::__construct($schema, $xName);
 
-        $this->baseComponent = $baseComponent;
+        $this->baseType_ = $baseType;
     }
 
-    public function getBaseComponent(): ?self
+    public function getBaseType(): ?TypeInterface
     {
-        return $this->baseComponent_;
+        return $this->baseType_;
     }
 }

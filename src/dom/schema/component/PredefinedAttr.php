@@ -7,20 +7,20 @@ use alcamo\xml\XName;
 
 class PredefinedAttr extends AbstractPredefinedComponent
 {
-    private $typeComponent_; ///< SimpleTypeComponent
+    private $type_; ///< SimpleType
 
     public function __construct(
         Schema $schema,
         XName $xName,
-        AbstractSimpleType $typeComponent
+        AbstractSimpleType $type
     ) {
         parent::__construct($schema, $xName);
 
-        $this->typeComponent_ = $typeComponent;
+        $this->type_ = $type;
     }
 
-    public function getTypeComponent(): SimpleType
+    public function getType(): AbstractSimpleType
     {
-        return $this->typeComponent_;
+        return $this->type_;
     }
 }

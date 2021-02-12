@@ -20,11 +20,6 @@ class Attr extends AbstractXsdComponent
         }
     }
 
-    public function getXName(): XName
-    {
-        return $this->xsdElement_->getComponentXName();
-    }
-
     public function getRefAttr(): ?self
     {
         return $this->refAttr_;

@@ -3,7 +3,7 @@
 namespace alcamo\dom\schema\component;
 
 /// Defintion of an interface for enumeration types
-interface EnumerationTypeInterface
+interface EnumerationTypeInterface extends TypeInterface
 {
     public function getEnums(): array;
 }

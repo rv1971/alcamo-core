@@ -111,10 +111,13 @@ class SchemaTest extends TestCase
      */
     public function testGetGlobalAttr($schema, $attrNs, $attrLocalName)
     {
-        $comp = $schema->getGlobalAttr(new XName($attrNs, $attrLocalName));
+        $xName = new XName($attrNs, $attrLocalName);
+
+        $comp = $schema->getGlobalAttr($xName);
 
         $this->assertInstanceOf(component\Attr::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalAttrProvider()
@@ -142,12 +145,13 @@ class SchemaTest extends TestCase
         $attrGroupNs,
         $attrGroupLocalName
     ) {
-        $comp = $schema->getGlobalAttrGroup(
-            new XName($attrGroupNs, $attrGroupLocalName)
-        );
+        $xName = new XName($attrGroupNs, $attrGroupLocalName);
+
+        $comp = $schema->getGlobalAttrGroup($xName);
 
         $this->assertInstanceOf(component\AttrGroup::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalAttrGroupProvider()
@@ -174,12 +178,19 @@ class SchemaTest extends TestCase
         $complexTypeNs,
         $complexTypeLocalName
     ) {
-        $comp = $schema->getGlobalType(
-            new XName($complexTypeNs, $complexTypeLocalName)
-        );
+        $xName = new XName($complexTypeNs, $complexTypeLocalName);
+
+        $comp = $schema->getGlobalType($xName);
 
         $this->assertInstanceOf(component\ComplexType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
+        /*
+        $this->assertEquals(
+            $expectedBaseTypeXName,
+            $comp->getBaseType()['name']
+        )
+        */
     }
 
     public function getGlobalComplexTypeProvider()
@@ -235,10 +246,13 @@ class SchemaTest extends TestCase
      */
     public function testGetGlobalElement($schema, $elementNs, $elementLocalName)
     {
-        $comp = $schema->getGlobalElement(new XName($elementNs, $elementLocalName));
+        $xName = new XName($elementNs, $elementLocalName);
+
+        $comp = $schema->getGlobalElement($xName);
 
         $this->assertInstanceOf(component\Element::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalElementProvider()
@@ -287,12 +301,13 @@ class SchemaTest extends TestCase
         $enumerationTypeNs,
         $enumerationTypeLocalName
     ) {
-        $comp = $schema->getGlobalType(
-            new XName($enumerationTypeNs, $enumerationTypeLocalName)
-        );
+        $xName = new XName($enumerationTypeNs, $enumerationTypeLocalName);
+
+        $comp = $schema->getGlobalType($xName);
 
         $this->assertInstanceOf(component\EnumerationType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalEnumerationTypeProvider()
@@ -317,10 +332,13 @@ class SchemaTest extends TestCase
      */
     public function testGetGlobalGroup($schema, $groupNs, $groupLocalName)
     {
-        $comp = $schema->getGlobalGroup(new XName($groupNs, $groupLocalName));
+        $xName = new XName($groupNs, $groupLocalName);
+
+        $comp = $schema->getGlobalGroup($xName);
 
         $this->assertInstanceOf(component\Group::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalGroupProvider()
@@ -356,12 +374,12 @@ class SchemaTest extends TestCase
         $listTypeNs,
         $listTypeLocalName
     ) {
-        $comp = $schema->getGlobalType(
-            new XName($listTypeNs, $listTypeLocalName)
-        );
+        $xName = new XName($listTypeNs, $listTypeLocalName);
+        $comp = $schema->getGlobalType($xName);
 
         $this->assertInstanceOf(component\ListType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalListTypeProvider()
@@ -385,10 +403,13 @@ class SchemaTest extends TestCase
      */
     public function testGetGlobalNotation($schema, $notationNs, $notationLocalName)
     {
-        $comp = $schema->getGlobalNotation(new XName($notationNs, $notationLocalName));
+        $xName = new XName($notationNs, $notationLocalName);
+
+        $comp = $schema->getGlobalNotation($xName);
 
         $this->assertInstanceOf(component\Notation::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalNotationProvider()
@@ -412,14 +433,20 @@ class SchemaTest extends TestCase
     public function testGetGlobalPredefinedAttr(
         $schema,
         $predefinedAttrNs,
-        $predefinedAttrLocalName
+        $predefinedAttrLocalName,
+        $expectedTypeXName
     ) {
-        $comp = $schema->getGlobalAttr(
-            new XName($predefinedAttrNs, $predefinedAttrLocalName)
-        );
+        $xName = new XName($predefinedAttrNs, $predefinedAttrLocalName);
+
+        $comp = $schema->getGlobalAttr($xName);
 
         $this->assertInstanceOf(component\PredefinedAttr::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
+        $this->assertEquals(
+            $expectedTypeXName,
+            $comp->getType()->getXName()
+        );
     }
 
     public function getGlobalPredefinedAttrProvider()
@@ -432,7 +459,9 @@ class SchemaTest extends TestCase
         );
 
         return [
-            'xsd:' => [ $schema, self::XSI_NS, 'type' ]
+            'xsd:' => [
+                $schema, self::XSI_NS, 'type', new XName(self::XSD_NS, 'QName')
+            ]
         ];
     }
 
@@ -442,14 +471,20 @@ class SchemaTest extends TestCase
     public function testGetGlobalPredefinedType(
         $schema,
         $predefinedTypeNs,
-        $predefinedTypeLocalName
+        $predefinedTypeLocalName,
+        $expectedBaseTypeXName
     ) {
-        $comp = $schema->getGlobalType(
-            new XName($predefinedTypeNs, $predefinedTypeLocalName)
-        );
+        $xName = new XName($predefinedTypeNs, $predefinedTypeLocalName);
+
+        $comp = $schema->getGlobalType($xName);
 
         $this->assertInstanceOf(component\PredefinedType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
+        $this->assertEquals(
+            $expectedBaseTypeXName,
+            $comp->getBaseType()->getXName()
+        );
     }
 
     public function getGlobalPredefinedTypeProvider()
@@ -462,7 +497,12 @@ class SchemaTest extends TestCase
         );
 
         return [
-            'xsd:anySimpleType' => [ $schema, self::XSD_NS, 'anySimpleType' ]
+            'xsd:anySimpleType' => [
+                $schema,
+                self::XSD_NS,
+                'anySimpleType',
+                new XName(self::XSD_NS, 'anyType')
+            ]
         ];
     }
 
@@ -474,12 +514,13 @@ class SchemaTest extends TestCase
         $simpleTypeNs,
         $simpleTypeLocalName
     ) {
-        $comp = $schema->getGlobalType(
-            new XName($simpleTypeNs, $simpleTypeLocalName)
-        );
+        $xName = new XName($simpleTypeNs, $simpleTypeLocalName);
+
+        $comp = $schema->getGlobalType($xName);
 
         $this->assertInstanceOf(component\AbstractSimpleType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalSimpleTypeProvider()
@@ -558,12 +599,13 @@ class SchemaTest extends TestCase
         $unionTypeNs,
         $unionTypeLocalName
     ) {
-        $comp = $schema->getGlobalType(
-            new XName($unionTypeNs, $unionTypeLocalName)
-        );
+        $xName = new XName($unionTypeNs, $unionTypeLocalName);
+
+        $comp = $schema->getGlobalType($xName);
 
         $this->assertInstanceOf(component\UnionType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
     }
 
     public function getGlobalUnionTypeProvider()

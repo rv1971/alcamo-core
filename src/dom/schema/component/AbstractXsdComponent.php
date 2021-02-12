@@ -4,6 +4,7 @@ namespace alcamo\dom\schema\component;
 
 use alcamo\dom\schema\Schema;
 use alcamo\dom\xsd\Element;
+use alcamo\xml\XName;
 
 abstract class AbstractXsdComponent extends AbstractComponent
 {
@@ -19,5 +20,10 @@ abstract class AbstractXsdComponent extends AbstractComponent
     public function getXsdElement(): Element
     {
         return $this->xsdElement_;
+    }
+
+    public function getXName(): ?XName
+    {
+        return $this->xsdElement_->getComponentXName();
     }
 }

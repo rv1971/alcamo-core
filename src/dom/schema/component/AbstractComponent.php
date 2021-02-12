@@ -4,7 +4,7 @@ namespace alcamo\dom\schema\component;
 
 use alcamo\dom\schema\Schema;
 
-abstract class AbstractComponent
+abstract class AbstractComponent implements ComponentInterface
 {
     protected $schema_; ///< Schema
 
