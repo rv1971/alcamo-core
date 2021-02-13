@@ -18,10 +18,25 @@ class Element extends BaseElement
             if (isset($this['ref'])) {
                 $this->xComponentName_ = $this['ref'];
             } elseif (isset($this['name'])) {
-                $this->xComponentName_ = new XName(
-                    $this->ownerDocument->documentElement['targetNamespace'],
-                    $this['name']
-                );
+                $documentElement = $this->ownerDocument->documentElement;
+
+                /* The component name has the target namespace as
+                 * its namespace iff it is global, or if it is an attribute
+                 * declaration and the form of local attributes is
+                 * qualified. */
+                $nsName =
+                    $this->parentNode->isSameNode($documentElement)
+                    || (
+                        $this->localName == 'attribute'
+                        && (
+                            $this['form'] == 'qualified'
+                            || $documentElement['attributeFormDefault'] == 'qualified'
+                        )
+                    )
+                    ? $documentElement['targetNamespace']
+                    : null;
+
+                    $this->xComponentName_ = new XName($nsName, $this['name']);
             } else {
                 $this->xComponentName_ = null;
             }

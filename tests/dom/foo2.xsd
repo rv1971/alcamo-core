@@ -11,6 +11,10 @@
   <xsd:include schemaLocation="foo2a.xsd"/>
 
   <xsd:import
+      namespace="http://www.w3.org/XML/1998/namespace"
+      schemaLocation="../../xsd/xml.xsd"/>
+
+  <xsd:import
       namespace="http://www.w3.org/2001/XMLSchema"
       schemaLocation="../../xsd/XMLSchema.xsd"/>
 
@@ -50,4 +54,10 @@
       </xsd:simpleType>
     </xsd:union>
   </xsd:simpleType>
+
+  <xsd:attributeGroup name="NestedAttrGroup">
+    <xsd:attributeGroup ref="xsd:occurs"/>
+    <xsd:attribute ref="xml:id"/>
+    <xsd:attribute name="foo"/>
+  </xsd:attributeGroup>
 </xsd:schema>

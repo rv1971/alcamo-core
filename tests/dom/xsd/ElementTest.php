@@ -33,7 +33,7 @@ class ElementTest extends TestCase
             ],
             'attribute' => [
                 $doc->query('//*[@name = "id"]')[0],
-                new XName(Document::NS['xsd'], 'id')
+                new XName(null, 'id')
             ]
         ];
     }

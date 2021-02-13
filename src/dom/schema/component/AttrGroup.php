@@ -9,17 +9,22 @@ class AttrGroup extends AbstractXsdComponent
     public function getAttrs(): array
     {
         if (!isset($this->attrs_)) {
-            foreach ($this as $element) {
+            $this->attrs_ = [];
+
+            foreach ($this->xsdElement_ as $element) {
                 switch ($element->localName) {
                     case 'attribute':
-                        $attr = new Attr($this->schema, $element);
+                        $attr = new Attr($this->schema_, $element);
 
                         $this->attrs_[(string)$attr->getXName()] = $attr;
 
                         break;
 
                     case 'attributeGroup':
-                        $attrGroup = new AttrGroup($this->schema, $element);
+                        $attrGroup = isset($element['ref'])
+                            ? ($this->schema_
+                                ->getGlobalAttrGroup($element['ref']))
+                            : new AttrGroup($this->schema_, $element);
 
                         $this->attrs_ += $attrGroup->getAttrs();
 
