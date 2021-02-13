@@ -66,6 +66,28 @@
     </xsd:complexType>
   </xsd:element>
 
+  <xsd:element name="quux" type="xsd:duration"/>
+
+  <xsd:complexType name="QuuxContainer">
+    <xsd:sequence>
+      <xsd:element ref="quux"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="anyQuux"/>
+
+  <xsd:element name="corge1">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:language"/>
+    </xsd:simpleType>
+  </xsd:element>
+
+  <xsd:element name="corge2">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:NMTOKENS"/>
+    </xsd:simpleType>
+  </xsd:element>
+
   <xsd:complexType name="AbstractBar" abstract="true"/>
 
   <xsd:complexType name="Bar">
