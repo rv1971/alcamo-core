@@ -31,4 +31,23 @@
   <xsd:simpleType name="DerivedFromList">
     <xsd:restriction base="ListOfNamedItemType"/>
   </xsd:simpleType>
+
+  <xsd:simpleType name="EnumUnion">
+    <xsd:union memberTypes="xsd:formChoice xsd:derivationControl">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="foo"/>
+          <xsd:enumeration value="bar"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="baz"/>
+          <xsd:enumeration value="qux"/>
+          <xsd:enumeration value="quux"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:union>
+  </xsd:simpleType>
 </xsd:schema>

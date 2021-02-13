@@ -12,6 +12,7 @@ use alcamo\dom\schema\component\{
     ComplexType,
     Element,
     EnumerationType,
+    EnumerationUnionType,
     Group,
     ListType,
     Notation,
@@ -358,7 +359,8 @@ class SchemaTest extends TestCase
     public function testGetGlobalEnumerationType(
         $schema,
         $enumerationTypeNs,
-        $enumerationTypeLocalName
+        $enumerationTypeLocalName,
+        $expectedEnumerators
     ) {
         $xName = new XName($enumerationTypeNs, $enumerationTypeLocalName);
 
@@ -367,6 +369,17 @@ class SchemaTest extends TestCase
         $this->assertInstanceOf(EnumerationType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
+
+        $this->assertSame(
+            count($expectedEnumerators),
+            count($comp->getEnumerators())
+        );
+
+        $i = 0;
+        foreach ($comp->getEnumerators() as $value => $enumerator) {
+            $this->assertSame($expectedEnumerators[$i++], $value);
+            $this->assertSame($value, (string)$enumerator);
+        }
     }
 
     public function getGlobalEnumerationTypeProvider()
@@ -379,10 +392,92 @@ class SchemaTest extends TestCase
         );
 
         return [
-            'xsd:formChoice' => [ $schema, self::XSD_NS, 'formChoice' ],
-            'xsd:reducedDerivationControl' => [ $schema, self::XSD_NS, 'reducedDerivationControl' ],
-            'xsd:typeDerivationControl' => [ $schema, self::XSD_NS, 'typeDerivationControl' ],
-            'xsd:derivationControl' => [ $schema, self::XSD_NS, 'derivationControl' ]
+            'xsd:formChoice' =>
+            [
+                $schema,
+                self::XSD_NS,
+                'formChoice',
+                [ 'qualified', 'unqualified' ]
+            ],
+            'xsd:reducedDerivationControl' => [
+                $schema,
+                self::XSD_NS,
+                'reducedDerivationControl',
+                [ 'extension', 'restriction' ]
+            ],
+            'xsd:typeDerivationControl' => [
+                $schema,
+                self::XSD_NS,
+                'typeDerivationControl',
+                [ 'extension', 'restriction', 'list', 'union' ]
+            ],
+            'xsd:derivationControl' => [
+                $schema,
+                self::XSD_NS,
+                'derivationControl',
+                [ 'substitution', 'extension', 'restriction', 'list', 'union' ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getGlobalEnumerationUnionTypeProvider
+     */
+    public function testGetGlobalEnumerationUnionType(
+        $schema,
+        $enumerationTypeNs,
+        $enumerationTypeLocalName,
+        $expectedEnumerators
+    ) {
+        $xName = new XName($enumerationTypeNs, $enumerationTypeLocalName);
+
+        $comp = $schema->getGlobalType($xName);
+
+        $this->assertInstanceOf(EnumerationUnionType::class, $comp);
+        $this->assertSame($schema, $comp->getSchema());
+        $this->assertEquals($xName, $comp->getXName());
+
+        $this->assertSame(
+            count($expectedEnumerators),
+            count($comp->getEnumerators())
+        );
+
+        $i = 0;
+        foreach ($comp->getEnumerators() as $value => $enumerator) {
+            $this->assertSame($expectedEnumerators[$i++], $value);
+            $this->assertSame($value, (string)$enumerator);
+        }
+    }
+
+    public function getGlobalEnumerationUnionTypeProvider()
+    {
+        $schema = Schema::newFromDocument(
+            Document::newFromUrl(
+                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+                . 'foo.xml'
+            )
+        );
+
+        return [
+            'foo2:EnumUnion' => [
+                $schema,
+                self::FOO2_NS,
+                'EnumUnion',
+                [
+                    'qualified',
+                    'unqualified',
+                    'substitution',
+                    'extension',
+                    'restriction',
+                    'list',
+                    'union',
+                    'foo',
+                    'bar',
+                    'baz',
+                    'qux',
+                    'quux'
+                ]
+            ]
         ];
     }
 
@@ -728,7 +823,8 @@ class SchemaTest extends TestCase
         $schema,
         $unionTypeNs,
         $unionTypeLocalName,
-        $expectedMemberTypes
+        $expectedMemberTypes,
+        $isEnumerationUnion
     ) {
         $xName = new XName($unionTypeNs, $unionTypeLocalName);
 
@@ -758,6 +854,11 @@ class SchemaTest extends TestCase
                 $this->assertNull($memberType->getXName());
             }
         }
+
+        $this->assertSame(
+            $isEnumerationUnion,
+            $comp instanceof EnumerationUnionType
+        );
     }
 
     public function getGlobalUnionTypeProvider()
@@ -784,7 +885,8 @@ class SchemaTest extends TestCase
                 [
                     [ EnumerationType::class, null ],
                     [ ListType::class, null ]
-                ]
+                ],
+                false
             ],
             'xsd:fullDerivationSet' => [
                 $bazSchema,
@@ -793,7 +895,8 @@ class SchemaTest extends TestCase
                 [
                     [ EnumerationType::class, null ],
                     [ ListType::class, null ]
-                ]
+                ],
+                false
             ],
             'xsd:allNNI' => [
                 $bazSchema,
@@ -802,7 +905,8 @@ class SchemaTest extends TestCase
                 [
                     [ AtomicType::class, 'nonNegativeInteger' ],
                     [ EnumerationType::class, null ],
-                ]
+                ],
+                false
             ],
             'xsd:blockSet' => [
                 $bazSchema,
@@ -811,7 +915,8 @@ class SchemaTest extends TestCase
                 [
                     [ EnumerationType::class, null ],
                     [ ListType::class, null ]
-                ]
+                ],
+                false
             ],
             'xsd:namespaceList' => [
                 $bazSchema,
@@ -820,7 +925,8 @@ class SchemaTest extends TestCase
                 [
                     [ EnumerationType::class, null ],
                     [ ListType::class, null ]
-                ]
+                ],
+                false
             ],
             'xsd:simpleDerivationSet' => [
                 $bazSchema,
@@ -829,7 +935,8 @@ class SchemaTest extends TestCase
                 [
                     [ EnumerationType::class, null ],
                     [ ListType::class, null ]
-                ]
+                ],
+                false
             ],
             'foo2:UnionOfNamed' => [
                 $fooSchema,
@@ -839,7 +946,20 @@ class SchemaTest extends TestCase
                     [ EnumerationType::class, 'formChoice' ],
                     [ UnionType::class, 'derivationSet' ],
                     [ AtomicType::class, 'Literal' ]
-                ]
+                ],
+                false
+            ],
+            'foo2:EnumUnion' => [
+                $fooSchema,
+                self::FOO2_NS,
+                'EnumUnion',
+                [
+                    [ EnumerationType::class, 'formChoice' ],
+                    [ EnumerationType::class, 'derivationControl' ],
+                    [ EnumerationType::class, null ],
+                    [ EnumerationType::class, null ]
+                ],
+                true
             ]
         ];
     }

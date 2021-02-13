@@ -7,19 +7,20 @@ use alcamo\dom\xsd\Enumerator;
 /// Defintion of an XSD simple type that is an enumeration.
 class EnumerationType extends AtomicType implements EnumerationTypeInterface
 {
-    private $enums_; ///< Map of enum strings to Enumerator objects.
+    private $enumerators_; ///< Map of enumerator strings to Enumerator objects.
 
-    public function getEnums(): array
+    public function getEnumerators(): array
     {
-        if (!isset($this->enums_)) {
+        if (!isset($this->enumerators_)) {
             foreach (
                 $this->xsdElement_
-                    ->query('xsd:restriction/xsd:enumeration') as $enum
+                    ->query('xsd:restriction/xsd:enumeration') as $enumerator
             ) {
-                $this->enums_[$enum['value']] = new Enumerator($enum);
+                $this->enumerators_[$enumerator['value']] =
+                    new Enumerator($enumerator);
             }
         }
 
-        return $this->enums_;
+        return $this->enumerators_;
     }
 }

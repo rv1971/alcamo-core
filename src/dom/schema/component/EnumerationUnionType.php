@@ -5,20 +5,21 @@ namespace alcamo\dom\schema\component;
 use alcamo\dom\xsd\Enumerator;
 
 /// Defintion of an XSD simple type that is a union of enumerations.
-class EnumerationUnionType extends UnionType implements EnumerationTypeInterface
+class EnumerationUnionType extends UnionType implements
+    EnumerationTypeInterface
 {
-    private $enums_; ///< Map of enum strings to Enumerator objects.
+    private $enumerators_; ///< Map of enumerator strings to Enumerator objects.
 
-    public function getEnums(): array
+    public function getEnumerators(): array
     {
-        if (!isset($this->enums_)) {
-            foreach ($this->memberTypes_ as $memberType) {
-                $this->enums_ += $memberType->getEnums();
-            }
+        if (!isset($this->enumerators_)) {
+            $this->enumerators_ = [];
 
-            ksort($this->enums_);
+            foreach ($this->memberTypes_ as $memberType) {
+                $this->enumerators_ += $memberType->getEnumerators();
+            }
         }
 
-        return $this->enums_;
+        return $this->enumerators_;
     }
 }
