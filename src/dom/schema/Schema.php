@@ -255,7 +255,7 @@ class Schema
 
         // load indicated XSDs and XSDs referenced therein
         while ($xsds) {
-            $xsd = array_shift($xsds);
+            $xsd = array_pop($xsds);
 
             if (!isset($this->xsds_[$xsd->documentURI])) {
                 $this->xsds_[$xsd->documentURI] = $xsd;

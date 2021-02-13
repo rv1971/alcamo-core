@@ -56,6 +56,50 @@ class ComplexType extends AbstractType
     }
 
     /**
+     * @return array mapping element expanded name string to Element objects
+     * for all elements in the content model
+     *
+     * @warning Content models containing two elements with the same expanded
+     * name but different types are not supported.
+     */
+    public function getElementDecls(): array
+    {
+        $stack = [ $this->xsdElement_ ];
+
+        $decls = [];
+
+        while ($stack) {
+            foreach (array_pop($stack) as $child) {
+                if ($child->namespaceURI == self::XSD_NS) {
+                    switch ($child->localName) {
+                        case 'element':
+                            $decl = new Element($this->schema_, $child);
+
+                            $decls[(string)$decl->getXName()] = $decl;
+
+                            break;
+
+                        case 'choice':
+                        case 'complexContent':
+                        case 'extension':
+                        case 'restriction':
+                        case 'sequence':
+                            $stack[] = $child;
+                            break;
+
+                        case 'group':
+                            $stack[] = $this->schema_
+                                ->getGlobalGroup($child['ref'])->xsdElement_;
+                            break;
+                    }
+                }
+            }
+        }
+
+        return $decls;
+    }
+
+    /**
      * @warning Cases where a complex type content contains several element
      * declarations with the same name but different type are not supported.
      */

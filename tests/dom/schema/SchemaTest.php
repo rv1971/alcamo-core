@@ -82,13 +82,13 @@ class SchemaTest extends TestCase
         $schema3 = Schema::newFromDocument($foo);
 
         $xsds = [
-            'foo.xsd',
-            'rdfs.xsd',
             'XMLSchema.xsd',
-            'dc.xsd',
             'xml.xsd',
+            'rdfs.xsd',
+            'foo.xsd',
             'foo2.xsd',
-            'foo2a.xsd'
+            'foo2a.xsd',
+            'dc.xsd'
         ];
 
         $this->assertSame(count($xsds), count($schema3->getXsds()));
@@ -120,14 +120,14 @@ class SchemaTest extends TestCase
         $this->assertSame($schema1, $schema2);
 
         $xsds = [
-            'foo.xsd',
-            'bar.xsd',
             'XMLSchema.xsd',
-            'rdfs.xsd',
-            'dc.xsd',
             'xml.xsd',
+            'bar.xsd',
+            'foo.xsd',
             'foo2.xsd',
-            'foo2a.xsd'
+            'foo2a.xsd',
+            'rdfs.xsd',
+            'dc.xsd'
         ];
 
         $this->assertSame(count($xsds), count($schema1->getXsds()));
