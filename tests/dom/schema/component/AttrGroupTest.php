@@ -5,7 +5,6 @@ namespace alcamo\dom\schema\component;
 use PHPUnit\Framework\TestCase;
 use alcamo\dom\extended\Document;
 use alcamo\dom\schema\Schema;
-use alcamo\dom\xsd\Document as Xsd;
 use alcamo\xml\XName;
 
 class AttrGroupTest extends TestCase

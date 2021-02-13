@@ -5,7 +5,7 @@ namespace alcamo\dom\schema\component;
 use alcamo\dom\schema\Schema;
 use alcamo\dom\xsd\Element;
 
-abstract class AbstractSimpleType extends AbstractType
+abstract class AbstractSimpleType extends AbstractType implements SimpleTypeInterface
 {
     public static function newFromSchemaAndXsdElement(
         Schema $schema,

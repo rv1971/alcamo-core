@@ -25,7 +25,7 @@ class Attr extends AbstractXsdComponent
         return $this->refAttr_;
     }
 
-    public function getType(): SimpleType
+    public function getType(): SimpleTypeInterface
     {
         if (!isset($this->type_)) {
             switch (true) {
@@ -34,8 +34,8 @@ class Attr extends AbstractXsdComponent
                     break;
 
                 case isset($this->xsdElement_['type']):
-                    $this->type_ =
-                        $this->schema_->getGlobalType($this->xsdElement_['type']);
+                    $this->type_ = $this->schema_
+                        ->getGlobalType($this->xsdElement_['type']);
                     break;
 
                 case ($simpleTypeElement =

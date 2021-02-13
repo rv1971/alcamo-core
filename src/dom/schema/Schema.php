@@ -15,7 +15,7 @@ use alcamo\dom\schema\component\{
     Group,
     Notation,
     PredefinedAttr,
-    PredefinedType,
+    PredefinedSimpleType,
     SimpleType
 };
 use alcamo\dom\xsd\{Document as Xsd, Element as XsdElement};
@@ -113,7 +113,7 @@ class Schema
     private $localComplexTypes_ = []; ///< Map of hash() string to ComplexType
 
     private $anyType_;                ///< ComplexType
-    private $anySimpleType;           ///< PredefinedType
+    private $anySimpleType;           ///< PredefinedSimpleType
 
     /** @throw AbsoluteUriNeeded when an XSD has a non-absolute URI. */
     private function __construct(array $xsds)
@@ -212,7 +212,7 @@ class Schema
         return $this->anyType_;
     }
 
-    public function getAnySimpleType(): PredefinedType
+    public function getAnySimpleType(): PredefinedSimpleType
     {
         return $this->anySimpleType_;
     }
@@ -316,8 +316,11 @@ class Schema
         // Add `anySimpleType`.
         $anySimpleTypeXName = new XName(self::XSD_NS, 'anySimpleType');
 
-        $this->anySimpleType_ =
-            new PredefinedType($this, $anySimpleTypeXName, $this->anyType_);
+        $this->anySimpleType_ = new PredefinedSimpleType(
+            $this,
+            $anySimpleTypeXName,
+            $this->anyType_
+        );
 
         $this->globalTypes_[(string)$anySimpleTypeXName] =
             $this->anySimpleType_;

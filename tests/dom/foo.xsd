@@ -6,6 +6,7 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:foo2="http://foo2.example.org"
     targetNamespace="http://foo.example.org"
     elementFormDefault="qualified">
 
@@ -25,6 +26,8 @@
       xmlns="http://foo2.example.org"
       schemaLocation="foo2.xsd"/>
 
+  <xsd:attribute name="quux" type="xsd:short"/>
+
   <xsd:element name="foo">
     <xsd:complexType>
       <xsd:sequence>
@@ -35,12 +38,31 @@
 
       <xsd:attribute ref="xml:lang"/>
       <xsd:attribute ref="dc:source"/>
+      <xsd:attribute ref="quux"/>
       <xsd:attribute name="qux"/>
       <xsd:attribute name="bar" type="xsd:boolean"/>
       <xsd:attribute name="baz" type="xsd:boolean"/>
       <xsd:attribute name="foobar"/>
       <xsd:attribute name="barbaz" type="xsd:integer"/>
       <xsd:attribute name="bazbaz"/>
+
+      <xsd:attribute name="foofoofoo">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string"/>
+        </xsd:simpleType>
+      </xsd:attribute>
+
+      <xsd:attribute name="barbarbar">
+        <xsd:simpleType>
+          <xsd:list itemType="xsd:token"/>
+        </xsd:simpleType>
+      </xsd:attribute>
+
+      <xsd:attribute name="bazbazbaz">
+        <xsd:simpleType>
+          <xsd:restriction base="foo2:DerivedFromList"/>
+        </xsd:simpleType>
+      </xsd:attribute>
     </xsd:complexType>
   </xsd:element>
 

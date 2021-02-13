@@ -17,7 +17,7 @@ use alcamo\dom\schema\component\{
     ListType,
     Notation,
     PredefinedAttr,
-    PredefinedType,
+    PredefinedSimpleType,
     TypeInterface,
     UnionType
 };
@@ -71,7 +71,7 @@ class SchemaTest extends TestCase
         );
 
         $this->assertEquals(
-            new PredefinedType(
+            new PredefinedSimpleType(
                 $schema1,
                 new XName(self::XSD_NS, 'anySimpleType'),
                 $schema1->getAnyType()
@@ -659,9 +659,9 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @dataProvider getGlobalPredefinedTypeProvider
+     * @dataProvider getGlobalPredefinedSimpleTypeProvider
      */
-    public function testGetGlobalPredefinedType(
+    public function testGetGlobalPredefinedSimpleType(
         $schema,
         $predefinedTypeNs,
         $predefinedTypeLocalName,
@@ -671,7 +671,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(PredefinedType::class, $comp);
+        $this->assertInstanceOf(PredefinedSimpleType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
         $this->assertEquals(
@@ -680,7 +680,7 @@ class SchemaTest extends TestCase
         );
     }
 
-    public function getGlobalPredefinedTypeProvider()
+    public function getGlobalPredefinedSimpleTypeProvider()
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
