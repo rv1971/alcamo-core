@@ -37,9 +37,7 @@ abstract class AbstractSimpleType extends AbstractType
             return new AtomicType($schema, $xsdElement, $baseType);
         }
 
-        $listElement = $xsdElement->query(
-            'xsd:list|xsd:restriction/xsd:simpleType/xsd:list'
-        )[0];
+        $listElement = $xsdElement->query('xsd:list')[0];
 
         if (isset($listElement)) {
             if (isset($listElement['itemType'])) {

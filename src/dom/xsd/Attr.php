@@ -8,6 +8,11 @@ class Attr extends BaseAttr
 {
     public const XSD_NS = Document::NS['xsd'];
 
+    /*
+     * `namespace` and `targetNamespace` are *not* modeled as URIs since this
+     * would remove, for instance, the trailing `#` in
+     * http://www.w3.org/2000/01/rdf-schema#.
+     */
     public const XSD_CONVERTERS = [
         'maxOccurs'         => 'toAllNNI',
 
@@ -17,11 +22,9 @@ class Attr extends BaseAttr
 
         'minOccurs'         => 'toInt',
 
-        'namespace'         => 'toUri',
         'schemaLocation'    => 'toUri',
         'source'            => 'toUri',
         'system'            => 'toUri',
-        'targetNamespace'   => 'toUri',
 
         'base'              => 'toXName',
         'itemType'          => 'toXName',

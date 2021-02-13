@@ -21,7 +21,7 @@ class ListType extends AbstractSimpleType
         $this->itemType_ = $itemType;
     }
 
-    public function getItemType(): AbstractSimpleType
+    public function getItemType(): TypeInterface
     {
         return $this->itemType_;
     }

@@ -58,11 +58,6 @@ class AttrTest extends TestCase
                 'minOccurs',
                 0
             ],
-            'namespace' => [
-                $doc->query('//*[@namespace = "http://www.w3.org/XML/1998/namespace"]')[0],
-                'namespace',
-                new Uri('http://www.w3.org/XML/1998/namespace')
-            ],
             'schemaLocation' => [
                 $doc->query('//*[@schemaLocation = "xml.xsd"]')[0],
                 'schemaLocation',
@@ -77,11 +72,6 @@ class AttrTest extends TestCase
                 $doc->query('//*[@system = "http://www.w3.org/2000/08/XMLSchema.xsd"]')[0],
                 'system',
                 new Uri('http://www.w3.org/2000/08/XMLSchema.xsd')
-            ],
-            'targetNamespace' => [
-                $doc->query('//*[@targetNamespace = "http://www.w3.org/2001/XMLSchema"]')[0],
-                'targetNamespace',
-                new Uri('http://www.w3.org/2001/XMLSchema')
             ],
             'base' => [
                 $doc->query('//*[@base = "xs:anyType"]')[0],

@@ -62,7 +62,7 @@ class Schema
             $xsds = [];
 
             foreach ($normalizedUrls as $url) {
-                $xds[] = Xsd::newFromUrl($url, true);
+                $xsds[] = Xsd::newFromUrl($url, true);
             }
 
             self::$schemaCache_[$cacheKey] = new self($xsds);
@@ -191,6 +191,10 @@ class Schema
     {
         $key = (string)$xName;
 
+        if (!isset($this->globalTypes_[$key])) {
+            var_dump(array_keys($this->globalTypes_));
+        }
+
         $comp = $this->globalTypes_[$key];
 
         if ($comp instanceof XsdElement) {
@@ -250,12 +254,14 @@ class Schema
         $xsds[] = $xmlSchemaXsd;
 
         // load indicated XSDs and XSDs referenced therein
-        foreach ($xsds as $xsd) {
+        while ($xsds) {
+            $xsd = array_shift($xsds);
+
             if (!isset($this->xsds_[$xsd->documentURI])) {
                 $this->xsds_[$xsd->documentURI] = $xsd;
 
-                /* Cache all XSDs. addToCache() will throw if documentURI is not
-                 * absolute. */
+                /* Cache all XSDs. addToCache() will throw if documentURI is
+                 * not absolute. */
                 $xsd->addToCache();
 
                 // Also load imported XSDs.
@@ -271,8 +277,7 @@ class Schema
                     );
 
                     if (!isset($this->xsds_[(string)$url])) {
-                        $this->xsds_[(string)$url] =
-                            Xsd::newFromUrl($url, true);
+                        $xsds[] = Xsd::newFromUrl($url, true);
                     }
                 }
             }

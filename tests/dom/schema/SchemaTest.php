@@ -4,7 +4,22 @@ namespace alcamo\dom\schema;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\dom\extended\Document;
-use alcamo\dom\schema\component\PredefinedType;
+use alcamo\dom\schema\component\{
+    AbstractSimpleType,
+    AtomicType,
+    Attr,
+    AttrGroup,
+    ComplexType,
+    Element,
+    EnumerationType,
+    Group,
+    ListType,
+    Notation,
+    PredefinedAttr,
+    PredefinedType,
+    TypeInterface,
+    UnionType
+};
 use alcamo\dom\xsd\Document as Xsd;
 use alcamo\exception\AbsoluteUriNeeded;
 use alcamo\xml\XName;
@@ -14,6 +29,8 @@ class SchemaTest extends TestCase
     public const XML_NS = 'http://www.w3.org/XML/1998/namespace';
     public const XSD_NS = 'http://www.w3.org/2001/XMLSchema';
     public const XSI_NS = 'http://www.w3.org/2001/XMLSchema-instance';
+    public const FOO_NS = 'http://foo.example.org';
+    public const FOO2_NS = 'http://foo2.example.org';
 
     public function testNewFromDocument()
     {
@@ -25,6 +42,11 @@ class SchemaTest extends TestCase
         $baz2 = Document::newFromUrl(
             'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
             . 'baz2.xml'
+        );
+
+        $foo = Document::newFromUrl(
+            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+            . 'foo.xml'
         );
 
         $schema1 = Schema::newFromDocument($baz);
@@ -55,6 +77,25 @@ class SchemaTest extends TestCase
             ),
             $schema1->getAnySimpleType()
         );
+
+        $schema3 = Schema::newFromDocument($foo);
+
+        $xsds = [
+            'foo.xsd',
+            'rdfs.xsd',
+            'XMLSchema.xsd',
+            'dc.xsd',
+            'xml.xsd',
+            'foo2.xsd',
+            'foo2a.xsd'
+        ];
+
+        $this->assertSame(count($xsds), count($schema3->getXsds()));
+
+        $i = 0;
+        foreach ($schema3->getXsds() as $url => $xsd) {
+            $this->assertSame($xsds[$i++], basename($url));
+        }
     }
 
     public function testNewFromXsds()
@@ -79,11 +120,13 @@ class SchemaTest extends TestCase
 
         $xsds = [
             'foo.xsd',
+            'bar.xsd',
+            'XMLSchema.xsd',
             'rdfs.xsd',
             'dc.xsd',
             'xml.xsd',
-            'bar.xsd',
-            'XMLSchema.xsd'
+            'foo2.xsd',
+            'foo2a.xsd'
         ];
 
         $this->assertSame(count($xsds), count($schema1->getXsds()));
@@ -115,7 +158,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalAttr($xName);
 
-        $this->assertInstanceOf(component\Attr::class, $comp);
+        $this->assertInstanceOf(Attr::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'attribute'),
@@ -153,7 +196,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalAttrGroup($xName);
 
-        $this->assertInstanceOf(component\AttrGroup::class, $comp);
+        $this->assertInstanceOf(AttrGroup::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'attributeGroup'),
@@ -191,7 +234,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(component\ComplexType::class, $comp);
+        $this->assertInstanceOf(ComplexType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'complexType'),
@@ -262,7 +305,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalElement($xName);
 
-        $this->assertInstanceOf(component\Element::class, $comp);
+        $this->assertInstanceOf(Element::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'element'),
@@ -321,7 +364,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(component\EnumerationType::class, $comp);
+        $this->assertInstanceOf(EnumerationType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
     }
@@ -352,7 +395,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalGroup($xName);
 
-        $this->assertInstanceOf(component\Group::class, $comp);
+        $this->assertInstanceOf(Group::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'group'),
@@ -392,29 +435,60 @@ class SchemaTest extends TestCase
     public function testGetGlobalListType(
         $schema,
         $listTypeNs,
-        $listTypeLocalName
+        $listTypeLocalName,
+        $itemTypeLocalName
     ) {
         $xName = new XName($listTypeNs, $listTypeLocalName);
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(component\ListType::class, $comp);
+        $this->assertInstanceOf(ListType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
+        $this->assertInstanceOf(TypeInterface::class, $comp->getItemType());
+        $this->assertEquals(
+            $itemTypeLocalName,
+            $comp->getItemType()->getXName() ? $comp->getItemType()->getXName()->getLocalName() : null
+        );
     }
 
     public function getGlobalListTypeProvider()
     {
-        $schema = Schema::newFromDocument(
+        $bazSchema = Schema::newFromDocument(
             Document::newFromUrl(
                 'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
                 . 'baz.xml'
             )
         );
 
+        $fooSchema = Schema::newFromDocument(
+            Document::newFromUrl(
+                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+                . 'foo.xml'
+            )
+        );
+
         return [
-            'xsd:IDREFS' => [ $schema, self::XSD_NS, 'IDREFS' ],
-            'xsd:ENTITIES' => [ $schema, self::XSD_NS, 'ENTITIES' ],
-            'xsd:NMTOKENS' => [ $schema, self::XSD_NS, 'NMTOKENS' ]
+            'xsd:IDREFS' => [ $bazSchema, self::XSD_NS, 'IDREFS', 'IDREF' ],
+            'xsd:ENTITIES' => [ $bazSchema, self::XSD_NS, 'ENTITIES', 'ENTITY' ],
+            'xsd:NMTOKENS' => [ $bazSchema, self::XSD_NS, 'NMTOKENS', 'NMTOKEN' ],
+            'foo2:ListOfNamedItemType' => [
+                $fooSchema,
+                self::FOO2_NS,
+                'ListOfNamedItemType',
+                'integer'
+            ],
+            'foo2:ListOfAnonymousItemType' => [
+                $fooSchema,
+                self::FOO2_NS,
+                'ListOfAnonymousItemType',
+                null
+            ],
+            'foo2:DerivedFromList' => [
+                $fooSchema,
+                self::FOO2_NS,
+                'DerivedFromList',
+                'integer'
+            ]
         ];
     }
 
@@ -427,7 +501,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalNotation($xName);
 
-        $this->assertInstanceOf(component\Notation::class, $comp);
+        $this->assertInstanceOf(Notation::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'notation'),
@@ -464,7 +538,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalAttr($xName);
 
-        $this->assertInstanceOf(component\PredefinedAttr::class, $comp);
+        $this->assertInstanceOf(PredefinedAttr::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
         $this->assertEquals(
@@ -502,7 +576,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(component\PredefinedType::class, $comp);
+        $this->assertInstanceOf(PredefinedType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
         $this->assertEquals(
@@ -543,7 +617,7 @@ class SchemaTest extends TestCase
 
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(component\AbstractSimpleType::class, $comp);
+        $this->assertInstanceOf(AbstractSimpleType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals(
             new XName(self::XSD_NS, 'simpleType'),
@@ -557,7 +631,7 @@ class SchemaTest extends TestCase
                 break;
 
             case $expectedBaseTypeLocalName === true:
-                $this->assertInstanceOf(component\TypeInterface::class, $comp->getBaseType());
+                $this->assertInstanceOf(TypeInterface::class, $comp->getBaseType());
                 $this->assertNull($comp->getBaseType()->getXName());
                 break;
 
@@ -653,33 +727,120 @@ class SchemaTest extends TestCase
     public function testGetGlobalUnionType(
         $schema,
         $unionTypeNs,
-        $unionTypeLocalName
+        $unionTypeLocalName,
+        $expectedMemberTypes
     ) {
         $xName = new XName($unionTypeNs, $unionTypeLocalName);
 
         $comp = $schema->getGlobalType($xName);
 
-        $this->assertInstanceOf(component\UnionType::class, $comp);
+        $this->assertInstanceOf(UnionType::class, $comp);
         $this->assertSame($schema, $comp->getSchema());
         $this->assertEquals($xName, $comp->getXName());
+
+        $this->assertSame(
+            count($expectedMemberTypes),
+            count($comp->getMemberTypes())
+        );
+
+        $i = 0;
+        foreach ($comp->getMemberTypes() as $memberType) {
+            [ $expectedClass, $expectedLocalName ] = $expectedMemberTypes[$i++];
+
+            $this->assertInstanceOf($expectedClass, $memberType);
+
+            if (isset($expectedLocalName)) {
+                $this->assertSame(
+                    $expectedLocalName,
+                    $memberType->getXName()->getLocalName()
+                );
+            } else {
+                $this->assertNull($memberType->getXName());
+            }
+        }
     }
 
     public function getGlobalUnionTypeProvider()
     {
-        $schema = Schema::newFromDocument(
+        $bazSchema = Schema::newFromDocument(
             Document::newFromUrl(
                 'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
                 . 'baz.xml'
             )
         );
 
+        $fooSchema = Schema::newFromDocument(
+            Document::newFromUrl(
+                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+                . 'foo.xml'
+            )
+        );
+
         return [
-            'xsd:derivationSet' => [ $schema, self::XSD_NS, 'derivationSet' ],
-            'xsd:fullDerivationSet' => [ $schema, self::XSD_NS, 'fullDerivationSet' ],
-            'xsd:allNNI' => [ $schema, self::XSD_NS, 'allNNI' ],
-            'xsd:blockSet' => [ $schema, self::XSD_NS, 'blockSet' ],
-            'xsd:namespaceList' => [ $schema, self::XSD_NS, 'namespaceList' ],
-            'xsd:simpleDerivationSet' => [ $schema, self::XSD_NS, 'simpleDerivationSet' ]
+            'xsd:derivationSet' => [
+                $bazSchema,
+                self::XSD_NS,
+                'derivationSet',
+                [
+                    [ EnumerationType::class, null ],
+                    [ ListType::class, null ]
+                ]
+            ],
+            'xsd:fullDerivationSet' => [
+                $bazSchema,
+                self::XSD_NS,
+                'fullDerivationSet',
+                [
+                    [ EnumerationType::class, null ],
+                    [ ListType::class, null ]
+                ]
+            ],
+            'xsd:allNNI' => [
+                $bazSchema,
+                self::XSD_NS,
+                'allNNI',
+                [
+                    [ AtomicType::class, 'nonNegativeInteger' ],
+                    [ EnumerationType::class, null ],
+                ]
+            ],
+            'xsd:blockSet' => [
+                $bazSchema,
+                self::XSD_NS,
+                'blockSet',
+                [
+                    [ EnumerationType::class, null ],
+                    [ ListType::class, null ]
+                ]
+            ],
+            'xsd:namespaceList' => [
+                $bazSchema,
+                self::XSD_NS,
+                'namespaceList',
+                [
+                    [ EnumerationType::class, null ],
+                    [ ListType::class, null ]
+                ]
+            ],
+            'xsd:simpleDerivationSet' => [
+                $bazSchema,
+                self::XSD_NS,
+                'simpleDerivationSet',
+                [
+                    [ EnumerationType::class, null ],
+                    [ ListType::class, null ]
+                ]
+            ],
+            'foo2:UnionOfNamed' => [
+                $fooSchema,
+                self::FOO2_NS,
+                'UnionOfNamed',
+                [
+                    [ EnumerationType::class, 'formChoice' ],
+                    [ UnionType::class, 'derivationSet' ],
+                    [ AtomicType::class, 'Literal' ]
+                ]
+            ]
         ];
     }
 }
