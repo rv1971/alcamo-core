@@ -15,11 +15,11 @@ class GroupTest extends TestCase
     public const FOO2_NS = 'http://foo2.example.org';
 
     /**
-     * @dataProvider getElementDeclsProvider
+     * @dataProvider getElementsProvider
      */
-    public function testGetElementDecls($group, $expectedElementLocalNames)
+    public function testGetElements($group, $expectedElementLocalNames)
     {
-        $decls = $group->getElementDecls();
+        $decls = $group->getElements();
 
         $this->assertSame(count($expectedElementLocalNames), count($decls));
 
@@ -32,7 +32,7 @@ class GroupTest extends TestCase
         }
     }
 
-    public function getElementDeclsProvider()
+    public function getElementsProvider()
     {
         $fooSchema = Schema::newFromDocument(
             Document::newFromUrl(
@@ -69,13 +69,13 @@ class GroupTest extends TestCase
                     new XName(self::XSD_NS, 'schemaTop')
                 ),
                 [
-                    'element',
-                    'attribute',
-                    'notation',
                     'simpleType',
                     'complexType',
                     'group',
-                    'attributeGroup'
+                    'attributeGroup',
+                    'element',
+                    'attribute',
+                    'notation'
                 ]
             ],
             // test nesting
@@ -97,13 +97,13 @@ class GroupTest extends TestCase
                 [
                     'simpleContent',
                     'complexContent',
-                    'anyAttribute',
-                    'attribute',
-                    'attributeGroup',
                     'group',
                     'all',
                     'choice',
-                    'sequence'
+                    'sequence',
+                    'anyAttribute',
+                    'attribute',
+                    'attributeGroup'
                 ]
             ]
         ];

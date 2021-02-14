@@ -26,12 +26,16 @@ class Element extends BaseElement
                  * qualified. */
                 $nsName =
                     $this->parentNode->isSameNode($documentElement)
+                    || $this['form'] == 'qualified'
                     || (
                         $this->localName == 'attribute'
-                        && (
-                            $this['form'] == 'qualified'
-                            || $documentElement['attributeFormDefault'] == 'qualified'
-                        )
+                        && $documentElement['attributeFormDefault']
+                        == 'qualified'
+                    )
+                    || (
+                        $this->localName == 'element'
+                        && $documentElement['elementFormDefault']
+                        == 'qualified'
                     )
                     ? $documentElement['targetNamespace']
                     : null;

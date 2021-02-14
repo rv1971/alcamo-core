@@ -9,45 +9,51 @@ class Group extends AbstractXsdComponent
 {
     public const XSD_NS = Xsd::NS['xsd'];
 
+    private $elements_; ///< Array of Element
+
     /**
-     * @return array mapping element expanded name string to Element objects
-     * for all elements in the content model
-     *
+     * @return Array mapping element expanded name string to Element objects
+     * for all elements in the content model.
+
      * @warning Content models containing two elements with the same expanded
      * name but different types are not supported.
      */
-    public function getElementDecls(): array
+    public function getElements(): array
     {
-        $stack = [ $this->xsdElement_ ];
+        if (!isset($this->elements_)) {
+            $stack = [ $this->xsdElement_ ];
 
-        $decls = [];
+            $this->elements_ = [];
 
-        while ($stack) {
-            foreach (array_pop($stack) as $child) {
-                if ($child->namespaceURI == self::XSD_NS) {
-                    switch ($child->localName) {
-                        case 'element':
-                            $decl = new Element($this->schema_, $child);
+            while ($stack) {
+                foreach (array_pop($stack) as $child) {
+                    if ($child->namespaceURI == self::XSD_NS) {
+                        switch ($child->localName) {
+                            case 'element':
+                                $element = new Element($this->schema_, $child);
 
-                            $decls[(string)$decl->getXName()] = $decl;
+                                $this->elements_[(string)$element->getXName()] =
+                                    $element;
 
-                            break;
+                                break;
 
-                        case 'choice':
-                        case 'sequence':
-                            $stack[] = $child;
-                            break;
+                            case 'choice':
+                            case 'sequence':
+                                $stack[] = $child;
+                                break;
 
-                        case 'group':
-                            $stack[] = $this->schema_
-                                ->getGlobalGroup($child['ref'])->xsdElement_;
-                            break;
+                            case 'group':
+                                $this->elements_ += $this->schema_
+                                    ->getGlobalGroup($child['ref'])
+                                    ->getElements();
+                                break;
+                        }
                     }
                 }
             }
         }
 
-        return $decls;
+        return $this->elements_;
     }
 
     public function lookupElementDecl(ExtElement $element): ?XsdElement

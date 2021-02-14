@@ -4,10 +4,16 @@ namespace alcamo\dom\schema\component;
 
 use alcamo\dom\extended\Element as ExtElement;
 use alcamo\dom\schema\Schema;
+use alcamo\xml\Xname;
 
 class ComplexType extends AbstractType
 {
+    public const XSD_NS = Schema::XSD_NS;
+    public const XSI_NS = Schema::XSI_NS;
+    public const XSI_TYPE_NAME = self::XSI_NS . ' type';
+
     private $attrs_; ///< Map of XName string to SimpleType or PredefinedType
+    private $elements_; ///< Array of Element
 
     /// Map of element XName string to AbstractType
     private $elementName2Type_;
@@ -15,38 +21,45 @@ class ComplexType extends AbstractType
     public function getAttrs(): array
     {
         if (!isset($this->attrs_)) {
-            if ($this->getBaseType()) {
+            if ($this->getBaseType() instanceof self) {
                 $this->attrs_ = $this->getBaseType()->getAttrs();
             } else {
                 // predefine xsi:type if not inheriting it from base type
-                static $xsiTypeName = Schema::XSI_NS . ' type';
-
                 $this->attrs_ = [
-                    $xsiTypeName
-                    => $this->schema_->getGlobalAttrs()[$xsiTypeName]
+                    self::XSI_TYPE_NAME
+                    => $this->schema_
+                        ->getGlobalAttr(new XName(self::XSI_NS, 'type'))
                 ];
             }
 
-            $complexContent =
-                $this->xsdElement_->query('xsd:complexContent')[0];
+            $extensionOrRestriction =
+                $this->xsdElement_->query(
+                    'xsd:complexContent/xsd:restriction'
+                    . '|xsd:complexContent/xsd:extension'
+                    . '|xsd:simpleContent/xsd:restriction'
+                    . '|xsd:simpleContent/xsd:extension'
+                )[0];
 
-            $attrParent = isset($complexContent)
-                ? $this->xsdElement_->query('xsd:restriction|xsd:extension')[0]
-                : $this->xsdElement_;
+            $attrParent = $extensionOrRestriction ?? $this->xsdElement_;
 
             foreach ($attrParent as $element) {
                 switch ($element->localName) {
                     case 'attribute':
-                        $attr = new Attr($this->schema, $element);
+                        if ($element['use'] == 'prohibited') {
+                            unset($this->attrs_[
+                                (string)$element->getComponentXName()
+                            ]);
+                        } else {
+                            $attr = new Attr($this->schema_, $element);
 
-                        $this->attrs_[(string)$attr->getXName()] = $attr;
+                            $this->attrs_[(string)$attr->getXName()] = $attr;
+                        }
 
                         break;
 
                     case 'attributeGroup':
-                        $attrGroup = new AttrGroup($this->schema, $element);
-
-                        $this->attrs_ += $attrGroup->getAttrs();
+                        $this->attrs_ += $this->schema_
+                            ->getGlobalAttrGroup($element['ref'])->getAttrs();
                         break;
                 }
             }
@@ -62,41 +75,59 @@ class ComplexType extends AbstractType
      * @warning Content models containing two elements with the same expanded
      * name but different types are not supported.
      */
-    public function getElementDecls(): array
+    public function getElements(): array
     {
-        $stack = [ $this->xsdElement_ ];
+        if (!isset($this->elements_)) {
+            $stack = [ $this->xsdElement_ ];
 
-        $decls = [];
+            $this->elements_ = [];
 
-        while ($stack) {
-            foreach (array_pop($stack) as $child) {
-                if ($child->namespaceURI == self::XSD_NS) {
-                    switch ($child->localName) {
-                        case 'element':
-                            $decl = new Element($this->schema_, $child);
+            while ($stack) {
+                foreach (array_pop($stack) as $child) {
+                    if ($child->namespaceURI == self::XSD_NS) {
+                        switch ($child->localName) {
+                            case 'element':
+                                $element = new Element($this->schema_, $child);
 
-                            $decls[(string)$decl->getXName()] = $decl;
+                                $this->elements_[(string)$element->getXName()] =
+                                    $element;
 
-                            break;
+                                break;
 
-                        case 'choice':
-                        case 'complexContent':
-                        case 'extension':
-                        case 'restriction':
-                        case 'sequence':
-                            $stack[] = $child;
-                            break;
+                            case 'choice':
+                            case 'complexContent':
+                            case 'sequence':
+                                $stack[] = $child;
+                                break;
 
-                        case 'group':
-                            $stack[] = $this->schema_
-                                ->getGlobalGroup($child['ref'])->xsdElement_;
-                            break;
+                            case 'extension':
+                            case 'restriction':
+                                if (isset($child['base'])) {
+                                    $baseType = $this->schema_
+                                        ->getGlobalType($child['base']);
+
+                                    if ($baseType instanceof self) {
+                                        $this->elements_ +=
+                                            $baseType->getElements();
+                                    }
+                                }
+
+                                $stack[] = $child;
+
+                                break;
+
+                            case 'group':
+                                $this->elements_ += $this->schema_
+                                    ->getGlobalGroup($child['ref'])
+                                    ->getElements();
+                                break;
+                        }
                     }
                 }
             }
         }
 
-        return $decls;
+        return $this->elements_;
     }
 
     /**

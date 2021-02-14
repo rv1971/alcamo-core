@@ -109,4 +109,24 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
+
+  <xsd:complexType name="Baz">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute ref="xml:lang"/>
+        <xsd:attribute name="baz"/>
+        <xsd:attributeGroup ref="xsd:occurs"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Qux">
+    <xsd:simpleContent>
+      <xsd:restriction base="Baz">
+        <xsd:attribute ref="xml:lang"/>
+        <xsd:attribute name="baz"/>
+        <xsd:attributeGroup ref="xsd:occurs"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
 </xsd:schema>
