@@ -6,7 +6,9 @@
     xmlns="http://foo.example.org"
     xmlns:dc="http://purl.org/dc/terms/"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:qux="http://qux.example.org"
     xsi:schemaLocation="http://foo.example.org foo.xsd http://www.w3.org/2000/01/rdf-schema# ../../xsd/rdfs.xsd"
     xml:lang="oc"
     dc:source="http://www.example.org/foo"
@@ -23,4 +25,11 @@
     <baz xml:id="c"/>
     <baz xml:id="d"/>
   </bar>
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <qux:qux xml:id="qux">sed diam nonumy eirmod <qux:quux
+      xml:id="quux">tempor</qux:quux> invidunt</qux:qux>
+    </xsd:appinfo>
+  </xsd:annotation>
 </foo>

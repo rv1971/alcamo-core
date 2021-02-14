@@ -137,6 +137,7 @@ class SchemaTest extends TestCase
             $this->assertSame($xsds[$i++], basename($url));
         }
     }
+
     public function testNewFromXsdsException()
     {
         $path = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR
@@ -148,6 +149,26 @@ class SchemaTest extends TestCase
         );
 
         Schema::newFromXsds([ Xsd::newFromUrl($path) ]);
+    }
+
+    public function testNegativeGetGlobal()
+    {
+        $schema = Schema::newFromDocument(
+            Document::newFromUrl(
+                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+                . 'baz.xml'
+            )
+        );
+
+
+        $none = new XName(self::FOO_NS, 'none');
+
+        $this->assertNull($schema->getGlobalAttr($none));
+        $this->assertNull($schema->getGlobalAttrGroup($none));
+        $this->assertNull($schema->getGlobalElement($none));
+        $this->assertNull($schema->getGlobalGroup($none));
+        $this->assertNull($schema->getGlobalNotation($none));
+        $this->assertNull($schema->getGlobalType($none));
     }
 
     /**
@@ -960,6 +981,77 @@ class SchemaTest extends TestCase
                     [ EnumerationType::class, null ]
                 ],
                 true
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider lookupElementTypeProvider
+     */
+    public function testLookupElementType(
+        $schema,
+        $element,
+        $expectedFile,
+        $expectedNodePath
+    ) {
+        $type = $schema->lookupElementType($element);
+
+        if (isset($expectedFile)) {
+            $this->assertSame(
+                $expectedFile,
+                basename($type->getXsdElement()->ownerDocument->documentURI)
+            );
+
+            $this->assertSame(
+                $expectedNodePath,
+                $type->getXsdElement()->getNodePath()
+            );
+        } else {
+            $this->assertNull($type);
+        }
+    }
+
+    public function lookupElementTypeProvider()
+    {
+        $foo = Document::newFromUrl(
+            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
+            . 'foo.xml'
+        )->conserve();
+
+        $schema = Schema::newFromDocument($foo);
+
+        return [
+            'explicit' => [
+                $schema,
+                $foo['x'],
+                'foo.xsd',
+                '/xsd:schema/xsd:complexType[3]'
+            ],
+            'global' => [
+                $schema,
+                $foo->documentElement->firstChild,
+                'rdfs.xsd',
+                '/xsd:schema/xsd:element[1]/xsd:complexType'
+            ],
+            'local' => [
+                $schema,
+                $foo['a'],
+                'foo.xsd',
+                '/xsd:schema/xsd:complexType[3]'
+                . '/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element'
+                . '/xsd:complexType'
+            ],
+            'parent-unknown' => [
+                $schema,
+                $foo['quux'],
+                null,
+                null
+            ],
+            'element-unknown' => [
+                $schema,
+                $foo['qux'],
+                null,
+                null
             ]
         ];
     }

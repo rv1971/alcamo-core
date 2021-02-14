@@ -16,7 +16,8 @@ use alcamo\dom\schema\component\{
     Notation,
     PredefinedAttr,
     PredefinedSimpleType,
-    SimpleType
+    SimpleType,
+    TypeInterface
 };
 use alcamo\dom\xsd\{Document as Xsd, Element as XsdElement};
 use alcamo\exception\AbsoluteUriNeeded;
@@ -127,9 +128,13 @@ class Schema
         return $this->xsds_;
     }
 
-    public function getGlobalAttr(XName $xName): AbstractComponent
+    public function getGlobalAttr(XName $xName): ?AbstractComponent
     {
         $key = (string)$xName;
+
+        if (!isset($this->globalAttrs_[$key])) {
+            return null;
+        }
 
         if ($this->globalAttrs_[$key] instanceof XsdElement) {
             $this->globalAttrs_[$key] =
@@ -139,9 +144,13 @@ class Schema
         return $this->globalAttrs_[$key];
     }
 
-    public function getGlobalAttrGroup(XName $xName): AttrGroup
+    public function getGlobalAttrGroup(XName $xName): ?AttrGroup
     {
         $key = (string)$xName;
+
+        if (!isset($this->globalAttrGroups_[$key])) {
+            return null;
+        }
 
         if ($this->globalAttrGroups_[$key] instanceof XsdElement) {
             $this->globalAttrGroups_[$key] =
@@ -151,9 +160,13 @@ class Schema
         return $this->globalAttrGroups_[$key];
     }
 
-    public function getGlobalElement(XName $xName): Element
+    public function getGlobalElement(XName $xName): ?Element
     {
         $key = (string)$xName;
+
+        if (!isset($this->globalElements_[$key])) {
+            return null;
+        }
 
         if ($this->globalElements_[$key] instanceof XsdElement) {
             $this->globalElements_[$key] =
@@ -163,9 +176,13 @@ class Schema
         return $this->globalElements_[$key];
     }
 
-    public function getGlobalGroup(XName $xName): Group
+    public function getGlobalGroup(XName $xName): ?Group
     {
         $key = (string)$xName;
+
+        if (!isset($this->globalGroups_[$key])) {
+            return null;
+        }
 
         if ($this->globalGroups_[$key] instanceof XsdElement) {
             $this->globalGroups_[$key] =
@@ -175,9 +192,13 @@ class Schema
         return $this->globalGroups_[$key];
     }
 
-    public function getGlobalNotation(XName $xName): Notation
+    public function getGlobalNotation(XName $xName): ?Notation
     {
         $key = (string)$xName;
+
+        if (!isset($this->globalNotations_[$key])) {
+            return null;
+        }
 
         if ($this->globalNotations_[$key] instanceof XsdElement) {
             $this->globalNotations_[$key] =
@@ -187,15 +208,15 @@ class Schema
         return $this->globalNotations_[$key];
     }
 
-    public function getGlobalType(XName $xName): AbstractComponent
+    public function getGlobalType(XName $xName): ?TypeInterface
     {
         $key = (string)$xName;
 
-        if (!isset($this->globalTypes_[$key])) {
-            var_dump(array_keys($this->globalTypes_));
-        }
+        $comp = $this->globalTypes_[$key] ?? null;
 
-        $comp = $this->globalTypes_[$key];
+        if (!isset($comp)) {
+            return null;
+        }
 
         if ($comp instanceof XsdElement) {
             $this->globalTypes_[$key] =
@@ -219,21 +240,33 @@ class Schema
 
     public function lookupElementType(ExtElement $element): ?AbstractType
     {
-        // lookup global type if explicitely given in `xsi:type`
+        // look up global type if explicitely given in `xsi:type`
         if (isset($element['xsi:type'])) {
             return $this->getGlobalType($element['xsi:type']);
         }
 
-        // lookup global element, if there is one
-        $elementName = (string)$element->getXName();
+        // look up global element, if there is one
+        $elementXName = $element->getXName();
 
-        if (isset($this->globalElements_[$elementName])) {
-            return $this->globalElements_[$elementName]->getType();
+        $globalElement = $this->getGlobalElement($elementXName);
+
+        if (isset($globalElement)) {
+            return $globalElement->getType();
         }
 
-        // go recursively via parent element
-        return $this->lookupType($element->parentNode)
-            ->lookupElementType($element);
+        // attempt to look up element in parent element type's content model
+        $parentType = $this->lookupElementType($element->parentNode);
+
+        if (isset($parentType)) {
+            $elementDecl =
+                $parentType->getElements()[(string)$elementXName] ?? null;
+
+            if (isset($elementDecl)) {
+                return $elementDecl->getType();
+            }
+        }
+
+        return null;
     }
 
     private function loadXsds(array $xsds)
