@@ -131,4 +131,10 @@
       </xsd:restriction>
     </xsd:simpleContent>
   </xsd:complexType>
+
+  <xsd:complexType name="fooComplexType">
+    <xsd:complexContent>
+      <xsd:restriction base="xsd:localComplexType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
 </xsd:schema>

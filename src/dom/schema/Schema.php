@@ -128,104 +128,92 @@ class Schema
         return $this->xsds_;
     }
 
-    public function getGlobalAttr(XName $xName): ?AbstractComponent
+    public function getGlobalAttr(string $xNameString): ?AbstractComponent
     {
-        $key = (string)$xName;
-
-        if (!isset($this->globalAttrs_[$key])) {
+        if (!isset($this->globalAttrs_[$xNameString])) {
             return null;
         }
 
-        if ($this->globalAttrs_[$key] instanceof XsdElement) {
-            $this->globalAttrs_[$key] =
-                new Attr($this, $this->globalAttrs_[$key]);
+        if ($this->globalAttrs_[$xNameString] instanceof XsdElement) {
+            $this->globalAttrs_[$xNameString] =
+                new Attr($this, $this->globalAttrs_[$xNameString]);
         }
 
-        return $this->globalAttrs_[$key];
+        return $this->globalAttrs_[$xNameString];
     }
 
-    public function getGlobalAttrGroup(XName $xName): ?AttrGroup
+    public function getGlobalAttrGroup(string $xNameString): ?AttrGroup
     {
-        $key = (string)$xName;
-
-        if (!isset($this->globalAttrGroups_[$key])) {
+        if (!isset($this->globalAttrGroups_[$xNameString])) {
             return null;
         }
 
-        if ($this->globalAttrGroups_[$key] instanceof XsdElement) {
-            $this->globalAttrGroups_[$key] =
-                new AttrGroup($this, $this->globalAttrGroups_[$key]);
+        if ($this->globalAttrGroups_[$xNameString] instanceof XsdElement) {
+            $this->globalAttrGroups_[$xNameString] =
+                new AttrGroup($this, $this->globalAttrGroups_[$xNameString]);
         }
 
-        return $this->globalAttrGroups_[$key];
+        return $this->globalAttrGroups_[$xNameString];
     }
 
-    public function getGlobalElement(XName $xName): ?Element
+    public function getGlobalElement(string $xNameString): ?Element
     {
-        $key = (string)$xName;
-
-        if (!isset($this->globalElements_[$key])) {
+        if (!isset($this->globalElements_[$xNameString])) {
             return null;
         }
 
-        if ($this->globalElements_[$key] instanceof XsdElement) {
-            $this->globalElements_[$key] =
-                new Element($this, $this->globalElements_[$key]);
+        if ($this->globalElements_[$xNameString] instanceof XsdElement) {
+            $this->globalElements_[$xNameString] =
+                new Element($this, $this->globalElements_[$xNameString]);
         }
 
-        return $this->globalElements_[$key];
+        return $this->globalElements_[$xNameString];
     }
 
-    public function getGlobalGroup(XName $xName): ?Group
+    public function getGlobalGroup(string $xNameString): ?Group
     {
-        $key = (string)$xName;
-
-        if (!isset($this->globalGroups_[$key])) {
+        if (!isset($this->globalGroups_[$xNameString])) {
             return null;
         }
 
-        if ($this->globalGroups_[$key] instanceof XsdElement) {
-            $this->globalGroups_[$key] =
-                new Group($this, $this->globalGroups_[$key]);
+        if ($this->globalGroups_[$xNameString] instanceof XsdElement) {
+            $this->globalGroups_[$xNameString] =
+                new Group($this, $this->globalGroups_[$xNameString]);
         }
 
-        return $this->globalGroups_[$key];
+        return $this->globalGroups_[$xNameString];
     }
 
-    public function getGlobalNotation(XName $xName): ?Notation
+    public function getGlobalNotation(string $xNameString): ?Notation
     {
-        $key = (string)$xName;
-
-        if (!isset($this->globalNotations_[$key])) {
+        if (!isset($this->globalNotations_[$xNameString])) {
             return null;
         }
 
-        if ($this->globalNotations_[$key] instanceof XsdElement) {
-            $this->globalNotations_[$key] =
-                new Notation($this, $this->globalNotations_[$key]);
+        if ($this->globalNotations_[$xNameString] instanceof XsdElement) {
+            $this->globalNotations_[$xNameString] =
+                new Notation($this, $this->globalNotations_[$xNameString]);
         }
 
-        return $this->globalNotations_[$key];
+        return $this->globalNotations_[$xNameString];
     }
 
-    public function getGlobalType(XName $xName): ?TypeInterface
+    public function getGlobalType(string $xNameString): ?TypeInterface
     {
-        $key = (string)$xName;
-
-        $comp = $this->globalTypes_[$key] ?? null;
+        $comp = $this->globalTypes_[$xNameString] ?? null;
 
         if (!isset($comp)) {
             return null;
         }
 
         if ($comp instanceof XsdElement) {
-            $this->globalTypes_[$key] =
+            $this->globalTypes_[$xNameString] =
                 $comp->localName == 'simpleType'
                 ? AbstractSimpleType::newFromSchemaAndXsdElement($this, $comp)
                 : new ComplexType($this, $comp);
         }
 
-        return $this->globalTypes_[$key];
+        return $this->globalTypes_[$xNameString];
     }
 
     public function getAnyType(): ComplexType
