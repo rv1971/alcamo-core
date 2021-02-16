@@ -75,13 +75,15 @@ class DocumentTest extends TestCase
             'from-url' => [
                 $doc1,
                 (string)Uri::newFromFilesystemPath(
-                    __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+                    __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml',
+                    false
                 )
             ],
             'from-xml' => [
                 $doc2,
                 (string)Uri::newFromFilesystemPath(
-                    __DIR__ . DIRECTORY_SEPARATOR
+                    __DIR__ . DIRECTORY_SEPARATOR,
+                    false
                 )
             ]
         ];

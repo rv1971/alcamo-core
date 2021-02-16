@@ -18,7 +18,7 @@
       namespace="http://www.w3.org/2001/XMLSchema"
       schemaLocation="../../xsd/XMLSchema.xsd"/>
 
-  <xsd:simpleType name="ListOfNamedItemType">
+  <xsd:simpleType name="ListOfNamedItemType" xml:id="ListOfNamedItemType">
     <xsd:list itemType="xsd:integer"/>
   </xsd:simpleType>
 
@@ -36,7 +36,7 @@
     <xsd:restriction base="ListOfNamedItemType"/>
   </xsd:simpleType>
 
-  <xsd:simpleType name="EnumUnion">
+  <xsd:simpleType name="EnumUnion" xml:id="FooBarType">
     <xsd:union memberTypes="xsd:formChoice xsd:derivationControl">
       <xsd:simpleType>
         <xsd:restriction base="xsd:string">

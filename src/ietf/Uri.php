@@ -25,8 +25,8 @@ class Uri extends GuzzleHttpUri
 
         /* If absolute and $prependScheme, prepend `file:`. Due to the way
          * GuzzleHttp\Psr7\Uri parses and re-assembles URIs, `file:/` becomes
-         * `file:///` in _-toString. */
-        if ($uri[0] == '/' && $prependScheme) {
+         * `file:///` in __toString. */
+        if ($uri[0] == '/' && ($prependScheme ?? true)) {
             $uri = "file:$uri";
         }
 
