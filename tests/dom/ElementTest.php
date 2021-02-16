@@ -19,6 +19,8 @@ class ElementTest extends TestCase
             'float',
             'lang',
             'longint',
+            'base64',
+            'hex',
             'curie',
             'safecurie',
             'uriorsafecurie1',

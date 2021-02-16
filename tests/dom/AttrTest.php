@@ -23,6 +23,8 @@ class AttrTest extends TestCase
                 $this->assertEquals($expectedResult, $attr->$method());
                 break;
 
+            case 'base64ToBinary':
+            case 'hexToBinary':
             case 'curieToUri':
             case 'safeCurieToUri':
             case 'uriOrSafeCurieToUri':
@@ -85,6 +87,16 @@ class AttrTest extends TestCase
                 $doc['longint']->getAttributeNode('content'),
                 'toInt',
                 '123456789012345678901234567890'
+            ],
+            'base64' => [
+                $doc['base64']->getAttributeNode('content'),
+                'base64ToBinary',
+                '666F6F0A'
+            ],
+            'hex' => [
+                $doc['hex']->getAttributeNode('content'),
+                'hexToBinary',
+                '1234ABCDEF'
             ],
             'curie' => [
                 $doc['curie']->getAttributeNode('content'),

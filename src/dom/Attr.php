@@ -2,6 +2,7 @@
 
 namespace alcamo\dom;
 
+use alcamo\binary_data\BinaryString;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\{HasXNameInterface, XName};
@@ -75,6 +76,16 @@ class Attr extends \DOMAttr implements HasXNameInterface
         }
 
         return $xNames;
+    }
+
+    public function base64ToBinary(): BinaryString
+    {
+        return new BinaryString(base64_decode($this->value));
+    }
+
+    public function hexToBinary(): BinaryString
+    {
+        return new BinaryString(hex2bin($this->value));
     }
 
     public function curieToUri(): Uri

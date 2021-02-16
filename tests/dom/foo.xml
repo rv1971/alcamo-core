@@ -29,6 +29,8 @@
     <baz xml:id="float" content="3.141"/>
     <baz xml:id="lang" content="yo-NG"/>
     <baz xml:id="longint" content="123456789012345678901234567890"/>
+    <baz xml:id="base64" content="Zm9vCg=="/>
+    <baz xml:id="hex" content="1234abcdef"/>
     <baz xml:id="curie" content="dc:source"/>
     <baz xml:id="safecurie" content="[qux:#1234]"/>
     <baz xml:id="uriorsafecurie1" content="http://www.example.biz/foo"/>
