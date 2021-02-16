@@ -12,16 +12,16 @@ use alcamo\exception\SyntaxError;
 
 class Duration extends \DateInterval
 {
-  /// Recognize fractions of a second
+    /// Recognize fractions of a second
     public function __construct(string $string)
     {
         $a = explode('.', $string);
 
         if (!isset($a[1])) {
-          // Literal without dot, understood by DateInterval constructor
+            // Literal without dot, understood by DateInterval constructor
             parent::__construct($string);
         } else {
-          // After the dot there must be a number and an 'S'.
+            // After the dot there must be a number and an 'S'.
             if (!preg_match('/^([0-9]*)S$/', $a[1], $matches)) {
                 throw new SyntaxError(
                     $string,
@@ -30,8 +30,8 @@ class Duration extends \DateInterval
                 );
             }
 
-          /* If there are only zeros before the dot, the part understood by the
-           * DateInterval constructor must not contain seconds. */
+            /* If there are only zeros before the dot, the part understood by
+             * the DateInterval constructor must not contain seconds. */
             $str = rtrim($a[0], '0');
 
             if (!(int)$str[-1]) {
@@ -44,7 +44,7 @@ class Duration extends \DateInterval
         }
     }
 
-  /// Return minimal ISO 8601 representation.
+    /// Return minimal ISO 8601 representation.
     public function __toString()
     {
         $format = '%rP';

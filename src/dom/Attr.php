@@ -2,7 +2,8 @@
 
 namespace alcamo\dom;
 
-use alcamo\ietf\Uri;
+use alcamo\ietf\{Lang, Uri};
+use alcamo\time\Duration;
 use alcamo\xml\{HasXNameInterface, XName};
 
 /// Attribute class for use in DOMDocument::registerNodeClass().
@@ -25,9 +26,34 @@ class Attr extends \DOMAttr implements HasXNameInterface
         return $this->value == 'true';
     }
 
-    public function toInt(): int
+    public function toDateTime(): \DateTime
     {
-        return (int)$this->value;
+        return new \DateTime($this->value);
+    }
+
+    public function toDuration(): Duration
+    {
+        return new Duration($this->value);
+    }
+
+    public function toFloat(): float
+    {
+        return (float)$this->value;
+    }
+
+    /// Convert to integer if value can be represented as int
+    public function toInt()
+    {
+        if (is_int($this->value + 0)) {
+            return (int)$this->value;
+        } else {
+            return $this->value;
+        }
+    }
+
+    public function toLang(): Lang
+    {
+        return Lang::newFromString($this->value);
     }
 
     public function toUri(): Uri
@@ -49,5 +75,20 @@ class Attr extends \DOMAttr implements HasXNameInterface
         }
 
         return $xNames;
+    }
+
+    public function curieToUri(): Uri
+    {
+        return Uri::newFromCurieAndContext($this->value, $this);
+    }
+
+    public function safeCurieToUri(): Uri
+    {
+        return Uri::newFromSafeCurieAndContext($this->value, $this);
+    }
+
+    public function uriOrSafeCurieToUri(): Uri
+    {
+        return Uri::newFromUriOrSafeCurieAndContext($this->value, $this);
     }
 }

@@ -24,6 +24,15 @@
     <baz xml:id="b">vero</baz>
     <baz xml:id="c"/>
     <baz xml:id="d"/>
+    <baz xml:id="datetime" content="2021-02-16T18:04:03.123+00:00"/>
+    <baz xml:id="duration" content="PT5M"/>
+    <baz xml:id="float" content="3.141"/>
+    <baz xml:id="lang" content="yo-NG"/>
+    <baz xml:id="longint" content="123456789012345678901234567890"/>
+    <baz xml:id="curie" content="dc:source"/>
+    <baz xml:id="safecurie" content="[qux:#1234]"/>
+    <baz xml:id="uriorsafecurie1" content="http://www.example.biz/foo"/>
+    <baz xml:id="uriorsafecurie2" content="[xsd:#token]"/>
   </bar>
 
   <xsd:annotation>

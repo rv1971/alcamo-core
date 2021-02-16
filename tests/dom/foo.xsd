@@ -101,6 +101,7 @@
               <xsd:simpleContent>
                 <xsd:extension base="xsd:string">
                   <xsd:attribute ref="xml:id"/>
+                  <xsd:attribute name="content"/>
                 </xsd:extension>
               </xsd:simpleContent>
             </xsd:complexType>

@@ -12,7 +12,18 @@ class ElementTest extends TestCase
 
         $bar = $doc['x'];
 
-        $expectedIds = [ 'a', 'b', 'c', 'd' ];
+        $expectedIds = [
+            'a', 'b', 'c', 'd',
+            'datetime',
+            'duration',
+            'float',
+            'lang',
+            'longint',
+            'curie',
+            'safecurie',
+            'uriorsafecurie1',
+            'uriorsafecurie2'
+        ];
         $i = 0;
 
         foreach ($bar as $baz) {
