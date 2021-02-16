@@ -36,18 +36,15 @@ class SchemaTest extends TestCase
     public function testNewFromDocument()
     {
         $baz = Document::newFromUrl(
-            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-            . 'baz.xml'
+            'file://' . dirname(__DIR__) . '/baz.xml'
         );
 
         $baz2 = Document::newFromUrl(
-            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-            . 'baz2.xml'
+            'file://' . dirname(__DIR__) . '/baz2.xml'
         );
 
         $foo = Document::newFromUrl(
-            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-            . 'foo.xml'
+            'file://' . dirname(__DIR__) . '/foo.xml'
         );
 
         $schema1 = Schema::newFromDocument($baz);
@@ -101,7 +98,7 @@ class SchemaTest extends TestCase
 
     public function testNewFromXsds()
     {
-        $baseUrl = 'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $baseUrl = 'file://' . dirname(__DIR__) . '/';
 
         $xsds = [
             Xsd::newFromUrl("$baseUrl/foo.xsd"),
@@ -155,8 +152,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -193,8 +189,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -231,8 +226,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -274,8 +268,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -340,8 +333,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -407,8 +399,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -474,8 +465,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'foo.xml'
+                'file://' . dirname(__DIR__) . '/foo.xml'
             )
         );
 
@@ -524,8 +514,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -571,15 +560,13 @@ class SchemaTest extends TestCase
     {
         $bazSchema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
         $fooSchema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'foo.xml'
+                'file://' . dirname(__DIR__) . '/foo.xml'
             )
         );
 
@@ -630,8 +617,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -667,8 +653,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -705,8 +690,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -763,8 +747,7 @@ class SchemaTest extends TestCase
     {
         $schema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
@@ -886,15 +869,13 @@ class SchemaTest extends TestCase
     {
         $bazSchema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'baz.xml'
+                'file://' . dirname(__DIR__) . '/baz.xml'
             )
         );
 
         $fooSchema = Schema::newFromDocument(
             Document::newFromUrl(
-                'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-                . 'foo.xml'
+                'file://' . dirname(__DIR__) . '/foo.xml'
             )
         );
 
@@ -1014,8 +995,7 @@ class SchemaTest extends TestCase
     public function lookupElementTypeProvider()
     {
         $foo = Document::newFromUrl(
-            'file:///' . dirname(__DIR__) . DIRECTORY_SEPARATOR
-            . 'foo.xml'
+            'file://' . dirname(__DIR__) . '/foo.xml'
         )->conserve();
 
         $schema = Schema::newFromDocument($foo);
