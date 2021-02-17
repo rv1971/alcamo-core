@@ -13,7 +13,7 @@ class AttrTest extends TestCase
      */
     public function testGetValue($elem, $attrName, $expectedValue)
     {
-        switch (Attr::XSD_CONVERTERS[$attrName]) {
+        switch (explode('::', Attr::XSD_CONVERTERS[$attrName])[1]) {
             case 'toUri':
             case 'toXName':
             case 'toXNames':

@@ -2,7 +2,7 @@
 
 namespace alcamo\dom\extended;
 
-use alcamo\dom\Attr as BaseAttr;
+use alcamo\dom\{Attr as BaseAttr, ConverterPool};
 
 class Attr extends BaseAttr
 {
@@ -11,10 +11,10 @@ class Attr extends BaseAttr
     public const XSI_NS = Document::NS['xsi'];
 
     public const XSI_CONVERTERS = [
-        'nil'                       => 'toBool',
-        'noNamespaceSchemaLocation' => 'toUri',
-        'schemaLocation'            => 'toArray',
-        'type'                      => 'toXName'
+        'nil'                       => ConverterPool::class . '::toBool',
+        'noNamespaceSchemaLocation' => ConverterPool::class . '::toUri',
+        'schemaLocation'            => ConverterPool::class . '::toArray',
+        'type'                      => ConverterPool::class . '::toXName'
     ];
 
     /// To be redefined in child classes with something more sophisticated
@@ -24,7 +24,7 @@ class Attr extends BaseAttr
             $converter = static::XSI_CONVERTERS[$this->localName] ?? null;
 
             if (isset($converter)) {
-                return $this->$converter();
+                return $converter($this->value, $this);
             }
         }
 

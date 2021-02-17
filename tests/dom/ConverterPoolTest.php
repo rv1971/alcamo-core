@@ -7,20 +7,25 @@ use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\XName;
 
-class AttrTest extends TestCase
+class ConverterPoolTest extends TestCase
 {
     /**
      * @dataProvider conversionProvider
      */
-    public function testConversion($attr, $method, $expectedResult)
+    public function testConversion($attr, $converter, $expectedResult)
     {
-        switch ($method) {
+        $qualifiedConverter = ConverterPool::class . "::$converter";
+
+        switch ($converter) {
             case 'toDateTime':
             case 'toDuration':
             case 'toLang':
             case 'toUri':
             case 'toXName':
-                $this->assertEquals($expectedResult, $attr->$method());
+                $this->assertEquals(
+                    $expectedResult,
+                    $qualifiedConverter($attr->value, $attr)
+                );
                 break;
 
             case 'base64ToBinary':
@@ -28,11 +33,17 @@ class AttrTest extends TestCase
             case 'curieToUri':
             case 'safeCurieToUri':
             case 'uriOrSafeCurieToUri':
-                $this->assertSame($expectedResult, (string)$attr->$method());
+                $this->assertSame(
+                    $expectedResult,
+                    (string)$qualifiedConverter($attr->value, $attr)
+                );
                 break;
 
             default:
-                $this->assertSame($expectedResult, $attr->$method());
+                $this->assertSame(
+                    $expectedResult,
+                    $qualifiedConverter($attr->value, $attr)
+                );
         }
     }
 

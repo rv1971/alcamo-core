@@ -14,33 +14,27 @@ class Attr extends BaseAttr
      * http://www.w3.org/2000/01/rdf-schema#.
      */
     public const XSD_CONVERTERS = [
-        'maxOccurs'         => 'toAllNNI',
+        'maxOccurs'         => ConverterPool::class . '::toAllNNI',
 
-        'abstract'          => 'toBool',
-        'mixed'             => 'toBool',
-        'nillable'          => 'toBool',
+        'abstract'          => ConverterPool::class . '::toBool',
+        'mixed'             => ConverterPool::class . '::toBool',
+        'nillable'          => ConverterPool::class . '::toBool',
 
-        'minOccurs'         => 'toInt',
+        'minOccurs'         => ConverterPool::class . '::toInt',
 
-        'schemaLocation'    => 'toUri',
-        'source'            => 'toUri',
-        'system'            => 'toUri',
+        'schemaLocation'    => ConverterPool::class . '::toUri',
+        'source'            => ConverterPool::class . '::toUri',
+        'system'            => ConverterPool::class . '::toUri',
 
-        'base'              => 'toXName',
-        'itemType'          => 'toXName',
-        'ref'               => 'toXName',
-        'refer'             => 'toXName',
-        'substitutionGroup' => 'toXName',
-        'type'              => 'toXName',
+        'base'              => ConverterPool::class . '::toXName',
+        'itemType'          => ConverterPool::class . '::toXName',
+        'ref'               => ConverterPool::class . '::toXName',
+        'refer'             => ConverterPool::class . '::toXName',
+        'substitutionGroup' => ConverterPool::class . '::toXName',
+        'type'              => ConverterPool::class . '::toXName',
 
-        'memberTypes'       => 'toXNames'
+        'memberTypes'       => ConverterPool::class . '::toXNames'
     ];
-
-    // Return -1 for `unbounded`.
-    public function toAllNNI(): int
-    {
-        return $this->value == 'unbounded' ? -1 : (int)$this->value;
-    }
 
     public function getValue()
     {
@@ -51,7 +45,7 @@ class Attr extends BaseAttr
             $converter = static::XSD_CONVERTERS[$this->localName] ?? null;
 
             if (isset($converter)) {
-                return $this->$converter();
+                return $converter($this->value, $this);
             }
         }
 
