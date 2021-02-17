@@ -4,6 +4,7 @@
     xmlns="http://foo.example.org"
     xmlns:dc="http://purl.org/dc/terms/"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xh11d="http://www.w3.org/1999/xhtml/datatypes/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:foo2="http://foo2.example.org"
@@ -23,6 +24,10 @@
       schemaLocation="../../xsd/xml.xsd"/>
 
   <xsd:import
+      namespace="http://www.w3.org/1999/xhtml/datatypes/"
+      schemaLocation="../../xsd/xhtml-datatypes-1.xsd"/>
+
+  <xsd:import
       xmlns="http://foo2.example.org"
       schemaLocation="foo2.xsd"/>
 
@@ -35,6 +40,32 @@
 
         <xsd:element name="bar" type="AbstractBar"/>
 
+        <xsd:element name="corge">
+          <xsd:complexType>
+            <xsd:attribute ref="xml:id"/>
+            <xsd:attribute name="datetime" type="xsd:date"/>
+            <xsd:attribute name="safecurie" type="xh11d:SafeCURIE"/>
+
+            <xsd:attribute name="list">
+              <xsd:simpleType>
+                <xsd:list itemType="xsd:string"/>
+              </xsd:simpleType>
+            </xsd:attribute>
+
+            <xsd:attribute name="shorts">
+              <xsd:simpleType>
+                <xsd:list itemType="xsd:short"/>
+              </xsd:simpleType>
+            </xsd:attribute>
+
+            <xsd:attribute name="enums">
+              <xsd:simpleType>
+                <xsd:list itemType="xsd:typeDerivationControl"/>
+              </xsd:simpleType>
+            </xsd:attribute>
+          </xsd:complexType>
+        </xsd:element>
+
         <xsd:element ref="xsd:annotation"/>
       </xsd:sequence>
 
@@ -45,7 +76,7 @@
       <xsd:attribute name="bar" type="xsd:boolean"/>
       <xsd:attribute name="baz" type="xsd:boolean"/>
       <xsd:attribute name="foobar"/>
-      <xsd:attribute name="barbaz" type="xsd:integer"/>
+      <xsd:attribute name="barbaz" type="xsd:long"/>
       <xsd:attribute name="bazbaz"/>
 
       <xsd:attribute name="foofoofoo">
@@ -65,6 +96,8 @@
           <xsd:restriction base="foo2:DerivedFromList"/>
         </xsd:simpleType>
       </xsd:attribute>
+
+      <xsd:anyAttribute namespace="##any" processContents="lax"/>
     </xsd:complexType>
   </xsd:element>
 
@@ -138,4 +171,6 @@
       <xsd:restriction base="xsd:localComplexType"/>
     </xsd:complexContent>
   </xsd:complexType>
+
+  <xsd:element name="qux" type="xsd:short"/>
 </xsd:schema>

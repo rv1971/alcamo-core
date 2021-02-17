@@ -119,6 +119,11 @@ class ConverterPoolTest extends TestCase
                 'safeCurieToUri',
                 'http://qux.example.org#1234'
             ],
+            'safecurie2' => [
+                $doc['corge']->getAttributeNode('safecurie'),
+                'safeCurieToUri',
+                'http://foo.example.org/bar?baz=qux'
+            ],
             'uriorsafecurie1' => [
                 $doc['uriorsafecurie1']->getAttributeNode('content'),
                 'uriOrSafeCurieToUri',

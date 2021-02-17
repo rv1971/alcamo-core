@@ -3,6 +3,7 @@
 namespace alcamo\dom\schema;
 
 use GuzzleHttp\Psr7\UriResolver;
+use alcamo\dom\ConverterPool;
 use alcamo\dom\extended\{Document, Element as ExtElement};
 use alcamo\dom\schema\component\{
     AbstractComponent,
@@ -34,13 +35,18 @@ class Schema
 
     private static $schemaCache_ = [];
 
-    public static function newFromDocument(Document $doc): self
+    public static function newFromDocument(\DOMDocument $doc): self
     {
         $urls = [];
 
         $baseUri = new Uri($doc->baseURI);
 
-        foreach ($doc->documentElement['xsi:schemaLocation'] as $i => $item) {
+        foreach (
+            ConverterPool::toArray(
+                $doc->documentElement
+                    ->getAttributeNS(self::XSI_NS, 'schemaLocation')
+            ) as $i => $item
+        ) {
             if ($i & 1) {
                 $urls[] = UriResolver::resolve($baseUri, new Uri($item));
             }
@@ -226,11 +232,16 @@ class Schema
         return $this->anySimpleType_;
     }
 
-    public function lookupElementType(ExtElement $element): ?AbstractType
+    public function lookupElementType(ExtElement $element): AbstractType
     {
         // look up global type if explicitely given in `xsi:type`
-        if (isset($element['xsi:type'])) {
-            return $this->getGlobalType($element['xsi:type']);
+        if ($element->hasAttributeNS(self::XSI_NS, 'type')) {
+            return $this->getGlobalType(
+                ConverterPool::toXName(
+                    $element->getAttributeNS(self::XSI_NS, 'type'),
+                    $element
+                )
+            );
         }
 
         // look up global element, if there is one
@@ -254,7 +265,7 @@ class Schema
             }
         }
 
-        return null;
+        return $this->anyType_;
     }
 
     private function loadXsds(array $xsds)

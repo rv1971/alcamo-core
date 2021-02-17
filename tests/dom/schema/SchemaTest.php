@@ -85,6 +85,7 @@ class SchemaTest extends TestCase
             'foo.xsd',
             'foo2.xsd',
             'foo2a.xsd',
+            'xhtml-datatypes-1.xsd',
             'dc.xsd'
         ];
 
@@ -124,6 +125,7 @@ class SchemaTest extends TestCase
             'foo2.xsd',
             'foo2a.xsd',
             'rdfs.xsd',
+            'xhtml-datatypes-1.xsd',
             'dc.xsd'
         ];
 
@@ -1024,14 +1026,14 @@ class SchemaTest extends TestCase
             'parent-unknown' => [
                 $schema,
                 $foo['quux'],
-                null,
-                null
+                'XMLSchema.xsd',
+                '/xs:schema/xs:complexType[29]'
             ],
             'element-unknown' => [
                 $schema,
                 $foo['qux'],
-                null,
-                null
+                'XMLSchema.xsd',
+                '/xs:schema/xs:complexType[29]'
             ]
         ];
     }

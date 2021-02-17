@@ -28,8 +28,14 @@ class TypeMap
         $hashMap = [];
 
         foreach ($map as $xNameString => $value) {
-            $hashMap[spl_object_hash($schema->getGlobalType($xNameString))] =
-                $value;
+            /** Unknown XNames are silently ignored, so that fixed map can be
+             *  used for a number of schemas which might not have all
+             *  types. */
+            $type = $schema->getGlobalType($xNameString);
+
+            if (isset($type)) {
+                $hashMap[spl_object_hash($type)] = $value;
+            }
         }
 
         return $hashMap;

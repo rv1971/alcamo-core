@@ -17,7 +17,8 @@
     baz="false"
     foobar="foo   bar	baz"
     barbaz="42"
-    bazbaz="dc:title">
+    bazbaz="dc:title"
+    qux:qux="123">
   <rdfs:comment>Lorem ipsum</rdfs:comment>
   <bar xsi:type="Bar" xml:id="x">
     <baz xml:id="a">At eos</baz>
@@ -37,10 +38,19 @@
     <baz xml:id="uriorsafecurie2" content="[xsd:#token]"/>
   </bar>
 
+  <corge
+      xml:id="corge"
+      datetime="2021-02-17"
+      safecurie="[/bar?baz=qux]"
+      list="foo foo foo bar"
+      shorts="1 2 3 -4"
+      enums="list list union"/>
+
   <xsd:annotation>
     <xsd:appinfo>
-      <qux:qux xml:id="qux">sed diam nonumy eirmod <qux:quux
-      xml:id="quux">tempor</qux:quux> invidunt</qux:qux>
+      <qux:qux xml:id="qux" qux="foo"><qux>42</qux> sed diam nonumy
+      eirmod <qux:quux xml:id="quux">tempor</qux:quux>
+      invidunt</qux:qux>
     </xsd:appinfo>
   </xsd:annotation>
 </foo>

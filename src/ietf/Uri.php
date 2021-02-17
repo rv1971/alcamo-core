@@ -192,7 +192,10 @@ class Uri extends GuzzleHttpUri
         $a = explode(':', $curie, 2);
 
         if (!isset($a[1]) || $a[0] == '') {
-            return new self($defaultPrefixValue . $curie);
+            return new self(
+                ($defaultPrefixValue ?? $context->lookupNamespaceUri(null))
+                . $curie
+            );
         }
 
         $nsName = $context->lookupNamespaceURI($a[0]);
