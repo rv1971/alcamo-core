@@ -23,18 +23,15 @@ class HeaderCacheControlTest extends TestCase
     public function basicsProvider()
     {
         return [
-        'public' => [
-        'public', 'public'
-        ],
-        'private' => [
-        'private', 'private'
-        ],
-        'no-cache' => [
-        'no-cache', 'nocache'
-        ],
-        'foo' => [
-        'foo', 'Invalid value "foo", expected one of: "public", "private", "no-cache"'
-        ]
+            'public' => [
+                'public', 'public'
+            ],
+            'private' => [
+                'private', 'private'
+            ],
+            'no-cache' => [
+                'no-cache', 'nocache'
+            ]
         ];
     }
 }

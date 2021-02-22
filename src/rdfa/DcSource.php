@@ -21,7 +21,9 @@ class DcSource extends AbstractStmt
     public function toHttpHeaders(): array
     {
         return [
-        static::HTTP_HEADER => "<{$this}>; rel=\"" . static::LINK_REL . '"'
+            static::HTTP_HEADER => [
+                "<{$this}>; rel=\"" . static::LINK_REL . '"'
+            ]
         ];
     }
 }

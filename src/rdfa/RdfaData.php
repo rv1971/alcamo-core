@@ -62,18 +62,18 @@ class RdfaData extends ReadonlyCollection
         return new Nodes($result);
     }
 
+    /**
+     * @warning The implementation does not support:
+     * - RDFa data with multiple values for one property that generates HTTP
+     *   headers.
+     * - Multiple RDFa properties which generate the same header.
+     */
     public function toHttpHeaders(): ?array
     {
         $result = [];
 
-        foreach ($this->data_ as $value) {
-            if (is_array($value)) {
-                foreach ($value as $item) {
-                    $result += (array)$item->toHttpHeaders();
-                }
-            } else {
-                $result += (array)$value->toHttpHeaders();
-            }
+        foreach ($this->data_ as $stmt) {
+            $result += (array)$stmt->toHttpHeaders();
         }
 
         return $result;

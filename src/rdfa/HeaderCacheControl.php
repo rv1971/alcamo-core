@@ -5,13 +5,13 @@ namespace alcamo\rdfa;
 /**
  * @sa [Caching](https://tools.ietf.org/html/rfc7234)
  */
-class HeaderCacheControl extends AbstractEnumeratorStmt
+class HeaderCacheControl extends AbstractStmt
 {
+    use LiteralContentTrait;
     use NoHtmlTrait;
 
     public const PROPERTY = 'header:cache-control';
-
-    public const VALUES = [ 'public', 'private', 'no-cache' ];
+    public const HTTP_HEADER = 'Cache-Control';
 
     /// Set session parameters accordingly.
     public function alterSession()

@@ -17,6 +17,6 @@ class HeaderContentDisposition extends AbstractStmt
 
     public function toHttpHeaders(): ?array
     {
-        return [ static::HTTP_HEADER => "attachment; filename=\"$this\"" ];
+        return [ static::HTTP_HEADER => [ "attachment; filename=\"$this\"" ] ];
     }
 }

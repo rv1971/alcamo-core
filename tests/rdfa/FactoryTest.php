@@ -151,7 +151,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<meta property="dc:format" content="application/xml"/>',
             'httpHeaders'
-            => [ 'Content-Type' => 'application/xml' ]
+            => [ 'Content-Type' => [ 'application/xml' ] ]
           ],
 
           [
@@ -203,7 +203,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<meta property="dc:language" content="oc-FR"/>',
             'httpHeaders'
-            => [ 'Content-Language' => 'oc-FR' ]
+            => [ 'Content-Language' => [ 'oc-FR' ] ]
           ],
 
           [
@@ -218,7 +218,7 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:modified" content="1971-02-03T04:05:06+01:00"/>',
-            'httpHeaders' => [ 'Last-Modified' => 'Wed, 03 Feb 1971 04:05:06 +0100' ]
+            'httpHeaders' => [ 'Last-Modified' => [ 'Wed, 03 Feb 1971 04:05:06 +0100' ] ]
           ],
 
           [
@@ -277,7 +277,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
             'httpHeaders' => [
-              'Link' => '<https://factory.test.example.com>; rel="canonical"'
+              'Link' => [ '<https://factory.test.example.com>; rel="canonical"' ]
             ]
           ]
         ]
@@ -329,7 +329,9 @@ class FactoryTest extends TestCase
               'content' => 'public'
             ],
             'html' => '',
-            'httpHeaders' => null
+            'httpHeaders' => [
+                'Cache-Control' => [ 'public' ]
+            ],
           ],
 
           [
@@ -344,7 +346,7 @@ class FactoryTest extends TestCase
             ],
             'html' => '',
             'httpHeaders' => [
-              'Content-Disposition' => 'attachment; filename="baz.json"'
+              'Content-Disposition' => [ 'attachment; filename="baz.json"' ]
             ]
           ],
 
@@ -360,7 +362,7 @@ class FactoryTest extends TestCase
             ],
             'html' => '',
             'httpHeaders' => [
-              'Content-Length' => '12'
+              'Content-Length' => [ '12' ]
             ]
           ],
 
@@ -375,7 +377,7 @@ class FactoryTest extends TestCase
               'content' => 'P40D'
             ],
             'html' => '',
-            'httpHeaders' => null
+            'httpHeaders' => [ 'Expires' => '' ]
           ]
         ]
         ],
@@ -529,7 +531,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<meta property="dc:format" content="application/xml"/>',
             'httpHeaders'
-            => [ 'Content-Type' => 'application/xml' ]
+            => [ 'Content-Type' => [ 'application/xml' ] ]
           ],
 
           [
@@ -560,7 +562,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<meta property="dc:language" content="oc-FR"/>',
             'httpHeaders'
-            => [ 'Content-Language' => 'oc-FR' ]
+            => [ 'Content-Language' => [ 'oc-FR' ] ]
           ],
 
           [
@@ -575,7 +577,7 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:modified" content="1971-02-03T04:05:06+01:00"/>',
-            'httpHeaders' => [ 'Last-Modified' => 'Wed, 03 Feb 1971 04:05:06 +0100' ]
+            'httpHeaders' => [ 'Last-Modified' => [ 'Wed, 03 Feb 1971 04:05:06 +0100' ] ]
           ],
 
           [
@@ -653,7 +655,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
             'httpHeaders' => [
-              'Link' => '<https://factory.test.example.com>; rel="canonical"'
+                'Link' => [ '<https://factory.test.example.com>; rel="canonical"' ]
             ]
           ],
 
@@ -683,7 +685,9 @@ class FactoryTest extends TestCase
               'content' => 'public'
             ],
             'html' => '',
-            'httpHeaders' => null
+            'httpHeaders' => [
+                'Cache-Control' => [ 'public' ],
+            ]
           ],
 
           [
@@ -698,7 +702,7 @@ class FactoryTest extends TestCase
             ],
             'html' => '',
             'httpHeaders' => [
-              'Content-Disposition' => 'attachment; filename="baz.json"'
+              'Content-Disposition' => [ 'attachment; filename="baz.json"' ]
             ]
           ],
 
@@ -714,7 +718,7 @@ class FactoryTest extends TestCase
             ],
             'html' => '',
             'httpHeaders' => [
-              'Content-Length' => '123456'
+              'Content-Length' => [ '123456' ]
             ]
           ],
 
@@ -729,7 +733,7 @@ class FactoryTest extends TestCase
               'content' => 'P40D'
             ],
             'html' => '',
-            'httpHeaders' => null
+            'httpHeaders' => [ 'Expires' => '' ]
           ],
 
           [
@@ -792,7 +796,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<meta property="dc:format" content="application/xml"/>',
             'httpHeaders'
-            => [ 'Content-Type' => 'application/xml' ]
+            => [ 'Content-Type' => [ 'application/xml' ] ]
           ],
 
           [
@@ -808,7 +812,7 @@ class FactoryTest extends TestCase
             'html' =>
             '<meta property="dc:language" content="oc-FR"/>',
             'httpHeaders'
-            => [ 'Content-Language' => 'oc-FR' ]
+            => [ 'Content-Language' => [ 'oc-FR' ] ]
           ],
 
           [
@@ -823,7 +827,7 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:modified" content="1971-02-03T04:05:06+01:00"/>',
-            'httpHeaders' => [ 'Last-Modified' => 'Wed, 03 Feb 1971 04:05:06 +0100' ]
+            'httpHeaders' => [ 'Last-Modified' => [ 'Wed, 03 Feb 1971 04:05:06 +0100' ] ]
           ],
 
           [
@@ -837,7 +841,7 @@ class FactoryTest extends TestCase
               'content' => 'P40D'
             ],
             'html' => '',
-            'httpHeaders' => null
+            'httpHeaders' => [ 'Expires' => '' ]
           ],
 
           [

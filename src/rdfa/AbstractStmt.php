@@ -85,7 +85,7 @@ abstract class AbstractStmt implements StmtInterface
     public function toHttpHeaders(): ?array
     {
         return defined('static::HTTP_HEADER')
-        ? [ static::HTTP_HEADER => (string)$this ]
+        ? [ static::HTTP_HEADER => [ (string)$this ] ]
         : null;
     }
 }

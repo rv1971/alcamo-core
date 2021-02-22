@@ -28,6 +28,6 @@ class DcModified extends AbstractStmt
 
     public function toHttpHeaders(): array
     {
-        return [ static::HTTP_HEADER => $this->format('r') ];
+        return [ static::HTTP_HEADER => [ $this->format('r') ] ];
     }
 }

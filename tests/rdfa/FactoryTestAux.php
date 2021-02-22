@@ -47,6 +47,25 @@ class FactoryTestAux extends TestCase
 
         $this->assertSame($expectedItem['html'], (string)$item->toHtmlNodes());
 
-        $this->assertSame($expectedItem['httpHeaders'], $item->toHttpHeaders());
+        if (
+            isset($expectedItem['httpHeaders'])
+            && array_keys($expectedItem['httpHeaders']) == [ 'Expires' ]
+        ) {
+            $this->assertSame(
+                array_keys($expectedItem['httpHeaders']),
+                array_keys($item->toHttpHeaders())
+            );
+
+            $this->assertTrue(
+                (new \DateTimeImmutable($item->toHttpHeaders()['Expires'][0]))
+                    ->format('U')
+                > time()
+            );
+        } else {
+            $this->assertSame(
+                $expectedItem['httpHeaders'],
+                $item->toHttpHeaders()
+            );
+        }
     }
 }
