@@ -1,5 +1,5 @@
 {
-    "name": "alcamo/alcamo",
+    "name": "alcamo/core",
     "description": "General-purpose package mainly focusing on the generation of HTML pages",
     "keywords": [ "collection", "html", "rdfa", "xml" ],
     "license": "Apache-2.0",
