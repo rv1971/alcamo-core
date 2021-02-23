@@ -13,6 +13,10 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
     use HasUrlFactoryTrait;
     use ParentTrait;
 
+    public const DEFAULT_RDFA_DATA = [
+        'dc:format' => 'application/xhtml+xml; charset="UTF-8"'
+    ];
+
     public static function newFromRdfaData(
         iterable $rdfaData,
         array $conf,
@@ -33,7 +37,9 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
         ?array $modules = null,
         ?UrlFactoryInterface $urlFactory = null
     ) {
-        $this->rdfaData_ = $rdfaData;
+        $this->rdfaData_ = RdfaData::newFromIterable(static::DEFAULT_RDFA_DATA)
+            ->replace($rdfaData);
+
         $this->conf_ = (array)$conf;
 
         $this->urlFactory_ =

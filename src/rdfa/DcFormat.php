@@ -9,6 +9,8 @@ use alcamo\iana\MediaType;
  */
 class DcFormat extends AbstractStmt
 {
+    use NoHtmlTrait;
+
     public const PROPERTY     = 'dc:format';
     public const HTTP_HEADER  = 'Content-Type';
     public const OBJECT_CLASS = MediaType::class;

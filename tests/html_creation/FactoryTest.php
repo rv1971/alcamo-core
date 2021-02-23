@@ -95,6 +95,7 @@ class FactoryTest extends TestCase
                 '<!DOCTYPE html>'
                 . '<html xmlns="http://www.w3.org/1999/xhtml">'
                 . '<head>'
+                . '<meta charset="UTF-8"/>'
                 . '<title property="dc:title">Foo | Bar</title>'
                 . '</head>'
                 . '<body>Lorem ipsum.</body>'
@@ -116,6 +117,7 @@ class FactoryTest extends TestCase
                 '<!DOCTYPE html>'
                 . '<html xmlns="http://www.w3.org/1999/xhtml" id="baz.qux" lang="en-UG">'
                 . '<head>'
+                . '<meta charset="UTF-8"/>'
                 . '<meta property="dc:identifier" content="baz.qux"/>'
                 . '<meta property="dc:language" content="en-UG"/>'
                 . "<link rel=\"stylesheet\" href=\"/element/alcamo.css.gz?m=$mCssGz\"/>"
