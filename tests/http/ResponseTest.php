@@ -13,8 +13,7 @@ class ResponseTest extends TestCase
 
         $rdfaData = RdfaData::newFromIterable(
             [
-                'dc:format' => 'application/json',
-                'header:content-length' => strlen($bodyText)
+                'dc:format' => 'application/json'
             ]
         );
 
@@ -25,6 +24,13 @@ class ResponseTest extends TestCase
         $this->assertSame($rdfaData, $response->getRdfaData());
 
         $this->assertSame($bodyText, (string)$response->getBody());
+
+        $this->assertSame(strlen($bodyText), $response->computeContentLength());
+
+        $this->assertSame(
+            strlen($bodyText),
+            $response->getRdfaData()['header:content-length']->getObject()
+        );
 
         $this->assertSame(200, $response->getStatusCode());
     }

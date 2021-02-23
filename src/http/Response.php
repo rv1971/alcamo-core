@@ -24,8 +24,21 @@ class Response extends ResponseBase
         );
     }
 
+    public function computeContentLength(): int
+    {
+        $length = strlen($this->getBody());
+
+        $this->rdfaData_->replace(
+            RdfaData::newFromIterable(['header:content-length' => $length ])
+        );
+
+        return $length;
+    }
+
     public function emit()
     {
+        $this->computeContentLength();
+
         (new SapiEmitter())->emit($this);
     }
 }
