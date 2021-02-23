@@ -10,6 +10,29 @@ class Response extends ResponseBase
 {
     use HasRdfaDataTrait;
 
+    public static function newFromStatusAndText(
+        int $status,
+        ?string $text = null,
+        ?RdfaData $rdfaData = null
+    ) {
+        $autoRdfaData =
+            RdfaData::newFromIterable([ 'dc:format' => 'text/plain' ]);
+
+        $rdfaData = isset($rdfaData)
+            ? $autoRdfaData->replace($rdfaData)
+            : $autoRdfaData;
+
+        $response = new self($rdfaData, null, $status);
+
+        if (isset($text)) {
+            $response->getBody()->write($text);
+        } else {
+            $response->getBody()->write($response->getReasonPhrase());
+        }
+
+        return $response;
+    }
+
     public function __construct(
         RdfaData $rdfaData,
         $body = null,

@@ -48,9 +48,9 @@ class FactoryTest extends TestCase
         );
     }
 
-  /**
-   * @dataProvider htmlGenerationProvider
-   */
+    /**
+     * @dataProvider htmlGenerationProvider
+     */
     public function testHtmlGeneration(
         $rdfaData,
         $conf,
