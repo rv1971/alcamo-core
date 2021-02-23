@@ -8,6 +8,9 @@ use alcamo\xml\exception\UnknownNamespacePrefix;
 
 /**
  * @sa [CURIE Syntax 1.0](https://www.w3.org/TR/curie/)
+ *
+ * The `Laminas\Diactoros` implementation of Uri is not suitable because it
+ * does not support `file:/` URIs.
  */
 class Uri extends GuzzleHttpUri
 {
