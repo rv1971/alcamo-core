@@ -89,7 +89,7 @@ class RdfaData extends ReadonlyCollection
     }
 
   /// Add further properties without overwriting existing ones.
-    public function add(self $rdfaData)
+    public function add(self $rdfaData): self
     {
         foreach ($rdfaData->data_ as $key => $value) {
             if (isset($this->data_[$key])) {
@@ -103,11 +103,15 @@ class RdfaData extends ReadonlyCollection
                 $this->data_[$key] = $value;
             }
         }
+
+        return $this;
     }
 
   /// Add further properties, overwriting existing ones.
-    public function replace(self $rdfaData)
+    public function replace(self $rdfaData): self
     {
         $this->data_ = $rdfaData->data_ + $this->data_;
+
+        return $this;
     }
 }
