@@ -4,7 +4,12 @@ namespace alcamo\dom;
 
 use GuzzleHttp\Psr7\UriResolver;
 use PHPUnit\Framework\TestCase;
-use alcamo\exception\{AbsoluteUriNeeded, FileLoadFailed, Uninitialized};
+use alcamo\exception\{
+    AbsoluteUriNeeded,
+    DataValidationFailed,
+    FileLoadFailed,
+    Uninitialized
+};
 use alcamo\ietf\Uri;
 
 class DocumentTest extends TestCase
@@ -193,7 +198,7 @@ class DocumentTest extends TestCase
             $bar->getSchemaLocations()[0]
         );
 
-        $this->expectException(FileLoadFailed::class);
+        $this->expectException(DataValidationFailed::class);
 
         $bar->validateWithSchema(__DIR__ . DIRECTORY_SEPARATOR . 'baz.xsd');
     }
@@ -219,7 +224,7 @@ class DocumentTest extends TestCase
             __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml'
         );
 
-        $this->expectException(FileLoadFailed::class);
+        $this->expectException(DataValidationFailed::class);
 
         ValidatedDocument::newFromUrl(
             __DIR__ . DIRECTORY_SEPARATOR . 'bar-invalid.xml'
@@ -232,7 +237,7 @@ class DocumentTest extends TestCase
             __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
         );
 
-        $this->expectException(FileLoadFailed::class);
+        $this->expectException(DataValidationFailed::class);
 
         ValidatedDocument::newFromUrl(
             __DIR__ . DIRECTORY_SEPARATOR . 'foo-invalid.xml'

@@ -4,7 +4,12 @@ namespace alcamo\dom;
 
 use GuzzleHttp\Psr7\{Uri, UriResolver};
 use alcamo\collection\PreventWriteArrayAccessTrait;
-use alcamo\exception\{AbsoluteUriNeeded, FileLoadFailed, Uninitialized};
+use alcamo\exception\{
+    AbsoluteUriNeeded,
+    DataValidationFailed,
+    FileLoadFailed,
+    Uninitialized
+};
 use alcamo\ietf\UriNormalizer;
 
 /**
@@ -346,7 +351,8 @@ class Document extends \DOMDocument implements \ArrayAccess
                 $messages[] = "$error->file:$error->line $error->message";
             }
 
-            throw new FileLoadFailed(
+            throw new DataValidationFailed(
+                $this->saveXML(),
                 $this->documentURI,
                 '; ' . implode('', $messages)
             );
