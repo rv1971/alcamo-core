@@ -56,6 +56,7 @@ class RdfaDataTest extends TestCase
             'class' => DcTitle::class,
             'property' => 'dc:title',
             'isResource' => false,
+            'label' => null,
             'string' => 'Lorem ipsum',
             'xmlAttrs' => [
               'property' => 'dc:title',
@@ -63,6 +64,8 @@ class RdfaDataTest extends TestCase
             ],
             'html' =>
             '<title property="dc:title">Lorem ipsum</title>',
+            'visibleHtml' =>
+            '<span property="dc:title">Lorem ipsum</span>',
             'httpHeaders' => null
           ],
           [
@@ -70,13 +73,14 @@ class RdfaDataTest extends TestCase
             'class' => DcFormat::class,
             'property' => 'dc:format',
             'isResource' => false,
+            'label' => null,
             'string' => 'text/plain; charset="UTF-8"',
             'xmlAttrs' => [
               'property' => 'dc:format',
               'content' => 'text/plain; charset="UTF-8"'
             ],
-            'html' =>
-            '<meta property="dc:format" content="text/plain; charset=&quot;UTF-8&quot;"/>',
+            'html' => '',
+            'visibleHtml' => '',
             'httpHeaders'
             => [ 'Content-Type' => [ 'text/plain; charset="UTF-8"' ] ]
           ],
@@ -85,6 +89,7 @@ class RdfaDataTest extends TestCase
             'class' => DcSource::class,
             'property' => 'dc:source',
             'isResource' => true,
+            'label' => null,
             'string' => 'https://factory.test.example.com',
             'xmlAttrs' => [
               'property' => 'dc:source',
@@ -92,6 +97,9 @@ class RdfaDataTest extends TestCase
             ],
             'html' =>
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
+            'visibleHtml' =>
+            '<a rel="dc:source canonical" href="https://factory.test.example.com">'
+            . 'https://factory.test.example.com</a>',
             'httpHeaders' => [
               'Link' => [ '<https://factory.test.example.com>; rel="canonical"' ]
             ]
@@ -101,6 +109,7 @@ class RdfaDataTest extends TestCase
             'class' => MetaCharset::class,
             'property' => 'meta:charset',
             'isResource' => false,
+            'label' => null,
             'string' => 'UTF-8',
             'xmlAttrs' => [
               'property' => 'meta:charset',
@@ -108,12 +117,13 @@ class RdfaDataTest extends TestCase
             ],
             'html' =>
             '<meta charset="UTF-8"/>',
+            'visibleHtml' =>
+            '<span property="meta:charset">UTF-8</span>',
             'httpHeaders' => null
           ],
           'html' =>
           '<meta charset="UTF-8"/>'
           . '<title property="dc:title">Lorem ipsum</title>'
-          . '<meta property="dc:format" content="text/plain; charset=&quot;UTF-8&quot;"/>'
           . '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
           'httpHeaders' => [
             'Content-Type' => [ 'text/plain; charset="UTF-8"' ],
@@ -148,27 +158,27 @@ class RdfaDataTest extends TestCase
         'simple' => [
         [
           'dc:title' => 'Lorem ipsum',
-          'dc:creator' => [ [ 'Dilbert', false ] ],
+          'dc:creator' => 'Dilbert',
           'dc:publisher' => [
-            [ 'Garfield', false ],
+            'Garfield',
             [ 'http://bob.example.org', true ]
           ]
         ],
         [
           'dc:identifier' => 'foo.bar.baz',
-          'dc:creator' => [ [ 'Tom', false ] ],
-          'dc:publisher' => [ [ 'Alice', false ] ]
+          'dc:creator' => 'Tom',
+          'dc:publisher' => 'Alice',
         ],
         [
           'dc:title' => 'Lorem ipsum',
           'dc:creator' => [
-            [ 'Dilbert', false ],
-            [ 'Tom', false ]
+            'Dilbert',
+            'Tom'
           ],
           'dc:publisher' => [
-            [ 'Garfield', false ],
+            'Garfield',
             [ 'http://bob.example.org', true ],
-            [ 'Alice', false ]
+            'Alice'
           ],
           'dc:identifier' => 'foo.bar.baz'
         ]
@@ -200,25 +210,21 @@ class RdfaDataTest extends TestCase
         'simple' => [
         [
           'dc:title' => 'Lorem ipsum',
-          'dc:creator' => [ [ 'Dilbert', false ] ],
+          'dc:creator' => 'Dilbert',
           'dc:publisher' => [
-            [ 'Garfield', false ],
+            'Garfield',
             [ 'http://bob.example.org', true ]
           ]
         ],
         [
           'dc:identifier' => 'foo.bar.baz',
-          'dc:creator' => [ [ 'Tom', false ] ],
-          'dc:publisher' => [ [ 'Alice', false ] ]
+          'dc:creator' => 'Tom',
+          'dc:publisher' => 'Alice'
         ],
         [
           'dc:identifier' => 'foo.bar.baz',
-          'dc:creator' => [
-            [ 'Tom', false ]
-          ],
-          'dc:publisher' => [
-            [ 'Alice', false ]
-          ],
+          'dc:creator' => 'Tom',
+          'dc:publisher' => 'Alice',
           'dc:title' => 'Lorem ipsum',
         ]
         ]

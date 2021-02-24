@@ -41,11 +41,21 @@ class FactoryTestAux extends TestCase
 
         $this->assertSame($expectedItem['isResource'], $item->isResource());
 
+        $this->assertSame(
+            $expectedItem['label'],
+            $item->getResourceLabel()
+        );
+
         $this->assertSame($expectedItem['string'], (string)$item);
 
         $this->assertSame($expectedItem['xmlAttrs'], $item->toXmlAttrs());
 
         $this->assertSame($expectedItem['html'], (string)$item->toHtmlNodes());
+
+        $this->assertSame(
+            $expectedItem['visibleHtml'],
+            (string)$item->toVisibleHtmlNodes()
+        );
 
         if (
             isset($expectedItem['httpHeaders'])

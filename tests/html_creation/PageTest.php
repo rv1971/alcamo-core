@@ -37,8 +37,6 @@ class PageTest extends TestCase
 
         $this->assertSame(404, $page->getStatusCode());
 
-        $this->assertSame($rdfaData, $page->getResponse()->getRdfaData());
-
         $page->begin();
 
         $bodyText = new P(

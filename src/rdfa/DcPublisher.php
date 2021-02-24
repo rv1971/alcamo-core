@@ -9,5 +9,7 @@ use alcamo\html_creation\element\Publisher;
  */
 class DcPublisher extends AbstractStmt
 {
+    use LiteralContentOrLinkTrait;
+
     public const PROPERTY = 'dc:publisher';
 }

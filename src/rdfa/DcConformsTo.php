@@ -11,8 +11,8 @@ class DcConformsTo extends AbstractStmt
 {
     public const PROPERTY = 'dc:conformsTo';
 
-    public function __construct($conformsTo)
+    public function __construct($conformsTo, $resourceLabel = null)
     {
-        parent::__construct($conformsTo, true);
+        parent::__construct($conformsTo, $resourceLabel ?? true);
     }
 }

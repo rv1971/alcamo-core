@@ -40,6 +40,7 @@ class FactoryTest extends TestCase
             'class' => DcAbstract::class,
             'property' => 'dc:abstract',
             'isResource' => false,
+            'label' => null,
             'string' => 'Lorem ipsum dolor sit amet.',
             'xmlAttrs' => [
               'property' => 'dc:abstract',
@@ -47,6 +48,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:abstract" content="Lorem ipsum dolor sit amet." name="description"/>',
+            'visibleHtml' =>
+            '<span property="dc:abstract">Lorem ipsum dolor sit amet.</span>',
             'httpHeaders' => null
           ]
         ]
@@ -55,7 +58,7 @@ class FactoryTest extends TestCase
         'complete-objects/2' => [
         [
           'dc:conformsTo'
-          => new DcConformsTo('https://semver.org/spec/v2.0.0.html'),
+          => new DcConformsTo('https://semver.org/spec/v2.0.0.html', 'Semver 2.0'),
 
           'dc:created'
           => new DcCreated(new \DateTime('1970-01-01')),
@@ -66,6 +69,7 @@ class FactoryTest extends TestCase
             'class' => DcConformsTo::class,
             'property' => 'dc:conformsTo',
             'isResource' => true,
+            'label' => 'Semver 2.0',
             'string' => 'https://semver.org/spec/v2.0.0.html',
             'xmlAttrs' => [
               'property' => 'dc:conformsTo',
@@ -73,6 +77,9 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<link rel="dc:conformsTo" href="https://semver.org/spec/v2.0.0.html"/>',
+            'visibleHtml' =>
+            '<a rel="dc:conformsTo" href="https://semver.org/spec/v2.0.0.html">'
+            . 'Semver 2.0</a>',
             'httpHeaders' => null
           ],
 
@@ -81,6 +88,7 @@ class FactoryTest extends TestCase
             'class' => DcCreated::class,
             'property' => 'dc:created',
             'isResource' => false,
+            'label' => null,
             'string' => '1970-01-01T00:00:00+00:00',
             'xmlAttrs' => [
               'property' => 'dc:created',
@@ -88,6 +96,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:created" content="1970-01-01T00:00:00+00:00"/>',
+            'visibleHtml' =>
+            '<span property="dc:created">1970-01-01T00:00:00+00:00</span>',
             'httpHeaders' => null
           ]
         ]
@@ -97,7 +107,7 @@ class FactoryTest extends TestCase
         [
           'dc:creator'
           => [
-            new DcCreator('Dilbert', false),
+            new DcCreator('Dilbert'),
             new DcCreator('https://dilbert.example.org', true)
           ],
 
@@ -114,6 +124,7 @@ class FactoryTest extends TestCase
               'class' => DcCreator::class,
               'property' => 'dc:creator',
               'isResource' => false,
+              'label' => null,
               'string' => 'Dilbert',
               'xmlAttrs' => [
                 'property' => 'dc:creator',
@@ -121,12 +132,14 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<meta property="dc:creator" content="Dilbert" name="author"/>',
+              'visibleHtml' => '<span property="dc:creator">Dilbert</span>',
               'httpHeaders' => null
             ],
             [
               'class' => DcCreator::class,
               'property' => 'dc:creator',
               'isResource' => true,
+              'label' => null,
               'string' => 'https://dilbert.example.org',
               'xmlAttrs' => [
                 'property' => 'dc:creator',
@@ -134,6 +147,9 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<link rel="dc:creator author" href="https://dilbert.example.org"/>',
+              'visibleHtml' =>
+              '<a rel="dc:creator author" href="https://dilbert.example.org">'
+              . 'https://dilbert.example.org</a>',
               'httpHeaders' => null
             ]
           ],
@@ -143,13 +159,14 @@ class FactoryTest extends TestCase
             'class' => DcFormat::class,
             'property' => 'dc:format',
             'isResource' => false,
+            'label' => null,
             'string' => 'application/xml',
             'xmlAttrs' => [
               'property' => 'dc:format',
               'content' => 'application/xml'
             ],
-            'html' =>
-            '<meta property="dc:format" content="application/xml"/>',
+            'html' => '',
+            'visibleHtml' => '',
             'httpHeaders'
             => [ 'Content-Type' => [ 'application/xml' ] ]
           ],
@@ -159,13 +176,14 @@ class FactoryTest extends TestCase
             'class' => DcIdentifier::class,
             'property' => 'dc:identifier',
             'isResource' => false,
+            'label' => null,
             'string' => 'foo.bar',
             'xmlAttrs' => [
               'property' => 'dc:identifier',
               'content' => 'foo.bar'
             ],
-            'html' =>
-            '<meta property="dc:identifier" content="foo.bar"/>',
+            'html' => '<meta property="dc:identifier" content="foo.bar"/>',
+            'visibleHtml' => '<span property="dc:identifier">foo.bar</span>',
             'httpHeaders' => null
           ]
         ]
@@ -181,8 +199,8 @@ class FactoryTest extends TestCase
 
           'dc:publisher'
           => [
-            new DcPublisher('http://garfield.example.org', true),
-            new DcPublisher('Garfield', false),
+            new DcPublisher('http://garfield.example.org', 'Garfield'),
+            new DcPublisher('Garfield'),
             new DcPublisher('http://jerry.example.org', true)
           ],
 
@@ -195,13 +213,14 @@ class FactoryTest extends TestCase
             'class' => DcLanguage::class,
             'property' => 'dc:language',
             'isResource' => false,
+            'label' => null,
             'string' => 'oc-FR',
             'xmlAttrs' => [
               'property' => 'dc:language',
               'content' => 'oc-FR'
             ],
-            'html' =>
-            '<meta property="dc:language" content="oc-FR"/>',
+            'html' => '<meta property="dc:language" content="oc-FR"/>',
+            'visibleHtml' => '<span property="dc:language">oc-FR</span>',
             'httpHeaders'
             => [ 'Content-Language' => [ 'oc-FR' ] ]
           ],
@@ -211,6 +230,7 @@ class FactoryTest extends TestCase
             'class' => DcModified::class,
             'property' => 'dc:modified',
             'isResource' => false,
+            'label' => null,
             'string' => '1971-02-03T04:05:06+01:00',
             'xmlAttrs' => [
               'property' => 'dc:modified',
@@ -218,6 +238,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:modified" content="1971-02-03T04:05:06+01:00"/>',
+            'visibleHtml' =>
+            '<span property="dc:modified">1971-02-03T04:05:06+01:00</span>',
             'httpHeaders' => [ 'Last-Modified' => [ 'Wed, 03 Feb 1971 04:05:06 +0100' ] ]
           ],
 
@@ -227,6 +249,7 @@ class FactoryTest extends TestCase
               'class' => DcPublisher::class,
               'property' => 'dc:publisher',
               'isResource' => true,
+              'label' => 'Garfield',
               'string' => 'http://garfield.example.org',
               'xmlAttrs' => [
                 'property' => 'dc:publisher',
@@ -234,12 +257,15 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<link rel="dc:publisher" href="http://garfield.example.org"/>',
+              'visibleHtml' =>
+              '<a rel="dc:publisher" href="http://garfield.example.org">Garfield</a>',
               'httpHeaders' => null
             ],
             [
               'class' => DcPublisher::class,
               'property' => 'dc:publisher',
               'isResource' => false,
+              'label' => null,
               'string' => 'Garfield',
               'xmlAttrs' => [
                 'property' => 'dc:publisher',
@@ -247,12 +273,15 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<meta property="dc:publisher" content="Garfield"/>',
+              'visibleHtml' =>
+              '<span property="dc:publisher">Garfield</span>',
               'httpHeaders' => null
             ],
             [
               'class' => DcPublisher::class,
               'property' => 'dc:publisher',
               'isResource' => true,
+              'label' => null,
               'string' => 'http://jerry.example.org',
               'xmlAttrs' => [
                 'property' => 'dc:publisher',
@@ -260,6 +289,8 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<link rel="dc:publisher" href="http://jerry.example.org"/>',
+              'visibleHtml' =>
+              '<a rel="dc:publisher" href="http://jerry.example.org">http://jerry.example.org</a>',
               'httpHeaders' => null
             ]
           ],
@@ -269,6 +300,7 @@ class FactoryTest extends TestCase
             'class' => DcSource::class,
             'property' => 'dc:source',
             'isResource' => true,
+            'label' => null,
             'string' => 'https://factory.test.example.com',
             'xmlAttrs' => [
               'property' => 'dc:source',
@@ -276,6 +308,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
+            'visibleHtml' =>
+            '<a rel="dc:source canonical" href="https://factory.test.example.com">https://factory.test.example.com</a>',
             'httpHeaders' => [
               'Link' => [ '<https://factory.test.example.com>; rel="canonical"' ]
             ]
@@ -308,6 +342,7 @@ class FactoryTest extends TestCase
             'class' => DcTitle::class,
             'property' => 'dc:title',
             'isResource' => false,
+            'label' => null,
             'string' => 'Lorem ipsum',
             'xmlAttrs' => [
               'property' => 'dc:title',
@@ -315,6 +350,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<title property="dc:title">Lorem ipsum</title>',
+            'visibleHtml' =>
+            '<span property="dc:title">Lorem ipsum</span>',
             'httpHeaders' => null
           ],
 
@@ -323,12 +360,14 @@ class FactoryTest extends TestCase
             'class' => HeaderCacheControl::class,
             'property' => 'header:cache-control',
             'isResource' => false,
+            'label' => null,
             'string' => 'public',
             'xmlAttrs' => [
               'property' => 'header:cache-control',
               'content' => 'public'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [
                 'Cache-Control' => [ 'public' ]
             ],
@@ -339,12 +378,14 @@ class FactoryTest extends TestCase
             'class' => HeaderContentDisposition::class,
             'property' => 'header:content-disposition',
             'isResource' => false,
+            'label' => null,
             'string' => 'baz.json',
             'xmlAttrs' => [
               'property' => 'header:content-disposition',
               'content' => 'baz.json'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [
               'Content-Disposition' => [ 'attachment; filename="baz.json"' ]
             ]
@@ -355,12 +396,14 @@ class FactoryTest extends TestCase
             'class' => HeaderContentLength::class,
             'property' => 'header:content-length',
             'isResource' => false,
+            'label' => null,
             'string' => '12',
             'xmlAttrs' => [
               'property' => 'header:content-length',
               'content' => '12'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [
               'Content-Length' => [ '12' ]
             ]
@@ -371,12 +414,14 @@ class FactoryTest extends TestCase
             'class' => HeaderExpires::class,
             'property' => 'header:expires',
             'isResource' => false,
+            'label' => null,
             'string' => 'P40D',
             'xmlAttrs' => [
               'property' => 'header:expires',
               'content' => 'P40D'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [ 'Expires' => '' ]
           ]
         ]
@@ -393,13 +438,14 @@ class FactoryTest extends TestCase
             'class' => MetaCharset::class,
             'property' => 'meta:charset',
             'isResource' => false,
+            'label' => null,
             'string' => 'UTF-8',
             'xmlAttrs' => [
               'property' => 'meta:charset',
               'content' => 'UTF-8'
             ],
-            'html' =>
-            '<meta charset="UTF-8"/>',
+            'html' => '<meta charset="UTF-8"/>',
+            'visibleHtml' => '<span property="meta:charset">UTF-8</span>',
             'httpHeaders' => null
           ]
         ]
@@ -409,7 +455,8 @@ class FactoryTest extends TestCase
         [
           'dc:abstract' => 'Lorem ipsum dolor sit amet.',
 
-          'dc:conformsTo' => 'https://semver.org/spec/v2.0.0.html',
+          'dc:conformsTo' =>
+          [ [ 'https://semver.org/spec/v2.0.0.html', 'Semantic Versioning' ]],
 
           'dc:created' => new \DateTime('1970-01-01')
         ],
@@ -419,6 +466,7 @@ class FactoryTest extends TestCase
             'class' => DcAbstract::class,
             'property' => 'dc:abstract',
             'isResource' => false,
+            'label' => null,
             'string' => 'Lorem ipsum dolor sit amet.',
             'xmlAttrs' => [
               'property' => 'dc:abstract',
@@ -426,6 +474,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:abstract" content="Lorem ipsum dolor sit amet." name="description"/>',
+            'visibleHtml' =>
+            '<span property="dc:abstract">Lorem ipsum dolor sit amet.</span>',
             'httpHeaders' => null
           ],
 
@@ -434,6 +484,7 @@ class FactoryTest extends TestCase
             'class' => DcConformsTo::class,
             'property' => 'dc:conformsTo',
             'isResource' => true,
+            'label' => 'Semantic Versioning',
             'string' => 'https://semver.org/spec/v2.0.0.html',
             'xmlAttrs' => [
               'property' => 'dc:conformsTo',
@@ -441,6 +492,9 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<link rel="dc:conformsTo" href="https://semver.org/spec/v2.0.0.html"/>',
+            'visibleHtml' =>
+            '<a rel="dc:conformsTo" href="https://semver.org/spec/v2.0.0.html">'
+            . 'Semantic Versioning</a>',
             'httpHeaders' => null
           ],
 
@@ -449,6 +503,7 @@ class FactoryTest extends TestCase
             'class' => DcCreated::class,
             'property' => 'dc:created',
             'isResource' => false,
+            'label' => null,
             'string' => '1970-01-01T00:00:00+00:00',
             'xmlAttrs' => [
               'property' => 'dc:created',
@@ -456,6 +511,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:created" content="1970-01-01T00:00:00+00:00"/>',
+            'visibleHtml' =>
+            '<span property="dc:created">1970-01-01T00:00:00+00:00</span>',
             'httpHeaders' => null
           ]
         ]
@@ -464,7 +521,7 @@ class FactoryTest extends TestCase
         'inner-objects/2' => [
         [
           'dc:creator' => [
-            [ 'Dilbert', false ],
+            'Dilbert',
             [ 'https://dilbert.example.org', true ]
           ]
         ],
@@ -475,6 +532,7 @@ class FactoryTest extends TestCase
               'class' => DcCreator::class,
               'property' => 'dc:creator',
               'isResource' => false,
+              'label' => null,
               'string' => 'Dilbert',
               'xmlAttrs' => [
                 'property' => 'dc:creator',
@@ -482,12 +540,15 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<meta property="dc:creator" content="Dilbert" name="author"/>',
+              'visibleHtml' =>
+              '<span property="dc:creator">Dilbert</span>',
               'httpHeaders' => null
             ],
             [
               'class' => DcCreator::class,
               'property' => 'dc:creator',
               'isResource' => true,
+              'label' => null,
               'string' => 'https://dilbert.example.org',
               'xmlAttrs' => [
                 'property' => 'dc:creator',
@@ -495,6 +556,8 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<link rel="dc:creator author" href="https://dilbert.example.org"/>',
+              'visibleHtml' =>
+              '<a rel="dc:creator author" href="https://dilbert.example.org">https://dilbert.example.org</a>',
               'httpHeaders' => null
             ]
           ]
@@ -513,7 +576,7 @@ class FactoryTest extends TestCase
 
           'dc:publisher' => [
             [ 'http://garfield.example.org', true ],
-            [ 'Garfield', false ],
+            'Garfield',
             [ 'http://jerry.example.org', true ]
           ]
         ],
@@ -523,13 +586,14 @@ class FactoryTest extends TestCase
             'class' => DcFormat::class,
             'property' => 'dc:format',
             'isResource' => false,
+            'label' => null,
             'string' => 'application/xml',
             'xmlAttrs' => [
               'property' => 'dc:format',
               'content' => 'application/xml'
             ],
-            'html' =>
-            '<meta property="dc:format" content="application/xml"/>',
+            'html' => '',
+            'visibleHtml' => '',
             'httpHeaders'
             => [ 'Content-Type' => [ 'application/xml' ] ]
           ],
@@ -539,6 +603,7 @@ class FactoryTest extends TestCase
             'class' => DcIdentifier::class,
             'property' => 'dc:identifier',
             'isResource' => false,
+            'label' => null,
             'string' => 'foo.bar',
             'xmlAttrs' => [
               'property' => 'dc:identifier',
@@ -546,6 +611,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:identifier" content="foo.bar"/>',
+            'visibleHtml' =>
+            '<span property="dc:identifier">foo.bar</span>',
             'httpHeaders' => null
           ],
 
@@ -554,6 +621,7 @@ class FactoryTest extends TestCase
             'class' => DcLanguage::class,
             'property' => 'dc:language',
             'isResource' => false,
+            'label' => null,
             'string' => 'oc-FR',
             'xmlAttrs' => [
               'property' => 'dc:language',
@@ -561,6 +629,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:language" content="oc-FR"/>',
+            'visibleHtml' =>
+            '<span property="dc:language">oc-FR</span>',
             'httpHeaders'
             => [ 'Content-Language' => [ 'oc-FR' ] ]
           ],
@@ -570,6 +640,7 @@ class FactoryTest extends TestCase
             'class' => DcModified::class,
             'property' => 'dc:modified',
             'isResource' => false,
+            'label' => null,
             'string' => '1971-02-03T04:05:06+01:00',
             'xmlAttrs' => [
               'property' => 'dc:modified',
@@ -577,6 +648,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:modified" content="1971-02-03T04:05:06+01:00"/>',
+            'visibleHtml' =>
+            '<span property="dc:modified">1971-02-03T04:05:06+01:00</span>',
             'httpHeaders' => [ 'Last-Modified' => [ 'Wed, 03 Feb 1971 04:05:06 +0100' ] ]
           ],
 
@@ -586,6 +659,7 @@ class FactoryTest extends TestCase
               'class' => DcPublisher::class,
               'property' => 'dc:publisher',
               'isResource' => true,
+              'label' => null,
               'string' => 'http://garfield.example.org',
               'xmlAttrs' => [
                 'property' => 'dc:publisher',
@@ -593,12 +667,15 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<link rel="dc:publisher" href="http://garfield.example.org"/>',
+              'visibleHtml' =>
+              '<a rel="dc:publisher" href="http://garfield.example.org">http://garfield.example.org</a>',
               'httpHeaders' => null
             ],
             [
               'class' => DcPublisher::class,
               'property' => 'dc:publisher',
               'isResource' => false,
+              'label' => null,
               'string' => 'Garfield',
               'xmlAttrs' => [
                 'property' => 'dc:publisher',
@@ -606,12 +683,15 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<meta property="dc:publisher" content="Garfield"/>',
+              'visibleHtml' =>
+              '<span property="dc:publisher">Garfield</span>',
               'httpHeaders' => null
             ],
             [
               'class' => DcPublisher::class,
               'property' => 'dc:publisher',
               'isResource' => true,
+              'label' => null,
               'string' => 'http://jerry.example.org',
               'xmlAttrs' => [
                 'property' => 'dc:publisher',
@@ -619,6 +699,8 @@ class FactoryTest extends TestCase
               ],
               'html' =>
               '<link rel="dc:publisher" href="http://jerry.example.org"/>',
+              'visibleHtml' =>
+              '<a rel="dc:publisher" href="http://jerry.example.org">http://jerry.example.org</a>',
               'httpHeaders' => null
             ]
           ]
@@ -647,6 +729,7 @@ class FactoryTest extends TestCase
             'class' => DcSource::class,
             'property' => 'dc:source',
             'isResource' => true,
+            'label' => null,
             'string' => 'https://factory.test.example.com',
             'xmlAttrs' => [
               'property' => 'dc:source',
@@ -654,6 +737,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
+            'visibleHtml' =>
+            '<a rel="dc:source canonical" href="https://factory.test.example.com">https://factory.test.example.com</a>',
             'httpHeaders' => [
                 'Link' => [ '<https://factory.test.example.com>; rel="canonical"' ]
             ]
@@ -664,6 +749,7 @@ class FactoryTest extends TestCase
             'class' => DcTitle::class,
             'property' => 'dc:title',
             'isResource' => false,
+            'label' => null,
             'string' => 'Lorem ipsum',
             'xmlAttrs' => [
               'property' => 'dc:title',
@@ -671,6 +757,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<title property="dc:title">Lorem ipsum</title>',
+            'visibleHtml' =>
+            '<span property="dc:title">Lorem ipsum</span>',
             'httpHeaders' => null
           ],
 
@@ -679,12 +767,14 @@ class FactoryTest extends TestCase
             'class' => HeaderCacheControl::class,
             'property' => 'header:cache-control',
             'isResource' => false,
+            'label' => null,
             'string' => 'public',
             'xmlAttrs' => [
               'property' => 'header:cache-control',
               'content' => 'public'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [
                 'Cache-Control' => [ 'public' ],
             ]
@@ -695,12 +785,14 @@ class FactoryTest extends TestCase
             'class' => HeaderContentDisposition::class,
             'property' => 'header:content-disposition',
             'isResource' => false,
+            'label' => null,
             'string' => 'baz.json',
             'xmlAttrs' => [
               'property' => 'header:content-disposition',
               'content' => 'baz.json'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [
               'Content-Disposition' => [ 'attachment; filename="baz.json"' ]
             ]
@@ -711,12 +803,14 @@ class FactoryTest extends TestCase
             'class' => HeaderContentLength::class,
             'property' => 'header:content-length',
             'isResource' => false,
+            'label' => null,
             'string' => '123456',
             'xmlAttrs' => [
               'property' => 'header:content-length',
               'content' => '123456'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [
               'Content-Length' => [ '123456' ]
             ]
@@ -727,12 +821,14 @@ class FactoryTest extends TestCase
             'class' => HeaderExpires::class,
             'property' => 'header:expires',
             'isResource' => false,
+            'label' => null,
             'string' => 'P40D',
             'xmlAttrs' => [
               'property' => 'header:expires',
               'content' => 'P40D'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [ 'Expires' => '' ]
           ],
 
@@ -741,6 +837,7 @@ class FactoryTest extends TestCase
             'class' => MetaCharset::class,
             'property' => 'meta:charset',
             'isResource' => false,
+            'label' => null,
             'string' => 'UTF-8',
             'xmlAttrs' => [
               'property' => 'meta:charset',
@@ -748,6 +845,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta charset="UTF-8"/>',
+            'visibleHtml' =>
+            '<span property="meta:charset">UTF-8</span>',
             'httpHeaders' => null
           ]
         ]
@@ -765,7 +864,7 @@ class FactoryTest extends TestCase
 
           'header:expires' => 'P40D',
 
-          'dc:creator' => [ [ 'Alice', false ] ]
+          'dc:creator' => 'Alice'
         ],
         [
           [
@@ -773,6 +872,7 @@ class FactoryTest extends TestCase
             'class' => DcCreated::class,
             'property' => 'dc:created',
             'isResource' => false,
+            'label' => null,
             'string' => '1970-01-01T00:00:00+00:00',
             'xmlAttrs' => [
               'property' => 'dc:created',
@@ -780,6 +880,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:created" content="1970-01-01T00:00:00+00:00"/>',
+            'visibleHtml' =>
+            '<span property="dc:created">1970-01-01T00:00:00+00:00</span>',
             'httpHeaders' => null
           ],
 
@@ -788,13 +890,14 @@ class FactoryTest extends TestCase
             'class' => DcFormat::class,
             'property' => 'dc:format',
             'isResource' => false,
+            'label' => null,
             'string' => 'application/xml',
             'xmlAttrs' => [
               'property' => 'dc:format',
               'content' => 'application/xml'
             ],
-            'html' =>
-            '<meta property="dc:format" content="application/xml"/>',
+            'html' => '',
+            'visibleHtml' => '',
             'httpHeaders'
             => [ 'Content-Type' => [ 'application/xml' ] ]
           ],
@@ -804,6 +907,7 @@ class FactoryTest extends TestCase
             'class' => DcLanguage::class,
             'property' => 'dc:language',
             'isResource' => false,
+            'label' => null,
             'string' => 'oc-FR',
             'xmlAttrs' => [
               'property' => 'dc:language',
@@ -811,6 +915,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:language" content="oc-FR"/>',
+            'visibleHtml' =>
+            '<span property="dc:language">oc-FR</span>',
             'httpHeaders'
             => [ 'Content-Language' => [ 'oc-FR' ] ]
           ],
@@ -820,6 +926,7 @@ class FactoryTest extends TestCase
             'class' => DcModified::class,
             'property' => 'dc:modified',
             'isResource' => false,
+            'label' => null,
             'string' => '1971-02-03T04:05:06+01:00',
             'xmlAttrs' => [
               'property' => 'dc:modified',
@@ -827,6 +934,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:modified" content="1971-02-03T04:05:06+01:00"/>',
+            'visibleHtml' =>
+            '<span property="dc:modified">1971-02-03T04:05:06+01:00</span>',
             'httpHeaders' => [ 'Last-Modified' => [ 'Wed, 03 Feb 1971 04:05:06 +0100' ] ]
           ],
 
@@ -835,12 +944,14 @@ class FactoryTest extends TestCase
             'class' => HeaderExpires::class,
             'property' => 'header:expires',
             'isResource' => false,
+            'label' => null,
             'string' => 'P40D',
             'xmlAttrs' => [
               'property' => 'header:expires',
               'content' => 'P40D'
             ],
             'html' => '',
+            'visibleHtml' => '',
             'httpHeaders' => [ 'Expires' => '' ]
           ],
 
@@ -849,6 +960,7 @@ class FactoryTest extends TestCase
             'class' => DcCreator::class,
             'property' => 'dc:creator',
             'isResource' => false,
+            'label' => null,
             'string' => 'Alice',
             'xmlAttrs' => [
               'property' => 'dc:creator',
@@ -856,6 +968,8 @@ class FactoryTest extends TestCase
             ],
             'html' =>
             '<meta property="dc:creator" content="Alice" name="author"/>',
+            'visibleHtml' =>
+            '<span property="dc:creator">Alice</span>',
             'httpHeaders' => null
           ]
         ]

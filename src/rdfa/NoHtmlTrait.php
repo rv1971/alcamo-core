@@ -11,4 +11,9 @@ trait NoHtmlTrait
     {
         return null;
     }
+
+    public function toVisibleHtmlNodes(): ?Nodes
+    {
+        return null;
+    }
 }
