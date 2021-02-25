@@ -64,8 +64,8 @@ class RdfaDataTest extends TestCase
             ],
             'html' =>
             '<title property="dc:title">Lorem ipsum</title>',
-            'visibleHtml' =>
-            '<span property="dc:title">Lorem ipsum</span>',
+            'visibleHtml' => '<span property="dc:title">Lorem ipsum</span>',
+            'visibleHtmlWithoutRdfa' => 'Lorem ipsum',
             'httpHeaders' => null
           ],
           [
@@ -81,6 +81,7 @@ class RdfaDataTest extends TestCase
             ],
             'html' => '',
             'visibleHtml' => '',
+            'visibleHtmlWithoutRdfa' => '',
             'httpHeaders'
             => [ 'Content-Type' => [ 'text/plain; charset="UTF-8"' ] ]
           ],
@@ -99,6 +100,9 @@ class RdfaDataTest extends TestCase
             '<link rel="dc:source canonical" href="https://factory.test.example.com"/>',
             'visibleHtml' =>
             '<a rel="dc:source canonical" href="https://factory.test.example.com">'
+            . 'https://factory.test.example.com</a>',
+            'visibleHtmlWithoutRdfa' =>
+            '<a href="https://factory.test.example.com">'
             . 'https://factory.test.example.com</a>',
             'httpHeaders' => [
               'Link' => [ '<https://factory.test.example.com>; rel="canonical"' ]
@@ -119,6 +123,8 @@ class RdfaDataTest extends TestCase
             '<meta charset="UTF-8"/>',
             'visibleHtml' =>
             '<span property="meta:charset">UTF-8</span>',
+            'visibleHtmlWithoutRdfa' =>
+            'UTF-8',
             'httpHeaders' => null
           ],
           'html' =>

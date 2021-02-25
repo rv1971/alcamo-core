@@ -12,7 +12,7 @@ trait NoHtmlTrait
         return null;
     }
 
-    public function toVisibleHtmlNodes(): ?Nodes
+    public function toVisibleHtmlNodes(?bool $includeRdfaAttrs = null): ?Nodes
     {
         return null;
     }

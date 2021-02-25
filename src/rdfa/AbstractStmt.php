@@ -98,20 +98,27 @@ abstract class AbstractStmt implements StmtInterface
         }
     }
 
-    public function toVisibleHtmlNodes(): ?Nodes
+    public function toVisibleHtmlNodes(?bool $includeRdfaAttrs = null): ?Nodes
     {
         if ($this->isResource()) {
             return new Nodes(
                 new A(
-                    $this->resourceLabel_ === true
-                    ? (string)$this
-                    : $this->resourceLabel_,
-                    $this->toHtmlAttrs()
+                    ($this->resourceLabel_ === true
+                     ? (string)$this
+                     : $this->resourceLabel_),
+                    ($includeRdfaAttrs
+                     ? $this->toHtmlAttrs()
+                     : [ 'href' => (string)$this ])
                 )
             );
         } else {
             return new Nodes(
-                new Span((string)$this, [ 'property' => $this->getProperty() ])
+                $includeRdfaAttrs
+                ? new Span(
+                    (string)$this,
+                    [ 'property' => $this->getProperty() ]
+                )
+                : (string)$this
             );
         }
     }

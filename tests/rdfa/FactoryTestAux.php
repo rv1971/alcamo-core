@@ -54,8 +54,15 @@ class FactoryTestAux extends TestCase
 
         $this->assertSame(
             $expectedItem['visibleHtml'],
-            (string)$item->toVisibleHtmlNodes()
+            (string)$item->toVisibleHtmlNodes(true)
         );
+
+        if (isset($expectedItem['visibleHtmlWithoutRdfa'])) {
+            $this->assertSame(
+                $expectedItem['visibleHtmlWithoutRdfa'],
+                (string)$item->toVisibleHtmlNodes()
+            );
+        }
 
         if (
             isset($expectedItem['httpHeaders'])
