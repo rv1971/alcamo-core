@@ -16,7 +16,8 @@ class FactoryTestAux extends TestCase
 
             if (is_array($item)) {
                 $j = 0;
-                foreach ($item as $subitem) {
+                foreach ($item as $subkey => $subitem) {
+                    $this->assertSame((string)$subitem, $subkey);
                     $this->testItem($subitem, $expectedItem[$j++]);
                 }
             } else {

@@ -88,16 +88,25 @@ class RdfaData extends ReadonlyCollection
         }
     }
 
-  /// Add further properties without overwriting existing ones.
+    /// Add further properties without overwriting existing ones.
     public function add(self $rdfaData): self
     {
         foreach ($rdfaData->data_ as $key => $value) {
             if (isset($this->data_[$key])) {
-                /** If a key is already present, add new data to its values */
-                if (is_array($this->data_[$key])) {
-                    $this->data_[$key][] = $value;
+                /** If a key is already present, add new data to its
+                 *  values. In all cases, the result is an array indexed by
+                 *  the string representations of the values. */
+
+                $data = $this->data_[$key];
+
+                if (!is_array($data)) {
+                    $this->data_[$key] = [ (string)$data => $data ];
+                }
+
+                if (is_array($value)) {
+                    $this->data_[$key] += $value;
                 } else {
-                    $this->data_[$key] = [ $this->data_[$key], $value ];
+                    $this->data_[$key] += [ (string)$value => $value ];
                 }
             } else {
                 $this->data_[$key] = $value;

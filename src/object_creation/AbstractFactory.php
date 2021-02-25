@@ -38,7 +38,7 @@ abstract class AbstractFactory implements FactoryInterface
    * - Else if the value is iterable with only one item, create an instance
    *   for that item.
    * - Else if the value is iterable, create an array of instances for the
-   *   items.
+   *   items, indexed by the string representation of the item.
    * - Else create an instance from that value.
    */
     public function createArray(iterable $data): array
@@ -54,12 +54,14 @@ abstract class AbstractFactory implements FactoryInterface
                 $items = [];
 
                 foreach ($value as $valueItem) {
-                    $items[] = $this->createFromClassName($className, $valueItem);
+                    $obj = $this->createFromClassName($className, $valueItem);
+                    $items[(string)$obj] = $obj;
                 }
 
-                $result[$name] = isset($items[1]) ? $items : $items[0];
+                $result[$name] = count($items) > 1 ? $items : reset($items);
             } else {
-                $result[$name] = $this->createFromClassName($className, $value);
+                $result[$name] =
+                    $this->createFromClassName($className, $value);
             }
         }
 

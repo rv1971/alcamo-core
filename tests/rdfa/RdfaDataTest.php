@@ -140,15 +140,23 @@ class RdfaDataTest extends TestCase
         ];
     }
 
-  /**
-   * @dataProvider addProvider
-   */
+    /**
+     * @dataProvider addProvider
+     */
     public function testAdd($data1, $data2, $expectedData)
     {
         $data1 = RdfaData::newFromIterable($data1);
         $data2 = RdfaData::newFromIterable($data2);
 
         $data1->add($data2);
+
+        foreach ($data1 as $key => $item) {
+            if (is_array($item)) {
+                foreach ($item as $subkey => $subitem) {
+                    $this->assertSame((string)$subitem, $subkey);
+                }
+            }
+        }
 
         $expectedData = RdfaData::newFromIterable($expectedData);
 
@@ -161,40 +169,40 @@ class RdfaDataTest extends TestCase
     public function addProvider()
     {
         return [
-        'simple' => [
-        [
-          'dc:title' => 'Lorem ipsum',
-          'dc:creator' => 'Dilbert',
-          'dc:publisher' => [
-            'Garfield',
-            [ 'http://bob.example.org', true ]
-          ]
-        ],
-        [
-          'dc:identifier' => 'foo.bar.baz',
-          'dc:creator' => 'Tom',
-          'dc:publisher' => 'Alice',
-        ],
-        [
-          'dc:title' => 'Lorem ipsum',
-          'dc:creator' => [
-            'Dilbert',
-            'Tom'
-          ],
-          'dc:publisher' => [
-            'Garfield',
-            [ 'http://bob.example.org', true ],
-            'Alice'
-          ],
-          'dc:identifier' => 'foo.bar.baz'
-        ]
-        ]
+            'simple' => [
+                [
+                    'dc:title' => 'Lorem ipsum',
+                    'dc:creator' => 'Dilbert',
+                    'dc:publisher' => [
+                        'Garfield',
+                        [ 'http://bob.example.org', true ]
+                    ]
+                ],
+                [
+                    'dc:identifier' => 'foo.bar.baz',
+                    'dc:creator' => 'Tom',
+                    'dc:publisher' => 'Alice',
+                ],
+                [
+                    'dc:title' => 'Lorem ipsum',
+                    'dc:creator' => [
+                        'Dilbert',
+                        'Tom'
+                    ],
+                    'dc:publisher' => [
+                        'Garfield',
+                        [ 'http://bob.example.org', true ],
+                        'Alice'
+                    ],
+                    'dc:identifier' => 'foo.bar.baz'
+                ]
+            ]
         ];
     }
 
-  /**
-   * @dataProvider replaceProvider
-   */
+    /**
+     * @dataProvider replaceProvider
+     */
     public function testReplace($data1, $data2, $expectedData)
     {
         $data1 = RdfaData::newFromIterable($data1);
