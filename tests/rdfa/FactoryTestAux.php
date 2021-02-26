@@ -30,7 +30,25 @@ class FactoryTestAux extends TestCase
     {
         $expectedItemClass = $expectedItem['class'];
 
-        $this->assertSame($expectedItem['property'], $item->getProperty());
+        $this->assertSame(
+            $expectedItem['propertyCurie'],
+            $item->getPropertyCurie()
+        );
+
+        if (isset($expectedItem['propertyUri'])) {
+            $this->assertSame(
+                $expectedItem['propertyUri'],
+                $item->getPropertyUri()
+            );
+        }
+
+        if (isset($expectedItem['prefixBinding'])) {
+            $this->assertSame(
+                $expectedItem['prefixBinding'],
+                $item->getPrefixBinding()
+            );
+        }
+
         $this->assertInstanceOf($expectedItemClass, $item);
 
         if (defined("$expectedItemClass::OBJECT_CLASS")) {

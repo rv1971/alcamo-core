@@ -9,9 +9,10 @@ class HeaderCacheControl extends AbstractStmt
 {
     use LiteralContentTrait;
     use NoHtmlTrait;
+    use NoPrefixBindingTrait;
 
-    public const PROPERTY = 'header:cache-control';
-    public const HTTP_HEADER = 'Cache-Control';
+    public const PROPERTY_CURIE = 'header:cache-control';
+    public const HTTP_HEADER    = 'Cache-Control';
 
     /// Set session parameters accordingly.
     public function alterSession()

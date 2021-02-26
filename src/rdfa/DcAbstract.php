@@ -9,6 +9,6 @@ class DcAbstract extends AbstractStmt
 {
     use LiteralContentTrait;
 
-    public const PROPERTY = 'dc:abstract';
-    public const META_NAME = 'description';
+    public const PROPERTY_CURIE = 'dc:abstract';
+    public const META_NAME      = 'description';
 }

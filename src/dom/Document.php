@@ -22,31 +22,31 @@ class Document extends \DOMDocument implements \ArrayAccess
     use PreventWriteArrayAccessTrait;
 
     public const NS = [
-        /// Dublin Core namespace.
+        /// Dublin Core namespace
         'dc' => 'http://purl.org/dc/terms/',
 
-        /// OWL namespace.
+        /// OWL namespace
         'owl' => 'http://www.w3.org/2002/07/owl#',
 
-        /// RDF namespace.
+        /// RDF namespace
         'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 
-        /// RDFS namespace.
+        /// RDFS namespace
         'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
 
-        /// XHTML namespace.
+        /// XHTML namespace
         'xh' => 'http://www.w3.org/1999/xhtml',
 
-        /// XHTML datatypes namespace.
+        /// XHTML datatypes namespace
         'xh11d' => 'http://www.w3.org/1999/xhtml/datatypes/',
 
-        /// XML Namespace.
+        /// XML Namespace
         'xml' => 'http://www.w3.org/XML/1998/namespace',
 
-        /// XSD Namespace.
+        /// XSD Namespace
         'xsd' => 'http://www.w3.org/2001/XMLSchema',
 
-        /// XSI Namespace.
+        /// XSI Namespace
         'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
     ];
 

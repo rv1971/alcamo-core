@@ -12,13 +12,13 @@ class DcTitle extends AbstractStmt
 {
     use LiteralContentTrait;
 
-    public const PROPERTY = 'dc:title';
+    public const PROPERTY_CURIE = 'dc:title';
 
     public function toHtmlNodes(): ?Nodes
     {
         return new Nodes(new Title(
             $this->getObject(),
-            [ 'property' => static::PROPERTY ]
+            [ 'property' => static::PROPERTY_CURIE ]
         ));
     }
 }

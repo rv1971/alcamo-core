@@ -7,6 +7,14 @@ use alcamo\html_creation\element\{A, Link, Meta, Span};
 
 abstract class AbstractStmt implements StmtInterface
 {
+    public const PREFIX_BINDING = [
+        /// Dublin Core namespace
+        'dc' => 'http://purl.org/dc/terms/',
+
+        /// OWL namespace
+        'owl' => 'http://www.w3.org/2002/07/owl#'
+    ];
+
     private $object_;
 
     /// Label string or `true` if the object is a resource
@@ -23,9 +31,23 @@ abstract class AbstractStmt implements StmtInterface
         $this->resourceLabel_ = $resourceLabel;
     }
 
-    public function getProperty()
+    public function getPropertyCurie(): string
     {
-        return static::PROPERTY;
+        return static::PROPERTY_CURIE;
+    }
+
+    public function getPropertyUri()
+    {
+        [ $prefix, $reference ] = explode(':', static::PROPERTY_CURIE, 2);
+
+        return static::PREFIX_BINDING[$prefix] . $reference;
+    }
+
+    public function getPrefixBinding(): array
+    {
+        $prefix = explode(':', static::PROPERTY_CURIE, 2)[0];
+
+        return [ $prefix => static::PREFIX_BINDING[$prefix] ];
     }
 
     public function getObject()
@@ -59,9 +81,10 @@ abstract class AbstractStmt implements StmtInterface
 
     public function toXmlAttrs(): ?array
     {
-        $attrs = $this->isResource()
-        ? [ 'property' => $this->getProperty(), 'resource' => (string)$this ]
-        : [ 'property' => $this->getProperty(), 'content' => (string)$this ];
+        $attrs = [
+            'property' => $this->getPropertyCurie(),
+            ($this->isResource() ? 'resource' : 'content') => (string)$this
+        ];
 
         return $attrs;
     }
@@ -69,7 +92,7 @@ abstract class AbstractStmt implements StmtInterface
     public function toHtmlAttrs(): ?array
     {
         if ($this->isResource()) {
-            $rel = $this->getProperty();
+            $rel = $this->getPropertyCurie();
 
             if (defined('static::LINK_REL')) {
                 $rel .= ' ' . static::LINK_REL;
@@ -77,8 +100,10 @@ abstract class AbstractStmt implements StmtInterface
 
             $attrs = [ 'rel' => $rel, 'href' => (string)$this ];
         } else {
-            $attrs =
-            [ 'property' => $this->getProperty(), 'content' => (string)$this ];
+            $attrs = [
+                'property' => $this->getPropertyCurie(),
+                'content' => (string)$this
+            ];
 
             if (defined('static::META_NAME')) {
                 $attrs['name'] = static::META_NAME;
@@ -116,7 +141,7 @@ abstract class AbstractStmt implements StmtInterface
                 $includeRdfaAttrs
                 ? new Span(
                     (string)$this,
-                    [ 'property' => $this->getProperty() ]
+                    [ 'property' => $this->getPropertyCurie() ]
                 )
                 : (string)$this
             );

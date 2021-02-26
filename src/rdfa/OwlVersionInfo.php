@@ -11,5 +11,5 @@ class OwlVersionInfo extends AbstractStmt
 {
     use LiteralContentTrait;
 
-    public const PROPERTY = 'owl:versionInfo';
+    public const PROPERTY_CURIE = 'owl:versionInfo';
 }

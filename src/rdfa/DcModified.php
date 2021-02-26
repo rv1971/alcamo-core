@@ -7,9 +7,9 @@ namespace alcamo\rdfa;
  */
 class DcModified extends AbstractStmt
 {
-    public const PROPERTY     = 'dc:modified';
-    public const HTTP_HEADER  = 'Last-Modified';
-    public const OBJECT_CLASS = \DateTime::class;
+    public const PROPERTY_CURIE = 'dc:modified';
+    public const HTTP_HEADER    = 'Last-Modified';
+    public const OBJECT_CLASS   = \DateTime::class;
 
     public function __construct(\DateTime $timestamp)
     {

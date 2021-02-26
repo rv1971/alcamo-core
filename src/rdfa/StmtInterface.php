@@ -10,8 +10,14 @@ interface StmtInterface
     /// Returns the type the object must have, or null if there is no constraint
     public static function getObjectType(): ?string;
 
-    /// May return a property or an array of properties
-    public function getProperty();
+    /// Returns the property as a CURIE
+    public function getPropertyCurie(): string;
+
+    /// Returns the property as a URI
+    public function getPropertyUri();
+
+    /// Returns a one-element map of the prefix to the URI it translates to
+    public function getPrefixBinding(): array;
 
     /// May return any type
     public function getObject();

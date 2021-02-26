@@ -53,6 +53,10 @@ class PageFactory
     {
         $attrs = [ 'xmlns' => 'http://www.w3.org/1999/xhtml' ];
 
+        foreach ($this->getRdfaData()->getPrefixBindings() as $prefix => $ns) {
+            $attrs["xmlns:$prefix"] = $ns;
+        }
+
         if (isset($this->getRdfaData()['dc:identifier'])) {
             $attrs['id'] = $this->getRdfaData()['dc:identifier'];
         }

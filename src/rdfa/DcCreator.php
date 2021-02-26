@@ -11,7 +11,7 @@ class DcCreator extends AbstractStmt
 {
     use LiteralContentOrLinkTrait;
 
-    public const PROPERTY = 'dc:creator';
-    public const META_NAME = 'author';
-    public const LINK_REL = self::META_NAME;
+    public const PROPERTY_CURIE = 'dc:creator';
+    public const META_NAME      = 'author';
+    public const LINK_REL       = self::META_NAME;
 }

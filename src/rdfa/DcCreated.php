@@ -7,8 +7,8 @@ namespace alcamo\rdfa;
  */
 class DcCreated extends AbstractStmt
 {
-    public const PROPERTY = 'dc:created';
-    public const OBJECT_CLASS = \DateTime::class;
+    public const PROPERTY_CURIE = 'dc:created';
+    public const OBJECT_CLASS   = \DateTime::class;
 
     public function __construct(\DateTime $timestamp)
     {

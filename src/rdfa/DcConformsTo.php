@@ -9,7 +9,7 @@ use alcamo\html_creation\element\ConformsTo;
  */
 class DcConformsTo extends AbstractStmt
 {
-    public const PROPERTY = 'dc:conformsTo';
+    public const PROPERTY_CURIE = 'dc:conformsTo';
 
     public function __construct($conformsTo, $resourceLabel = null)
     {

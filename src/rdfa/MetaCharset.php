@@ -5,8 +5,9 @@ namespace alcamo\rdfa;
 class MetaCharset extends AbstractStmt
 {
     use LiteralContentTrait;
+    use NoPrefixBindingTrait;
 
-    public const PROPERTY = 'meta:charset';
+    public const PROPERTY_CURIE = 'meta:charset';
 
     public function toHtmlAttrs(): ?array
     {

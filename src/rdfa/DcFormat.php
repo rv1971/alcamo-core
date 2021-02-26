@@ -11,9 +11,9 @@ class DcFormat extends AbstractStmt
 {
     use NoHtmlTrait;
 
-    public const PROPERTY     = 'dc:format';
-    public const HTTP_HEADER  = 'Content-Type';
-    public const OBJECT_CLASS = MediaType::class;
+    public const PROPERTY_CURIE = 'dc:format';
+    public const HTTP_HEADER    = 'Content-Type';
+    public const OBJECT_CLASS   = MediaType::class;
 
     public function __construct(MediaType $mediaType)
     {

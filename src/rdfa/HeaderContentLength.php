@@ -11,9 +11,10 @@ class HeaderContentLength extends AbstractStmt
 {
     use LiteralContentTrait;
     use NoHtmlTrait;
+    use NoPrefixBindingTrait;
 
-    public const PROPERTY    = 'header:content-length';
-    public const HTTP_HEADER = 'Content-Length';
+    public const PROPERTY_CURIE = 'header:content-length';
+    public const HTTP_HEADER    = 'Content-Length';
 
     public static function newFromFilename($filename)
     {

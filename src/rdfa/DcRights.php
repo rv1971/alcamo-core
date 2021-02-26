@@ -11,5 +11,5 @@ class DcRights extends AbstractStmt
 {
     use LiteralContentOrLinkTrait;
 
-    public const PROPERTY = 'dc:rights';
+    public const PROPERTY_CURIE = 'dc:rights';
 }

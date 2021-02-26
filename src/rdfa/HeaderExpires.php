@@ -10,10 +10,11 @@ use alcamo\time\Duration;
 class HeaderExpires extends AbstractStmt
 {
     use NoHtmlTrait;
+    use NoPrefixBindingTrait;
 
-    public const PROPERTY = 'header:expires';
-    public const HTTP_HEADER = 'Expires';
-    public const OBJECT_CLASS = Duration::class;
+    public const PROPERTY_CURIE = 'header:expires';
+    public const HTTP_HEADER    = 'Expires';
+    public const OBJECT_CLASS   = Duration::class;
 
     public function __construct(Duration $duration)
     {

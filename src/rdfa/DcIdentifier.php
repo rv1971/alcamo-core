@@ -11,5 +11,5 @@ class DcIdentifier extends AbstractStmt
 {
     use LiteralContentTrait;
 
-    public const PROPERTY = 'dc:identifier';
+    public const PROPERTY_CURIE = 'dc:identifier';
 }

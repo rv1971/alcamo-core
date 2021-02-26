@@ -9,9 +9,9 @@ use alcamo\html_creation\element\ConformsTo;
  */
 class DcSource extends AbstractStmt
 {
-    public const PROPERTY    = 'dc:source';
-    public const HTTP_HEADER = 'Link';
-    public const LINK_REL    = 'canonical';
+    public const PROPERTY_CURIE = 'dc:source';
+    public const HTTP_HEADER    = 'Link';
+    public const LINK_REL       = 'canonical';
 
     public function __construct($source)
     {

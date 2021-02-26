@@ -10,7 +10,8 @@ abstract class AbstractEnumeratorStmt extends AbstractStmt
     public function __construct($value)
     {
         if (!in_array($value, static::VALUES)) {
-          /** @throw InvalidEnumerator if the $value is not a valid enumerator. */
+            /** @throw InvalidEnumerator if the $value is not a valid
+             *  enumerator. */
             throw new InvalidEnumerator($value, static::VALUES);
         }
 

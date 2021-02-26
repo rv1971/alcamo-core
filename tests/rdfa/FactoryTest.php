@@ -38,7 +38,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:abstract',
             'class' => DcAbstract::class,
-            'property' => 'dc:abstract',
+            'propertyCurie' => 'dc:abstract',
             'isResource' => false,
             'label' => null,
             'string' => 'Lorem ipsum dolor sit amet.',
@@ -67,7 +67,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:conformsTo',
             'class' => DcConformsTo::class,
-            'property' => 'dc:conformsTo',
+            'propertyCurie' => 'dc:conformsTo',
             'isResource' => true,
             'label' => 'Semver 2.0',
             'string' => 'https://semver.org/spec/v2.0.0.html',
@@ -86,7 +86,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:created',
             'class' => DcCreated::class,
-            'property' => 'dc:created',
+            'propertyCurie' => 'dc:created',
             'isResource' => false,
             'label' => null,
             'string' => '1970-01-01T00:00:00+00:00',
@@ -122,7 +122,7 @@ class FactoryTest extends TestCase
             'key' => 'dc:creator',
             [
               'class' => DcCreator::class,
-              'property' => 'dc:creator',
+              'propertyCurie' => 'dc:creator',
               'isResource' => false,
               'label' => null,
               'string' => 'Dilbert',
@@ -137,7 +137,7 @@ class FactoryTest extends TestCase
             ],
             [
               'class' => DcCreator::class,
-              'property' => 'dc:creator',
+              'propertyCurie' => 'dc:creator',
               'isResource' => true,
               'label' => null,
               'string' => 'https://dilbert.example.org',
@@ -157,7 +157,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:format',
             'class' => DcFormat::class,
-            'property' => 'dc:format',
+            'propertyCurie' => 'dc:format',
             'isResource' => false,
             'label' => null,
             'string' => 'application/xml',
@@ -174,7 +174,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:identifier',
             'class' => DcIdentifier::class,
-            'property' => 'dc:identifier',
+            'propertyCurie' => 'dc:identifier',
             'isResource' => false,
             'label' => null,
             'string' => 'foo.bar',
@@ -211,7 +211,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:language',
             'class' => DcLanguage::class,
-            'property' => 'dc:language',
+            'propertyCurie' => 'dc:language',
             'isResource' => false,
             'label' => null,
             'string' => 'oc-FR',
@@ -228,7 +228,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:modified',
             'class' => DcModified::class,
-            'property' => 'dc:modified',
+            'propertyCurie' => 'dc:modified',
             'isResource' => false,
             'label' => null,
             'string' => '1971-02-03T04:05:06+01:00',
@@ -247,7 +247,7 @@ class FactoryTest extends TestCase
             'key' => 'dc:publisher',
             [
               'class' => DcPublisher::class,
-              'property' => 'dc:publisher',
+              'propertyCurie' => 'dc:publisher',
               'isResource' => true,
               'label' => 'Garfield',
               'string' => 'http://garfield.example.org',
@@ -263,7 +263,7 @@ class FactoryTest extends TestCase
             ],
             [
               'class' => DcPublisher::class,
-              'property' => 'dc:publisher',
+              'propertyCurie' => 'dc:publisher',
               'isResource' => false,
               'label' => null,
               'string' => 'Garfield',
@@ -279,7 +279,7 @@ class FactoryTest extends TestCase
             ],
             [
               'class' => DcPublisher::class,
-              'property' => 'dc:publisher',
+              'propertyCurie' => 'dc:publisher',
               'isResource' => true,
               'label' => null,
               'string' => 'http://jerry.example.org',
@@ -298,7 +298,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:source',
             'class' => DcSource::class,
-            'property' => 'dc:source',
+            'propertyCurie' => 'dc:source',
             'isResource' => true,
             'label' => null,
             'string' => 'https://factory.test.example.com',
@@ -340,7 +340,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:title',
             'class' => DcTitle::class,
-            'property' => 'dc:title',
+            'propertyCurie' => 'dc:title',
             'isResource' => false,
             'label' => null,
             'string' => 'Lorem ipsum',
@@ -358,7 +358,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:cache-control',
             'class' => HeaderCacheControl::class,
-            'property' => 'header:cache-control',
+            'propertyCurie' => 'header:cache-control',
             'isResource' => false,
             'label' => null,
             'string' => 'public',
@@ -376,7 +376,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:content-disposition',
             'class' => HeaderContentDisposition::class,
-            'property' => 'header:content-disposition',
+            'propertyCurie' => 'header:content-disposition',
             'isResource' => false,
             'label' => null,
             'string' => 'baz.json',
@@ -394,7 +394,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:content-length',
             'class' => HeaderContentLength::class,
-            'property' => 'header:content-length',
+            'propertyCurie' => 'header:content-length',
             'isResource' => false,
             'label' => null,
             'string' => '12',
@@ -412,7 +412,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:expires',
             'class' => HeaderExpires::class,
-            'property' => 'header:expires',
+            'propertyCurie' => 'header:expires',
             'isResource' => false,
             'label' => null,
             'string' => 'P40D',
@@ -436,7 +436,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'meta:charset',
             'class' => MetaCharset::class,
-            'property' => 'meta:charset',
+            'propertyCurie' => 'meta:charset',
             'isResource' => false,
             'label' => null,
             'string' => 'UTF-8',
@@ -464,7 +464,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:abstract',
             'class' => DcAbstract::class,
-            'property' => 'dc:abstract',
+            'propertyCurie' => 'dc:abstract',
             'isResource' => false,
             'label' => null,
             'string' => 'Lorem ipsum dolor sit amet.',
@@ -482,7 +482,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:conformsTo',
             'class' => DcConformsTo::class,
-            'property' => 'dc:conformsTo',
+            'propertyCurie' => 'dc:conformsTo',
             'isResource' => true,
             'label' => 'Semantic Versioning',
             'string' => 'https://semver.org/spec/v2.0.0.html',
@@ -501,7 +501,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:created',
             'class' => DcCreated::class,
-            'property' => 'dc:created',
+            'propertyCurie' => 'dc:created',
             'isResource' => false,
             'label' => null,
             'string' => '1970-01-01T00:00:00+00:00',
@@ -530,7 +530,7 @@ class FactoryTest extends TestCase
             'key' => 'dc:creator',
             [
               'class' => DcCreator::class,
-              'property' => 'dc:creator',
+              'propertyCurie' => 'dc:creator',
               'isResource' => false,
               'label' => null,
               'string' => 'Dilbert',
@@ -546,7 +546,7 @@ class FactoryTest extends TestCase
             ],
             [
               'class' => DcCreator::class,
-              'property' => 'dc:creator',
+              'propertyCurie' => 'dc:creator',
               'isResource' => true,
               'label' => null,
               'string' => 'https://dilbert.example.org',
@@ -584,7 +584,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:format',
             'class' => DcFormat::class,
-            'property' => 'dc:format',
+            'propertyCurie' => 'dc:format',
             'isResource' => false,
             'label' => null,
             'string' => 'application/xml',
@@ -601,7 +601,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:identifier',
             'class' => DcIdentifier::class,
-            'property' => 'dc:identifier',
+            'propertyCurie' => 'dc:identifier',
             'isResource' => false,
             'label' => null,
             'string' => 'foo.bar',
@@ -619,7 +619,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:language',
             'class' => DcLanguage::class,
-            'property' => 'dc:language',
+            'propertyCurie' => 'dc:language',
             'isResource' => false,
             'label' => null,
             'string' => 'oc-FR',
@@ -638,7 +638,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:modified',
             'class' => DcModified::class,
-            'property' => 'dc:modified',
+            'propertyCurie' => 'dc:modified',
             'isResource' => false,
             'label' => null,
             'string' => '1971-02-03T04:05:06+01:00',
@@ -657,7 +657,7 @@ class FactoryTest extends TestCase
             'key' => 'dc:publisher',
             [
               'class' => DcPublisher::class,
-              'property' => 'dc:publisher',
+              'propertyCurie' => 'dc:publisher',
               'isResource' => true,
               'label' => null,
               'string' => 'http://garfield.example.org',
@@ -673,7 +673,7 @@ class FactoryTest extends TestCase
             ],
             [
               'class' => DcPublisher::class,
-              'property' => 'dc:publisher',
+              'propertyCurie' => 'dc:publisher',
               'isResource' => false,
               'label' => null,
               'string' => 'Garfield',
@@ -689,7 +689,7 @@ class FactoryTest extends TestCase
             ],
             [
               'class' => DcPublisher::class,
-              'property' => 'dc:publisher',
+              'propertyCurie' => 'dc:publisher',
               'isResource' => true,
               'label' => null,
               'string' => 'http://jerry.example.org',
@@ -727,7 +727,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:source',
             'class' => DcSource::class,
-            'property' => 'dc:source',
+            'propertyCurie' => 'dc:source',
             'isResource' => true,
             'label' => null,
             'string' => 'https://factory.test.example.com',
@@ -747,7 +747,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:title',
             'class' => DcTitle::class,
-            'property' => 'dc:title',
+            'propertyCurie' => 'dc:title',
             'isResource' => false,
             'label' => null,
             'string' => 'Lorem ipsum',
@@ -765,7 +765,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:cache-control',
             'class' => HeaderCacheControl::class,
-            'property' => 'header:cache-control',
+            'propertyCurie' => 'header:cache-control',
             'isResource' => false,
             'label' => null,
             'string' => 'public',
@@ -783,7 +783,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:content-disposition',
             'class' => HeaderContentDisposition::class,
-            'property' => 'header:content-disposition',
+            'propertyCurie' => 'header:content-disposition',
             'isResource' => false,
             'label' => null,
             'string' => 'baz.json',
@@ -801,7 +801,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:content-length',
             'class' => HeaderContentLength::class,
-            'property' => 'header:content-length',
+            'propertyCurie' => 'header:content-length',
             'isResource' => false,
             'label' => null,
             'string' => '123456',
@@ -819,7 +819,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:expires',
             'class' => HeaderExpires::class,
-            'property' => 'header:expires',
+            'propertyCurie' => 'header:expires',
             'isResource' => false,
             'label' => null,
             'string' => 'P40D',
@@ -835,7 +835,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'meta:charset',
             'class' => MetaCharset::class,
-            'property' => 'meta:charset',
+            'propertyCurie' => 'meta:charset',
             'isResource' => false,
             'label' => null,
             'string' => 'UTF-8',
@@ -870,7 +870,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:created',
             'class' => DcCreated::class,
-            'property' => 'dc:created',
+            'propertyCurie' => 'dc:created',
             'isResource' => false,
             'label' => null,
             'string' => '1970-01-01T00:00:00+00:00',
@@ -888,7 +888,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:format',
             'class' => DcFormat::class,
-            'property' => 'dc:format',
+            'propertyCurie' => 'dc:format',
             'isResource' => false,
             'label' => null,
             'string' => 'application/xml',
@@ -905,7 +905,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:language',
             'class' => DcLanguage::class,
-            'property' => 'dc:language',
+            'propertyCurie' => 'dc:language',
             'isResource' => false,
             'label' => null,
             'string' => 'oc-FR',
@@ -924,7 +924,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:modified',
             'class' => DcModified::class,
-            'property' => 'dc:modified',
+            'propertyCurie' => 'dc:modified',
             'isResource' => false,
             'label' => null,
             'string' => '1971-02-03T04:05:06+01:00',
@@ -942,7 +942,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'header:expires',
             'class' => HeaderExpires::class,
-            'property' => 'header:expires',
+            'propertyCurie' => 'header:expires',
             'isResource' => false,
             'label' => null,
             'string' => 'P40D',
@@ -958,7 +958,7 @@ class FactoryTest extends TestCase
           [
             'key' => 'dc:creator',
             'class' => DcCreator::class,
-            'property' => 'dc:creator',
+            'propertyCurie' => 'dc:creator',
             'isResource' => false,
             'label' => null,
             'string' => 'Alice',

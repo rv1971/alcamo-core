@@ -22,18 +22,34 @@ class RdfaData extends ReadonlyCollection
     {
         parent::__construct($data);
 
-      /** Add `meta:charset` from dc:format if appropriate. */
+        /** Add `meta:charset` from dc:format if appropriate. */
         if (
             !isset($this->data_['meta:charset'])
             && isset($this->data_['dc:format'])
         ) {
             $charset =
-            $this->data_['dc:format']->getObject()->getParams()['charset'] ?? null;
+                $this->data_['dc:format']->getObject()->getParams()['charset']
+                ?? null;
 
             if (isset($charset)) {
                 $this->data_['meta:charset'] = new MetaCharset($charset);
             }
         }
+    }
+
+    public function getPrefixBindings(): array
+    {
+        $bindings = [];
+
+        foreach ($this->data_ as $key => $value) {
+            $bindings += is_array($value)
+                ? reset($value)->getPrefixBinding()
+                : $value->getPrefixBinding();
+        }
+
+        ksort($bindings);
+
+        return $bindings;
     }
 
     public function toHtmlNodes(): ?Nodes

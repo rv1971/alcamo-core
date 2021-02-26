@@ -93,7 +93,8 @@ class FactoryTest extends TestCase
                 null,
                 null,
                 '<!DOCTYPE html>'
-                . '<html xmlns="http://www.w3.org/1999/xhtml">'
+                . '<html xmlns="http://www.w3.org/1999/xhtml" '
+                . 'xmlns:dc="http://purl.org/dc/terms/">'
                 . '<head>'
                 . '<meta charset="UTF-8"/>'
                 . '<title property="dc:title">Foo | Bar</title>'
@@ -105,7 +106,8 @@ class FactoryTest extends TestCase
             'with-metadata-and-resources' => [
                 [
                     'dc:identifier' => 'baz.qux',
-                    'dc:language' => 'en-UG'
+                    'dc:language' => 'en-UG',
+                    'owl:versionInfo' => '42.43.44'
                 ],
                 [ 'htdocsDir' => __DIR__, 'htdocsUrl' => '/' ],
                 [
@@ -115,11 +117,15 @@ class FactoryTest extends TestCase
                 ],
                 new Nodes(new Comment('consetetur sadipscing elitr')),
                 '<!DOCTYPE html>'
-                . '<html xmlns="http://www.w3.org/1999/xhtml" id="baz.qux" lang="en-UG">'
+                . '<html xmlns="http://www.w3.org/1999/xhtml" '
+                . 'xmlns:dc="http://purl.org/dc/terms/" '
+                . 'xmlns:owl="http://www.w3.org/2002/07/owl#" '
+                . 'id="baz.qux" lang="en-UG">'
                 . '<head>'
                 . '<meta charset="UTF-8"/>'
                 . '<meta property="dc:identifier" content="baz.qux"/>'
                 . '<meta property="dc:language" content="en-UG"/>'
+                . '<meta property="owl:versionInfo" content="42.43.44"/>'
                 . "<link rel=\"stylesheet\" href=\"/element/alcamo.css.gz?m=$mCssGz\"/>"
                 . "<script src=\"/element/alcamo.js.gz?m=$mJsGz\"></script>"
                 . "<link rel=\"manifest\" href=\"/element/alcamo.json?m=$mJson\" type=\"application/json\"/>"

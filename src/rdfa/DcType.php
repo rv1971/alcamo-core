@@ -10,7 +10,7 @@ use alcamo\html_creation\element\Type;
  */
 class DcType extends AbstractEnumeratorStmt
 {
-    public const PROPERTY = 'dc:type';
+    public const PROPERTY_CURIE = 'dc:type';
 
     public const VALUES = [
     'Collection',
