@@ -81,7 +81,7 @@ class PageFactory
     }
 
     public function createHead(
-        ?iterable $resources = null,
+        array $resources = null,
         ?Nodes $extraNodes = null,
         ?array $attrs = null
     ): Head {
@@ -113,7 +113,7 @@ class PageFactory
     }
 
     public function createBegin(
-        ?iterable $resources = null,
+        array $resources = null,
         ?Nodes $extraHeadNodes = null
     ): string {
         return $this->createDoctypeDecl()
