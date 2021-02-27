@@ -44,10 +44,16 @@ class FixedXsdSimpleTypeValidatorTest extends TestCase
         $valueTypeXNamePairs,
         $expectedResult
     ) {
-        $this->assertSame(
-            $expectedResult,
-            $validator->validate($valueTypeXNamePairs)
-        );
+        $result = $validator->validate($valueTypeXNamePairs);
+
+        $this->assertSame(count($expectedResult), count($result));
+
+        foreach ($result as $index => $msg) {
+            $this->assertSame(
+                $expectedResult[$index],
+                substr($msg, 0, strlen($expectedResult[$index]))
+            );
+        }
     }
 
     public function validateProvider()

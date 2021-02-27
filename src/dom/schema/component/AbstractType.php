@@ -25,11 +25,11 @@ class AbstractType extends AbstractXsdComponent implements TypeInterface
             /** This branch is executed for complex types only since
              *  AbstractSimpleType::__construct() always initializes the base
              *  type. */
-            $baseXName =
-                $this->xsdElement_->query('xsd:*/xsd:*[@base]')[0]['base'];
+            $baseXNameElement =
+                $this->xsdElement_->query('xsd:*/xsd:*[@base]')[0];
 
-            $this->baseType_ = isset($baseXName)
-                ? $this->schema_->getGlobalType($baseXName)
+            $this->baseType_ = isset($baseXNameElement)
+                ? $this->schema_->getGlobalType($baseXNameElement['base'])
                 : null;
         }
 
