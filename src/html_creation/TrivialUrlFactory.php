@@ -2,8 +2,8 @@
 
 namespace alcamo\html_creation;
 
-// Class returning a relative path unchanged
-class TrivialRelativeUrlFactory extends AbstractUrlFactory
+// Class just prepending an optinal base to a relative path
+class TrivialUrlFactory extends AbstractUrlFactory
 {
     private $baseUrl_; ///< URL to prepend
 

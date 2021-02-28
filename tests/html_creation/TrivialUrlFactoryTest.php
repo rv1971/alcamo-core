@@ -4,11 +4,11 @@ namespace alcamo\html_creation;
 
 use PHPUnit\Framework\TestCase;
 
-class TrivialRelativeUrlFactoryTest extends TestCase
+class TrivialUrlFactoryTest extends TestCase
 {
     public function testCreateFromPath()
     {
-        $factory = new TrivialRelativeUrlFactory();
+        $factory = new TrivialUrlFactory();
 
         $this->assertNull($factory->getBaseUrl());
 
@@ -19,7 +19,7 @@ class TrivialRelativeUrlFactoryTest extends TestCase
             )
         );
 
-        $factory = new TrivialRelativeUrlFactory('https://www.example.org/');
+        $factory = new TrivialUrlFactory('https://www.example.org/');
 
         $this->assertSame(
             'https://www.example.org/',
