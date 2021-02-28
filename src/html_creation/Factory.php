@@ -23,7 +23,7 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
         ?array $modules = null,
         ?UrlFactoryInterface $urlFactory = null
     ) {
-        return new self(
+        return new static(
             RdfaData::newfromIterable($rdfaData),
             $conf,
             $modules,
