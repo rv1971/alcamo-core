@@ -4,8 +4,7 @@ namespace alcamo\rdfa;
 
 use alcamo\time\Duration;
 
-require dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR
-  . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require getenv('PHPUNIT_COMPOSER_INSTALL');
 
 try {
     $header = new HeaderExpires(new Duration($argv[1]));

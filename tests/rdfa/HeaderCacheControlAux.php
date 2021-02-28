@@ -2,8 +2,7 @@
 
 namespace alcamo\rdfa;
 
-require dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR
-  . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require getenv('PHPUNIT_COMPOSER_INSTALL');
 
 try {
     $header = new HeaderCacheControl($argv[1]);

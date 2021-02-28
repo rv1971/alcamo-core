@@ -299,7 +299,7 @@ class RdfaDataTest extends TestCase
         $data = '{ "header:cache-control": "public", "header-expires": "PT42M" }';
 
         exec(
-            'php '
+            'PHPUNIT_COMPOSER_INSTALL="' . PHPUNIT_COMPOSER_INSTALL . '" php '
             . __DIR__ . DIRECTORY_SEPARATOR . "AlterSessionAux.php '$data'",
             $output
         );

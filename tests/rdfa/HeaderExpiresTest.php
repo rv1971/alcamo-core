@@ -12,7 +12,7 @@ class HeaderExpiresTest extends TestCase
     public function testBasics($value, $expected)
     {
         exec(
-            'php '
+            'PHPUNIT_COMPOSER_INSTALL="' . PHPUNIT_COMPOSER_INSTALL . '" php '
             . __DIR__ . DIRECTORY_SEPARATOR . "HeaderExpiresAux.php $value",
             $output
         );
@@ -23,8 +23,8 @@ class HeaderExpiresTest extends TestCase
     public function basicsProvider()
     {
         return [
-        [ 'PT10M', '10' ],
-        [ 'P1D', '1440' ]
+            [ 'PT10M', '10' ],
+            [ 'P1D', '1440' ]
         ];
     }
 }

@@ -12,7 +12,7 @@ class HeaderCacheControlTest extends TestCase
     public function testBasics($value, $expected)
     {
         exec(
-            'php '
+            'PHPUNIT_COMPOSER_INSTALL="' . PHPUNIT_COMPOSER_INSTALL . '" php '
             . __DIR__ . DIRECTORY_SEPARATOR . "HeaderCacheControlAux.php $value",
             $output
         );
