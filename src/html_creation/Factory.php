@@ -19,7 +19,7 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
 
     public static function newFromRdfaData(
         iterable $rdfaData,
-        array $conf,
+        ?array $conf = null,
         ?array $modules = null,
         ?UrlFactoryInterface $urlFactory = null
     ) {
