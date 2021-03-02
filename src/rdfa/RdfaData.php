@@ -89,7 +89,9 @@ class RdfaData extends ReadonlyCollection
         $result = [];
 
         foreach ($this->data_ as $stmt) {
-            $result += (array)$stmt->toHttpHeaders();
+            if (!is_array($stmt)) {
+                $result += (array)$stmt->toHttpHeaders();
+            }
         }
 
         return $result;
