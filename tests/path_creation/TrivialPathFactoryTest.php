@@ -47,4 +47,18 @@ class TrivialPathFactoryTest extends TestCase
             )
         );
     }
+
+    public function testCreateFromRelativePaths()
+    {
+        $factory = new TrivialPathFactory('root');
+
+        $this->assertSame(
+            [
+                'root' . DIRECTORY_SEPARATOR . 'foo',
+                'root' . DIRECTORY_SEPARATOR . 'bar',
+                'root' . DIRECTORY_SEPARATOR . 'baz'
+            ],
+            $factory->createFromRelativePaths([ 'foo', 'bar', 'baz' ])
+        );
+    }
 }

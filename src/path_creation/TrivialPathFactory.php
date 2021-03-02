@@ -3,7 +3,7 @@
 namespace alcamo\path_creation;
 
 // Class just prepending an optinal base to a relative path
-class TrivialPathFactory implements PathFactoryInterface
+class TrivialPathFactory extends AbstractPathFactory
 {
     private $basePath_; ///< Path to prepend
 
