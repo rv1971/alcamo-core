@@ -2,13 +2,13 @@
 
 namespace alcamo\url_creation;
 
-/// Create Url from Path
+/// Create URL from path
 interface UrlFactoryInterface
 {
   /**
    * @param $path string Local path.
    *
-   * @return Url.
+   * @return URL.
    */
     public function createFromPath(string $path): string;
 }
