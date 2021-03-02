@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\url_creation;
 
 // Class just prepending an optinal base to a relative path
 class TrivialUrlFactory extends AbstractUrlFactory

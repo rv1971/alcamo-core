@@ -4,6 +4,7 @@ namespace alcamo\html_creation;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\modular_class\ModuleTrait;
+use alcamo\url_creation\DirMapUrlFactory;
 use alcamo\xml_creation\{Comment, Nodes};
 
 class FooModule

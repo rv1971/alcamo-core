@@ -4,6 +4,7 @@ namespace alcamo\html_creation;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\html_creation\element\{Icon, Link, Script, Stylesheet};
+use alcamo\url_creation\DirMapUrlFactory;
 
 class ResourceFactoryTest extends TestCase
 {

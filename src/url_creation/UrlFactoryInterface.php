@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\url_creation;
 
 /// Create Url from Path
 interface UrlFactoryInterface

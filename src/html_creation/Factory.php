@@ -5,6 +5,11 @@ namespace alcamo\html_creation;
 use alcamo\conf\HasConfTrait;
 use alcamo\modular_class\ParentTrait;
 use alcamo\rdfa\{HasRdfaDataTrait, RdfaData};
+use alcamo\url_creation\{
+    DirMapUrlFactory,
+    HasUrlFactoryTrait,
+    UrlFactoryInterface
+};
 
 class Factory implements \Countable, \Iterator, \ArrayAccess
 {

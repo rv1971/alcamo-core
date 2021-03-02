@@ -4,6 +4,7 @@ namespace alcamo\html_creation;
 
 use alcamo\html_creation\element\{Icon, Link, Script, Stylesheet};
 use alcamo\iana\MediaType;
+use alcamo\url_creation\{HasUrlFactoryTrait, UrlFactoryInterface};
 use alcamo\xml_creation\Nodes;
 
 class ResourceFactory

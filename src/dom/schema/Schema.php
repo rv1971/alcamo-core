@@ -42,7 +42,7 @@ class Schema
         $baseUri = new Uri($doc->baseURI);
 
         if (!Uri::isAbsolute($baseUri)) {
-            $baseUri =$baseUri->withScheme('file');
+            $baseUri = $baseUri->withScheme('file');
         }
 
         foreach (
