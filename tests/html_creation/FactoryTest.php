@@ -4,7 +4,7 @@ namespace alcamo\html_creation;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\modular_class\ModuleTrait;
-use alcamo\url_creation\DirMapUrlFactory;
+use alcamo\url_creation\{DirMapUrlFactory, TrivialUrlFactory};
 use alcamo\xml_creation\{Comment, Nodes};
 
 class FooModule
@@ -135,6 +135,58 @@ class FactoryTest extends TestCase
                 . '<body>Lorem ipsum.</body>'
                 . '<!-- Served in 0.123456s -->'
                 . '</html>'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider renderThrowableProvider
+     */
+    public function testRenderThrowable($factory, $throwable, $expectedString)
+    {
+        $this->assertSame(
+            $expectedString,
+            substr(
+                $factory->renderThrowable($throwable),
+                0,
+                strlen($expectedString)
+            )
+        );
+    }
+
+    public function renderThrowableProvider()
+    {
+        $factory = Factory::newFromRdfaData(
+            [],
+            null,
+            null,
+            new TrivialUrlFactory()
+        );
+
+        $eSimple = (function () {
+            return new \Exception('Lorem ipsum');
+        })();
+
+        $eWithProps = new \LogicException('consetetur sadipscing elitr');
+        $eWithProps->intValue = 42;
+        $eWithProps->stringValue = 'foo';
+
+        return [
+            'simple' => [
+                $factory,
+                $eSimple,
+                '<p><b>' . \Exception::class . '</b> at ' . __FILE__ . ':167</p>'
+                . '<p><b>Lorem ipsum</b></p>'
+                . '<p>alcamo\html_creation\{closure}() in ' . __FILE__ . ':168</p>'
+            ],
+            'with-props' => [
+                $factory,
+                $eWithProps,
+                '<p><b>' . \LogicException::class . '</b> at ' . __FILE__ . ':170</p>'
+                . '<p><b>consetetur sadipscing elitr</b></p>'
+                . '<ul><li>intValue = 42</li>'
+                . "<li>stringValue = 'foo'</li></ul>"
+                . '<p>renderThrowableProvider()</p>'
             ]
         ];
     }
