@@ -37,7 +37,7 @@ class Loader implements LoaderInterface
      * @param $filename iterable|string file names to find and to load
      *
      * Each file is parsed into an array. The arrays are merged such that
-     * files earlier in the list take precedence over files later in the list.
+     * files later in the list take precedence over files earlier in the list.
      *
      * @return Array of the contents of all files.
      */
