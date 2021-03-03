@@ -60,8 +60,8 @@ class Response extends ResponseBase
 
     public function emit()
     {
-        $this->computeContentLength();
-
-        (new SapiEmitter())->emit($this);
+        (new SapiEmitter())->emit(
+            $this->withHeader('Content-Length', $this->computeContentLength())
+        );
     }
 }
