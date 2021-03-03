@@ -4,7 +4,7 @@ namespace alcamo\html_creation;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\modular_class\ModuleTrait;
-use alcamo\url_creation\{DirMapUrlFactory, TrivialUrlFactory};
+use alcamo\url_creation\DirMapUrlFactory;
 use alcamo\xml_creation\{Comment, Nodes};
 
 class FooModule
@@ -26,16 +26,13 @@ class FactoryTest extends TestCase
             )
         );
 
-        $factory = Factory::newFromRdfaData(
-            [],
-            [ 'qux' => 'quux' ],
+        $factory = new Factory(
+            null,
             [ new FooModule(), $pageFactory ],
             new DirMapUrlFactory(__DIR__, 'foo-bar')
         );
 
         $this->assertSame('foo-bar', $factory->getUrlFactory()->getHtdocsUrl());
-
-        $this->assertSame('quux', $factory->getConf()['qux']);
 
         $this->assertSame(
             'ut labore et dolore magna aliquyam erat',
@@ -54,12 +51,12 @@ class FactoryTest extends TestCase
      */
     public function testHtmlGeneration(
         $rdfaData,
-        $conf,
+        $urlFactory,
         $resources,
         $extraHeadNodes,
         $expectedHtml
     ) {
-        $factory = Factory::newFromRdfaData($rdfaData, $conf);
+        $factory = Factory::newFromRdfaData($rdfaData, null, $urlFactory);
 
         $html = $factory['page']->createBegin($resources, $extraHeadNodes)
             . 'Lorem ipsum.'
@@ -90,7 +87,7 @@ class FactoryTest extends TestCase
         return [
             'simple' => [
                 [ 'dc:title' => 'Foo | Bar' ],
-                [ 'htdocsDir' => __DIR__, 'htdocsUrl' => '/' ],
+                null,
                 null,
                 null,
                 '<!DOCTYPE html>'
@@ -110,7 +107,7 @@ class FactoryTest extends TestCase
                     'dc:language' => 'en-UG',
                     'owl:versionInfo' => '42.43.44'
                 ],
-                [ 'htdocsDir' => __DIR__, 'htdocsUrl' => '/' ],
+                new DirMapUrlFactory(__DIR__, '/'),
                 [
                     $cssPath,
                     $jsPath,
@@ -156,12 +153,7 @@ class FactoryTest extends TestCase
 
     public function renderThrowableProvider()
     {
-        $factory = Factory::newFromRdfaData(
-            [],
-            null,
-            null,
-            new TrivialUrlFactory()
-        );
+        $factory = new Factory();
 
         $eSimple = (function () {
             return new \Exception('Lorem ipsum');
@@ -175,14 +167,14 @@ class FactoryTest extends TestCase
             'simple' => [
                 $factory,
                 $eSimple,
-                '<p><b>' . \Exception::class . '</b> at ' . __FILE__ . ':167</p>'
+                '<p><b>' . \Exception::class . '</b> at ' . __FILE__ . ':159</p>'
                 . '<p><b>Lorem ipsum</b></p>'
-                . '<p>alcamo\html_creation\{closure}() in ' . __FILE__ . ':168</p>'
+                . '<p>alcamo\html_creation\{closure}() in ' . __FILE__ . ':160</p>'
             ],
             'with-props' => [
                 $factory,
                 $eWithProps,
-                '<p><b>' . \LogicException::class . '</b> at ' . __FILE__ . ':170</p>'
+                '<p><b>' . \LogicException::class . '</b> at ' . __FILE__ . ':162</p>'
                 . '<p><b>consetetur sadipscing elitr</b></p>'
                 . '<ul><li>intValue = 42</li>'
                 . "<li>stringValue = 'foo'</li></ul>"

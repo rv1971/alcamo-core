@@ -18,12 +18,7 @@ class PageTest extends TestCase
             ]
         );
 
-        $conf = [
-            'htdocsDir' => __DIR__,
-            'htdocsUrl' => '/foo'
-        ];
-
-        $factory = new Factory($rdfaData, $conf);
+        $factory = new Factory($rdfaData);
 
         $page = new Page($factory);
 

@@ -3,21 +3,19 @@
 namespace alcamo\html_creation;
 
 use SebastianBergmann\Exporter\Exporter;
-use alcamo\conf\HasConfTrait;
 use alcamo\exception\FileLocation;
 use alcamo\html_creation\element\{B, P, Ul};
 use alcamo\modular_class\ParentTrait;
 use alcamo\rdfa\{HasRdfaDataTrait, RdfaData};
 use alcamo\url_creation\{
-    DirMapUrlFactory,
     HasUrlFactoryTrait,
+    TrivialUrlFactory,
     UrlFactoryInterface
 };
 use alcamo\xml_creation\Nodes;
 
 class Factory implements \Countable, \Iterator, \ArrayAccess
 {
-    use HasConfTrait;
     use HasRdfaDataTrait;
     use HasUrlFactoryTrait;
     use ParentTrait;
@@ -28,31 +26,28 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
 
     public static function newFromRdfaData(
         iterable $rdfaData,
-        ?array $conf = null,
         ?array $modules = null,
         ?UrlFactoryInterface $urlFactory = null
     ) {
         return new static(
             RdfaData::newfromIterable($rdfaData),
-            $conf,
             $modules,
             $urlFactory
         );
     }
 
     public function __construct(
-        RdfaData $rdfaData,
-        ?array $conf = null,
+        ?RdfaData $rdfaData = null,
         ?array $modules = null,
         ?UrlFactoryInterface $urlFactory = null
     ) {
-        $this->rdfaData_ = RdfaData::newFromIterable(static::DEFAULT_RDFA_DATA)
-            ->replace($rdfaData);
+        $this->rdfaData_ = RdfaData::newFromIterable(static::DEFAULT_RDFA_DATA);
 
-        $this->conf_ = (array)$conf;
+        if (isset($rdfaData)) {
+            $this->rdfaData_->replace($rdfaData);
+        }
 
-        $this->urlFactory_ =
-            $urlFactory ?? DirMapUrlFactory::newFromConf($this->conf_);
+        $this->urlFactory_ = $urlFactory ?? new TrivialUrlFactory();
 
         $this->addModules((array)$modules);
 
