@@ -13,14 +13,19 @@ class Response extends ResponseBase
     public static function newFromStatusAndText(
         int $status,
         ?string $text = null,
-        ?RdfaData $rdfaData = null
+        $rdfaData = null
     ) {
         $autoRdfaData =
             RdfaData::newFromIterable([ 'dc:format' => 'text/plain' ]);
 
-        $rdfaData = isset($rdfaData)
-            ? $autoRdfaData->replace($rdfaData)
-            : $autoRdfaData;
+        if ($rdfaData instanceof RdfaData) {
+            $rdfaData = $autoRdfaData->replace($rdfaData);
+        } elseif (isset($rdfaData)) {
+            $rdfaData =
+                $autoRdfaData->replace(RdfaData::newFromIterable($rdfaData));
+        } else {
+            $rdfaData = $autoRdfaData;
+        }
 
         $response = new self($rdfaData, null, $status);
 

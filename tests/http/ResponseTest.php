@@ -45,11 +45,7 @@ class ResponseTest extends TestCase
         $expectedText,
         $expectedRdfaData
     ) {
-        $response = Response::newFromStatusAndText(
-            $status,
-            $text,
-            isset($rdfaData) ? RdfaData::newFromIterable($rdfaData) : null
-        );
+        $response = Response::newFromStatusAndText($status, $text, $rdfaData);
 
         $this->assertSame($status, $response->getStatusCode());
         $this->assertSame($expectedText, (string)$response->getBody());
@@ -70,10 +66,19 @@ class ResponseTest extends TestCase
                 'Not Found',
                 [ 'dc:format' => 'text/plain' ]
             ],
-            'text-and-rdfa' => [
+            'text-and-array' => [
                 200,
                 'Lorem ipsum',
                 [ 'dc:format' => 'text/plain; charset=us-ascii' ],
+                'Lorem ipsum',
+                [ 'dc:format' => 'text/plain; charset="us-ascii"' ],
+            ],
+            'text-and-rdfa' => [
+                200,
+                'Lorem ipsum',
+                RdfaData::newFromIterable(
+                    [ 'dc:format' => 'text/plain; charset=us-ascii' ]
+                ),
                 'Lorem ipsum',
                 [ 'dc:format' => 'text/plain; charset="us-ascii"' ],
             ]
