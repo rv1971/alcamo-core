@@ -15,8 +15,8 @@ class Icon extends Link
     ): self {
         $href = static::augmentLocalUrl($href, $path);
 
-      /** Determine media type from filename unless the type is set in
-       *  `$attrs`. */
+        /** Determine media type from filename unless the type is set in
+         *  `$attrs`. */
         $type = isset($attrs['type'])
         ? ($attrs['type'] instanceof MediaType
          ? $attrs['type']
