@@ -56,7 +56,7 @@ class Loader implements LoaderInterface
                 throw new FileNotFound($filename, (string)$this->fileFinder_);
             }
 
-            $result += $this->fileParser_->parse($pathname);
+            $result = $this->fileParser_->parse($pathname) + $result;
         }
 
         return $result;

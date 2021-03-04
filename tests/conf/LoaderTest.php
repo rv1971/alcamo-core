@@ -15,7 +15,7 @@ class LoaderTest extends TestCase
 
         $loader = new Loader();
 
-        $data1 = $loader->load([ 'bar.ini', 'foo.json' ]);
+        $data1 = $loader->load([ 'foo.json', 'bar.ini' ]);
 
         $this->assertSame(
             [
