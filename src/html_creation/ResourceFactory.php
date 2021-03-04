@@ -2,7 +2,13 @@
 
 namespace alcamo\html_creation;
 
-use alcamo\html_creation\element\{Icon, Link, Script, Stylesheet};
+use alcamo\html_creation\element\{
+    AbstractSpecificElement,
+    Icon,
+    Link,
+    Script,
+    Stylesheet
+};
 use alcamo\iana\MediaType;
 use alcamo\url_creation\{HasUrlFactoryTrait, UrlFactoryInterface};
 use alcamo\xml_creation\Nodes;
@@ -66,6 +72,11 @@ class ResourceFactory
 
         foreach ($items as $item) {
             switch (true) {
+                /** - If an item is an HTML element, use it as-is. */
+                case $item instanceof AbstractSpecificElement:
+                    $nodes[] = $item;
+                    break;
+
                 /** - If an item is an array, then take the first element as
                  *    the path. If the second element is an array, take it as
                  *    an array of attributes, otherwise as the value for the
