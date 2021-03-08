@@ -31,8 +31,8 @@ class FactoryTest extends TestCase
         return [
         'complete-objects/1' => [
         [
-          'dc:abstract'
-          => new DcAbstract('Lorem ipsum dolor sit amet.')
+          'dc:abstract' => new DcAbstract('Lorem ipsum dolor sit amet.'),
+          'dc:title' => null
         ],
         [
           [

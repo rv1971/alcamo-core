@@ -34,6 +34,7 @@ abstract class AbstractFactory implements FactoryInterface
   /**
    * For each item:
    * - Compute the class name from the key.
+   * - If the vaue is `null`, skip it.
    * - If the value is an instance of that class, leave it unchanged.
    * - Else if the value is iterable with only one item, create an instance
    *   for that item.
@@ -46,6 +47,10 @@ abstract class AbstractFactory implements FactoryInterface
         $result = [];
 
         foreach ($data as $name => $value) {
+            if (!isset($value)) {
+                continue;
+            }
+
             $className = $this->name2className($name);
 
             if ($value instanceof $className) {
