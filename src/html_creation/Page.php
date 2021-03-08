@@ -11,9 +11,9 @@ class Page
     private $body_;        ///< Stream
     private $statusCode_;  ///< Integer
 
-    public function __construct(Factory $htmlFactory)
+    public function __construct(?Factory $htmlFactory)
     {
-        $this->htmlFactory_ = $htmlFactory;
+        $this->htmlFactory_ = $htmlFactory ?? new HtmlFactory();
         $this->body_ = new Stream('php://memory', 'wb+');
         $this->statusCode_ = 200;
     }
