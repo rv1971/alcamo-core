@@ -6,7 +6,7 @@ trait RegisteredNodeTrait
 {
     private $hash_;  ///< String.
 
-    public function hash()
+    public function register()
     {
         if (!isset($this->hash_)) {
             $this->ownerDocument->register(

@@ -121,8 +121,6 @@ class Schema
     ///< Map of XName string to XsdElem AbstractType
     private $globalTypes_ = [];
 
-    private $localComplexTypes_ = []; ///< Map of hash() string to ComplexType
-
     private $anyType_;                ///< ComplexType
     private $anySimpleType;           ///< PredefinedSimpleType
 

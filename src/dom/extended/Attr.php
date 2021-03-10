@@ -23,7 +23,7 @@ class Attr extends BaseAttr
     {
         if (!isset($this->value_)) {
             $this->value_ = $this->createValue();
-            $this->hash();
+            $this->register();
         }
 
         return $this->value_;
