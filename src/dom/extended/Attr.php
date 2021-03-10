@@ -17,8 +17,20 @@ class Attr extends BaseAttr
         'type'                      => ConverterPool::class . '::toXName'
     ];
 
-    /// To be redefined in child classes with something more sophisticated
+    private $value_;
+
     public function getValue()
+    {
+        if (!isset($this->value_)) {
+            $this->value_ = $this->createValue();
+            $this->hash();
+        }
+
+        return $this->value_;
+    }
+
+    /// To be redefined in child classes with something more sophisticated
+    protected function createValue()
     {
         if ($this->namespaceURI == self::XSI_NS) {
             $converter = static::XSI_CONVERTERS[$this->localName] ?? null;

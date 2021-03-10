@@ -36,7 +36,7 @@ class Attr extends BaseAttr
         'memberTypes'       => ConverterPool::class . '::toXNames'
     ];
 
-    public function getValue()
+    protected function createValue()
     {
         if (
             $this->parentNode->namespaceURI == self::XSD_NS
@@ -49,6 +49,6 @@ class Attr extends BaseAttr
             }
         }
 
-        return parent::getValue();
+        return parent::createValue();
     }
 }

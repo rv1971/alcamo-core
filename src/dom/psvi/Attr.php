@@ -43,7 +43,7 @@ class Attr extends BaseAttr
         return $this->type_;
     }
 
-    public function getValue()
+    protected function createValue()
     {
         $attrType = $this->getType();
 
@@ -106,6 +106,6 @@ class Attr extends BaseAttr
             return $value;
         }
 
-        return parent::getValue();
+        return parent::createValue();
     }
 }
