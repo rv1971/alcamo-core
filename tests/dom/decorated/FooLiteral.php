@@ -6,6 +6,6 @@ class FooLiteral extends AbstractDecorator
 {
     public function hello(): string
     {
-        return "Hello! {$this->textContent}";
+        return "Hello! $this";
     }
 }

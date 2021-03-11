@@ -15,7 +15,7 @@ trait HasLangTrait
     {
         if ($this->lang_ === false) {
             // Ensure conservation of the derived object.
-            $this->hash();
+            $this->register();
 
             /* For efficiency, first check if the element itself has an
              * xml:lang attribute since this is a frequent case in

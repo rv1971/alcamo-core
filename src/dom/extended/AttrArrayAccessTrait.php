@@ -81,7 +81,7 @@ trait AttrArrayAccessTrait
         if (!$this->attrCache_) {
             /* Ensure conservation of the derived object when putting the
              * first entry into the cache. */
-            $this->hash();
+            $this->register();
         }
 
         return ($this->attrCache_[$attrName] = $attrNode->getValue());

@@ -25,7 +25,7 @@ class Element extends BaseElement
     {
         if ($this->decorator_ === false) {
             // Ensure conservation of the derived object.
-            $this->hash();
+            $this->register();
 
             $this->decorator_ = $this->ownerDocument->createDecorator($this);
         }
