@@ -13,7 +13,7 @@ class Page
 
     public function __construct(?Factory $htmlFactory)
     {
-        $this->htmlFactory_ = $htmlFactory ?? new HtmlFactory();
+        $this->htmlFactory_ = $htmlFactory ?? new Factory();
         $this->body_ = new Stream('php://memory', 'wb+');
         $this->statusCode_ = 200;
     }
