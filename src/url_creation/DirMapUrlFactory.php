@@ -53,26 +53,26 @@ class DirMapUrlFactory extends AbstractUrlFactory
 
     public function createFromPath(string $path): string
     {
-        $realpath = $this->realpath($path);
+        $actualpath = $this->createActualPath($path);
 
       /**
        * Replace a prefix corresponding to $htdocsDir_ with $htdocsUrl_. If
        * there is no such prefix, use $path unchanged.
        */
         if (
-            substr($realpath, 0, strlen($this->htdocsDir_)) == $this->htdocsDir_
+            substr($actualpath, 0, strlen($this->htdocsDir_)) == $this->htdocsDir_
         ) {
             $href = $this->htdocsUrl_
             . str_replace(
                 DIRECTORY_SEPARATOR,
                 '/',
-                substr($realpath, strlen($this->htdocsDir_))
+                substr($actualpath, strlen($this->htdocsDir_))
             );
         } else {
-            $href = $path;
+            $href = str_replace(DIRECTORY_SEPARATOR, '/', $path);
         }
 
-        $href .= $this->createQuery($realpath);
+        $href .= $this->createQuery($actualpath);
 
         return $href;
     }

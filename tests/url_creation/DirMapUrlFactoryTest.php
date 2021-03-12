@@ -90,8 +90,8 @@ class DirMapUrlFactoryTest extends TestCase
                 [
                     [ __FILE__, "/tests/url_creation/DirMapUrlFactoryTest.php?m=$mSelf" ],
                     [ $barPath, "/tests/alcamo/bar.ini.gz?m=$mBarGz" ],
-                    [ $composerPath, "/composer.json?m=$mComposer" ],
-                    [ $svgPath, "/tests/html_creation/element/alcamo.svgz?m=$mSvgz" ]
+                    [ $composerPath, "../../composer.json?m=$mComposer" ],
+                    [ realpath($svgPath), "/tests/html_creation/element/alcamo.svgz?m=$mSvgz" ]
                 ]
             ]
         ];

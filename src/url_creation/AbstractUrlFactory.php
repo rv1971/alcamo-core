@@ -30,25 +30,23 @@ abstract class AbstractUrlFactory implements UrlFactoryInterface
         return $this->disableAppendMtime_;
     }
 
-    public function realpath(string $path): string
+    public function createActualPath(string $path): string
     {
-        $realpath = realpath($path);
-
-        if (!$realpath) {
-          /** @throw FileNotFound if realpath of $path culd not be obtained. */
+        if (!is_readable($path)) {
+            /** @throw FileNotFound if $path cannot be read. */
             throw new FileNotFound($path);
         }
 
-      /* The gzipped file has the additional suffix .gz except for SVG files
-       * where the suffix .svg becomes .svgz. */
+        /* The gzipped file has the additional suffix .gz except for SVG files
+         * where the suffix .svg becomes .svgz. */
         $gzPath =
-        substr($realpath, -4) == '.svg' ? "${realpath}z" : "$realpath.gz";
+        substr($path, -4) == '.svg' ? "${path}z" : "$path.gz";
 
         if (!$this->disablePreferGz_ && is_readable($gzPath)) {
             return $gzPath;
         }
 
-        return $realpath;
+        return $path;
     }
 
     public function createQuery(string $path): ?string
