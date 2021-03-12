@@ -3,7 +3,6 @@
 namespace alcamo\http;
 
 use Laminas\Diactoros\Response as ResponseBase;
-use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use alcamo\rdfa\{HasRdfaDataTrait, RdfaData};
 
 class Response extends ResponseBase
@@ -52,21 +51,8 @@ class Response extends ResponseBase
         );
     }
 
-    public function computeContentLength(): int
+    public function emit(?bool $sendContentLength = null)
     {
-        $length = strlen($this->getBody());
-
-        $this->rdfaData_->replace(
-            RdfaData::newFromIterable(['header:content-length' => $length ])
-        );
-
-        return $length;
-    }
-
-    public function emit()
-    {
-        (new SapiEmitter())->emit(
-            $this->withHeader('Content-Length', $this->computeContentLength())
-        );
+        (new SapiEmitter())->emit($this, $sendContentLength);
     }
 }

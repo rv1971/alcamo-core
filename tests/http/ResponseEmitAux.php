@@ -8,8 +8,6 @@ require getenv('PHPUNIT_COMPOSER_INSTALL');
 
 [ , $type, $text, $sendContentLength ] = $argv;
 
-$emitter = new SapiEmitter();
-
 switch ($type) {
     case 'text':
         $response = Response::newFromStatusAndText(200, $text);
@@ -24,4 +22,4 @@ switch ($type) {
         break;
 }
 
-$emitter->emit($response, $sendContentLength);
+$response->emit($sendContentLength);
