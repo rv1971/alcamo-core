@@ -6,7 +6,7 @@ trait HasConfTrait
 {
     private $conf_;
 
-    public function getConf(): array
+    public function getConf()
     {
         return $this->conf_;
     }
