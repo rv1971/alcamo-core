@@ -4,7 +4,7 @@ namespace alcamo\exception;
 
 use PHPUnit\Framework\TestCase;
 
-class UninitializedTest extends TestCase
+class ClosedTest extends TestCase
 {
   /**
    * @dataProvider constructProvider
@@ -15,7 +15,7 @@ class UninitializedTest extends TestCase
         $code,
         $expectedMessage
     ) {
-        $e = new Uninitialized($objectOrLabel, $message, $code);
+        $e = new Closed($objectOrLabel, $message, $code);
 
         $this->assertSame($objectOrLabel, $e->objectOrLabel);
 
@@ -31,7 +31,7 @@ class UninitializedTest extends TestCase
                 $this,
                 null,
                 null,
-                'Attempt to access uninitialized ' . self::class
+                'Attempt to use closed ' . self::class
             ],
 
             'custom-message' => [
@@ -45,7 +45,7 @@ class UninitializedTest extends TestCase
                 'foo',
                 '; at vero eos et accusam',
                 44,
-                'Attempt to access uninitialized foo; at vero eos et accusam'
+                'Attempt to use closed foo; at vero eos et accusam'
             ]
         ];
     }
