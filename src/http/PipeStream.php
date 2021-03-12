@@ -25,7 +25,7 @@ class PipeStream extends Stream implements EmitInterface
         return $this->status_;
     }
 
-    public function close() : void
+    public function close(): void
     {
         if (! $this->resource) {
             return;

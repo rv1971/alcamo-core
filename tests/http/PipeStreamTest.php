@@ -39,6 +39,8 @@ class PipeStreamTest extends TestCase
     {
         $stream = new PipeStream('echo', 'rt');
 
+        $content = (string)$stream;
+
         $stream->close();
 
         $this->expectException(Closed::class);
