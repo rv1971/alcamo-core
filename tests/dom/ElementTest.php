@@ -18,6 +18,7 @@ class ElementTest extends TestCase
             'duration',
             'float',
             'lang',
+            'media-type',
             'longint',
             'base64',
             'hex',

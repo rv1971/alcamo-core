@@ -3,6 +3,7 @@
 namespace alcamo\dom;
 
 use PHPUnit\Framework\TestCase;
+use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\XName;
@@ -20,6 +21,7 @@ class ConverterPoolTest extends TestCase
             case 'toDateTime':
             case 'toDuration':
             case 'toLang':
+            case 'toMediaType':
             case 'toUri':
             case 'toXName':
                 $this->assertEquals(
@@ -93,6 +95,11 @@ class ConverterPoolTest extends TestCase
                 $doc['lang']->getAttributeNode('content'),
                 'toLang',
                 new Lang('yo', 'NG')
+            ],
+            'media-type' => [
+                $doc['media-type']->getAttributeNode('content'),
+                'toMediaType',
+                new MediaType('application', 'json')
             ],
             'longint' => [
                 $doc['longint']->getAttributeNode('content'),

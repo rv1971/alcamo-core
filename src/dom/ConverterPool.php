@@ -3,6 +3,7 @@
 namespace alcamo\dom;
 
 use alcamo\binary_data\BinaryString;
+use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\XName;
@@ -47,6 +48,11 @@ class ConverterPool
     public static function toLang($value): Lang
     {
         return Lang::newFromString($value);
+    }
+
+    public static function toMediaType($value): MediaType
+    {
+        return MediaType::newFromString($value);
     }
 
     public static function toUri($value): Uri
