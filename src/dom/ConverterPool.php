@@ -76,6 +76,11 @@ class ConverterPool
         return $xNames;
     }
 
+    public static function yesNoToBool($value): bool
+    {
+        return $value == 'yes';
+    }
+
     public static function base64ToBinary($value): BinaryString
     {
         return new BinaryString(base64_decode($value));

@@ -53,7 +53,7 @@ class DocumentTest extends TestCase
             (string)$doc->query('//rdfs:comment/text()')[0]
         );
 
-        $this->assertSame(16, (int)$doc->evaluate('count(//foo:baz)'));
+        $this->assertSame(18, (int)$doc->evaluate('count(//foo:baz)'));
 
         $this->assertInstanceOf(
             \XSLTProcessor::class,

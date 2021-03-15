@@ -106,6 +106,16 @@ class ConverterPoolTest extends TestCase
                 'toInt',
                 '123456789012345678901234567890'
             ],
+            'bool-1' => [
+                $doc['bool-1']->getAttributeNode('content'),
+                'yesNoToBool',
+                true
+            ],
+            'bool-0' => [
+                $doc['bool-0']->getAttributeNode('content'),
+                'yesNoToBool',
+                false
+            ],
             'base64' => [
                 $doc['base64']->getAttributeNode('content'),
                 'base64ToBinary',

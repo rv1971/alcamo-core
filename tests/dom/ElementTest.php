@@ -20,6 +20,8 @@ class ElementTest extends TestCase
             'lang',
             'media-type',
             'longint',
+            'bool-1',
+            'bool-0',
             'base64',
             'hex',
             'curie',
