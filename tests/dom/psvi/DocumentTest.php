@@ -4,6 +4,7 @@ namespace alcamo\dom\psvi;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\dom\schema\Schema;
+use alcamo\exception\DataValidationFailed;
 use alcamo\xml\XName;
 
 class DocumentTest extends TestCase
@@ -60,5 +61,37 @@ class DocumentTest extends TestCase
             [ self::XSD_NS, 'duration', 'toDuration' ],
             [ self::XSD_NS, 'unsignedByte', 'toInt' ]
         ];
+    }
+
+    public function testValidateIdrefsIdref()
+    {
+        $doc = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo-idref.xml'
+        );
+
+        $this->expectException(DataValidationFailed::class);
+        $this->expectExceptionMessage(
+            "Failed to validate \"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+            . "<...\" at " . $doc->documentURI
+            . "; no ID found for IDREF \"z\" in line 8"
+        );
+
+        $doc->validateIdrefs();
+    }
+
+    public function testValidateIdrefsIdrefs()
+    {
+        $doc = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo-idrefs.xml'
+        );
+
+        $this->expectException(DataValidationFailed::class);
+        $this->expectExceptionMessage(
+            "Failed to validate \"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+            . "<...\" at " . $doc->documentURI
+            . "; no ID found for IDREF \"zz\" in line 9"
+        );
+
+        $doc->validateIdrefs();
     }
 }

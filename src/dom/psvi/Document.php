@@ -6,6 +6,7 @@ use alcamo\dom\ConverterPool;
 use alcamo\dom\extended\Document as BaseDocument;
 use alcamo\dom\schema\{Schema, TypeMap};
 use alcamo\dom\schema\component\SimpleTypeInterface;
+use alcamo\exception\DataValidationFailed;
 
 class Document extends BaseDocument
 {
@@ -88,5 +89,41 @@ class Document extends BaseDocument
         }
 
         return $this->attrConverters_;
+    }
+
+    public function validateIdrefs()
+    {
+        static $idrefName  = self::NS['xsd'] . ' IDREF';
+        static $idrefsName = self::NS['xsd'] . ' IDREFS';
+
+        foreach ($this->query('//@*') as $attr) {
+            switch ((string)$attr->getType()->getXName()) {
+                case $idrefsName:
+                    foreach ($attr->getValue() as $idref) {
+                        if (!isset($this[$idref])) {
+                            throw new DataValidationFailed(
+                                $this->saveXML(),
+                                $this->documentURI,
+                                "; no ID found for IDREF \"$idref\" in line "
+                                . $attr->getLineNo()
+                            );
+                        }
+                    }
+
+                    break;
+
+                case $idrefName:
+                    if (!isset($this[(string)$attr])) {
+                        throw new DataValidationFailed(
+                            $this->saveXML(),
+                            $this->documentURI,
+                            "; no ID found for IDREF \"$attr\" in line "
+                            . $attr->getLineNo()
+                        );
+                    }
+
+                    break;
+            }
+        }
     }
 }
