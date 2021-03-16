@@ -13,6 +13,10 @@ class Document extends BaseDocument
         ]
         + parent::NODE_CLASS;
 
+    public const ELEMENT_DECORATOR_MAP = [];
+
+    public const DEFAULT_DECORATOR_CLASS = null;
+
     /// Map of element types to decorator classes
     private $elementDecoratorMap_;
 
@@ -21,7 +25,8 @@ class Document extends BaseDocument
         if (!isset($this->elementDecoratorMap_)) {
             $this->elementDecoratorMap_ = TypeMap::newFromSchemaAndXNameMap(
                 $this->getSchema(),
-                static::ELEMENT_DECORATOR_MAP
+                static::ELEMENT_DECORATOR_MAP,
+                static::DEFAULT_DECORATOR_CLASS
             );
         }
 

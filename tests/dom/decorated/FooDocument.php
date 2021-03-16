@@ -14,4 +14,6 @@ class FooDocument extends Document
         self::FOO_NS . ' Bar'      => FooBar::class,
         self::RDFS_NS . ' Literal' => FooLiteral::class
     ];
+
+    public const DEFAULT_DECORATOR_CLASS = FooShort::class;
 }

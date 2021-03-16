@@ -25,5 +25,10 @@ class DocumentTest extends TestCase
             [ FooBar::class, FooLiteral::class ],
             array_values($doc->getElementDecoratorMap()->getMap())
         );
+
+        $this->assertSame(
+            FooShort::class,
+            $doc->getElementDecoratorMap()->getDefaultValue()
+        );
     }
 }
