@@ -9,15 +9,18 @@ namespace alcamo\xpointer;
  */
 class XpointerPart implements PartInterface
 {
-    public function process(array &$nsBindings, string $data, \DOMDocument $doc)
-    {
+    public function process(
+        array &$nsBindings,
+        string $schemeData,
+        \DOMDocument $doc
+    ) {
         $xPath = new \DOMXPath($doc);
 
         foreach ($nsBindings as $prefix => $nsName) {
             $xPath->registerNamespace($prefix, $nsName);
         }
 
-        $result = $xPath->evaluate($data);
+        $result = $xPath->evaluate($schemeData);
 
         return $result === false || !isset($result[0]) ? null : $result;
     }

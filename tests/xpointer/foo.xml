@@ -6,4 +6,5 @@
   <baz>Lorem ipsum</baz>
   <bar:baz content="qux">sadipscing</bar:baz>
   <bar:quux xml:id="quux42">consetetur</bar:quux>
+  <baz name="(^^)">takimata</baz>
 </foo>

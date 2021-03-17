@@ -20,8 +20,8 @@ class Pointer implements PointerInterface
         'xml' => 'http://www.w3.org/XML/1998/namespace'
     ];
 
-    private $shorthand_;       ///< ?string
-    private $parts_;           ///< ?array of pairs of scheme name and data
+    private $shorthand_; ///< ?string
+    private $parts_;     ///< ?array of pairs of scheme name and data
 
     /**
      * @warning Unescaped parentheses in scheme data are not supported, not
@@ -41,7 +41,7 @@ class Pointer implements PointerInterface
 
             $parts = [];
 
-            for ($i = 0; isset($pieces[$i]) && $pieces[$i]; $i += 2) {
+            for ($i = 0; isset($pieces[$i]) && $pieces[$i] != ''; $i += 2) {
                 $schemeName = ltrim($pieces[$i]);
                 $schemeData = $pieces[$i + 1];
 
@@ -70,7 +70,7 @@ class Pointer implements PointerInterface
 
                 $schemeData = str_replace(
                     [ '^(', '^)', '^^' ],
-                    [ '(', ')', '^^' ],
+                    [ '(', ')', '^' ],
                     $schemeData
                 );
 
@@ -99,10 +99,8 @@ class Pointer implements PointerInterface
             [ $schemeName, $schemeData ] = $part;
 
             try {
-                $schemeName = (string)XName::newFromQNameAndMap(
-                    $schemeName,
-                    $nsBindings
-                );
+                $schemeName =
+                    (string)XName::newFromQNameAndMap($schemeName, $nsBindings);
             } catch (UnknownNamespacePrefix $e) {
                 continue;
             }

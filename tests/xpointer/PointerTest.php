@@ -3,6 +3,9 @@
 namespace alcamo\xpointer;
 
 use PHPUnit\Framework\TestCase;
+use alcamo\exception\SyntaxError;
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'FooPointer.php';
 
 class PointerTest extends TestCase
 {
@@ -15,7 +18,7 @@ class PointerTest extends TestCase
         $expectedLocalName,
         $expectedContent
     ) {
-        $pointer = Pointer::newFromString($pointerString);
+        $pointer = FooPointer::newFromString($pointerString);
 
         $result = $pointer->process($doc);
 
@@ -32,7 +35,7 @@ class PointerTest extends TestCase
     {
         $doc = new \DOMDocument();
 
-        $doc->load(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xml');
+        $doc->load(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xml', LIBXML_NOBLANKS);
 
         return [
             'shorthand' => [ $doc, 'quux42', 'quux', 'consetetur' ],
@@ -59,7 +62,54 @@ class PointerTest extends TestCase
                 . 'xpointer(//b:quux)',
                 'quux',
                 'consetetur'
+            ],
+
+            'unsupported' => [
+                $doc,
+                'xmlns(f=http://foo.example.org)'
+                . 'foo(bar/baz/qux)'
+                . 'f:foo(bar/baz/qux)'
+                . 'xpointer(//f:bazzz)'
+                . 'xmlns(b=http://bar.example.com)'
+                . 'xpointer(//b:quux)',
+                'quux',
+                'consetetur'
+            ],
+
+            'escaped' => [
+                $doc,
+                'xpointer(//*[@name="^(^^^^^)"])',
+                'baz',
+                'takimata'
+            ],
+
+            'extension' => [
+                $doc,
+                'xmlns(f=http://foo.example.org)f:bar(2)',
+                'baz',
+                'sadipscing'
             ]
         ];
+    }
+
+    public function testExceptionSchemeName()
+    {
+        $this->expectException(SyntaxError::class);
+        $this->expectExceptionMessage(
+            'Syntax error in "xml ns"; invalid scheme name'
+        );
+
+        FooPointer::newFromString('xml ns(x=http://example.com)');
+    }
+
+    public function testExceptionEscaping()
+    {
+        $this->expectException(SyntaxError::class);
+        $this->expectExceptionMessage(
+            'Syntax error in "x=http://^example.com" at 9: "^example.c..."; '
+            . 'invalid use of circumflex'
+        );
+
+        FooPointer::newFromString('xmlns(x=http://^example.com)');
     }
 }
