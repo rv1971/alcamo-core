@@ -3,7 +3,7 @@
 namespace alcamo\xpointer;
 
 use alcamo\exception\SyntaxError;
-use alcamo\xml\XName;
+use alcamo\xml\{Syntax, XName};
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
 /*
@@ -19,10 +19,6 @@ class Pointer implements PointerInterface
     public const INITIAL_NS_BINDINGS = [
         'xml' => 'http://www.w3.org/XML/1998/namespace'
     ];
-
-    /// Regular expression for XML NCName
-    public const NAME_REGEXP =
-    '/^[\pL:_][-\pL:.\d\x{B7}\x{0300}-\x{036F}\x{203F}-\x{2040}]*$/u';
 
     private $shorthand_;       ///< ?string
     private $parts_;           ///< ?array of pairs of scheme name and data
@@ -45,12 +41,11 @@ class Pointer implements PointerInterface
 
             $parts = [];
 
-            for ($i = 0; isset($pieces[$i]) && $pieces[$i]; $i += 2)
-            {
+            for ($i = 0; isset($pieces[$i]) && $pieces[$i]; $i += 2) {
                 $schemeName = ltrim($pieces[$i]);
                 $schemeData = $pieces[$i + 1];
 
-                if (!preg_match(self::NAME_REGEXP, $schemeName)) {
+                if (!preg_match(Syntax::NAME_REGEXP, $schemeName)) {
                     throw new SyntaxError(
                         $schemeName,
                         null,
@@ -63,7 +58,8 @@ class Pointer implements PointerInterface
                         '/(?<!\^)\^[^^()]/',
                         $schemeData,
                         $matches2,
-                        PREG_OFFSET_CAPTURE)
+                        PREG_OFFSET_CAPTURE
+                    )
                 ) {
                     throw new SyntaxError(
                         $schemeData,
@@ -85,7 +81,8 @@ class Pointer implements PointerInterface
         }
     }
 
-    private function __construct(?string $shorthand, ?array $parts) {
+    private function __construct(?string $shorthand, ?array $parts)
+    {
         $this->shorthand_ = $shorthand;
         $this->parts_ = $parts;
     }

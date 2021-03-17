@@ -3,6 +3,7 @@
 namespace alcamo\xml_creation;
 
 use alcamo\exception\SyntaxError;
+use alcamo\xml\Syntax;
 
 /// XML processing instruction
 class ProcessingInstruction extends AbstractNode
@@ -12,7 +13,7 @@ class ProcessingInstruction extends AbstractNode
     public function __construct(string $target, $content)
     {
         if (
-            !preg_match(self::NAME_REGEXP, $target)
+            !preg_match(Syntax::NAME_REGEXP, $target)
             || strtolower(substr($target, 0, 3)) == 'xml'
         ) {
             throw new SyntaxError($target, null, '; not a valid XML PI target');

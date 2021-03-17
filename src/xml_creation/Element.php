@@ -4,6 +4,7 @@ namespace alcamo\xml_creation;
 
 use alcamo\collection\ReadonlyCollectionTrait;
 use alcamo\exception\SyntaxError;
+use alcamo\xml\Syntax;
 
 /**
  * @brief XML element
@@ -27,17 +28,19 @@ class Element extends AbstractNode implements
         ?iterable $attrs = null,
         $content = null
     ) {
-        if (!preg_match(self::NAME_REGEXP, $tagName)) {
+        if (!preg_match(Syntax::NAME_REGEXP, $tagName)) {
             /** @throw SyntaxError if $tagName is not a valid name. */
-            throw new SyntaxError($tagName, null, '; not a valid XML tag name');
+            throw
+                new SyntaxError($tagName, null, '; not a valid XML tag name');
         }
 
         $this->tagName_ = $tagName;
 
         if (isset($attrs)) {
             foreach ($attrs as $attrName => $attrValue) {
-                if (!preg_match(self::NAME_REGEXP, $attrName)) {
-                    /** @throw SyntaxError if $attrs contains a invalid attribute name. */
+                if (!preg_match(Syntax::NAME_REGEXP, $attrName)) {
+                    /** @throw SyntaxError if $attrs contains a invalid
+                     *  attribute name. */
                     $e = new SyntaxError(
                         $attrName,
                         null,

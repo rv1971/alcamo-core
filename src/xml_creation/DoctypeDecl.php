@@ -3,6 +3,7 @@
 namespace alcamo\xml_creation;
 
 use alcamo\exception\SyntaxError;
+use alcamo\xml\Syntax;
 
 /// Doctype declaration
 class DoctypeDecl extends AbstractNode
@@ -15,9 +16,10 @@ class DoctypeDecl extends AbstractNode
         $externalId = null,
         $intSubset = null
     ) {
-        if (!preg_match(self::NAME_REGEXP, $name)) {
+        if (!preg_match(Syntax::NAME_REGEXP, $name)) {
           /** @throw SyntaxError if $name is not a valid doctype name. */
-            throw new SyntaxError($name, null, '; not a valid XML doctype name');
+            throw
+                new SyntaxError($name, null, '; not a valid XML doctype name');
         }
 
         $this->name_ = $name;

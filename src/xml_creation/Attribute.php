@@ -3,6 +3,7 @@
 namespace alcamo\xml_creation;
 
 use alcamo\exception\SyntaxError;
+use alcamo\xml\Syntax;
 
 /// XML attribute
 class Attribute extends AbstractNode
@@ -11,9 +12,13 @@ class Attribute extends AbstractNode
 
     public function __construct(string $name, $content)
     {
-        if (!preg_match(self::NAME_REGEXP, $name)) {
+        if (!preg_match(Syntax::NAME_REGEXP, $name)) {
             /** @throw SyntaxError if $name is not a valid name. */
-            throw new SyntaxError($name, null, '; not a valid XML attribute name');
+            throw new SyntaxError(
+                $name,
+                null,
+                '; not a valid XML attribute name'
+            );
         }
 
         $this->name_ = $name;
