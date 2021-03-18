@@ -63,7 +63,7 @@ class Document extends \DOMDocument implements \ArrayAccess
         string $url,
         ?bool $useCache = null,
         ?int $libXmlOptions = null
-    ) {
+    ): self {
         if ($useCache) {
             $url = new Uri($url);
 

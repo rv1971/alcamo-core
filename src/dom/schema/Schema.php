@@ -73,7 +73,7 @@ class Schema
             $xsds = [];
 
             foreach ($normalizedUrls as $url) {
-                $xsds[] = Xsd::newFromUrl($url, true);
+                $xsds[] = static::createXsd($url);
             }
 
             self::$schemaCache_[$cacheKey] = new self($xsds);
@@ -270,10 +270,15 @@ class Schema
         return $this->anyType_;
     }
 
+    protected static function createXsd(string $url): Xsd
+    {
+        return Xsd::newFromUrl($url, true);
+    }
+
     private function loadXsds(array $xsds)
     {
         // always load XMLSchema.xsd
-        $xmlSchemaXsd = Xsd::newFromUrl(
+        $xmlSchemaXsd = static::createXsd(
             'file://' . realpath(
                 __DIR__ . DIRECTORY_SEPARATOR
                 . '..' . DIRECTORY_SEPARATOR
@@ -281,8 +286,7 @@ class Schema
                 . '..' . DIRECTORY_SEPARATOR
                 . 'xsd' . DIRECTORY_SEPARATOR
                 . 'XMLSchema.xsd'
-            ),
-            true
+            )
         );
 
         $xsds[] = $xmlSchemaXsd;
@@ -311,7 +315,7 @@ class Schema
                     );
 
                     if (!isset($this->xsds_[(string)$url])) {
-                        $xsds[] = Xsd::newFromUrl($url, true);
+                        $xsds[] = Xsd::newFromUrl($url);
                     }
                 }
             }
