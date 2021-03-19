@@ -104,8 +104,8 @@ class Document extends BaseDocument
                             throw new DataValidationFailed(
                                 $this->saveXML(),
                                 $this->documentURI,
-                                "; no ID found for IDREF \"$idref\" in line "
-                                . $attr->getLineNo()
+                                $attr->getLineNo(),
+                                "; no ID found for IDREF \"$idref\""
                             );
                         }
                     }
@@ -117,8 +117,8 @@ class Document extends BaseDocument
                         throw new DataValidationFailed(
                             $this->saveXML(),
                             $this->documentURI,
-                            "; no ID found for IDREF \"$attr\" in line "
-                            . $attr->getLineNo()
+                            $attr->getLineNo(),
+                            "; no ID found for IDREF \"$attr\""
                         );
                     }
 
