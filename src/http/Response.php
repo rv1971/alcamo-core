@@ -2,10 +2,10 @@
 
 namespace alcamo\http;
 
-use Laminas\Diactoros\Response as ResponseBase;
+use Laminas\Diactoros\Response as BaseResponse;
 use alcamo\rdfa\{HasRdfaDataTrait, RdfaData};
 
-class Response extends ResponseBase
+class Response extends BaseResponse
 {
     use HasRdfaDataTrait;
 
