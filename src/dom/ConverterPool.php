@@ -7,9 +7,14 @@ use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\XName;
+use alcamo\xpointer\Pointer;
+use Ds\Set;
+use GuzzleHttp\Psr7\UriResolver;
 
 class ConverterPool
 {
+    public const DOCUMENT_CLASS = Document::class;
+
     public static function toArray($value): array
     {
         return preg_split('/\s+/', $value);
@@ -104,5 +109,44 @@ class ConverterPool
     public static function uriOrSafeCurieToUri($value, $context): Uri
     {
         return Uri::newFromUriOrSafeCurieAndContext($value, $context);
+    }
+
+    /**
+     * Use the document cache if the document has an absolute URL.
+     */
+    public static function toDocument($value, $context): Document
+    {
+        $url = UriResolver::resolve(
+            new Uri($context->baseURI),
+            new Uri($value)
+        );
+
+        $class = static::DOCUMENT_CLASS;
+
+        return $class::newFromUrl($url, Uri::isAbsolute($url));
+    }
+
+    public static function xPointerUrlToSubset($value, $context)
+    {
+        [ $url, $fragment ] = explode('#', $value, 2);
+
+        $doc = $url
+            ? static::toDocument($url, $context)
+            : $context->ownerDocument;
+
+        $xPointer = Pointer::newFromString($fragment);
+
+        return $xPointer->process($doc);
+    }
+
+    public static function xPointerUrlToValueSet($value, $context): Set
+    {
+        $result = new Set();
+
+        foreach (static::xPointerUrlToSubset($value, $context) as $node) {
+            $result->add($node->nodeValue);
+        }
+
+        return $result;
     }
 }

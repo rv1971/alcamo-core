@@ -27,7 +27,10 @@ class ElementTest extends TestCase
             'curie',
             'safecurie',
             'uriorsafecurie1',
-            'uriorsafecurie2'
+            'uriorsafecurie2',
+            'document',
+            'xpointer1',
+            'xpointer2'
         ];
         $i = 0;
 

@@ -7,6 +7,7 @@ use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\XName;
+use Ds\Set;
 
 class ConverterPoolTest extends TestCase
 {
@@ -24,6 +25,7 @@ class ConverterPoolTest extends TestCase
             case 'toMediaType':
             case 'toUri':
             case 'toXName':
+            case 'xPointerUrlToValueSet':
                 $this->assertEquals(
                     $expectedResult,
                     $qualifiedConverter($attr->value, $attr)
@@ -35,9 +37,17 @@ class ConverterPoolTest extends TestCase
             case 'curieToUri':
             case 'safeCurieToUri':
             case 'uriOrSafeCurieToUri':
+            case 'xPointerUrlToSubset':
                 $this->assertSame(
                     $expectedResult,
                     (string)$qualifiedConverter($attr->value, $attr)
+                );
+                break;
+
+            case 'toDocument':
+                $this->assertSame(
+                    $expectedResult,
+                    (string)$qualifiedConverter($attr->value, $attr)['a']
                 );
                 break;
 
@@ -126,6 +136,11 @@ class ConverterPoolTest extends TestCase
                 'hexToBinary',
                 '1234ABCDEF'
             ],
+            'document' => [
+                $doc['document']->getAttributeNode('content'),
+                'toDocument',
+                'At eos'
+            ],
             'curie' => [
                 $doc['curie']->getAttributeNode('content'),
                 'curieToUri',
@@ -161,7 +176,51 @@ class ConverterPoolTest extends TestCase
                 $doc->documentElement->getAttributeNode('bazbaz'),
                 'toXName',
                 new XName(Document::NS['dc'], 'title')
+            ],
+            'xpointer1' => [
+                $doc['xpointer1']->getAttributeNode('content'),
+                'xPointerUrlToSubset',
+                'vero'
+            ],
+            'xpointer2' => [
+                $doc['xpointer2']->getAttributeNode('content'),
+                'xPointerUrlToValueSet',
+                (new Set())->merge([ 'd', 'datetime', 'duration', 'document' ])
             ]
         ];
+    }
+
+    public function testToDocumentCaching()
+    {
+        $doc = Document::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'foo.xml'
+        )->conserve();
+
+        $content = $doc['document']->getAttributeNode('content');
+        $doc2 = ConverterPool::toDocument(
+            (string)$content,
+            $content
+        );
+
+        $this->assertInstanceof(ConverterPool::DOCUMENT_CLASS, $doc2);
+
+        $this->assertNotSame($doc, $doc2);
+
+        $doc = Document::newFromUrl(
+            'file://'
+            . str_replace(DIRECTORY_SEPARATOR, '/', __DIR__)
+            . '/foo.xml',
+            true
+        );
+
+        $content = $doc['document']->getAttributeNode('content');
+        $doc2 = ConverterPool::toDocument(
+            (string)$content,
+            $content
+        );
+
+        $this->assertInstanceof(ConverterPool::DOCUMENT_CLASS, $doc2);
+
+        $this->assertSame($doc, $doc2);
     }
 }

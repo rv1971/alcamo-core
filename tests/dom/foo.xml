@@ -39,6 +39,11 @@
     <baz xml:id="safecurie" content="[qux:#1234]"/>
     <baz xml:id="uriorsafecurie1" content="http://www.example.biz/foo"/>
     <baz xml:id="uriorsafecurie2" content="[xsd:#token]"/>
+    <baz xml:id="document" content="foo.xml"/>
+    <baz xml:id="xpointer1" content="foo.xml#b"/>
+    <baz
+        xml:id="xpointer2"
+        content="#xpointer(//@xml:id[starts-with^(., 'd'^)])"/>
   </bar>
 
   <corge
