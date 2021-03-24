@@ -2,7 +2,7 @@
 
 namespace alcamo\dom\psvi;
 
-use alcamo\dom\ConverterPool;
+use alcamo\dom\ConverterPool as CP;
 use alcamo\dom\extended\Document as BaseDocument;
 use alcamo\dom\schema\{Schema, TypeMap};
 use alcamo\dom\schema\component\SimpleTypeInterface;
@@ -11,53 +11,23 @@ use alcamo\exception\DataValidationFailed;
 class Document extends BaseDocument
 {
     public const ATTR_TYPE_MAP = [
-    self::NS['xh11d'] . ' CURIE'
-        => ConverterPool::class . '::curieToUri',
+        self::NS['xh11d'] . ' CURIE'          => CP::class . '::curieToUri',
+        self::NS['xh11d'] . ' SafeCURIE'      => CP::class . '::safeCurieToUri',
+        self::NS['xh11d'] . ' URIorSafeCURIE' => CP::class . '::uriOrSafeCurieToUri',
 
-    self::NS['xh11d'] . ' SafeCURIE'
-        => ConverterPool::class . '::safeCurieToUri',
-
-    self::NS['xh11d'] . ' URIorSafeCURIE'
-        => ConverterPool::class . '::uriOrSafeCurieToUri',
-
-    self::NS['xsd'] . ' anyURI'
-        => ConverterPool::class . '::toUri',
-
-    self::NS['xsd'] . ' base64Binary'
-        => ConverterPool::class . '::base64ToBinary',
-
-    self::NS['xsd'] . ' boolean'
-        => ConverterPool::class . '::toBool',
-
-    self::NS['xsd'] . ' date'
-        => ConverterPool::class . '::toDateTime',
-
-    self::NS['xsd'] . ' dateTime'
-        => ConverterPool::class . '::toDateTime',
-
-    self::NS['xsd'] . ' decimal'
-        => ConverterPool::class . '::toFloat',
-
-    self::NS['xsd'] . ' double'
-        => ConverterPool::class . '::toFloat',
-
-    self::NS['xsd'] . ' duration'
-        => ConverterPool::class . '::toDuration',
-
-    self::NS['xsd'] . ' float'
-        => ConverterPool::class . '::toFloat',
-
-    self::NS['xsd'] . ' hexBinary'
-        => ConverterPool::class . '::hexToBinary',
-
-    self::NS['xsd'] . ' integer'
-        => ConverterPool::class . '::toInt',
-
-    self::NS['xsd'] . ' language'
-        => ConverterPool::class . '::toLang',
-
-    self::NS['xsd'] . ' QName'
-        => ConverterPool::class . '::toXName'
+        self::NS['xsd'] . ' anyURI'       => CP::class . '::toUri',
+        self::NS['xsd'] . ' base64Binary' => CP::class . '::base64ToBinary',
+        self::NS['xsd'] . ' boolean'      => CP::class . '::toBool',
+        self::NS['xsd'] . ' date'         => CP::class . '::toDateTime',
+        self::NS['xsd'] . ' dateTime'     => CP::class . '::toDateTime',
+        self::NS['xsd'] . ' decimal'      => CP::class . '::toFloat',
+        self::NS['xsd'] . ' double'       => CP::class . '::toFloat',
+        self::NS['xsd'] . ' duration'     => CP::class . '::toDuration',
+        self::NS['xsd'] . ' float'        => CP::class . '::toFloat',
+        self::NS['xsd'] . ' hexBinary'    => CP::class . '::hexToBinary',
+        self::NS['xsd'] . ' integer'      => CP::class . '::toInt',
+        self::NS['xsd'] . ' language'     => CP::class . '::toLang',
+        self::NS['xsd'] . ' QName'        => CP::class . '::toXName'
     ];
 
     public const NODE_CLASS =

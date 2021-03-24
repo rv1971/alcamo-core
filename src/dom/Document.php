@@ -133,7 +133,7 @@ class Document extends \DOMDocument implements \ArrayAccess
         return $this->afterLoad();
     }
 
-    public function loadXmlText(string $xml, int $libXmlOptions = null)
+    public function loadXmlText(string $xml, ?int $libXmlOptions = null)
     {
         if (!$this->loadXML($xml, $libXmlOptions ?? static::LIBXML_OPTIONS)) {
             throw new SyntaxError($xml);
