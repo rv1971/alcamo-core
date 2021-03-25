@@ -32,14 +32,28 @@ class ShallowDocument extends Document
 
     public function loadXmlText(string $xml, ?int $libXmlOptions = null)
     {
-        if (!preg_match('/[^\?\-]>/', $xml, $matches, PREG_OFFSET_CAPTURE)) {
+        /** This uses a regular expression to find the first string in angular
+         *  brackets which is neither an xml declaration or processing
+         *  instruction nor a comment, and which contains quotes only in
+         *  pairs.
+         *
+         *  @warning This fails if the document element is preceded by a
+         *  comment containing such a string. */
+        if (
+            !preg_match(
+                '/<[^\-\?]([^"\'>]+=("[^"]*"|\'[^\']*\'))*[^"\'>]*>/',
+                $xml,
+                $matches,
+                PREG_OFFSET_CAPTURE
+            )
+        ) {
             throw new SyntaxError($xml, null, '; no end of tag found');
         }
 
-        $endPos = $matches[0][1];
+        $bracketPos = $matches[0][1] + strlen($matches[0][0]) - 1;
 
-        $firstTagText = substr($xml, 0, $endPos + 1)
-            . (($xml[$endPos] == '/') ? '>' : '/>');
+        $firstTagText = substr($xml, 0, $bracketPos)
+            . (($xml[$bracketPos - 1] == '/') ? '>' : '/>');
 
         return parent::loadXmlText($firstTagText, $libXmlOptions);
     }

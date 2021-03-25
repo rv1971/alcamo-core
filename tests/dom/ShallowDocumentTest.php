@@ -30,5 +30,13 @@ class ShallowDocumentTest extends TestCase
             'bar-bar',
             $barDoc->documentElement->getAttribute('dc:identifier')
         );
+
+        $quxDoc = ShallowDocument::newFromUrl(
+            __DIR__ . DIRECTORY_SEPARATOR . 'qux.xml'
+        );
+
+        $this->assertNull($quxDoc->documentElement->firstChild);
+
+        $this->assertSame('qux', $quxDoc->documentElement->localName);
     }
 }

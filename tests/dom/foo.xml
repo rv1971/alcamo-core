@@ -18,6 +18,7 @@
     foobar="foo   bar	baz"
     barbaz="42"
     bazbaz="dc:title"
+    closing-bracket="&lt;baz>"
     qux:qux="123">
   <rdfs:comment>Lorem ipsum</rdfs:comment>
   <bar xsi:type="Bar" xml:id="x">
