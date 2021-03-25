@@ -7,6 +7,7 @@ use alcamo\collection\PreventWriteArrayAccessTrait;
 use alcamo\exception\{
     AbsoluteUriNeeded,
     DataValidationFailed,
+    ErrorHandler,
     FileLoadFailed,
     SyntaxError,
     Uninitialized
@@ -127,8 +128,19 @@ class Document extends \DOMDocument implements \ArrayAccess
 
     public function loadUrl(string $url, ?int $libXmlOptions = null)
     {
-        if (!$this->load($url, $libXmlOptions ?? static::LIBXML_OPTIONS)) {
-            throw new FileLoadFailed($url);
+        $handler = new ErrorHandler();
+
+        try {
+            if (!$this->load($url, $libXmlOptions ?? static::LIBXML_OPTIONS)) {
+                throw new FileLoadFailed($url);
+            }
+        } catch (\ErrorException $e) {
+            throw new FileLoadFailed(
+                $url,
+                "; {$e->getMessage()}",
+                $e->getCode(),
+                $e
+            );
         }
 
         return $this->afterLoad();
@@ -136,8 +148,22 @@ class Document extends \DOMDocument implements \ArrayAccess
 
     public function loadXmlText(string $xml, ?int $libXmlOptions = null)
     {
-        if (!$this->loadXML($xml, $libXmlOptions ?? static::LIBXML_OPTIONS)) {
-            throw new SyntaxError($xml);
+        $handler = new ErrorHandler();
+
+        try {
+            if (
+                !$this->loadXML($xml, $libXmlOptions ?? static::LIBXML_OPTIONS)
+            ) {
+                throw new SyntaxError($xml);
+            }
+        } catch (\ErrorException $e) {
+            throw new SyntaxError(
+                $xml,
+                null,
+                "; {$e->getMessage()}",
+                $e->getCode(),
+                $e
+            );
         }
 
         return $this->afterLoad();
