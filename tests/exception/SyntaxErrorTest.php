@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 class SyntaxErrorTest extends TestCase
 {
-  /**
-   * @dataProvider constructProvider
-   */
+    /**
+     * @dataProvider constructProvider
+     */
     public function testConstruct(
         $text,
         $offset,
@@ -30,37 +30,38 @@ class SyntaxErrorTest extends TestCase
     public function constructProvider(): array
     {
         return [
-        'typical-use' => [
-        'At vero# eos et accusam et justo duo dolores et ea rebum.',
-        7,
-        null,
-        null,
-        "Syntax error in \"At vero# eos et accusam et justo duo dol...\" at 7: \"# eos et a...\""
-        ],
+            'typical-use' => [
+                'At vero# eos et accusam et justo duo dolores et ea rebum.',
+                7,
+                null,
+                null,
+                "Syntax error in \"At vero# eos et accusam et justo duo dol...\" at 7: \"# eos et a...\""
+            ],
 
-        'no-offset' => [
-        'At vero eos et accusam et %justo duo dolores et ea rebum.',
-        null,
-        null,
-        4711,
-        "Syntax error in \"At vero eos et accusam et %justo duo dol...\""
-        ],
+            'no-offset' => [
+                'At vero eos et accusam et %justo duo dolores et ea rebum.',
+                null,
+                null,
+                4711,
+                "Syntax error in \"At vero eos et accusam et %justo duo dol...\""
+            ],
 
-        'custom-message' => [
-        'no sea takimata',
-        0,
-        'First character must be uppercase',
-        null,
-        'First character must be uppercase'
-        ],
+            'custom-message' => [
+                'no sea takimata',
+                0,
+                'First character must be uppercase',
+                null,
+                'First character must be uppercase'
+            ],
 
-        'extra-message' => [
-        'labore et dolor*e magna aliquyam erat',
-        15,
-        '; asterisk not allowed',
-        null,
-        "Syntax error in \"labore et dolor*e magna aliquyam erat\" at 15: \"*e magna a...\"; asterisk not allowed"
-        ]
+            'extra-message' => [
+                'labore et dolor*e magna aliquyam erat',
+                15,
+                '; asterisk not allowed',
+                null,
+                "Syntax error in \"labore et dolor*e magna aliquyam erat\" "
+                . "at 15: \"*e magna a...\"; asterisk not allowed"
+            ]
         ];
     }
 }
