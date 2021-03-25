@@ -8,6 +8,7 @@ use alcamo\exception\{
     AbsoluteUriNeeded,
     DataValidationFailed,
     FileLoadFailed,
+    SyntaxError,
     Uninitialized
 };
 use alcamo\ietf\UriNormalizer;
