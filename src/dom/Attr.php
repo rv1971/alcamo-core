@@ -13,4 +13,9 @@ class Attr extends \DOMAttr implements HasXNameInterface
     {
         return $this->value;
     }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
