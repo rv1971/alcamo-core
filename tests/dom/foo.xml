@@ -35,6 +35,7 @@
     <baz xml:id="bool-0" content="no"/>
     <baz xml:id="base64" content="Zm9vCg=="/>
     <baz xml:id="hex" content="1234abcdef"/>
+    <baz xml:id="pairsToMap" content="foo bar baz-qux 42"/>
     <baz xml:id="curie" content="dc:source"/>
     <baz xml:id="safecurie" content="[qux:#1234]"/>
     <baz xml:id="uriorsafecurie1" content="http://www.example.biz/foo"/>

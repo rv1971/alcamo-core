@@ -96,6 +96,19 @@ class ConverterPool
         return new BinaryString(hex2bin($value));
     }
 
+    public static function pairsToMap($value): array
+    {
+        $items = static::toArray($value);
+
+        $map = [];
+
+        for ($i = 0; isset($items[$i]); $i += 2) {
+            $map[$items[$i]] = $items[$i + 1];
+        }
+
+        return $map;
+    }
+
     public static function curieToUri($value, $context): Uri
     {
         return Uri::newFromCurieAndContext($value, $context);

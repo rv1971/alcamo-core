@@ -136,6 +136,11 @@ class ConverterPoolTest extends TestCase
                 'hexToBinary',
                 '1234ABCDEF'
             ],
+            'pairsToMap' => [
+                $doc['pairsToMap']->getAttributeNode('content'),
+                'pairsToMap',
+                [ 'foo' => 'bar', 'baz-qux' => '42' ]
+            ],
             'document' => [
                 $doc['document']->getAttributeNode('content'),
                 'toDocument',

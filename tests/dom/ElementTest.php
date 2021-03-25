@@ -24,6 +24,7 @@ class ElementTest extends TestCase
             'bool-0',
             'base64',
             'hex',
+            'pairsToMap',
             'curie',
             'safecurie',
             'uriorsafecurie1',
