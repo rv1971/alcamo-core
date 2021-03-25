@@ -56,7 +56,7 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
         }
     }
 
-    public function renderThrowable(\Throwable $e)
+    public function renderThrowable(\Throwable $e): Nodes
     {
         $exporter = new Exporter();
 
