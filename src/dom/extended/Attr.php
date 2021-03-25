@@ -13,7 +13,7 @@ class Attr extends BaseAttr
     public const XSI_CONVERTERS = [
         'nil'                       => ConverterPool::class . '::toBool',
         'noNamespaceSchemaLocation' => ConverterPool::class . '::toUri',
-        'schemaLocation'            => ConverterPool::class . '::toArray',
+        'schemaLocation'            => ConverterPool::class . '::pairsToMap',
         'type'                      => ConverterPool::class . '::toXName'
     ];
 

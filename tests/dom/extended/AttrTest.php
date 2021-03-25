@@ -26,10 +26,9 @@ class AttrTest extends TestCase
                 $doc->documentElement,
                 'xsi:schemaLocation',
                 [
-                    'http://foo.example.org',
-                    'foo.xsd',
-                    'http://www.w3.org/2000/01/rdf-schema#',
-                    '../../xsd/rdfs.xsd'
+                    'http://foo.example.org' => 'foo.xsd',
+                    'http://www.w3.org/2000/01/rdf-schema#'
+                    => '../../xsd/rdfs.xsd'
                 ]
             ],
             'type' => [
