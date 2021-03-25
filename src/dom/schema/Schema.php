@@ -56,7 +56,7 @@ class Schema
             }
         }
 
-        return self::newFromUrls($urls);
+        return static::newFromUrls($urls);
     }
 
     public static function newFromUrls(iterable $urls): self
@@ -76,7 +76,7 @@ class Schema
                 $xsds[] = static::createXsd($url);
             }
 
-            self::$schemaCache_[$cacheKey] = new self($xsds);
+            self::$schemaCache_[$cacheKey] = new static($xsds);
         }
 
         return self::$schemaCache_[$cacheKey];
@@ -315,7 +315,7 @@ class Schema
                     );
 
                     if (!isset($this->xsds_[(string)$url])) {
-                        $xsds[] = Xsd::newFromUrl($url);
+                        $xsds[] = $this->createXsd($url);
                     }
                 }
             }
