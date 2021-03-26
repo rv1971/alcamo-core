@@ -36,15 +36,21 @@ class SchemaTest extends TestCase
     public function testNewFromDocument()
     {
         $baz = Document::newFromUrl(
-            'file://' . dirname(__DIR__) . '/baz.xml'
+            'file://'
+            . str_replace(DIRECTORY_SEPARATOR, '/', dirname(__DIR__))
+            . '/baz.xml'
         );
 
         $baz2 = Document::newFromUrl(
-            'file://' . dirname(__DIR__) . '/baz2.xml'
+            'file://'
+            . str_replace(DIRECTORY_SEPARATOR, '/', dirname(__DIR__))
+            . '/baz2.xml'
         );
 
         $foo = Document::newFromUrl(
-            'file://' . dirname(__DIR__) . '/foo.xml'
+            'file://'
+            . str_replace(DIRECTORY_SEPARATOR, '/', dirname(__DIR__))
+            . '/foo.xml'
         );
 
         $schema1 = Schema::newFromDocument($baz);
@@ -52,6 +58,19 @@ class SchemaTest extends TestCase
         $schema2 = Schema::newFromDocument($baz2);
 
         $this->assertSame($schema1, $schema2);
+
+        $this->assertSame(
+            'file://'
+            . str_replace(
+                DIRECTORY_SEPARATOR,
+                '/',
+                realpath(
+                    dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR
+                    . 'xsd' . DIRECTORY_SEPARATOR . 'XMLSchema.xsd'
+                )
+            ),
+            $schema1->getCacheKey()
+        );
 
         $xsds = [ 'XMLSchema.xsd', 'xml.xsd' ];
 

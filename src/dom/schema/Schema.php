@@ -35,6 +35,9 @@ class Schema
 
     private static $schemaCache_ = [];
 
+    /** This works even if a document has no `xsi:schemaLocation` attribute,
+     *  in which case the schema has only the predefined components in the xsm
+     *  and the xsd namespace. */
     public static function newFromDocument(\DOMDocument $doc): self
     {
         $urls = [];
@@ -45,14 +48,17 @@ class Schema
             $baseUri = $baseUri->withScheme('file');
         }
 
-        foreach (
-            ConverterPool::toArray(
-                $doc->documentElement
-                    ->getAttributeNS(self::XSI_NS, 'schemaLocation')
-            ) as $i => $item
-        ) {
-            if ($i & 1) {
-                $urls[] = UriResolver::resolve($baseUri, new Uri($item));
+        $schemaLocation = $doc->documentElement
+            ->getAttributeNodeNS(self::XSI_NS, 'schemaLocation');
+
+        if ($schemaLocation) {
+            foreach (
+                ConverterPool::pairsToMap(
+                    $schemaLocation,
+                    $schemaLocation
+                ) as $nsName => $url
+            ) {
+                $urls[] = UriResolver::resolve($baseUri, new Uri($url));
             }
         }
 
@@ -76,7 +82,10 @@ class Schema
                 $xsds[] = static::createXsd($url);
             }
 
-            self::$schemaCache_[$cacheKey] = new static($xsds);
+            $schema = new static($xsds);
+            $schema->cacheKey_ = $cacheKey;
+
+            self::$schemaCache_[$cacheKey] = $schema;
         }
 
         return self::$schemaCache_[$cacheKey];
@@ -104,13 +113,17 @@ class Schema
         $cacheKey = implode(' ', $urls);
 
         if (!isset(self::$schemaCache_[$cacheKey])) {
-            self::$schemaCache_[$cacheKey] = new self($xsds);
+            $schema = new static($xsds);
+            $schema->cacheKey_ = $cacheKey;
+
+            self::$schemaCache_[$cacheKey] = $schema;
         }
 
         return self::$schemaCache_[$cacheKey];
     }
 
     private $xsds_ = [];             ///< Map of URI string to Xsd
+    private $cacheKey_;              ///< Key in the schema cache
 
     private $globalAttrs_      = []; ///< Map of XName string to Attr
     private $globalAttrGroups_ = []; ///< Map of XName string to AttrGroup
@@ -134,6 +147,11 @@ class Schema
     public function getXsds(): array
     {
         return $this->xsds_;
+    }
+
+    public function getCacheKey(): string
+    {
+        return $this->cacheKey_;
     }
 
     public function getGlobalAttr(string $xNameString): ?AbstractComponent
@@ -234,7 +252,7 @@ class Schema
         return $this->anySimpleType_;
     }
 
-    public function lookupElementType(ExtElement $element): AbstractType
+    public function lookupElementType(ExtElement $element): ?AbstractType
     {
         // look up global type if explicitely given in `xsi:type`
         if ($element->hasAttributeNS(self::XSI_NS, 'type')) {
@@ -255,15 +273,17 @@ class Schema
             return $globalElement->getType();
         }
 
-        // attempt to look up element in parent element type's content model
-        $parentType = $this->lookupElementType($element->parentNode);
+        if ($element->parentNode instanceof ExtElement) {
+            // attempt to look up element in parent element type's content model
+            $parentType = $this->lookupElementType($element->parentNode);
 
-        if (isset($parentType)) {
-            $elementDecl =
-                $parentType->getElements()[(string)$elementXName] ?? null;
+            if (isset($parentType)) {
+                $elementDecl =
+                    $parentType->getElements()[(string)$elementXName] ?? null;
 
-            if (isset($elementDecl)) {
-                return $elementDecl->getType();
+                if (isset($elementDecl)) {
+                    return $elementDecl->getType();
+                }
             }
         }
 

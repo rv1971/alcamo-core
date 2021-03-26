@@ -57,6 +57,10 @@ class ElementTest extends TestCase
             'file://' . dirname(__DIR__) . '/foo.xml'
         )->conserve();
 
+        $quxDoc = Document::newFromUrl(
+            'file://' . dirname(__DIR__) . '/qux.xml'
+        )->conserve();
+
         return [
             [
                 $doc->documentElement,
@@ -101,6 +105,13 @@ class ElementTest extends TestCase
                 new XName(self::XSD_NS, 'short'),
                 'XMLSchema.xsd',
                 '/xs:schema/xs:simpleType[46]'
+            ],
+            [
+                $quxDoc->documentElement,
+                ComplexType::class,
+                new XName(self::XSD_NS, 'anyType'),
+                'XMLSchema.xsd',
+                '/xs:schema/xs:complexType[29]'
             ]
         ];
     }
