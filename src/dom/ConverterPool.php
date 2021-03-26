@@ -158,7 +158,7 @@ class ConverterPool
 
         foreach (static::xPointerUrlToSubset($value, $context) as $node) {
             $result->add(
-                $node instanceOf Attr ? $node->getValue() : $node->nodeValue
+                $node instanceof Attr ? $node->getValue() : $node->nodeValue
             );
         }
 
