@@ -65,26 +65,8 @@ class Document extends \DOMDocument implements
 
     public static function newFromUrl(
         string $url,
-        ?bool $useCache = null,
         ?int $libXmlOptions = null
     ): self {
-        if ($useCache) {
-            $url = new Uri($url);
-
-            if (!Uri::isAbsolute($url)) {
-                /** @throw AbsoluteUriNeeded when attempting to use a
-                 * non-absolute URL as a cache key. */
-                throw new AbsoluteUriNeeded($url);
-            }
-
-            // normalize URL when used for caching
-            $url = (string)UriNormalizer::normalize($url);
-
-            if (isset(self::$docCache_[$url])) {
-                return self::$docCache_[$url];
-            }
-        }
-
         $doc = new static();
 
         $doc->loadUrl($url, $libXmlOptions);
@@ -92,10 +74,6 @@ class Document extends \DOMDocument implements
         // ensure the file:// protocol is preserved in the document URI
         if (substr($url, 0, 5) == 'file:' && $doc->documentURI[0] == '/') {
             $doc->documentURI = "file://$doc->documentURI";
-        }
-
-        if ($useCache) {
-            self::$docCache_[$url] = $doc;
         }
 
         return $doc;
@@ -113,7 +91,6 @@ class Document extends \DOMDocument implements
     }
 
     private static $docRegistry_ = []; ///< Used for conserve()
-    private static $docCache_    = []; ///< Used for newFromUrl()
 
     private $xPath_;          ///< XPath object.
     private $xsltProcessor_;  ///< XSLTProcessor object or FALSE.

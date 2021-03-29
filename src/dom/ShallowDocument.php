@@ -16,10 +16,9 @@ class ShallowDocument extends Document
     /** Never use the cache for shallow documents. */
     public static function newFromUrl(
         string $url,
-        ?bool $useCache = null,
         ?int $libXmlOptions = null
     ): Document {
-        return parent::newFromUrl($url, false, $libXmlOptions);
+        return parent::newFromUrl($url, $libXmlOptions);
     }
 
     /** @warning The first tag must end within the first 4kiB of the data. */
