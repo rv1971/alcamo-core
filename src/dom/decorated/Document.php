@@ -3,7 +3,7 @@
 namespace alcamo\dom\decorated;
 
 use alcamo\dom\DocumentFactoryInterface;
-use alcamo\dom\psvi\{Document as BaseDocument, DocumentFactory};
+use alcamo\dom\psvi\Document as BaseDocument;
 use alcamo\dom\schema\TypeMap;
 
 class Document extends BaseDocument

@@ -22,6 +22,11 @@ class DocumentTest extends TestCase
 
     public function testGetSchema()
     {
+        $this->assertInstanceOf(
+            DocumentFactory::class,
+            self::$doc->getDocumentFactory()
+        );
+
         $this->assertInstanceOf(Schema::class, self::$doc->getSchema());
 
         $basenames = [];

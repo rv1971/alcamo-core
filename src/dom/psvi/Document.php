@@ -3,7 +3,7 @@
 namespace alcamo\dom\psvi;
 
 use alcamo\dom\{ConverterPool as CP, DocumentFactoryInterface};
-use alcamo\dom\extended\{Document as BaseDocument, DocumentFactory};
+use alcamo\dom\extended\Document as BaseDocument;
 use alcamo\dom\schema\{Schema, TypeMap};
 use alcamo\dom\schema\component\SimpleTypeInterface;
 use alcamo\exception\DataValidationFailed;

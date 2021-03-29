@@ -19,6 +19,11 @@ class DocumentTest extends TestCase
             'file://' . dirname(__DIR__) . '/foo.xml'
         );
 
+        $this->assertInstanceOf(
+            DocumentFactory::class,
+            $doc->getDocumentFactory()
+        );
+
         $this->assertInstanceOf(TypeMap::class, $doc->getElementDecoratorMap());
 
         $this->assertSame(
