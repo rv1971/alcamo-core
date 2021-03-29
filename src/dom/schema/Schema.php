@@ -321,7 +321,7 @@ class Schema
 
                 /* Cache all XSDs. addToCache() will throw if documentURI is
                  * not absolute. */
-                $xsd->addToCache();
+                DocumentFactory::addToCache($xsd);
 
                 // Also load imported XSDs.
                 foreach ($xsd->query('xsd:import|xsd:include') as $import) {

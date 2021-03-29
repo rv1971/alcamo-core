@@ -3,6 +3,7 @@
 namespace alcamo\dom\schema;
 
 use PHPUnit\Framework\TestCase;
+use alcamo\dom\DocumentFactory;
 use alcamo\dom\extended\Document;
 use alcamo\dom\schema\component\{
     AbstractSimpleType,
@@ -118,17 +119,23 @@ class SchemaTest extends TestCase
 
     public function testNewFromXsds()
     {
+        $documentFactory = new DocumentFactory();
+
         $baseUrl = 'file://' . dirname(__DIR__) . '/';
 
         $xsds = [
-            Xsd::newFromUrl("$baseUrl/foo.xsd"),
-            Xsd::newFromUrl("$baseUrl/bar.xsd"),
+            $documentFactory->createFromUrl("{$baseUrl}foo.xsd"),
+            $documentFactory->createFromUrl("{$baseUrl}bar.xsd"),
         ];
 
         $xsds2 = [
-            Xsd::newFromUrl("$baseUrl/foo.xsd"),
-            Xsd::newFromUrl("$baseUrl/component/../bar.xsd"),
+            $documentFactory->createFromUrl("{$baseUrl}foo.xsd"),
+            $documentFactory->createFromUrl("{$baseUrl}component/../bar.xsd"),
         ];
+
+        $this->assertSame($xsds[0], $xsds2[0]);
+
+        $this->assertSame($xsds[1], $xsds2[1]);
 
         $schema1 = Schema::newFromXsds($xsds);
 

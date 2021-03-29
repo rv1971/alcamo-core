@@ -190,27 +190,6 @@ class Document extends \DOMDocument implements
         unset(self::$docRegistry_[spl_object_hash($this)]);
     }
 
-    public function addToCache()
-    {
-        $url = new Uri($this->documentURI);
-
-        if (!Uri::isAbsolute($url)) {
-            /** @throw AbsoluteUriNeeded when attempting to use a
-             * non-absolute URL as a cache key. */
-            throw new AbsoluteUriNeeded($this->documentURI);
-        }
-
-        // normalize URL for use in caching
-        $this->documentURI = (string)UriNormalizer::normalize($url);
-
-        self::$docCache_[$this->documentURI] = $this;
-    }
-
-    public function removeFromCache()
-    {
-        unset(self::$docCache_[$this->documentURI]);
-    }
-
     public function offsetExists($id)
     {
         return $this->getElementById($id) !== null;

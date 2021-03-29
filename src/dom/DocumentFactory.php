@@ -4,7 +4,7 @@ namespace alcamo\dom;
 
 use alcamo\ietf\Uri;
 use alcamo\dom\xsd\Document as Xsd;
-use alcamo\exception\AbsoluteUriNeeded;
+use alcamo\exception\{AbsoluteUriNeeded, Locked};
 use GuzzleHttp\Psr7\UriNormalizer;
 
 class DocumentFactory implements DocumentFactoryInterface
@@ -16,6 +16,34 @@ class DocumentFactory implements DocumentFactoryInterface
     public const DEFAULT_CLASS = Document::class;
 
     private static $cache_; ///< Array mapping URLs to Document objects
+
+    public static function addToCache(Document $doc)
+    {
+        $url = new Uri($doc->documentURI);
+
+        if (!Uri::isAbsolute($url)) {
+            /** @throw AbsoluteUriNeeded when attempting to use a
+             * non-absolute URL as a cache key. */
+            throw new AbsoluteUriNeeded($doc->documentURI);
+        }
+
+        // normalize URL for use in caching
+        $doc->documentURI = (string)UriNormalizer::normalize($url);
+
+        if (isset(self::$cache_[$doc->documentURI])) {
+            if (self::$cache_[$doc->documentURI] !== $doc) {
+                /** @throw Locked when attempting to replace a cache entry
+                 * with a different document. */
+                throw new Locked(
+                    $doc,
+                    "Attempt to replace cache entry \"{$doc->documentURI}\" "
+                    . "with a different document"
+                );
+            }
+        } else {
+            self::$cache_[$doc->documentURI] = $doc;
+        }
+    }
 
     /**
      * @param $useCache ?bool
