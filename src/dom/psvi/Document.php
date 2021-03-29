@@ -2,8 +2,8 @@
 
 namespace alcamo\dom\psvi;
 
-use alcamo\dom\ConverterPool as CP;
-use alcamo\dom\extended\Document as BaseDocument;
+use alcamo\dom\{ConverterPool as CP, DocumentFactoryInterface};
+use alcamo\dom\extended\{Document as BaseDocument, DocumentFactory};
 use alcamo\dom\schema\{Schema, TypeMap};
 use alcamo\dom\schema\component\SimpleTypeInterface;
 use alcamo\exception\DataValidationFailed;
@@ -39,6 +39,11 @@ class Document extends BaseDocument
 
     private $schema_;         ///< Schema object.
     private $attrConverters_; ///< TypeMap
+
+    public function getDocumentFactory(): DocumentFactoryInterface
+    {
+        return new DocumentFactory();
+    }
 
     public function getSchema(): Schema
     {

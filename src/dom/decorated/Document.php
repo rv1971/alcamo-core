@@ -2,7 +2,8 @@
 
 namespace alcamo\dom\decorated;
 
-use alcamo\dom\psvi\Document as BaseDocument;
+use alcamo\dom\DocumentFactoryInterface;
+use alcamo\dom\psvi\{Document as BaseDocument, DocumentFactory};
 use alcamo\dom\schema\TypeMap;
 
 class Document extends BaseDocument
@@ -19,6 +20,11 @@ class Document extends BaseDocument
 
     /// Map of element types to decorator classes
     private $elementDecoratorMap_;
+
+    public function getDocumentFactory(): DocumentFactoryInterface
+    {
+        return new DocumentFactory();
+    }
 
     public function getElementDecoratorMap(): TypeMap
     {

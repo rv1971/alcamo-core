@@ -13,8 +13,6 @@ use GuzzleHttp\Psr7\UriResolver;
 
 class ConverterPool
 {
-    public const DOCUMENT_CLASS = Document::class;
-
     public static function toArray($value): array
     {
         return preg_split('/\s+/', $value);
@@ -134,9 +132,8 @@ class ConverterPool
             new Uri($value)
         );
 
-        $class = static::DOCUMENT_CLASS;
-
-        return $class::newFromUrl($url, Uri::isAbsolute($url));
+        return
+            $context->ownerDocument->getDocumentFactory()->createFromUrl($url);
     }
 
     public static function xPointerUrlToSubset($value, $context)

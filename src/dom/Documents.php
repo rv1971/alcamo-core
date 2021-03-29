@@ -14,7 +14,7 @@ class Documents extends ReadonlyCollection
         $docs = [];
 
         foreach (glob($pattern, GLOB_NOSORT | GLOB_BRACE) as $path) {
-            $doc = Document::newFromUrl($path, $libXmlOptions);
+            $doc = self::createDocumentFromUrl($path, $libXmlOptions);
 
             $key = $doc->documentElement->getAttributeNS(
                 Document::NS['dc'],
@@ -29,6 +29,14 @@ class Documents extends ReadonlyCollection
         }
 
         return new self($docs);
+    }
+
+    public static function createDocumentFromUrl(
+        string $url,
+        ?int $libXmlOptions = null
+    ): Document {
+        return
+            (new DocumentFactory())->createFromUrl($url, null, $libXmlOptions);
     }
 
     /**

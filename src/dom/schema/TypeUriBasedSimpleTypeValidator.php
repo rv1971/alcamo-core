@@ -2,7 +2,8 @@
 
 namespace alcamo\dom\schema;
 
-use alcamo\dom\Xsd\Document;
+use alcamo\dom\extended\DocumentFactory;
+use alcamo\dom\xsd\Document;
 use alcamo\exception\Unsupported;
 use alcamo\ietf\Uri;
 use GuzzleHttp\Psr7\UriResolver;
@@ -51,7 +52,8 @@ class TypeUriBasedSimpleTypeValidator extends AbstractSimpleTypeValidator
                 $url = UriResolver::resolve($this->baseUrl_, $url);
             }
 
-            $xsd = Document::newFromUrl($url, true);
+            $xsd = (new DocumentFactory())
+                ->createFromUrl($url, Document::class, null, true);
 
             $nsName = $xsd->documentElement['targetNamespace'];
 

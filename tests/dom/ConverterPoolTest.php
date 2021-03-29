@@ -207,15 +207,14 @@ class ConverterPoolTest extends TestCase
             $content
         );
 
-        $this->assertInstanceof(ConverterPool::DOCUMENT_CLASS, $doc2);
+        $this->assertInstanceof(Document::class, $doc2);
 
         $this->assertNotSame($doc, $doc2);
 
-        $doc = Document::newFromUrl(
+        $doc = (new DocumentFactory())->createFromUrl(
             'file://'
             . str_replace(DIRECTORY_SEPARATOR, '/', __DIR__)
-            . '/foo.xml',
-            true
+            . '/foo.xml'
         );
 
         $content = $doc['document']->getAttributeNode('content');
@@ -224,7 +223,7 @@ class ConverterPoolTest extends TestCase
             $content
         );
 
-        $this->assertInstanceof(ConverterPool::DOCUMENT_CLASS, $doc2);
+        $this->assertInstanceof(Document::class, $doc2);
 
         $this->assertSame($doc, $doc2);
     }

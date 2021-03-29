@@ -19,7 +19,9 @@ use alcamo\ietf\UriNormalizer;
  *
  * The ArrayAccess interface provides read access to elements by ID.
  */
-class Document extends \DOMDocument implements \ArrayAccess
+class Document extends \DOMDocument implements
+    \ArrayAccess,
+    HasDocumentFactoryInterface
 {
     use PreventWriteArrayAccessTrait;
 
@@ -124,6 +126,11 @@ class Document extends \DOMDocument implements \ArrayAccess
         foreach (static::NODE_CLASS as $baseClass => $extendedClass) {
             $this->registerNodeClass($baseClass, $extendedClass);
         }
+    }
+
+    public function getDocumentFactory(): DocumentFactoryInterface
+    {
+        return new DocumentFactory();
     }
 
     public function loadUrl(string $url, ?int $libXmlOptions = null)

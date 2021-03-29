@@ -4,7 +4,7 @@ namespace alcamo\dom\schema;
 
 use GuzzleHttp\Psr7\UriResolver;
 use alcamo\dom\ConverterPool;
-use alcamo\dom\extended\{Document, Element as ExtElement};
+use alcamo\dom\extended\{Document, DocumentFactory, Element as ExtElement};
 use alcamo\dom\schema\component\{
     AbstractComponent,
     AbstractSimpleType,
@@ -292,7 +292,8 @@ class Schema
 
     protected static function createXsd(string $url): Xsd
     {
-        return Xsd::newFromUrl($url, true);
+        return (new DocumentFactory())
+            ->createFromUrl($url, Xsd::class, null, true);
     }
 
     private function loadXsds(array $xsds)

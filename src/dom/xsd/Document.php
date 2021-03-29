@@ -2,7 +2,8 @@
 
 namespace alcamo\dom\xsd;
 
-use alcamo\dom\extended\Document as BaseDocument;
+use alcamo\dom\DocumentFactoryInterface;
+use alcamo\dom\extended\{Document as BaseDocument, DocumentFactory};
 
 class Document extends BaseDocument
 {
@@ -12,4 +13,9 @@ class Document extends BaseDocument
             'DOMElement' => Element::class
         ]
         + parent::NODE_CLASS;
+
+    public function getDocumentFactory(): DocumentFactoryInterface
+    {
+        return new DocumentFactory();
+    }
 }
