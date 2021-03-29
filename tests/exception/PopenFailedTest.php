@@ -33,8 +33,8 @@ class PopenFailedTest extends TestCase
             'typical-use' => [
                 '/usr/bin/foo --bar',
                 'rb',
-                null,
-                null,
+                '',
+                0,
                 'Failed to open process "/usr/bin/foo --bar" in mode "rb"'
             ],
 

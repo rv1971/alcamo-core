@@ -33,8 +33,8 @@ class InvalidEnumeratorTest extends TestCase
         'typical-use' => [
         'foo',
         [ 'bar', 'baz' ],
-        null,
-        null,
+        '',
+        0,
         "Invalid value \"foo\", expected one of: \"bar\", \"baz\""
         ],
 

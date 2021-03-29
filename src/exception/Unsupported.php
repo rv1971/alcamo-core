@@ -12,8 +12,8 @@ class Unsupported extends \LogicException
      */
     public function __construct(
         $label,
-        $message = null,
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->label = $label;

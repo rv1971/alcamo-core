@@ -29,8 +29,8 @@ class AbsoluteUriNeededTest extends TestCase
         return [
             'typical-use' => [
                 'foo',
-                null,
-                null,
+                '',
+                0,
                 'Relative URI "foo" given where absolute URI is needed'
             ],
 

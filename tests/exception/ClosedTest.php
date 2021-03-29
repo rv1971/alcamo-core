@@ -29,8 +29,8 @@ class ClosedTest extends TestCase
         return [
             'typical-use' => [
                 $this,
-                null,
-                null,
+                '',
+                0,
                 'Attempt to use closed ' . self::class
             ],
 

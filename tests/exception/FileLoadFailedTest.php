@@ -29,8 +29,8 @@ class FileLoadFailedTest extends TestCase
         return [
             'typical-use' => [
                 'foo.xml',
-                null,
-                null,
+                '',
+                0,
                 "Failed to load file \"foo.xml\""
             ],
 

@@ -36,16 +36,16 @@ class FileNotFoundTest extends TestCase
         'typical-use' => [
         'foo.txt',
         "$path1:$path2",
-        null,
-        null,
+        '',
+        0,
         "File \"foo.txt\" not found in \"$path1:$path2\""
         ],
 
         'no-path' => [
         'BAR',
         null,
-        null,
-        null,
+        '',
+        0,
         "File \"BAR\" not found"
         ],
 

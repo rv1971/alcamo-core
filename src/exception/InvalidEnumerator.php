@@ -12,8 +12,8 @@ class InvalidEnumerator extends ValueException
     public function __construct(
         $value,
         array $validValues,
-        $message = null,
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->validValues = $validValues;

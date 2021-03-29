@@ -8,9 +8,9 @@ class FileException extends \RuntimeException
     public $filename;
 
     public function __construct(
-        $filename,
-        $message = '',
-        $code = 0,
+        string $filename,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->filename = $filename;

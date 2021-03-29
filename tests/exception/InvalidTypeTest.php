@@ -33,8 +33,8 @@ class InvalidTypeTest extends TestCase
         'typical-use' => [
         $this,
         [ 'string', 'integer' ],
-        null,
-        null,
+        '',
+        0,
         "Invalid type 'alcamo\\exception\\InvalidTypeTest', expected one of: 'string', 'integer'"
         ],
 

@@ -29,8 +29,8 @@ class UninitializedTest extends TestCase
         return [
             'typical-use' => [
                 $this,
-                null,
-                null,
+                '',
+                0,
                 'Attempt to access uninitialized ' . self::class
             ],
 

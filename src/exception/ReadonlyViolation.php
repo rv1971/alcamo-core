@@ -12,8 +12,8 @@ class ReadonlyViolation extends \LogicException
     public function __construct(
         ?object $object = null,
         ?string $method = null,
-        $message = null,
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->object = $object ?? \debug_backtrace()[1]['object'];

@@ -10,9 +10,9 @@ class DirectoryNotFound extends \RuntimeException
     /** If $message starts with a ';', it is appended to the generated message,
      *  otherwise it replaces the generated one. */
     public function __construct(
-        $path,
-        $message = null,
-        $code = 0,
+        string $path,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         if (!$message || $message[0] == ';') {

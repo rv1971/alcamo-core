@@ -29,8 +29,8 @@ class UnsupportedTest extends TestCase
         return [
             'typical-use' => [
                 'Foo',
-                null,
-                null,
+                '',
+                0,
                 'Foo not supported'
             ],
 

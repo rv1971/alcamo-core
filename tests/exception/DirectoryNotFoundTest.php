@@ -29,8 +29,8 @@ class DirectoryNotFoundTest extends TestCase
         return [
         'typical-use' => [
         'foo/bar',
-        null,
-        null,
+        '',
+        0,
         "Directory \"foo/bar\" not found"
         ],
 

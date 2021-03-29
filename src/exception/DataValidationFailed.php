@@ -7,19 +7,19 @@ class DataValidationFailed extends \RuntimeException
 {
     public $data;
     public $uri;
-    public $line;
+    public $dataLine;
 
     public function __construct(
         $data,
         $uri = null,
-        $line = null,
+        $dataLine = null,
         $message = '',
         $code = 0,
         \Exception $previous = null
     ) {
         $this->data = $data;
         $this->uri = $uri;
-        $this->line = $line;
+        $this->dataLine = $dataLine;
 
         if (!$message || $message[0] == ';') {
             $shortText =
@@ -31,8 +31,8 @@ class DataValidationFailed extends \RuntimeException
                 $automaticMessage .= " at $uri";
             }
 
-            if (isset($line)) {
-                $automaticMessage .= ", line $line";
+            if (isset($dataLine)) {
+                $automaticMessage .= ", line $dataLine";
             }
 
             $message = $automaticMessage . $message;

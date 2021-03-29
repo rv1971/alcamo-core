@@ -12,8 +12,8 @@ class SyntaxError extends \DomainException
     public function __construct(
         string $text,
         ?int $offset = null,
-        $message = null,
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->text = $text;

@@ -11,8 +11,8 @@ class OutOfRange extends ValueException
         $value,
         $lowerBound,
         $upperBound,
-        $message = null,
-        $code = null
+        string $message = '',
+        int $code = 0
     ) {
         if ($value < $lowerBound || $value > $upperBound) {
             throw new self($value, $lowerBound, $upperBound, $message, $code);

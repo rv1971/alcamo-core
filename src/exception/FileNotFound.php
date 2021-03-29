@@ -10,10 +10,10 @@ class FileNotFound extends FileException
     /** If $message starts with a ';', it is appended to the generated message,
      *  otherwise it replaces the generated one. */
     public function __construct(
-        $filename,
+        string $filename,
         ?string $places = null,
-        $message = null,
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->places = $places;

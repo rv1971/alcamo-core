@@ -15,8 +15,8 @@ abstract class AbstractObjectStateException extends ProgramFlowException
      */
     public function __construct(
         $objectOrLabel,
-        $message = null,
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->objectOrLabel = $objectOrLabel;

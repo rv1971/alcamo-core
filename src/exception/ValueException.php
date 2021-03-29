@@ -9,8 +9,8 @@ class ValueException extends \UnexpectedValueException
 
     public function __construct(
         $value,
-        $message = '',
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->value = $value;

@@ -9,9 +9,9 @@ class PopenFailed extends \RuntimeException
 
     public function __construct(
         $command,
-        $mode = null,
-        $message = '',
-        $code = 0,
+        ?string $mode = null,
+        string $message = '',
+        int $code = 0,
         \Exception $previous = null
     ) {
         $this->command = $command;

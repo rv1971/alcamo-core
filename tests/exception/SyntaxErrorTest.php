@@ -33,15 +33,15 @@ class SyntaxErrorTest extends TestCase
             'typical-use' => [
                 'At vero# eos et accusam et justo duo dolores et ea rebum.',
                 7,
-                null,
-                null,
+                '',
+                0,
                 "Syntax error in \"At vero# eos et accusam et justo duo dol...\" at 7: \"# eos et a...\""
             ],
 
             'no-offset' => [
                 'At vero eos et accusam et %justo duo dolores et ea rebum.',
                 null,
-                null,
+                '',
                 4711,
                 "Syntax error in \"At vero eos et accusam et %justo duo dol...\""
             ],
@@ -50,7 +50,7 @@ class SyntaxErrorTest extends TestCase
                 'no sea takimata',
                 0,
                 'First character must be uppercase',
-                null,
+                0,
                 'First character must be uppercase'
             ],
 
@@ -58,7 +58,7 @@ class SyntaxErrorTest extends TestCase
                 'labore et dolor*e magna aliquyam erat',
                 15,
                 '; asterisk not allowed',
-                null,
+                0,
                 "Syntax error in \"labore et dolor*e magna aliquyam erat\" "
                 . "at 15: \"*e magna a...\"; asterisk not allowed"
             ]

@@ -12,18 +12,18 @@ class DataValidationFailedTest extends TestCase
     public function testConstruct(
         $data,
         $uri,
-        $line,
+        $dataLine,
         $message,
         $code,
         $expectedMessage
     ) {
-        $e = new DataValidationFailed($data, $uri, $line, $message, $code);
+        $e = new DataValidationFailed($data, $uri, $dataLine, $message, $code);
 
         $this->assertSame($data, $e->data);
 
         $this->assertSame($uri, $e->uri);
 
-        $this->assertSame($line, $e->line);
+        $this->assertSame($dataLine, $e->dataLine);
 
         $this->assertSame($expectedMessage, $e->getMessage());
 
@@ -37,8 +37,8 @@ class DataValidationFailedTest extends TestCase
                 'At vero eoos',
                 null,
                 null,
-                null,
-                null,
+                '',
+                0,
                 "Failed to validate \"At vero eoos\""
             ],
 
@@ -55,8 +55,8 @@ class DataValidationFailedTest extends TestCase
                 'At vero eoos',
                 null,
                 4242,
-                null,
-                null,
+                '',
+                0,
                 "Failed to validate \"At vero eoos\", line 4242"
             ],
 

@@ -37,8 +37,8 @@ class OutOfRangeTest extends TestCase
                 0,
                 1,
                 2,
-                null,
-                null,
+                '',
+                0,
                 "Value \"0\" out of range [1, 2]"
             ],
 
@@ -103,7 +103,7 @@ class OutOfRangeTest extends TestCase
     public function throwIfOutsideProvider()
     {
         return [
-            'no-exception' => [ 1, 0, 2, null, null, null ],
+            'no-exception' => [ 1, 0, 2, '', 0, null ],
             'below' => [
                 -1,
                 0,
@@ -113,7 +113,7 @@ class OutOfRangeTest extends TestCase
                 'Value "-1" out of range [0, 10]; lorem ipsum'
             ],
             'above' => [
-                100, 1, 99, null, null, 'Value "100" out of range [1, 99]'
+                100, 1, 99, '', 0, 'Value "100" out of range [1, 99]'
             ]
         ];
     }

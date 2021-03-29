@@ -29,8 +29,8 @@ class LockedTest extends TestCase
         return [
             'typical-use' => [
                 $this,
-                null,
-                null,
+                '',
+                0,
                 'Attempt to modify locked ' . self::class
             ],
 
