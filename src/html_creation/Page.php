@@ -38,9 +38,9 @@ class Page
         $this->statusCode_ = $statusCode;
     }
 
-    public function write(string $htmlData)
+    public function write(?string $htmlData)
     {
-        $this->body_->write($htmlData);
+        $this->body_->write((string)$htmlData);
     }
 
     public function getResponse(): Response
