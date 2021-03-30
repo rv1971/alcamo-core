@@ -2,6 +2,8 @@
 
 <?xml-stylesheet href="foo.xsl" type="text/xsl"?>
 
+<!-- comment -->
+
 <foo
     xmlns="http://foo.example.org"
     xmlns:dc="http://purl.org/dc/terms/"

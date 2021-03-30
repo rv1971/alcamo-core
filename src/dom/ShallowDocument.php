@@ -40,7 +40,7 @@ class ShallowDocument extends Document
          *  comment containing such a string. */
         if (
             !preg_match(
-                '/<[^\-\?]([^"\'>]+=("[^"]*"|\'[^\']*\'))*[^"\'>]*>/',
+                '/<[^!\?]([^"\'>]+=("[^"]*"|\'[^\']*\'))*[^"\'>]*>/',
                 $xml,
                 $matches,
                 PREG_OFFSET_CAPTURE
