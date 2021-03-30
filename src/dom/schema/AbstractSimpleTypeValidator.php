@@ -78,8 +78,8 @@ abstract class AbstractSimpleTypeValidator
     }
 
     /**
-     * @return Array mapping (potentially multi-line) error messages to
-     * indexes of items in $valueTypeXNamePairs. Empty array if no errors
+     * @return Array mapping indexes of items in $valueTypeXNamePairs to
+     * (potentially multi-line) error messages. Empty array if no errors
      * occurred.
      */
     protected function validateAux(
