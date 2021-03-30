@@ -86,7 +86,7 @@ class DocumentFactory implements DocumentFactoryInterface
                          *  instance of the expected class. */
 
                         $exception = new \TypeError(
-                            'cached document is ' . get_class($doc)
+                            "cached document for $url is " . get_class($doc)
                             . " while expecting $class"
                         );
 
