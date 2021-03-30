@@ -19,6 +19,11 @@ class DocumentFactoryTest extends TestCase
         $documentFactory = new DocumentFactory();
 
         $this->assertSame($expectedClass, $documentFactory->urlToClass($url));
+
+        $this->assertSame(
+            $expectedClass,
+            $documentFactory->xmlTextToClass(file_get_contents($url))
+        );
     }
 
     public function urlToClassProvider()
@@ -45,6 +50,13 @@ class DocumentFactoryTest extends TestCase
         $doc = $documentFactory->createFromUrl($url, $class);
 
         $this->assertInstanceOf($expectedClass, $doc);
+
+        $doc2 = $documentFactory->createFromXmlText(
+            file_get_contents($url),
+            $class
+        );
+
+        $this->assertInstanceOf($expectedClass, $doc2);
     }
 
     public function createClassProvider()

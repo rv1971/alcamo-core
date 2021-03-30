@@ -109,9 +109,31 @@ class DocumentFactory implements DocumentFactoryInterface
         return $doc;
     }
 
+    public function createFromXmlText(
+        string $xml,
+        ?string $class = null,
+        ?int $libXmlOptions = null
+    ): Document {
+        if (!isset($class)) {
+            $class = $this->xmlTextToClass($xml);
+        }
+
+        $doc = $class::newFromXmlText($xml, $libXmlOptions);
+
+        return $doc;
+    }
+
     public function urlToClass(string $url): string
     {
         $nsName = ShallowDocument::newFromUrl($url)
+            ->documentElement->namespaceURI;
+
+        return static::NS_NAME_TO_CLASS[$nsName] ?? static::DEFAULT_CLASS;
+    }
+
+    public function xmlTextToClass(string $xml): string
+    {
+        $nsName = ShallowDocument::newFromXmlText($xml)
             ->documentElement->namespaceURI;
 
         return static::NS_NAME_TO_CLASS[$nsName] ?? static::DEFAULT_CLASS;
