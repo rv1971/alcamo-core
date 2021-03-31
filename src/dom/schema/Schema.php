@@ -70,7 +70,10 @@ class Schema
         $normalizedUrls = [];
 
         foreach ($urls as $url) {
-            $normalizedUrls[] = (string)UriNormalizer::normalize($url);
+            $normalizedUrls[] =
+                (string)UriNormalizer::normalize(
+                    $url instanceof Uri ? $url : new Uri($url)
+                );
         }
 
         $cacheKey = implode(' ', $normalizedUrls);
