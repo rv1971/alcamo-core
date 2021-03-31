@@ -12,10 +12,7 @@ class ProcessingInstruction extends AbstractNode
 
     public function __construct(string $target, $content)
     {
-        if (
-            !preg_match(Syntax::NAME_REGEXP, $target)
-            || strtolower(substr($target, 0, 3)) == 'xml'
-        ) {
+        if (!preg_match(Syntax::NAME_REGEXP, $target)) {
             throw new SyntaxError($target, null, '; not a valid XML PI target');
         }
 
