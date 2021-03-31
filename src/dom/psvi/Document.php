@@ -2,7 +2,7 @@
 
 namespace alcamo\dom\psvi;
 
-use alcamo\dom\{ConverterPool as CP, DocumentFactoryInterface};
+use alcamo\dom\{ConverterPool as CP, DocumentFactoryInterface, ValidationTrait};
 use alcamo\dom\extended\Document as BaseDocument;
 use alcamo\dom\schema\{Schema, TypeMap};
 use alcamo\dom\schema\component\SimpleTypeInterface;
@@ -10,6 +10,8 @@ use alcamo\exception\DataValidationFailed;
 
 class Document extends BaseDocument
 {
+    use ValidationTrait;
+
     public const ATTR_TYPE_MAP = [
         self::NS['xh11d'] . ' CURIE'          => CP::class . '::curieToUri',
         self::NS['xh11d'] . ' SafeCURIE'      => CP::class . '::safeCurieToUri',

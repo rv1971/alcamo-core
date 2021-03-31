@@ -51,6 +51,8 @@ class DocumentFactoryTest extends TestCase
 
         $this->assertInstanceOf($expectedClass, $doc);
 
+        chdir(__DIR__);
+
         $doc2 = $documentFactory->createFromXmlText(
             file_get_contents($url),
             $class
