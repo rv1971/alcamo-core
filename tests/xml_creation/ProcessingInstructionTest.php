@@ -38,16 +38,11 @@ class ProcessingInstructionTest extends TestCase
         $content = 'bar="baz"';
 
         return [
-        [
-        '123',
-        $content,
-        "Syntax error in \"123\"; not a valid XML PI target"
-        ],
-        [
-        'XmL',
-        $content,
-        "Syntax error in \"XmL\"; not a valid XML PI target"
-        ]
+            [
+                '123',
+                $content,
+                "Syntax error in \"123\"; not a valid XML PI target"
+            ]
         ];
     }
 
