@@ -16,7 +16,12 @@ abstract class AbstractCli extends GetOpt
         try {
             parent::process($arguments);
         } catch (ArgumentException $e) {
-            $this->showHelp();
+            if ($this->getOption('help')) {
+                $this->showHelp();
+            } else {
+                echo $e->getMessage();
+            }
+
             exit;
         }
 
