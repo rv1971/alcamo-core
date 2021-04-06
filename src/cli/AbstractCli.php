@@ -2,6 +2,8 @@
 
 namespace alcamo\cli;
 
+use GetOpt\ArgumentException;
+
 abstract class AbstractCli extends GetOpt
 {
     public function getVerbosity(): int
@@ -11,7 +13,12 @@ abstract class AbstractCli extends GetOpt
 
     public function process($arguments = null)
     {
-        parent::process($arguments);
+        try {
+            parent::process($arguments);
+        } catch (ArgumentException $e) {
+            $this->showHelp();
+            exit;
+        }
 
         if ($this->getOption('help')) {
             $this->showHelp();
