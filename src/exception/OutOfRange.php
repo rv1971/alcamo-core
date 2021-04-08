@@ -23,8 +23,8 @@ class OutOfRange extends ValueException
      *  otherwise it replaces the generated one. */
     public function __construct(
         $value,
-        $lowerBound,
-        $upperBound,
+        $lowerBound = null,
+        $upperBound = null,
         $message = null,
         $code = 0,
         \Exception $previous = null
@@ -33,8 +33,21 @@ class OutOfRange extends ValueException
         $this->upperBound = $upperBound;
 
         if (!$message || $message[0] == ';') {
-            $message =
-                "Value \"$value\" out of range [$lowerBound, $upperBound]$message";
+            if (isset($lowerBound)) {
+                if (isset($upperBound)) {
+                    $interval = "[$lowerBound, $upperBound]";
+                } else {
+                    $interval = "[$lowerBound, ∞[";
+                }
+            } else {
+                if (isset($upperBound)) {
+                    $interval = "]-∞, $upperBound]";
+                } else {
+                    $interval = "]-∞, ∞[";
+                }
+            }
+
+            $message = "Value \"$value\" out of range $interval$message";
         }
 
         parent::__construct($value, $message, $code, $previous);

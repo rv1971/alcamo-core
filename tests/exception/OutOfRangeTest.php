@@ -42,6 +42,15 @@ class OutOfRangeTest extends TestCase
                 "Value \"0\" out of range [1, 2]"
             ],
 
+            'right-bounded' => [
+                0,
+                null,
+                2,
+                '',
+                0,
+                "Value \"0\" out of range ]-∞, 2]"
+            ],
+
             'custom-message' => [
                 42,
                 0,
@@ -54,10 +63,10 @@ class OutOfRangeTest extends TestCase
             'extra-message' => [
                 42,
                 -15,
-                16,
+                null,
                 '; at vero eos et accusam',
                 44,
-                "Value \"42\" out of range [-15, 16]; at vero eos et accusam"
+                "Value \"42\" out of range [-15, ∞[; at vero eos et accusam"
             ]
         ];
     }
