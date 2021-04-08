@@ -54,4 +54,17 @@ class CompressedBcd extends HexString
 
         parent::__construct($text);
     }
+
+    public function pad(?int $minLength = null, ?bool $allowOdd = null)
+    {
+        if (!$allowOdd) {
+            $minLength = max($minLength, count($this));
+
+            if ($minLength & 1) {
+                $minLength++;
+            }
+        }
+
+        $this->text_ = str_pad($this->text_, $minLength, 'F');
+    }
 }

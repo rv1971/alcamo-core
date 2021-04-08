@@ -59,4 +59,37 @@ class CompressedBcdTest extends TestCase
 
         new CompressedBcd('12A34567');
     }
+
+    public function testPad()
+    {
+        $bcd = new CompressedBcd('123');
+
+        $bcd->pad();
+
+        $this->assertSame('123F', (string)$bcd);
+
+        $bcd->pad(5);
+
+        $this->assertSame('123FFF', (string)$bcd);
+
+        $bcd->pad(8);
+
+        $this->assertSame('123FFFFF', (string)$bcd);
+
+        $bcd->pad(9, true);
+
+        $this->assertSame('123FFFFFF', (string)$bcd);
+
+        $bcd->pad(6);
+
+        $this->assertSame('123FFFFFFF', (string)$bcd);
+
+        $bcd->pad(11, true);
+
+        $this->assertSame('123FFFFFFFF', (string)$bcd);
+
+        $bcd->pad(4, true);
+
+        $this->assertSame('123FFFFFFFF', (string)$bcd);
+    }
 }

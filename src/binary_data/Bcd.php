@@ -73,4 +73,17 @@ class Bcd extends HexString
             '; unable to convert BCD to integer'
         );
     }
+
+    public function pad(?int $minLength = null, ?bool $allowOdd = null)
+    {
+        if (!$allowOdd) {
+            $minLength = max($minLength, count($this));
+
+            if ($minLength & 1) {
+                $minLength++;
+            }
+        }
+
+        $this->text_ = str_pad($this->text_, $minLength, '0', STR_PAD_LEFT);
+    }
 }

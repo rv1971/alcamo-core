@@ -78,4 +78,37 @@ class BcdTest extends TestCase
 
         (new Bcd(PHP_INT_MAX . '0'))->toInt();
     }
+
+    public function testPad()
+    {
+        $bcd = new Bcd('123');
+
+        $bcd->pad();
+
+        $this->assertSame('0123', (string)$bcd);
+
+        $bcd->pad(5);
+
+        $this->assertSame('000123', (string)$bcd);
+
+        $bcd->pad(8);
+
+        $this->assertSame('00000123', (string)$bcd);
+
+        $bcd->pad(9, true);
+
+        $this->assertSame('000000123', (string)$bcd);
+
+        $bcd->pad(6);
+
+        $this->assertSame('0000000123', (string)$bcd);
+
+        $bcd->pad(11, true);
+
+        $this->assertSame('00000000123', (string)$bcd);
+
+        $bcd->pad(4, true);
+
+        $this->assertSame('00000000123', (string)$bcd);
+    }
 }
