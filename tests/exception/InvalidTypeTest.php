@@ -30,29 +30,29 @@ class InvalidTypeTest extends TestCase
     public function constructProvider(): array
     {
         return [
-        'typical-use' => [
-        $this,
-        [ 'string', 'integer' ],
-        '',
-        0,
-        "Invalid type 'alcamo\\exception\\InvalidTypeTest', expected one of: 'string', 'integer'"
-        ],
+            'typical-use' => [
+                $this,
+                [ 'string', 'integer' ],
+                '',
+                0,
+                'Invalid type "alcamo\\exception\\InvalidTypeTest", expected one of: "string", "integer"'
+            ],
 
-        'custom-message' => [
-        new SyntaxError('foo'),
-        [ self::class ],
-        'At vero eos et accusam',
-        7,
-        'At vero eos et accusam'
-        ],
+            'custom-message' => [
+                new SyntaxError('foo'),
+                [ self::class ],
+                'At vero eos et accusam',
+                7,
+                'At vero eos et accusam'
+            ],
 
-        'extra-message' => [
-        42,
-        [ 'string' ],
-        '; at vero eos et accusam',
-        8,
-        "Invalid type 'integer', expected one of: 'string'; at vero eos et accusam"
-        ]
+            'extra-message' => [
+                42,
+                [ 'string' ],
+                '; at vero eos et accusam',
+                8,
+                'Invalid type "integer", expected one of: "string"; at vero eos et accusam'
+            ]
         ];
     }
 }

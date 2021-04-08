@@ -20,8 +20,8 @@ class InvalidType extends ValueException
         if (!$message || $message[0] == ';') {
             $type = is_object($value) ? get_class($value) : gettype($value);
 
-            $message = "Invalid type '$type', expected one of: '"
-                . implode("', '", $validTypes) . "'"
+            $message = "Invalid type \"$type\", expected one of: \""
+                . implode('", "', $validTypes) . '"'
                 . $message;
         }
 
