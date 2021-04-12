@@ -17,7 +17,7 @@ class HexString extends StringObject implements \ArrayAccess, \Countable
     {
         $text = strtoupper(preg_replace('/\s+/', '', $text));
 
-        if (!preg_match('/^[0-9A-F]*$/', $text)) {
+        if ($text != '' && !ctype_xdigit($text)) {
             throw new SyntaxError($text, null, '; not a valid hex string');
         }
 
@@ -28,7 +28,7 @@ class HexString extends StringObject implements \ArrayAccess, \Countable
     {
         $value = strtoupper($value);
 
-        if (strtr($value, '123456789ABCDEF', '000000000000000') != '0') {
+        if (!ctype_xdigit($value) || strlen($value) > 1) {
             throw new SyntaxError($value, 0, '; not a valid hex digit');
         }
 
