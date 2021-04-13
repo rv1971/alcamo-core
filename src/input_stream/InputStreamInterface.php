@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\simple_input_stream;
+namespace alcamo\input_stream;
 
 interface InputStreamInterface
 {
@@ -15,7 +15,7 @@ interface InputStreamInterface
     public function peek(): ?string;
 
     /**
-     * @brief Extract a fixed number of characters.
+     * @brief Extract a fixed number of characters
      *
      * @return `null` if isGood() == false, else nonempty string.
      *
@@ -24,28 +24,32 @@ interface InputStreamInterface
     public function extract(int $count = 1): ?string;
 
     /**
-     * @brief Go back one character.
+     * @brief Go back one character
      *
      * @throw Underflow when at beginning of stream.
      */
     public function putback();
 
     /**
-     * @brief characters up to a separator.
+     * @brief Extract characters up to a separator
      *
      * @param $sep string Separator string. May be more than one character.
      *
-     * @param $maxCount int Maximum number of characters to extract. `null`
-     * means unlimited.
+     * @param $maxCount int Maximum number of characters to extract, including
+     * the separator if $extractSep is true. `null` means unlimited.
      *
      * @param $extractSep bool Whether to extract the separator itself and to
      * include it in the result.
+     *
+     * @param $discardSep bool If $extractSep is true, whether to discard the
+     * separator instead of including it in the result.
      *
      * @return `null` if isGood() == false, else possibly empty string.
      */
     public function extractUntil(
         string $sep,
         ?int $maxCount = null,
-        ?bool $extractSep = null
+        ?bool $extractSep = null,
+        ?bool $discardSep = null
     ): ?string;
 }

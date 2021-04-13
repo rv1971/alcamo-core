@@ -1,21 +1,22 @@
 <?php
 
-namespace alcamo\simple_input_stream;
+namespace alcamo\input_stream;
+
+use alcamo\exception\Eof;
 
 class MbStringInputStream extends StringInputStream
 {
-    public const WS_REGEXP = '/^\s+/';
-
     protected $length_;
 
     public function __construct(string $text, ?int $offset = null)
     {
         parent::__construct($text, $offset);
 
-        /** Cache length in mb_strlen() which has complexity O(n).  @sa [Which
-         * complexity
+        /** Cache result of mb_strlen() which has complexity O(n).
+         *
+         * @sa [Which complexity
          * mb_strlen?](http://stackoverflow.com/questions/40597394/which-complexity-mb-strlen)
-     */
+         */
         $this->length_ = mb_strlen($this->text_);
     }
 
@@ -27,7 +28,7 @@ class MbStringInputStream extends StringInputStream
     public function peek(): ?string
     {
         return $this->offset_ < $this->length_
-            ? mb_substr($this->data_, $this->offset_, 1)
+            ? mb_substr($this->text_, $this->offset_, 1)
             : null;
     }
 
@@ -40,7 +41,12 @@ class MbStringInputStream extends StringInputStream
         $result = mb_substr($this->text_, $this->offset_, $count);
 
         if (mb_strlen($result) != $count) {
-            throw new Eof($this, $count);
+            throw new Eof(
+                $this,
+                "; attempt to extract $count characters while only "
+                . ($this->length_ - $this->offset_)
+                . ' left'
+            );
         }
 
         $this->offset_ += $count;
@@ -51,7 +57,8 @@ class MbStringInputStream extends StringInputStream
     public function extractUntil(
         string $sep,
         ?int $maxCount = null,
-        ?bool $extractSep = null
+        ?bool $extractSep = null,
+        ?bool $discardSep = null
     ): ?string {
         if ($this->offset_ >= $this->length_) {
             return null;
@@ -68,7 +75,7 @@ class MbStringInputStream extends StringInputStream
                 $result = mb_substr($this->text_, $this->offset_, $maxCount);
                 $this->offset_ += $maxCount_;
             } else {
-                $result = mb_substr($this->data_, $this->offset_);
+                $result = mb_substr($this->text_, $this->offset_);
                 $this->offset_ = $this->length_;
             }
         } else {
@@ -79,12 +86,16 @@ class MbStringInputStream extends StringInputStream
 
             if (isset($maxCount) && $sepPos > $this->offset_ + $maxCount) {
                 $sepPos = $this->offset_ + $maxCount;
+
+                $result = mb_substr($this->text_, $this->offset_, $maxCount);
             }
 
             $result = mb_substr(
-                $this->data_,
+                $this->text_,
                 $this->offset_,
-                $sepPos - $this->offset_
+                $discardSep
+                ? $sepPos - $this->offset_ - strlen($sep)
+                : $sepPos - $this->offset_
             );
 
             $this->offset_ = $sepPos;
@@ -96,24 +107,5 @@ class MbStringInputStream extends StringInputStream
     public function getSize(): int
     {
         return mb_strlen($this->text_);
-    }
-
-    /// Skip regular expression.
-    public function skipRegexp(string $regexp)
-    {
-        if (
-            preg_match(
-            $regexp,
-            mb_substr($this->text_, $this->offset_),
-            $matches
-            )
-        ) {
-            $this->offset_ += mb_strlen($matches[0]);
-        }
-    }
-
-    public function skipWs()
-    {
-        $this->skipRegexp(static::WS_REGEXP);
     }
 }
