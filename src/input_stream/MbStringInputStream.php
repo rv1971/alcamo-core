@@ -73,7 +73,7 @@ class MbStringInputStream extends StringInputStream
                 && $this->offset_ + $maxCount <= mb_strlen($this->text_)
             ) {
                 $result = mb_substr($this->text_, $this->offset_, $maxCount);
-                $this->offset_ += $maxCount_;
+                $this->offset_ += $maxCount;
             } else {
                 $result = mb_substr($this->text_, $this->offset_);
                 $this->offset_ = $this->length_;
@@ -94,7 +94,7 @@ class MbStringInputStream extends StringInputStream
                 $this->text_,
                 $this->offset_,
                 $discardSep
-                ? $sepPos - $this->offset_ - strlen($sep)
+                ? $sepPos - $this->offset_ - mb_strlen($sep)
                 : $sepPos - $this->offset_
             );
 

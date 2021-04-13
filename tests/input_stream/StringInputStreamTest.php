@@ -52,6 +52,8 @@ EOT;
 
         $this->assertSame('voluptua.', $stream->extractUntil('#'));
 
+        $this->assertFalse($stream->isGood());
+
         $this->assertSame(strlen($text), $stream->getSize());
 
         $this->assertSame($text, $stream->getContents());
@@ -60,7 +62,16 @@ EOT;
 
         $this->assertSame('Lorem', $stream->extractUntil('.', 5));
 
+        $this->assertTrue($stream->isGood());
+
         $this->assertSame(5, $stream->getOffset());
+
+        $this->assertSame(
+            ' ipsum dolor sit amet',
+            $stream->extractUntil('.', null, true, true)
+        );
+
+        $this->assertFalse($stream->isGood());
     }
 
     public function testEof()
