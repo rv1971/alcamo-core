@@ -39,12 +39,7 @@ class StringInputStream implements SeekableInputStreamInterface
         }
 
         if (!isset($this->text_[$this->offset_ + $count - 1])) {
-            throw new Eof(
-                $this,
-                "; attempt to extract $count characters while only "
-                . (strlen($this->text_) - $this->offset_)
-                . ' left'
-            );
+            throw new Eof($this, $count, strlen($this->text_) - $this->offset_);
         }
 
         $result = substr($this->text_, $this->offset_, $count);

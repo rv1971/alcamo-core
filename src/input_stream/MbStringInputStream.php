@@ -41,12 +41,7 @@ class MbStringInputStream extends StringInputStream
         $result = mb_substr($this->text_, $this->offset_, $count);
 
         if (mb_strlen($result) != $count) {
-            throw new Eof(
-                $this,
-                "; attempt to extract $count characters while only "
-                . ($this->length_ - $this->offset_)
-                . ' left'
-            );
+            throw new Eof($this, $count, $this->length_ - $this->offset_);
         }
 
         $this->offset_ += $count;

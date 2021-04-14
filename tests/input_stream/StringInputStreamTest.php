@@ -83,7 +83,7 @@ EOT;
         $this->expectException(Eof::class);
         $this->expectExceptionMessage(
             'Eof in ' . StringInputStream::class
-            . '; attempt to extract 6 characters while only 5 left'
+            . ': requested 6 units, available 5'
         );
 
         $stream->extract(6);
