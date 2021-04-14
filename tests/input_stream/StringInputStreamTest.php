@@ -48,6 +48,8 @@ EOT;
 
         $this->assertSame('     ', $stream->extractWs());
 
+        $this->assertSame('sci', $stream->extractRegexp('/p(sci)ng/', 1));
+
         $stream->extractUntil('voluptua');
 
         $this->assertSame('voluptua.', $stream->extractUntil('#'));

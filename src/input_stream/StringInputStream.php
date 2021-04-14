@@ -123,8 +123,13 @@ class StringInputStream implements SeekableInputStreamInterface
         return $this->text_;
     }
 
-    /// Extract regular expression.
-    public function extractRegexp(string $regexp)
+    /**
+     * @brief Extract regular expression.
+     *
+     * @return ?string, match $matchNo in the array of matches returned by
+     * preg_match().
+     */
+    public function extractRegexp(string $regexp, ?int $matchNo = 0): ?string
     {
         if (
             preg_match(
@@ -136,11 +141,11 @@ class StringInputStream implements SeekableInputStreamInterface
         ) {
             $this->offset_ += mb_strlen($matches[0][0]) + $matches[0][1];
 
-            return $matches[0][0];
+            return $matches[(int)$matchNo][0];
         }
     }
 
-    public function extractWs()
+    public function extractWs(): ?string
     {
         return $this->extractRegexp(static::WS_REGEXP);
     }
