@@ -36,6 +36,12 @@ class BinaryString implements \ArrayAccess, \Countable
 
     protected $data_; ///< Binary string.
 
+    /// Create from hex string which may contain whitespace
+    public static function newFromHex(string $hex)
+    {
+        return new self(hex2bin(preg_replace('/\s+/', '', $hex)));
+    }
+
     /// Create from binary string.
     public function __construct(string $data = null)
     {

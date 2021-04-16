@@ -37,6 +37,6 @@ class HexString extends StringObject implements \ArrayAccess, \Countable
 
     public function toBinaryString(): BinaryString
     {
-        return new BinaryString(hex2bin($this->text_));
+        return BinaryString::newFromHex($this->text_);
     }
 }

@@ -81,9 +81,17 @@ class BinaryStringTest extends TestCase
         ];
     }
 
+    public function testNewFromHex()
+    {
+        $this->assertEquals(
+            new BinaryString("\x00\x12\xab"),
+            BinaryString::newFromHex("\n00  \t\r\r12   ab  \t")
+        );
+    }
+
     public function testArrayAccess()
     {
-        $binString = new BinaryString(hex2bin("01020304"));
+        $binString = BinaryString::newFromHex("01020304");
 
         $this->assertTrue(isset($binString[0]));
         $this->assertTrue(isset($binString[3]));
@@ -100,7 +108,7 @@ class BinaryStringTest extends TestCase
 
     public function testArrayOffsetSetException1()
     {
-        $binString = new BinaryString(hex2bin("ABCD"));
+        $binString = BinaryString::newFromHex("ABCD");
 
         $this->expectException(OutOfRange::class);
         $this->expectExceptionMessage(
@@ -112,7 +120,7 @@ class BinaryStringTest extends TestCase
 
     public function testArrayOffsetSetException2()
     {
-        $binString = new BinaryString(hex2bin("ABCD"));
+        $binString = BinaryString::newFromHex("ABCD");
 
         $this->expectException(OutOfRange::class);
         $this->expectExceptionMessage(
@@ -124,7 +132,7 @@ class BinaryStringTest extends TestCase
 
     public function testArrayOffsetUnsetException()
     {
-        $binString = new BinaryString(hex2bin("00"));
+        $binString = BinaryString::newFromHex("00");
 
         $this->expectException(Unsupported::class);
         $this->expectExceptionMessage(
@@ -141,7 +149,7 @@ class BinaryStringTest extends TestCase
         $hexString,
         $expectedInt
     ) {
-        $binString = new BinaryString(hex2bin($hexString));
+        $binString = BinaryString::newFromHex($hexString);
 
         $this->assertSame($expectedInt, $binString->toInt());
     }
@@ -169,8 +177,8 @@ class BinaryStringTest extends TestCase
         $hexString2,
         $expectedResultHexString
     ) {
-        $binString1 = new BinaryString(hex2bin($hexString1));
-        $binString2 = new BinaryString(hex2bin($hexString2));
+        $binString1 = BinaryString::newFromHex($hexString1);
+        $binString2 = BinaryString::newFromHex($hexString2);
 
         $result = $binString1->bitwiseAnd($binString2);
 
@@ -198,8 +206,8 @@ class BinaryStringTest extends TestCase
         $hexString2,
         $expectedResultHexString
     ) {
-        $binString1 = new BinaryString(hex2bin($hexString1));
-        $binString2 = new BinaryString(hex2bin($hexString2));
+        $binString1 = BinaryString::newFromHex($hexString1);
+        $binString2 = BinaryString::newFromHex($hexString2);
 
         $result = $binString1->bitwiseOr($binString2);
 

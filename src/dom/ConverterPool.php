@@ -91,7 +91,7 @@ class ConverterPool
 
     public static function hexToBinary($value): BinaryString
     {
-        return new BinaryString(hex2bin($value));
+        return BinaryString::newFromHex($value);
     }
 
     public static function pairsToMap($value): array
