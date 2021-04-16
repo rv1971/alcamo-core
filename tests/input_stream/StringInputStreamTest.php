@@ -52,7 +52,9 @@ EOT;
 
         $stream->extractUntil('voluptua');
 
-        $this->assertSame('voluptua.', $stream->extractUntil('#'));
+        $this->assertSame('voluptua.', $stream->getRemainder());
+
+        $this->assertSame('voluptua.', $stream->extractRemainder());
 
         $this->assertFalse($stream->isGood());
 

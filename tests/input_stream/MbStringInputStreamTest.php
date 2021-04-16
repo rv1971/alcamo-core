@@ -29,11 +29,13 @@ class MbStringInputStreamTest extends TestCase
 
         $this->assertSame('345ß', $stream->extractUntil('ß', null, true));
 
+        $this->assertSame('++Ð+Ùģ', $stream->getRemainder());
+
         $this->assertSame('++Ð+', $stream->extractUntil('Ù', null, true, true));
 
         $this->assertTrue($stream->isGood());
 
-        $this->assertSame('ģ', $stream->extractUntil('x'));
+        $this->assertSame('ģ', $stream->extractRemainder());
 
         $this->assertFalse($stream->isGood());
 

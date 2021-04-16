@@ -123,6 +123,26 @@ class StringInputStream implements SeekableInputStreamInterface
         return $this->text_;
     }
 
+    /// Get remining input data without extracting it
+    public function getRemainder(): ?string
+    {
+        return isset($this->text_[$this->offset_])
+            ? substr($this->text_, $this->offset_)
+            : null;
+    }
+
+    /// Extract remaining input data
+    public function extractRemainder(): ?string
+    {
+        if (isset($this->text_[$this->offset_])) {
+            $result = substr($this->text_, $this->offset_);
+            $this->offset_ = strlen($this->text_);
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
     /**
      * @brief Extract regular expression.
      *

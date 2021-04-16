@@ -12,4 +12,10 @@ interface SeekableInputStreamInterface extends InputStreamInterface
 
     /// Get complete input data
     public function getContents(): string;
+
+    /// Get remining input data without extracting it, if any
+    public function getRemainder(): ?string;
+
+    /// Extract remaining input data, if any
+    public function extractRemainder(): ?string;
 }

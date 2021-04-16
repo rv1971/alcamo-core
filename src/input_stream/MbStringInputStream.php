@@ -103,4 +103,24 @@ class MbStringInputStream extends StringInputStream
     {
         return mb_strlen($this->text_);
     }
+
+    /// Get remining input data without extracting it
+    public function getRemainder(): ?string
+    {
+        return ($this->offset_ < $this->length_)
+            ? mb_substr($this->text_, $this->offset_)
+            : null;
+    }
+
+    /// Extract remaining input data
+    public function extractRemainder(): ?string
+    {
+        if ($this->offset_ < $this->length_) {
+            $result = mb_substr($this->text_, $this->offset_);
+            $this->offset_ = $this->length_;
+            return $result;
+        } else {
+            return null;
+        }
+    }
 }
