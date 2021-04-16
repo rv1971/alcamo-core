@@ -39,7 +39,7 @@ class BinaryString implements \ArrayAccess, \Countable
     /// Create from hex string which may contain whitespace
     public static function newFromHex(string $hex)
     {
-        return new self(hex2bin(preg_replace('/\s+/', '', $hex)));
+        return new static(hex2bin(preg_replace('/\s+/', '', $hex)));
     }
 
     /// Create from binary string.
