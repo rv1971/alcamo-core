@@ -162,6 +162,8 @@ class StringInputStream implements SeekableInputStreamInterface
             $this->offset_ += mb_strlen($matches[0][0]) + $matches[0][1];
 
             return $matches[(int)$matchNo][0];
+        } else {
+            return null;
         }
     }
 

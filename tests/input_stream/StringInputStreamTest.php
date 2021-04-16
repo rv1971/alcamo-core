@@ -50,6 +50,8 @@ EOT;
 
         $this->assertSame('sci', $stream->extractRegexp('/p(sci)ng/', 1));
 
+        $this->assertNull($stream->extractRegexp('/foobarbaz/'));
+
         $stream->extractUntil('voluptua');
 
         $this->assertSame('voluptua.', $stream->getRemainder());
