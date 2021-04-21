@@ -3,6 +3,7 @@
 namespace alcamo\dom;
 
 use PHPUnit\Framework\TestCase;
+use alcamo\collection\ReadonlyPrefixSet;
 use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
@@ -23,6 +24,7 @@ class ConverterPoolTest extends TestCase
             case 'toDuration':
             case 'toLang':
             case 'toMediaType':
+            case 'toPrefixSet':
             case 'toUri':
             case 'toXName':
             case 'xPointerUrlToValueSet':
@@ -110,6 +112,11 @@ class ConverterPoolTest extends TestCase
                 $doc['media-type']->getAttributeNode('content'),
                 'toMediaType',
                 new MediaType('application', 'json')
+            ],
+            'prefix-set' => [
+                $doc->documentElement->getAttributeNode('foobar'),
+                'toPrefixSet',
+                ReadonlyPrefixSet::newFromString('foo bar baz')
             ],
             'longint' => [
                 $doc['longint']->getAttributeNode('content'),

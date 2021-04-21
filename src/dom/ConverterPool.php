@@ -3,6 +3,7 @@
 namespace alcamo\dom;
 
 use alcamo\binary_data\BinaryString;
+use alcamo\collection\ReadonlyPrefixSet;
 use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
@@ -56,6 +57,11 @@ class ConverterPool
     public static function toMediaType($value): MediaType
     {
         return MediaType::newFromString($value);
+    }
+
+    public static function toPrefixSet($value): ReadonlyPrefixSet
+    {
+        return ReadonlyPrefixSet::newFromString($value);
     }
 
     public static function toUri($value): Uri
