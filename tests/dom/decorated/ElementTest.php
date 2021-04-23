@@ -4,6 +4,7 @@ namespace alcamo\dom\decorated;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\dom\schema\TypeMap;
+use alcamo\exception\MethodNotFound;
 use alcamo\xml\XName;
 
 require_once 'FooDocument.php';
@@ -27,5 +28,19 @@ class ElementTest extends TestCase
             'Hello! Lorem ipsum',
             $doc->documentElement->firstChild->hello()
         );
+    }
+
+    public function testException()
+    {
+        $doc = FooDocument::newFromUrl(
+            'file://' . dirname(__DIR__) . '/foo.xml'
+        );
+
+        $this->expectException(MethodNotFound::class);
+        $this->expectExceptionMessage(
+            'Method "bar" not found in ' . FooBar::class
+        );
+
+        $doc['x']->bar();
     }
 }

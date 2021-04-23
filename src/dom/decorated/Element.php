@@ -8,6 +8,7 @@
 
 namespace alcamo\dom\decorated;
 
+use alcamo\exception\MethodNotFound;
 use alcamo\dom\psvi\Element as BaseElement;
 
 /**
@@ -35,6 +36,16 @@ class Element extends BaseElement
 
     public function __call($name, $params)
     {
-        return call_user_func_array([ $this->getDecorator(), $name ], $params);
+        /* Call method in the decorator only if it exists. Otherwise the
+         * decorator would look for it in the Element class, leading to an
+         * infinite recursion that end up in a stack overflow. */
+        if (method_exists($this->getDecorator(), $name)) {
+            return call_user_func_array(
+                [ $this->getDecorator(), $name ],
+                $params
+            );
+        } else {
+            throw new MethodNotFound($this->getDecorator(), $name);
+        }
     }
 }
