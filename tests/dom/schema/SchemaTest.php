@@ -84,7 +84,7 @@ class SchemaTest extends TestCase
 
         $this->assertEquals(
             'anyType',
-            $schema1->getAnyType()->getXsdElement()['name']
+            $schema1->getAnyType()->getXsdElement()->name
         );
 
         $this->assertEquals(

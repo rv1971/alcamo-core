@@ -29,7 +29,7 @@ class AbstractType extends AbstractXsdComponent implements TypeInterface
                 $this->xsdElement_->query('xsd:*/xsd:*[@base]')[0];
 
             $this->baseType_ = isset($baseXNameElement)
-                ? $this->schema_->getGlobalType($baseXNameElement['base'])
+                ? $this->schema_->getGlobalType($baseXNameElement->base)
                 : null;
         }
 

@@ -2,11 +2,10 @@
 
 namespace alcamo\dom\extended;
 
-use alcamo\collection\PreventWriteArrayAccessTrait;
 use alcamo\xml\XName;
 
 /**
- * @brief Array access to attributes
+ * @brief Access to attributes as if they were object properties
  *
  * There are three ways to specify an attribute:
  * - Attribute name without namespace prefix.
@@ -16,13 +15,11 @@ use alcamo\xml\XName;
  * Hence there may be more than one way to specify the same attribute. All
  * ways to specify an attribute are equally stored in the cache.
  */
-trait AttrArrayAccessTrait
+trait MagicAttrAccessTrait
 {
-    use PreventWriteArrayAccessTrait;
-
     private $attrCache_ = []; ///< Map of attributes to values.
 
-    public function offsetExists($attrName)
+    public function __isset($attrName)
     {
         /* At first look in the cache. `array_key_exists()` must be used
          * instead of `isset()` because an attribute might evaluate to `null`
@@ -50,7 +47,7 @@ trait AttrArrayAccessTrait
         }
     }
 
-    public function offsetGet($attrName)
+    public function __get($attrName)
     {
         /* At first look in the cache. `array_key_exists()` must be used
          * instead of `isset()` because an attribute might evaluate to

@@ -60,19 +60,19 @@ class ElementTest extends TestCase
     }
 
     /**
-     * @dataProvider attrArrayAccessProvider
+     * @dataProvider magicAttrAccessProvider
      */
-    public function testAttrArrayAccess(
+    public function testMagicAttrAccess(
         $elem,
         $attrName,
         $expectedIsSet,
         $expectedValue
     ) {
-        $this->assertSame($expectedIsSet, isset($elem[$attrName]));
-        $this->assertSame($expectedValue, $elem[$attrName]);
+        $this->assertSame($expectedIsSet, isset($elem->$attrName));
+        $this->assertSame($expectedValue, $elem->$attrName);
     }
 
-    public function attrArrayAccessProvider()
+    public function magicAttrAccessProvider()
     {
         $doc = Document::newFromUrl(
             dirname(__DIR__) . DIRECTORY_SEPARATOR . 'foo.xml'

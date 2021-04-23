@@ -45,7 +45,7 @@ class ComplexType extends AbstractType
             foreach ($attrParent as $element) {
                 switch ($element->localName) {
                     case 'attribute':
-                        if ($element['use'] == 'prohibited') {
+                        if ($element->use == 'prohibited') {
                             unset($this->attrs_[
                                 (string)$element->getComponentXName()
                             ]);
@@ -59,7 +59,7 @@ class ComplexType extends AbstractType
 
                     case 'attributeGroup':
                         $this->attrs_ += $this->schema_
-                            ->getGlobalAttrGroup($element['ref'])->getAttrs();
+                            ->getGlobalAttrGroup($element->ref)->getAttrs();
                         break;
                 }
             }
@@ -102,9 +102,9 @@ class ComplexType extends AbstractType
 
                             case 'extension':
                             case 'restriction':
-                                if (isset($child['base'])) {
+                                if (isset($child->base)) {
                                     $baseType = $this->schema_
-                                        ->getGlobalType($child['base']);
+                                        ->getGlobalType($child->base);
 
                                     if ($baseType instanceof self) {
                                         $this->elements_ +=
@@ -118,7 +118,7 @@ class ComplexType extends AbstractType
 
                             case 'group':
                                 $this->elements_ += $this->schema_
-                                    ->getGlobalGroup($child['ref'])
+                                    ->getGlobalGroup($child->ref)
                                     ->getElements();
                                 break;
                         }

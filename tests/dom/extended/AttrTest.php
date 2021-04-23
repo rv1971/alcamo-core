@@ -12,7 +12,7 @@ class AttrTest extends TestCase
      */
     public function testgetValue($attr, $attrName, $expectedResult)
     {
-        $this->assertEquals($expectedResult, $attr[$attrName]);
+        $this->assertEquals($expectedResult, $attr->$attrName);
     }
 
     public function getValueProvider()

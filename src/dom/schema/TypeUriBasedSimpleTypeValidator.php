@@ -55,7 +55,7 @@ class TypeUriBasedSimpleTypeValidator extends AbstractSimpleTypeValidator
             $xsd = (new DocumentFactory())
                 ->createFromUrl($url, Document::class, null, true);
 
-            $nsName = $xsd->documentElement['targetNamespace'];
+            $nsName = $xsd->documentElement->targetNamespace;
 
             $nsName2schemaLocation[$nsName] = $url;
 

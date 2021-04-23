@@ -17,11 +17,11 @@ class AttrTest extends TestCase
             case 'toUri':
             case 'toXName':
             case 'toXNames':
-                $this->assertEquals($expectedValue, $elem[$attrName]);
+                $this->assertEquals($expectedValue, $elem->$attrName);
                 break;
 
             default:
-                $this->assertSame($expectedValue, $elem[$attrName]);
+                $this->assertSame($expectedValue, $elem->$attrName);
         }
     }
 
@@ -128,8 +128,8 @@ class AttrTest extends TestCase
         $expectedIsSet,
         $expectedValue
     ) {
-        $this->assertSame($expectedIsSet, isset($elem[$attrName]));
-        $this->assertSame($expectedValue, $elem[$attrName]);
+        $this->assertSame($expectedIsSet, isset($elem->$attrName));
+        $this->assertSame($expectedValue, $elem->$attrName);
     }
 
     public function attrArrayAccessProvider()

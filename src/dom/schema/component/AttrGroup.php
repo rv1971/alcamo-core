@@ -22,7 +22,7 @@ class AttrGroup extends AbstractXsdComponent
 
                     case 'attributeGroup':
                         $this->attrs_ += $this->schema_
-                            ->getGlobalAttrGroup($element['ref'])->getAttrs();
+                            ->getGlobalAttrGroup($element->ref)->getAttrs();
 
                         break;
                 }

@@ -4,9 +4,9 @@ namespace alcamo\dom\extended;
 
 use alcamo\dom\Element as BaseElement;
 
-class Element extends BaseElement implements \ArrayAccess
+class Element extends BaseElement
 {
-    use AttrArrayAccessTrait;
+    use MagicAttrAccessTrait;
     use HasLangTrait;
     use RegisteredNodeTrait;
 }

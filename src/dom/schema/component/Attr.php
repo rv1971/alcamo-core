@@ -14,9 +14,9 @@ class Attr extends AbstractXsdComponent
     {
         parent::__construct($schema, $xsdElement);
 
-        if (isset($this->xsdElement_['ref'])) {
+        if (isset($this->xsdElement_->ref)) {
             $this->refAttr_ =
-                $this->schema_->getGlobalAttr($this->xsdElement_['ref']);
+                $this->schema_->getGlobalAttr($this->xsdElement_->ref);
         }
     }
 
@@ -33,9 +33,9 @@ class Attr extends AbstractXsdComponent
                     $this->type_ = $this->refAttr_->getType();
                     break;
 
-                case isset($this->xsdElement_['type']):
+                case isset($this->xsdElement_->type):
                     $this->type_ = $this->schema_
-                        ->getGlobalType($this->xsdElement_['type']);
+                        ->getGlobalType($this->xsdElement_->type);
                     break;
 
                 case ($simpleTypeElement =

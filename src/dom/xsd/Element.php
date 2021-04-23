@@ -15,9 +15,9 @@ class Element extends BaseElement
             /* Since offsetGet() is called, conservation of this derived
              * object is already ensured. */
 
-            if (isset($this['ref'])) {
-                $this->xComponentName_ = $this['ref'];
-            } elseif (isset($this['name'])) {
+            if (isset($this->ref)) {
+                $this->xComponentName_ = $this->ref;
+            } elseif (isset($this->name)) {
                 $documentElement = $this->ownerDocument->documentElement;
 
                 /* The component name has the target namespace as
@@ -26,21 +26,21 @@ class Element extends BaseElement
                  * qualified. */
                 $nsName =
                     $this->parentNode->isSameNode($documentElement)
-                    || $this['form'] == 'qualified'
+                    || $this->form == 'qualified'
                     || (
                         $this->localName == 'attribute'
-                        && $documentElement['attributeFormDefault']
+                        && $documentElement->attributeFormDefault
                         == 'qualified'
                     )
                     || (
                         $this->localName == 'element'
-                        && $documentElement['elementFormDefault']
+                        && $documentElement->elementFormDefault
                         == 'qualified'
                     )
-                    ? $documentElement['targetNamespace']
+                    ? $documentElement->targetNamespace
                     : null;
 
-                    $this->xComponentName_ = new XName($nsName, $this['name']);
+                    $this->xComponentName_ = new XName($nsName, $this->name);
             } else {
                 $this->xComponentName_ = null;
             }

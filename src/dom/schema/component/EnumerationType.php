@@ -16,7 +16,7 @@ class EnumerationType extends AtomicType implements EnumerationTypeInterface
                 $this->xsdElement_
                     ->query('xsd:restriction/xsd:enumeration') as $enumerator
             ) {
-                $this->enumerators_[$enumerator['value']] =
+                $this->enumerators_[$enumerator->value] =
                     new Enumerator($enumerator);
             }
         }

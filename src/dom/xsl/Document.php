@@ -12,7 +12,7 @@ class Document extends BaseDocument
 
     public const NODE_CLASS =
         [
-            'DOMAttr'    => Attr::class,
+            'DOMAttr' => Attr::class,
         ]
         + parent::NODE_CLASS;
 }

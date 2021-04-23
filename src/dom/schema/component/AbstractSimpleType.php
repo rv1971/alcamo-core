@@ -14,8 +14,8 @@ abstract class AbstractSimpleType extends AbstractType implements SimpleTypeInte
         $restrictionElement = $xsdElement->query('xsd:restriction')[0];
 
         if (isset($restrictionElement)) {
-            $baseType = isset($restrictionElement['base'])
-                ? $schema->getGlobalType($restrictionElement['base'])
+            $baseType = isset($restrictionElement->base)
+                ? $schema->getGlobalType($restrictionElement->base)
                 : self::newFromSchemaAndXsdElement(
                     $schema,
                     $restrictionElement->query('xsd:simpleType')[0]
@@ -40,9 +40,9 @@ abstract class AbstractSimpleType extends AbstractType implements SimpleTypeInte
         $listElement = $xsdElement->query('xsd:list')[0];
 
         if (isset($listElement)) {
-            if (isset($listElement['itemType'])) {
+            if (isset($listElement->itemType)) {
                 $itemType =
-                    $schema->getGlobalType($listElement['itemType']);
+                    $schema->getGlobalType($listElement->itemType);
             } else {
                 $itemType = self::newFromSchemaAndXsdElement(
                     $schema,
@@ -58,8 +58,8 @@ abstract class AbstractSimpleType extends AbstractType implements SimpleTypeInte
         if (isset($unionElement)) {
             $memberTypes = [];
 
-            if (isset($unionElement['memberTypes'])) {
-                foreach ($unionElement['memberTypes'] as $memberTypeXName) {
+            if (isset($unionElement->memberTypes)) {
+                foreach ($unionElement->memberTypes as $memberTypeXName) {
                     $memberTypes[] =
                         $schema->getGlobalType($memberTypeXName);
                 }

@@ -329,13 +329,13 @@ class Schema
                 // Also load imported XSDs.
                 foreach ($xsd->query('xsd:import|xsd:include') as $import) {
                     /** Ignore imports without schema location. */
-                    if (!isset($import['schemaLocation'])) {
+                    if (!isset($import->schemaLocation)) {
                         continue;
                     }
 
                     $url = UriResolver::resolve(
                         new Uri($import->baseURI),
-                        $import['schemaLocation']
+                        $import->schemaLocation
                     );
 
                     if (!isset($this->xsds_[(string)$url])) {
@@ -360,13 +360,13 @@ class Schema
         ];
 
         foreach ($this->xsds_ as $xsd) {
-            $targetNs = $xsd->documentElement['targetNamespace'];
+            $targetNs = $xsd->documentElement->targetNamespace;
 
             // loop top-level XSD elements having name attributes
             foreach ($xsd->documentElement as $elem) {
-                if (isset($elem['name'])) {
+                if (isset($elem->name)) {
                     $globalDefs[$elem->localName]
-                        [(string)(new XName($targetNs, $elem['name']))]
+                        [(string)(new XName($targetNs, $elem->name))]
                         = $elem;
                 }
             }

@@ -44,7 +44,7 @@ class Group extends AbstractXsdComponent
 
                             case 'group':
                                 $this->elements_ += $this->schema_
-                                    ->getGlobalGroup($child['ref'])
+                                    ->getGlobalGroup($child->ref)
                                     ->getElements();
                                 break;
                         }

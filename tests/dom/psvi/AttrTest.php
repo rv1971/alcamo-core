@@ -127,47 +127,47 @@ class AttrTest extends TestCase
 
         return [
             'xml:lang' => [
-                $doc->documentElement['xml:lang'],
+                $doc->documentElement->{'xml:lang'},
                 new Lang('oc')
             ],
             'dc:source' => [
-                $doc->documentElement['dc:source'],
+                $doc->documentElement->{'dc:source'},
                 new Uri('http://www.example.org/foo')
             ],
             'qux' => [
-                $doc->documentElement['qux'],
+                $doc->documentElement->qux,
                 'quux'
             ],
             'bar' => [
-                $doc->documentElement['bar'],
+                $doc->documentElement->bar,
                 true
             ],
             'baz' => [
-                $doc->documentElement['baz'],
+                $doc->documentElement->baz,
                 false
             ],
             'barbaz' => [
-                $doc->documentElement['barbaz'],
+                $doc->documentElement->barbaz,
                 42
             ],
             'datetime' => [
-                $doc['corge']['datetime'],
+                $doc['corge']->datetime,
                 new \DateTime('2021-02-17')
             ],
             'safecurie' => [
-                $doc['corge']['safecurie'],
+                $doc['corge']->safecurie,
                 new Uri('http://foo.example.org/bar?baz=qux')
             ],
             'list' => [
-                $doc['corge']['list'],
+                $doc['corge']->list,
                 [ 'foo', 'foo', 'foo', 'bar' ]
             ],
             'shorts' => [
-                $doc['corge']['shorts'],
+                $doc['corge']->shorts,
                 [ 1 => 1, 2 => 2, 3 => 3, -4 => -4 ]
             ],
             'enums' => [
-                $doc['corge']['enums'],
+                $doc['corge']->enums,
                 [
                     'list' => $enums['list'],
                     'union' => $enums['union']

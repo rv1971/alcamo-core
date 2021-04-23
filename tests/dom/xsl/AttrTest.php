@@ -20,9 +20,9 @@ class AttrTest extends TestCase
 
         $this->assertEquals(
             new MediaType('application', 'json'),
-            $outputElem['media-type']
+            $outputElem->{'media-type'}
         );
 
-        $this->assertSame(false, $outputElem['indent']);
+        $this->assertSame(false, $outputElem->indent);
     }
 }
