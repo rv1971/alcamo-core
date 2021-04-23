@@ -25,6 +25,7 @@ class ConverterPoolTest extends TestCase
             case 'toLang':
             case 'toMediaType':
             case 'toPrefixSet':
+            case 'toSet':
             case 'toUri':
             case 'toXName':
             case 'xPointerUrlToValueSet':
@@ -117,6 +118,11 @@ class ConverterPoolTest extends TestCase
                 $doc->documentElement->getAttributeNode('foobar'),
                 'toPrefixSet',
                 ReadonlyPrefixSet::newFromString('foo bar baz')
+            ],
+            'set' => [
+                $doc->documentElement->getAttributeNode('foobar'),
+                'toSet',
+                new Set(['foo', 'bar', 'baz'])
             ],
             'longint' => [
                 $doc['longint']->getAttributeNode('content'),

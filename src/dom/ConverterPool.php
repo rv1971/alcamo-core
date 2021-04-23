@@ -64,6 +64,11 @@ class ConverterPool
         return ReadonlyPrefixSet::newFromString($value);
     }
 
+    public static function toSet($value): Set
+    {
+        return new Set(preg_split('/\s+/', $value));
+    }
+
     public static function toUri($value): Uri
     {
         return new Uri($value);
