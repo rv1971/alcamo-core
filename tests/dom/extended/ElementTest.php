@@ -80,7 +80,7 @@ class ElementTest extends TestCase
 
         return [
             'without-namespace' => [
-                $doc->documentElement, 'qux', true, 'quux'
+                $doc->documentElement, 'qux', true, '42-43'
             ],
             'namespace-prefix' => [
                 $doc->documentElement, 'xml:lang', true, 'oc'

@@ -5,6 +5,7 @@ namespace alcamo\dom;
 use PHPUnit\Framework\TestCase;
 use alcamo\collection\ReadonlyPrefixSet;
 use alcamo\iana\MediaType;
+use alcamo\integer\NonNegativeRange;
 use alcamo\ietf\{Lang, Uri};
 use alcamo\time\Duration;
 use alcamo\xml\XName;
@@ -24,6 +25,7 @@ class ConverterPoolTest extends TestCase
             case 'toDuration':
             case 'toLang':
             case 'toMediaType':
+            case 'toNonNegativeRange':
             case 'toPrefixSet':
             case 'toSet':
             case 'toUri':
@@ -113,6 +115,11 @@ class ConverterPoolTest extends TestCase
                 $doc['media-type']->getAttributeNode('content'),
                 'toMediaType',
                 new MediaType('application', 'json')
+            ],
+            'non-negative-range' => [
+                $doc->documentElement->getAttributeNode('qux'),
+                'toNonNegativeRange',
+                new NonNegativeRange(42, 43)
             ],
             'prefix-set' => [
                 $doc->documentElement->getAttributeNode('foobar'),

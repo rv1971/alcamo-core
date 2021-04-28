@@ -14,7 +14,7 @@
     xsi:schemaLocation="http://foo.example.org foo.xsd http://www.w3.org/2000/01/rdf-schema# ../../xsd/rdfs.xsd"
     xml:lang="oc"
     dc:source="http://www.example.org/foo"
-    qux="quux"
+    qux="42-43"
     bar="true"
     baz="false"
     foobar="foo   bar	baz"

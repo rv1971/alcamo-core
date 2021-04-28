@@ -6,6 +6,7 @@ use alcamo\binary_data\BinaryString;
 use alcamo\collection\ReadonlyPrefixSet;
 use alcamo\iana\MediaType;
 use alcamo\ietf\{Lang, Uri};
+use alcamo\integer\NonNegativeRange;
 use alcamo\time\Duration;
 use alcamo\xml\XName;
 use alcamo\xpointer\Pointer;
@@ -52,6 +53,11 @@ class ConverterPool
     public static function toLang($value): Lang
     {
         return Lang::newFromString($value);
+    }
+
+    public static function toNonNegativeRange($value): NonNegativeRange
+    {
+        return NonNegativeRange::newFromString($value);
     }
 
     public static function toMediaType($value): MediaType

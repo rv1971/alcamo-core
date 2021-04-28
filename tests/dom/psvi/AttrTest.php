@@ -136,7 +136,7 @@ class AttrTest extends TestCase
             ],
             'qux' => [
                 $doc->documentElement->qux,
-                'quux'
+                '42-43'
             ],
             'bar' => [
                 $doc->documentElement->bar,

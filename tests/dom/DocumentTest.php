@@ -34,7 +34,7 @@ class DocumentTest extends TestCase
         $this->assertSame($expectedUri, $doc->documentURI);
 
         $this->assertSame(
-            'quux',
+            '42-43',
             (string)$doc->documentElement->getAttributeNode('qux')
         );
 
