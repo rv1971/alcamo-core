@@ -109,6 +109,12 @@ class BinaryString implements \ArrayAccess, \Countable
 
     /* == operations == */
 
+    /// Whether all bits are zero
+    public function isZero(): bool
+    {
+        return strspn($this->data_, "\x00") == strlen($this->data_);
+    }
+
     /// Get as integer, if possible.
     public function toInt(): ?int
     {
@@ -140,6 +146,12 @@ class BinaryString implements \ArrayAccess, \Countable
             default:
                 return null;
         }
+    }
+
+    /// Trim leading zeros
+    public function ltrim(): self
+    {
+        return new self(ltrim($this->data_, "\x00"));
     }
 
     /// Perform bitwise and.

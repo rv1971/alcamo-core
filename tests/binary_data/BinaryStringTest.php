@@ -15,7 +15,9 @@ class BinaryStringTest extends TestCase
         $minBytes,
         $expectedGetData,
         $expectedToString,
-        $expectedCount
+        $expectedCount,
+        $expectedIsZero,
+        $expectedLtrim
     ) {
         $binString = BinaryString::newFromInt($value, $minBytes);
 
@@ -24,6 +26,10 @@ class BinaryStringTest extends TestCase
         $this->assertSame($expectedGetData, $binString->getData());
 
         $this->assertSame($expectedCount, count($binString));
+
+        $this->assertSame($expectedIsZero, $binString->isZero());
+
+        $this->assertSame($expectedLtrim, (string)$binString->ltrim());
     }
 
     public function newFromIntProvider()
@@ -34,49 +40,72 @@ class BinaryStringTest extends TestCase
                 null,
                 "\x00",
                 "00",
-                1
+                1,
+                true,
+                ''
             ],
             '0-3' => [
                 0,
                 3,
                 "\x00\x00\x00",
                 "000000",
-                3
+                3,
+                true,
+                ''
+            ],
+            '0-20' => [
+                0,
+                20,
+                "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+                "0000000000000000000000000000000000000000",
+                20,
+                true,
+                ''
             ],
             '255-null' => [
                 255,
                 null,
                 "\xff",
                 "FF",
-                1
+                1,
+                false,
+                "FF"
             ],
             '256-null' => [
                 256,
                 null,
                 "\x01\x00",
                 "0100",
-                2
+                2,
+                false,
+                "0100"
             ],
             '0x1234-5' => [
                 0x1234,
                 5,
                 "\x00\x00\x00\x12\x34",
                 "0000001234",
-                5
+                5,
+                false,
+                "1234"
             ],
             '0x123456-null' => [
                 0x123456,
                 null,
                 "\x12\x34\x56",
                 "123456",
-                3
+                3,
+                false,
+                "123456"
             ],
             '0x123456789-null' => [
                 0x123456789,
                 null,
                 "\x01\x23\x45\x67\x89",
                 "0123456789",
-                5
+                5,
+                false,
+                "0123456789"
             ]
         ];
     }
