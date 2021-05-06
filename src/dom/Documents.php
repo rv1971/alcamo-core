@@ -7,6 +7,8 @@ use alcamo\collection\ReadonlyCollection;
 /// Array of DOM documents indexed by dc:identifier.
 class Documents extends ReadonlyCollection
 {
+    public const FACTORY_CLASS = DocumentFactory::class;
+
     public static function newFromGlob(
         string $pattern,
         ?int $libXmlOptions = null
@@ -35,8 +37,9 @@ class Documents extends ReadonlyCollection
         string $url,
         ?int $libXmlOptions = null
     ): Document {
-        return
-            (new DocumentFactory())->createFromUrl($url, null, $libXmlOptions);
+        $class = static::FACTORY_CLASS;
+
+        return (new $class())->createFromUrl($url, null, $libXmlOptions);
     }
 
     /**
