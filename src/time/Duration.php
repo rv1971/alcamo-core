@@ -35,12 +35,12 @@ class Duration extends \DateInterval
             $str = rtrim($a[0], '0');
 
             if (!(int)$str[-1]) {
-                parent::__construct(rtrim($str, 'T'));
+                parent::__construct($str == 'PT' ? 'P0D' : rtrim($str, 'T'));
             } else {
                 parent::__construct("{$a[0]}S");
             }
 
-            $this->f = (float)str_pad($a[1], 6, '0') / 1000000.;
+            $this->f = (float)str_pad(rtrim($a[1], 'S'), 6, '0') / 1000000.;
         }
     }
 
@@ -79,7 +79,7 @@ class Duration extends \DateInterval
             $timeFormat .= '%s';
 
             if ($this->f >= .5e-6) {
-                $timeFormat .= '.%F';
+                $timeFormat .= trim(sprintf('%f', $this->f), '0');
             }
 
             $timeFormat .= 'S';
