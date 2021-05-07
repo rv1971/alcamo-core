@@ -115,6 +115,5 @@ class Attr extends BaseAttr
 
             throw $e;
         }
-
     }
 }
