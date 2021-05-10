@@ -115,6 +115,11 @@ class SchemaTest extends TestCase
         foreach ($schema3->getXsds() as $url => $xsd) {
             $this->assertSame($xsds[$i++], basename($url));
         }
+
+        foreach ($schema3->getGlobalTypes() as $xNameString => $type) {
+            $this->assertInstanceOf(TypeInterface::class, $type);
+            $this->assertSame($xNameString, (string)$type->getXName());
+        }
     }
 
     public function testNewFromXsds()

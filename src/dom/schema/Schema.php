@@ -134,8 +134,10 @@ class Schema
     private $globalGroups_     = []; ///< Map of XName string to Group
     private $globalNotations_  = []; ///< Map of XName string to Notation
 
-    ///< Map of XName string to XsdElem AbstractType
+    ///< Map of XName string to AbstractType
     private $globalTypes_ = [];
+
+    private $getGlobalTypesAlreadyCalled_ = false;
 
     private $anyType_;                ///< ComplexType
     private $anySimpleType;           ///< PredefinedSimpleType
@@ -235,6 +237,7 @@ class Schema
             return null;
         }
 
+        // create type from XSD element upon first invocation
         if ($comp instanceof XsdElement) {
             $this->globalTypes_[$xNameString] =
                 $comp->localName == 'simpleType'
@@ -243,6 +246,33 @@ class Schema
         }
 
         return $this->globalTypes_[$xNameString];
+    }
+
+    /**
+     * @brief Get map of all global types.
+     *
+     * Use this method only if you really need all types (e.g. to create a
+     * catalog of types). If you need only some types, use getGlobalType()
+     * which is nore efficient because it will onyl create the neededtype
+     * objects.
+     */
+    public function getGlobalTypes(): array
+    {
+        if (!$this->getGlobalTypesAlreadyCalled_) {
+            foreach ($this->globalTypes_ as $xNameString => $comp) {
+                if ($comp instanceof XsdElement) {
+                    $this->globalTypes_[$xNameString] =
+                        $comp->localName == 'simpleType'
+                        ? AbstractSimpleType::newFromSchemaAndXsdElement(
+                            $this,
+                            $comp
+                        )
+                        : new ComplexType($this, $comp);
+                }
+            }
+        }
+
+        return $this->globalTypes_;
     }
 
     public function getAnyType(): ComplexType
