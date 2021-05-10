@@ -114,12 +114,13 @@ class PageFactory
 
     public function createBegin(
         ?array $resources = null,
-        ?Nodes $extraHeadNodes = null
+        ?Nodes $extraHeadNodes = null,
+        ?array $bodyAttrs = null
     ): string {
         return $this->createDoctypeDecl()
             . $this->createHtmlOpen()
             . $this->createHead($resources, $extraHeadNodes)
-            . $this->createBodyOpen();
+            . $this->createBodyOpen($bodyAttrs);
     }
 
     public function createEnd(): string
