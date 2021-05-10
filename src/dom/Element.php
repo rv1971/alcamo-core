@@ -10,6 +10,7 @@ class Element extends \DOMElement implements
     HasXNameInterface
 {
     use HasXNameTrait;
+    use Rfc5147Trait;
 
     public function __toString()
     {

@@ -42,4 +42,19 @@ class ElementTest extends TestCase
             );
         }
     }
+
+    public function testRfc5147Trait()
+    {
+        $doc = Document::newFromUrl(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xml');
+
+        $this->assertSame(
+            $doc->documentURI . '#line=27',
+            $doc['a']->getRfc5147Uri()
+        );
+
+        $this->assertSame(
+            $doc->documentURI . '#line=50',
+            $doc['xpointer2']->getAttributeNode('content')->getRfc5147Uri()
+        );
+    }
 }

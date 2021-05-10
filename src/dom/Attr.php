@@ -8,6 +8,7 @@ use alcamo\xml\HasXNameInterface;
 class Attr extends \DOMAttr implements HasXNameInterface
 {
     use HasXNameTrait;
+    use Rfc5147Trait;
 
     public function __toString()
     {
