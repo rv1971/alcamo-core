@@ -54,11 +54,12 @@ class Page
 
     public function begin(
         ?iterable $resources = null,
-        ?Nodes $extraHeadNodes = null
+        ?Nodes $extraHeadNodes = null,
+        ?array $bodyAttrs = null
     ) {
         $this->body_->write(
             $this->htmlFactory_['page']
-                ->createBegin($resources, $extraHeadNodes)
+                ->createBegin($resources, $extraHeadNodes, $bodyAttrs)
         );
     }
 
