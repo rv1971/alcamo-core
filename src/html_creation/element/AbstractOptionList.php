@@ -2,6 +2,8 @@
 
 namespace alcamo\html_creation\element;
 
+use alcamo\xml_creation\Raw;
+
 /// Common base class for Optgroup and Select
 abstract class AbstractOptionList extends AbstractSpecificElement
 {
@@ -29,7 +31,8 @@ abstract class AbstractOptionList extends AbstractSpecificElement
         $options = [];
 
         foreach ($values as $value => $optionContent) {
-            $options[] = $optionContent instanceof Option
+            $options[] = ($optionContent instanceof Raw
+                          || $optionContent instanceof Option)
             ? $optionContent
             : new Option($value, $optionContent, $compareTo);
         }

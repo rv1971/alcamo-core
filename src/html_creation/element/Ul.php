@@ -2,6 +2,8 @@
 
 namespace alcamo\html_creation\element;
 
+use alcamo\xml_creation\Raw;
+
 class Ul extends AbstractSpecificElement
 {
     public const TAG_NAME = "ul";
@@ -14,7 +16,8 @@ class Ul extends AbstractSpecificElement
 
         foreach ($items as $item) {
             $content[] =
-                ($item instanceof Li
+                ($item instanceof Raw
+                 || $item instanceof Li
                  || $item instanceof AbstractScriptSupportingElement)
                 ? $item
                 : new Li($item);

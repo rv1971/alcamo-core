@@ -2,6 +2,8 @@
 
 namespace alcamo\html_creation\element;
 
+use alcamo\xml_creation\Raw;
+
 class Table extends AbstractRowgroupElement
 {
     public const TAG_NAME = "table";
@@ -31,6 +33,7 @@ class Table extends AbstractRowgroupElement
             case !isset($thead):
                 break;
 
+            case $thead instanceof Raw:
             case $thead instanceof Thead:
                 $content[] = $thead;
                 break;
@@ -47,6 +50,7 @@ class Table extends AbstractRowgroupElement
             case !isset($tbody):
                 break;
 
+            case $thead instanceof Raw:
             case $tbody instanceof Tbody:
                 $content[] = $tbody;
                 break;
@@ -63,6 +67,7 @@ class Table extends AbstractRowgroupElement
             case !isset($tfoot):
                 break;
 
+            case $thead instanceof Raw:
             case $tfoot instanceof Tfoot:
                 $content[] = $tfoot;
                 break;

@@ -2,6 +2,8 @@
 
 namespace alcamo\html_creation\element;
 
+use alcamo\xml_creation\Raw;
+
 /// Common base class for Thead, Tbody, Tfoot and Table
 abstract class AbstractRowgroupElement extends AbstractSpecificElement
 {
@@ -24,7 +26,7 @@ abstract class AbstractRowgroupElement extends AbstractSpecificElement
         $content = [];
 
         foreach ($items as $item) {
-            $content[] = $item instanceof Tr
+            $content[] = ($item instanceof Raw || $item instanceof Tr)
             ? $item
             : new Tr($item, null, static::CELL_CLASS);
         }

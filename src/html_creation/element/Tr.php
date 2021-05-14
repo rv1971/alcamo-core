@@ -20,11 +20,11 @@ class Tr extends AbstractSpecificElement
         $content = [];
 
         foreach ($items as $item) {
-            $content[] =
-            ( $item instanceof AbstractTableCell
-            || $item instanceof AbstractScriptSupportingElement)
-            ? $item
-            : new $cellClass($item);
+            $content[] = ($item instanceof Raw
+                          || $item instanceof AbstractTableCell
+                          || $item instanceof AbstractScriptSupportingElement)
+                ? $item
+                : new $cellClass($item);
         }
 
         parent::__construct($content, $attrs);
