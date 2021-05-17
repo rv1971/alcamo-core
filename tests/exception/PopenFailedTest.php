@@ -48,11 +48,11 @@ class PopenFailedTest extends TestCase
 
             'extra-message' => [
                 '/usr/sbin/bar --baz=qux',
-                'rt',
+               null,
                 '; stet clita kasd gubergren',
                 43,
-                'Failed to open process "/usr/sbin/bar --baz=qux" '
-                . 'in mode "rt"; stet clita kasd gubergren'
+                'Failed to open process "/usr/sbin/bar --baz=qux"'
+                . '; stet clita kasd gubergren'
             ]
         ];
     }
