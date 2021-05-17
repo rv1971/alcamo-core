@@ -19,7 +19,9 @@ class PopenFailed extends \RuntimeException
 
         if (!$message || $message[0] == ';') {
             $message =
-                "Failed to open process \"$command\""
+                'Failed to open process "'
+                . (is_array($command) ? implode(' ', $command) : $command)
+                . '"'
                 . (isset($mode) ? " in mode \"$mode\"" : null)
                 . $message;
         }

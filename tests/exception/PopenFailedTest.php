@@ -47,7 +47,7 @@ class PopenFailedTest extends TestCase
             ],
 
             'extra-message' => [
-                '/usr/sbin/bar --baz=qux',
+                ['/usr/sbin/bar', '--baz=qux' ],
                null,
                 '; stet clita kasd gubergren',
                 43,
