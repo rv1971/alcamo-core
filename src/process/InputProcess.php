@@ -18,7 +18,10 @@ class InputProcess extends Process
         'fpassthru',
         'fread',
         'fscanf',
-        'fstat'
+        'fstat',
+        'stream_get_contents',
+        'stream_get_line',
+        'stream_get_meta_data'
     ];
 
     public function __call($name, $params)

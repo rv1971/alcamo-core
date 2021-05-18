@@ -11,7 +11,8 @@ class OutputProcess extends Process
      * with this name and the process' stdin as its first parameter.
      */
     public const MAGIC_METHODS = [
-        'fputcsv', 'fputs', 'fstat', 'fwrite'
+        'fputcsv', 'fputs', 'fstat', 'fwrite',
+        'stream_get_meta_data'
     ];
 
     public function __call($name, $params)
