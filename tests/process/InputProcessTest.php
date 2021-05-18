@@ -14,11 +14,13 @@ class InputProcessTest extends TestCase
 {
     public function testCmd()
     {
-        $cmd = "php -r 'echo \"Lorem ipsum\";'";
+        $cmd = [ 'php', '-r', 'echo "Lorem ipsum";' ];
 
         $process = new InputProcess($cmd);
 
-        $this->assertSame($cmd, $process->getCmd());
+        if (PHP_VERSION_ID >= 70400) {
+            $this->assertSame($cmd, $process->getCmd());
+        }
 
         $this->assertSame('Lorem ipsum', $process->fgets());
 
@@ -42,7 +44,7 @@ class InputProcessTest extends TestCase
 
     public function testEnv()
     {
-        $cmd = "php -r 'echo getenv(\"foo\");'";
+        $cmd = [ 'php', '-r', 'echo getenv("foo");' ];
 
         $env = [ 'foo' => 'bar' ];
 

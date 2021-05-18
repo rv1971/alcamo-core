@@ -19,6 +19,13 @@ class Process
         ?array $env = null,
         ?bool $deferOpen = null
     ) {
+        /** @warning For PHP versions < 7.4, an array $cmd is simply
+         *  transformed to a command line by wrapping each item into single
+         *  quotes. There are cases where this will not work. */
+        if (is_array($cmd) && PHP_VERSION_ID < 70400) {
+            $cmd = "'" . implode("' '", $cmd) . "'";
+        }
+
         $this->cmd_ = $cmd;
 
         if (isset($dir)) {
