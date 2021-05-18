@@ -11,6 +11,7 @@ class InputProcess extends Process
      * with this name and the process' stdout as its first parameter.
      */
     public const MAGIC_METHODS = [
+        'feof',
         'fgetc',
         'fgetcsv',
         'fgets',
