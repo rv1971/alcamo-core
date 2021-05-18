@@ -24,9 +24,10 @@ class InputProcess extends Process
     public function __call($name, $params)
     {
         if (!in_array($name, static::MAGIC_METHODS)) {
-            throw new Unsupported($name);
+            /** @throw Unsupported is $name is not a supported method */
+            throw new Unsupported("$name()");
         }
 
-        return $name($this->pipe_[1], ...$params);
+        return $name($this->pipes_[1], ...$params);
     }
 }

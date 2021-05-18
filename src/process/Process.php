@@ -15,8 +15,8 @@ class Process
 
     public function __construct(
         $cmd,
-        ?string $dir,
-        ?array $env,
+        ?string $dir = null,
+        ?array $env = null,
         ?bool $deferOpen = null
     ) {
         $this->cmd_ = $cmd;
@@ -25,7 +25,7 @@ class Process
             $this->dir_ = realpath($dir);
 
             if ($this->dir_ === false) {
-                /** @throw DirectoryNotFound if `realpath($dir)´ fails */
+                /** @throw DirectoryNotFound if `realpath($dir)` fails */
                 throw new DirectoryNotFound($dir);
             }
         }
@@ -34,6 +34,13 @@ class Process
 
         if (!$deferOpen) {
             $this->open();
+        }
+    }
+
+    public function __destruct()
+    {
+        if (isset($this->process_)) {
+            $this->close();
         }
     }
 
@@ -107,9 +114,9 @@ class Process
     protected function createDescriptorSpec(): array
     {
         return [
-            0 => [ 'pipe', 'w' ],
-            1 => [ 'pipe', 'r' ],
-            2 => [ 'pipe', 'r' ]
+            0 => [ 'pipe', 'r' ],
+            1 => [ 'pipe', 'w' ],
+            2 => [ 'pipe', 'w' ]
         ];
     }
 
