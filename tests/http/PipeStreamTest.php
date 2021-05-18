@@ -3,7 +3,8 @@
 namespace alcamo\http;
 
 use PHPUnit\Framework\TestCase;
-use alcamo\exception\{Closed, PopenFailed};
+use alcamo\exception\Closed;
+use alcamo\process\OutputProcess;
 
 class PipeStreamTest extends TestCase
 {
@@ -12,7 +13,7 @@ class PipeStreamTest extends TestCase
      */
     public function testBasics($command, $expectedOutput)
     {
-        $stream = new PipeStream($command, "rt");
+        $stream = new PipeStream(new OutputProcess($command));
 
         $this->assertNull($stream->getStatus());
 
@@ -37,7 +38,7 @@ class PipeStreamTest extends TestCase
 
     public function testEmitException()
     {
-        $stream = new PipeStream('echo', 'rt');
+        $stream = new PipeStream(new OutputProcess('echo'));
 
         $content = (string)$stream;
 

@@ -2,22 +2,19 @@
 
 namespace alcamo\http;
 
-use alcamo\exception\{Closed, PopenFailed};
+use alcamo\exception\Closed;
+use alcamo\process\Process;
 use Laminas\Diactoros\Stream;
 
 class PipeStream extends Stream implements EmitInterface
 {
+    private $process_;
     private $status_;
 
-    public function __construct(string $command, string $mode)
+    public function __construct(Process $process)
     {
-        $resource = popen($command, $mode);
-
-        if ($resource === false) {
-            throw new PopenFailed($command, $mode);
-        }
-
-        parent::__construct($resource);
+        $this->process_ = $process;
+        parent::__construct($process->getStdout());
     }
 
     public function getStatus(): ?int
@@ -27,12 +24,12 @@ class PipeStream extends Stream implements EmitInterface
 
     public function close(): void
     {
-        if (! $this->resource) {
+        if (!$this->resource) {
             return;
         }
 
         $resource = $this->detach();
-        $this->status_ = pclose($resource);
+        $this->status_ = $this->process_->close();
     }
 
     public function emit(): ?int

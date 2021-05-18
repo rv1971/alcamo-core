@@ -2,6 +2,7 @@
 
 namespace alcamo\http;
 
+use alcamo\process\OutputProcess;
 use alcamo\rdfa\RdfaData;
 
 require getenv('PHPUNIT_COMPOSER_INSTALL');
@@ -17,7 +18,7 @@ switch ($type) {
         break;
 
     case 'pipe':
-        $stream = new PipeStream($text, "rt");
+        $stream = new PipeStream(new OutputProcess($text));
 
         $response = new Response(RdfaData::newFromIterable([]), $stream);
 
