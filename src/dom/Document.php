@@ -38,6 +38,9 @@ class Document extends \DOMDocument implements
         /// RDFS namespace
         'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
 
+        /// Namespace for this package
+        'self' => 'https://github.com/rv1971/alcamo-dom/',
+
         /// XHTML namespace
         'xh' => 'http://www.w3.org/1999/xhtml',
 
@@ -250,11 +253,8 @@ class Document extends \DOMDocument implements
         return $this->xsltProcessor_;
     }
     /**
-     * @return Array of Uri objects.
-     * - If there is a `schemaLocation` attribute, indexed by namespace.
-     * - Otherwise, if there is a `noNamespaceSchemaLocation` attribute, one
-     *   numerically-indexed item.
-     * - Otherwise, empty array.
+     * @return Array of absolute Uri objects indexed by namespace. Empty if
+     * there is no `schemaLocation` attribute.
      */
     public function getSchemaLocations(): array
     {
@@ -283,23 +283,6 @@ class Document extends \DOMDocument implements
                         new Uri($items[$i + 1])
                     );
                 }
-            } elseif (
-                $this->documentElement->hasAttributeNS(
-                    self::NS['xsi'],
-                    'noNamespaceSchemaLocation'
-                )
-            ) {
-                $this->schemaLocations_ = [
-                    UriResolver::resolve(
-                        $baseUri,
-                        new Uri(
-                            $this->documentElement->getAttributeNS(
-                                self::NS['xsi'],
-                                'noNamespaceSchemaLocation'
-                            )
-                        )
-                    )
-                ];
             } else {
                 $this->schemaLocations_ = [];
             }
@@ -308,21 +291,11 @@ class Document extends \DOMDocument implements
         return $this->schemaLocations_;
     }
 
-    /**
-     * @brief Validate with given XML Schema.
-     *
-     * @param $schemaUrl Url of the schema document. Relative URLs are
-     * interpreted as relative the the document URL.
-     */
+    /// Validate with given XML Schema.
     public function validateWithSchema(
         string $schemaUrl,
         ?int $libXmlOptions = null
     ): self {
-        $schemaUrl = UriResolver::resolve(
-            new Uri($this->documentURI),
-            new Uri($schemaUrl)
-        );
-
         libxml_use_internal_errors(true);
         libxml_clear_errors();
 
@@ -351,20 +324,91 @@ class Document extends \DOMDocument implements
         return $this;
     }
 
-    /**
-     * @brief Validate with schemas given in xsi:schemaLocation or
-     * xsi:noNamespaceSchemaLocation.
-     */
-    public function validate(?int $libXmlOptions = null)
-    {
-        foreach ($this->getSchemaLocations() as $ns => $schemaUrl) {
-            if ($ns === 0 || $ns === $this->documentElement->namespaceURI) {
-                $this->validateWithSchema($schemaUrl, $libXmlOptions);
-                break;
+    /// Validate with given XML Schema source.
+    public function validateWithSchemaSource(
+        string $schemaSource,
+        ?int $libXmlOptions = null
+    ): self {
+        libxml_use_internal_errors(true);
+        libxml_clear_errors();
+
+        if (!$this->schemaValidateSource($schemaSource, $libXmlOptions)) {
+            $messages = [];
+
+            foreach (libxml_get_errors() as $error) {
+                /* Suppress warnings. */
+                if (
+                    strpos($error->message, 'namespace was already imported')
+                     !== false
+                ) {
+                    continue;
+                }
+
+                $messages[] = "$error->file:$error->line $error->message";
             }
+
+            throw new DataValidationFailed(
+                $this->saveXML(),
+                $this->documentURI,
+                '; ' . implode('', $messages)
+            );
         }
 
         return $this;
+    }
+
+    /**
+     * @brief Validate with schemas given in xsi:schemaLocation or
+     * xsi:noNamespaceSchemaLocation.
+     *
+     * Silently do nothing if none of the two is present.
+     */
+    public function validate(?int $libXmlOptions = null): self
+    {
+        $baseUri = new Uri($this->documentURI);
+
+        if (
+            $this->documentElement->hasAttributeNS(
+                self::NS['xsi'],
+                'noNamespaceSchemaLocation'
+            )
+        ) {
+            return $this->validateWithSchema(
+                UriResolver::resolve(
+                    $baseUri,
+                    new Uri(
+                        $this->documentElement->getAttributeNS(
+                            self::NS['xsi'],
+                            'noNamespaceSchemaLocation'
+                        )
+                    )
+                ),
+                $libXmlOptions
+            );
+        }
+
+        if (
+            !$this->documentElement->hasAttributeNS(
+                self::NS['xsi'],
+                'schemaLocation'
+            )
+        ) {
+            return $this;
+        }
+
+        $schemaSource =
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            . '<schema xmlns="http://www.w3.org/2001/XMLSchema" '
+            . 'targetNamespace="' . self::NS['self'] . 'validate">';
+
+        foreach ($this->getSchemaLocations() as $ns => $schemaUrl) {
+            $schemaSource .=
+                "<import namespace='$ns' schemaLocation='$schemaUrl'/>";
+        }
+
+        $schemaSource .= '</schema>';
+
+        return $this->validateWithSchemaSource($schemaSource, $libXmlOptions);
     }
 
     // Any initialization to be done after document loading

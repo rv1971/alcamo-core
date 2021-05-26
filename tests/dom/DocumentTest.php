@@ -190,14 +190,6 @@ class DocumentTest extends TestCase
             __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml'
         )->validate();
 
-        $this->assertEquals(
-            UriResolver::resolve(
-                new Uri($bar->documentURI),
-                new Uri('bar.xsd')
-            ),
-            $bar->getSchemaLocations()[0]
-        );
-
         $this->expectException(DataValidationFailed::class);
 
         $bar->validateWithSchema(__DIR__ . DIRECTORY_SEPARATOR . 'baz.xsd');
