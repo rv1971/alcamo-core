@@ -124,18 +124,19 @@ class SchemaTest extends TestCase
 
     public function testNewFromXsds()
     {
-        $documentFactory = new DocumentFactory();
-
-        $baseUrl = 'file://' . dirname(__DIR__) . '/';
+        $documentFactory = new DocumentFactory(
+            'file://' . str_replace(DIRECTORY_SEPARATOR, '/', dirname(__DIR__))
+            . '/'
+        );
 
         $xsds = [
-            $documentFactory->createFromUrl("{$baseUrl}foo.xsd"),
-            $documentFactory->createFromUrl("{$baseUrl}bar.xsd"),
+            $documentFactory->createFromUrl('foo.xsd'),
+            $documentFactory->createFromUrl('bar.xsd'),
         ];
 
         $xsds2 = [
-            $documentFactory->createFromUrl("{$baseUrl}foo.xsd"),
-            $documentFactory->createFromUrl("{$baseUrl}component/../bar.xsd"),
+            $documentFactory->createFromUrl('foo.xsd'),
+            $documentFactory->createFromUrl('component/../bar.xsd'),
         ];
 
         $this->assertSame($xsds[0], $xsds2[0]);

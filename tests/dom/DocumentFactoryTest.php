@@ -84,11 +84,17 @@ class DocumentFactoryTest extends TestCase
 
     public function testCache()
     {
-        $documentFactory = new DocumentFactory();
+        $baseUrl =
+            'file://' . str_replace(DIRECTORY_SEPARATOR, '/', __DIR__) . '/';
 
-        $barUrl = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml';
+        $documentFactory = new DocumentFactory($baseUrl);
 
-        $bar = $documentFactory->createFromUrl($barUrl);
+        $this->assertEquals($baseUrl, $documentFactory->getBaseUrl());
+
+        $barUrl = 'file://' . str_replace(DIRECTORY_SEPARATOR, '/', __DIR__)
+            . '/bar.xml';
+
+        $bar = $documentFactory->createFromUrl('bar.xml');
 
         $this->assertEquals($barUrl, $bar->documentURI);
 
@@ -97,27 +103,21 @@ class DocumentFactoryTest extends TestCase
         $this->assertSame('FOO', $bar->documentElement->getAttribute('foo'));
 
         // $bar2 does not use the cache, so it does not see the change to $bar
-        $bar2Url = 'file://' . __DIR__ . DIRECTORY_SEPARATOR
-            . 'extended' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
-            . 'bar.xml';
+        $bar2Url = 'extended/../bar.xml';
 
         $bar2 = $documentFactory->createFromUrl($bar2Url, null, null, false);
 
         $this->assertFalse($bar2->documentElement->hasAttribute('foo'));
 
         // $bar3 uses the cache, so so it sees the change
-        $bar3Url = 'file://' . __DIR__ . DIRECTORY_SEPARATOR
-            . 'xsd' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
-            . 'bar.xml';
+        $bar3Url = 'xsd/../bar.xml';
 
         $bar3 = $documentFactory->createFromUrl($bar3Url);
 
         $this->assertSame($bar, $bar3);
         $this->assertSame('FOO', $bar3->documentElement->getAttribute('foo'));
 
-        $bazUrl = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'baz.xml';
-
-        $baz = $documentFactory->createFromUrl($bazUrl);
+        $baz = $documentFactory->createFromUrl('baz.xml');
 
         $baz->documentElement->setAttribute('baz', 'BAZ');
 
@@ -126,7 +126,7 @@ class DocumentFactoryTest extends TestCase
         DocumentFactory::addToCache($baz);
 
         // $baz2 sees the change in the cached document
-        $baz2 = $documentFactory->createFromUrl($bazUrl);
+        $baz2 = $documentFactory->createFromUrl('baz.xml');
 
         $this->assertSame($baz, $baz2);
         $this->assertSame('BAZ', $baz2->documentElement->getAttribute('baz'));
@@ -155,7 +155,8 @@ class DocumentFactoryTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
 
-        $barUrl = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'bar.xml';
+        $barUrl = 'file://' . str_replace(DIRECTORY_SEPARATOR, '/', __DIR__)
+            . DIRECTORY_SEPARATOR . 'bar.xml';
 
         $bar1 = $documentFactory->createFromUrl($barUrl);
 

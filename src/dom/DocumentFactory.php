@@ -5,7 +5,7 @@ namespace alcamo\dom;
 use alcamo\ietf\Uri;
 use alcamo\dom\xsd\Document as Xsd;
 use alcamo\exception\{AbsoluteUriNeeded, Locked};
-use GuzzleHttp\Psr7\UriNormalizer;
+use GuzzleHttp\Psr7\{UriNormalizer, UriResolver};
 
 class DocumentFactory implements DocumentFactoryInterface
 {
@@ -45,6 +45,20 @@ class DocumentFactory implements DocumentFactoryInterface
         }
     }
 
+    private $baseUrl_; ///< UriInterface
+
+    public function __construct(?string $baseUrl = null)
+    {
+        if (isset($baseUrl)) {
+            $this->baseUrl_ = new Uri($baseUrl);
+        }
+    }
+
+    public function getBaseUrl(): ?Uri
+    {
+        return $this->baseUrl_;
+    }
+
     /**
      * @param $useCache ?bool
      * - if `true`, use the cache
@@ -57,13 +71,17 @@ class DocumentFactory implements DocumentFactoryInterface
         ?int $libXmlOptions = null,
         ?bool $useCache = null
     ): Document {
+        $url = new Uri($url);
+
+        if (isset($this->baseUrl_)) {
+            $url = UriResolver::resolve($this->baseUrl_, $url);
+        }
+
         if (!isset($class)) {
             $class = $this->urlToClass($url);
         }
 
         if ($useCache !== false) {
-            $url = new Uri($url);
-
             if ($useCache == true) {
                 if (!Uri::isAbsolute($url)) {
                     /** @throw AbsoluteUriNeeded when attempting to use a
