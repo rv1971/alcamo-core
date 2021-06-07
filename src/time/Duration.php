@@ -1,18 +1,21 @@
 <?php
 
-/**
- * @file
- *
- * @brief Class Duration.
- */
-
 namespace alcamo\time;
 
 use alcamo\exception\SyntaxError;
 
+/**
+ * @brief %Duration adding features to DateInterval
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class Duration extends \DateInterval
 {
-    /// Recognize fractions of a second
+    /**
+     * Unlike
+     * [DateInterval::__construct()](https://www.php.net/manual/en/dateinterval.construct)
+     * this constructor also recognizes fractions of a second.
+     */
     public function __construct(string $string)
     {
         $a = explode('.', $string);
@@ -23,6 +26,8 @@ class Duration extends \DateInterval
         } else {
             // After the dot there must be a number and an 'S'.
             if (!preg_match('/^([0-9]*)S$/', $a[1], $matches)) {
+                /** @throw alcamo::exception::SyntaxError if not a supported
+                 *  ISO 8601 duration */
                 throw new SyntaxError(
                     $string,
                     strlen($a[0]),
@@ -92,6 +97,7 @@ class Duration extends \DateInterval
         return $this->format($format);
     }
 
+    /// Return the total number of days, ignoring smaller units of time
     public function getTotalDays(): int
     {
       /** If months are specified, consider them to be of 30 days. */
@@ -100,17 +106,19 @@ class Duration extends \DateInterval
         : $this->y * 365 + $this->m * 30 + $this->d;
     }
 
-
+    /// Return the total number of hours, ignoring smaller units of time
     public function getTotalHours(): int
     {
         return $this->getTotalDays() * 24 + $this->h;
     }
 
+    /// Return the total number of minutes, ignoring smaller units of time
     public function getTotalMinutes(): int
     {
         return $this->getTotalHours() * 60 + $this->i;
     }
 
+    /// Return the total number of seconds, ignoring smaller units of time
     public function getTotalSeconds(): float
     {
         return $this->getTotalMinutes() * 60 + $this->s + $this->f;
