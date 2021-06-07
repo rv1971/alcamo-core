@@ -2,13 +2,20 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when attempting to use an unsupported feature
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class Unsupported extends \LogicException
 {
-    public $label;
+    public $label; ///< Label of the feature that triggered the exception
 
     /**
-     * If $message starts with a ';', it is appended to the generated message,
-     * otherwise it replaces the generated one.
+     * @param $label @copybrief $label
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
      */
     public function __construct(
         $label,

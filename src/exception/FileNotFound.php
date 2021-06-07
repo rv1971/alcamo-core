@@ -2,13 +2,27 @@
 
 namespace alcamo\exception;
 
-/// File not found
+/**
+ * @brief Exception thrown when a file was not found
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class FileNotFound extends FileException
 {
+    /**
+     * @brief Places where the file was searched for (converatble to string),
+     * or `null`
+     */
     public $places;
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $filename @copybrief FileException::$filename
+     *
+     * @param $places @copybrief $places
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         string $filename,
         ?string $places = null,

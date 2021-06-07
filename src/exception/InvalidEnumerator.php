@@ -2,13 +2,23 @@
 
 namespace alcamo\exception;
 
-/// Value not contained in enumeration
+/**
+ * @brief Exception thrown when a value was not a valid enumerator
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class InvalidEnumerator extends ValueException
 {
-    public $validValues;
+    public $validValues; ///< Valid enumerators
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $value @copybrief ValueException::$value
+     *
+     * @param $validValues @copybrief $validValues
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         $value,
         array $validValues,

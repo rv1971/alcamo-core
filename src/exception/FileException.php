@@ -2,11 +2,18 @@
 
 namespace alcamo\exception;
 
-/// File-related exception
+/**
+ * @brief Exception related to a file
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class FileException extends \RuntimeException
 {
-    public $filename;
+    public $filename; ///< Name of file that triggered the exception
 
+    /**
+     * @param $filename @copybrief $filename
+     */
     public function __construct(
         string $filename,
         string $message = '',
@@ -14,6 +21,7 @@ class FileException extends \RuntimeException
         \Exception $previous = null
     ) {
         $this->filename = $filename;
+
         parent::__construct($message, $code, $previous);
     }
 }

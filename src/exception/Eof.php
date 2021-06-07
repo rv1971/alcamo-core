@@ -2,19 +2,29 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when an end of file occurs in an object
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class Eof extends AbstractObjectStateException
 {
+    /** @copydoc AbstractObjectStateException::MESSAGE_INCIPIT */
     public const MESSAGE_INCIPIT = 'Eof in';
 
-    public $requestedUnits;
-    public $availableUnits;
+    public $requestedUnits; ///< Data units the program attempted to extract
+    public $availableUnits; ///< Data units available
 
     /**
-     * @param $objectOrLabel Either an object or a string describing a
-     *  variable.
+     * @param $objectOrLabel
+     * @copybrief AbstractObjectStateException::$objectOrLabel
      *
-     * If $message starts with a ';', it is appended to the generated message,
-     * otherwise it replaces the generated one.
+     * @param $requestedUnits @copybrief $requestedUnits
+     *
+     * @param $availableUnits @copybrief $availableUnits
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     * generated message, otherwise it replaces the generated one.
      */
     public function __construct(
         $objectOrLabel,

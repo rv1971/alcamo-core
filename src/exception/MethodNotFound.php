@@ -2,17 +2,26 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when attempting to call a non-existent method.
+ *
+ * Typically used in the magic method __call().
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class MethodNotFound extends \BadMethodCallException
 {
-    public $objectOrLabel;
-    public $method;
+    public $objectOrLabel; ///< Object, or string that indicates something
+    public $method;        ///< Method name
 
     /**
-     * @param $objectOrLabel Either an object or a string describing a
-     *  variable.
+     * @param $objectOrLabel @copybrief $objectOrLabel
      *
-     * If $message starts with a ';', it is appended to the generated message,
-     * otherwise it replaces the generated one.
+     * @param $method @copybrief $method
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     * automatically generated message, otherwise it replaces the generated
+     * one.
      */
     public function __construct(
         $objectOrLabel,

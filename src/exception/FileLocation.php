@@ -2,10 +2,14 @@
 
 namespace alcamo\exception;
 
-/// Location in file
+/**
+ * @brief Location in a file
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class FileLocation
 {
-    private $filename_; ///< Something that can be converted to string
+    private $filename_; ///< convertable to string
     private $line_;     ///< ?int
     private $column_;   ///< ?int
 

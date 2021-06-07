@@ -2,13 +2,24 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when a syntax error occurred
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class SyntaxError extends \DomainException
 {
-    public $text;
-    public $offset;
+    public $text;   ///< Text the syntax error occured in
+    public $offset; ///< Offset in \ref $text, or `null`
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $text @copybrief $text
+     *
+     * @param $offset @copybrief $offset
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         string $text,
         ?int $offset = null,
@@ -20,9 +31,12 @@ class SyntaxError extends \DomainException
         $this->offset = $offset;
 
         if (!$message || $message[0] == ';') {
+            /** Display at most the first 40 characters of @ref $text. */
             $shortText =
                 strlen($text) <= 40 ? $text : (substr($text, 0, 40) . '...');
 
+            /** If @ref $offset is given, display at most the first 40
+             *  characters of offeding text. */
             if (isset($offset)) {
                 $shortOffendingText =
                     strlen($text) <= $offset + 10

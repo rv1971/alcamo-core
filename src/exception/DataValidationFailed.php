@@ -2,13 +2,28 @@
 
 namespace alcamo\exception;
 
-/// Validation of data such as JSON or XML failed
+/**
+ * @brief Exception thrown when validation of structured data such as JSON or
+ * XML failed.
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class DataValidationFailed extends \RuntimeException
 {
-    public $data;
-    public $uri;
-    public $dataLine;
+    public $data;     ///< Data that can be converted to string
+    public $uri;      ///< URI where data was found, or `null`
+    public $dataLine; ///< Line number, or `null`
 
+    /**
+     * @param $data @copybrief $data
+     *
+     * @param $uri @copybrief $uri
+     *
+     * @param $dataLine @copybrief $dataLine
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         $data,
         $uri = null,
@@ -22,20 +37,14 @@ class DataValidationFailed extends \RuntimeException
         $this->dataLine = $dataLine;
 
         if (!$message || $message[0] == ';') {
+            /** Display at most the first 40 characters of @ref $data. */
             $shortText =
                 strlen($data) <= 40 ? $data : (substr($data, 0, 40) . '...');
 
-            $automaticMessage = "Failed to validate \"$shortText\"";
-
-            if (isset($uri)) {
-                $automaticMessage .= " at $uri";
-            }
-
-            if (isset($dataLine)) {
-                $automaticMessage .= ", line $dataLine";
-            }
-
-            $message = $automaticMessage . $message;
+            $message = "Failed to validate \"$shortText\""
+                . (isset($uri) ? " at $uri" : '')
+                . (isset($dataLine) ? ", line $dataLine" : '')
+                . $message;
         }
 
         parent::__construct($message, $code, $previous);

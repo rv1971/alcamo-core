@@ -2,12 +2,23 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when a value was not of a valid type
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class InvalidType extends ValueException
 {
-    public $validTypes;
+    public $validTypes; ///< Names of valid types
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $value @copybrief ValueException::$value
+     *
+     * @param $validTypes @copybrief $validtypes
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         $value,
         array $validTypes,

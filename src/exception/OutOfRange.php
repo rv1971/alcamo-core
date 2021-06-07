@@ -2,10 +2,15 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when a value was not in the expected range
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class OutOfRange extends ValueException
 {
-    public $lowerBound;
-    public $upperBound;
+    public $lowerBound; ///< Lower bound (convertible to string)
+    public $upperBound; ///< Upper bound (convertible to string)
 
     public static function throwIfOutside(
         $value,
@@ -19,8 +24,16 @@ class OutOfRange extends ValueException
         }
     }
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $value @copybrief ValueException::$value
+     *
+     * @param $lowerBound @copybrief $lowerBound
+     *
+     * @param $upperBound @copybrief $upperBound
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         $value,
         $lowerBound = null,

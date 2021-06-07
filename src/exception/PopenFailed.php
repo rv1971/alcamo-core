@@ -2,11 +2,24 @@
 
 namespace alcamo\exception;
 
+/**
+ * @brief Exception thrown when a call to popen() or proc_open() failed
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class PopenFailed extends \RuntimeException
 {
-    public $command;
-    public $mode;
+    public $command; ///< Command the program attempted to run
+    public $mode;    ///< Pipe mode, or `null`
 
+    /**
+     * @param $command @copybrief $command
+     *
+     * @param $mode @copybrief $mode
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         $command,
         ?string $mode = null,

@@ -8,9 +8,9 @@ use alcamo\exception\Locked;
 /**
  * @brief Map whose keys are type hashes.
  *
- * The lookup searches for base types if the type itself has no
- * mapping. The result of the lookup is added to the map to speed up
- * further lookups of the same type.
+ * The lookup() searches for base types if the type itself has no mapping. The
+ * result of the lookup is cached in the map to speed up further lookups of
+ * the same type.
  */
 class TypeMap
 {
@@ -75,8 +75,8 @@ class TypeMap
     public function addItems(array $map)
     {
         if ($this->isLocked_) {
-            /** @throw Locked when attempting to modify a map where entries
-             *  have already been added. */
+            /** @throw alcamo::exception::Locked when attempting to modify a
+             *  map where entries have already been added. */
             throw new Locked($this);
         }
 
@@ -87,25 +87,25 @@ class TypeMap
     public function replaceItems(array $map)
     {
         if ($this->isLocked_) {
-            /** @throw Locked when attempting to modify a map where entries
-             *  have already been added. */
+            /** @throw alcamo::exception::Locked when attempting to modify a
+             *  map where entries have already been added. */
             throw new Locked($this);
         }
 
         $this->map_ = $map + $this->map_;
     }
 
-    /// Return a value or @ref $defaultValue_.
     public function lookup(TypeInterface $type)
     {
         $hash = spl_object_hash($type);
 
-        // If the type appears in the map, return the value.
+        /** If $type appears in the map, return the value assigned to it. */
         if (isset($this->map_[$hash])) {
             return $this->map_[$hash];
         }
 
-        // Otherwise look for the first matching base type.
+        /** Otherwise look for the first base type that appears in the map. If
+         *  there is none, return the default value. */
         $result = $this->defaultValue_;
 
         for (
@@ -121,11 +121,12 @@ class TypeMap
             }
         }
 
-        // Add result of base type lookup to the map.
+        /** Cache any new result in the map. */
         $this->map_[$hash] = $result;
 
-        /* Now the map must not be modified any more because a change could
-         * invalidate the entry that has been added. */
+        /** Once any new result has been added, the map must not be
+         * modified any more because a change could invalidate the entry that
+         * has been added. */
         $this->isLocked_ = true;
 
         return $result;

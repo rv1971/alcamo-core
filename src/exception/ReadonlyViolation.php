@@ -2,13 +2,27 @@
 
 namespace alcamo\exception;
 
-/// Value not contained in enumeration
+/**
+ * @brief Exception thrown by an attempt to write to a readonly object.
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class ReadonlyViolation extends \LogicException
 {
-    public $validValues;
+    public $object; ///< Object, or `null`
+    public $method; ///< Method name, or `null`
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $object @copybrief $object
+     * If not given, extracted from the backtrace.
+     *
+     * @param $method @copybrief $method
+     * If not given, extracted from the backtrace.
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     * automatically generated message, otherwise it replaces the generated
+     * one.
+     */
     public function __construct(
         ?object $object = null,
         ?string $method = null,

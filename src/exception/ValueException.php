@@ -2,11 +2,18 @@
 
 namespace alcamo\exception;
 
-/// Value-related exception
+/**
+ * @brief Exception related to a specific value
+ *
+ * @date Last reviewed 2021-06-07
+ */
 class ValueException extends \UnexpectedValueException
 {
-    public $value;
+    public $value; ///< Value that triggered the exception
 
+    /**
+     * @param $value @copybrief $value
+     */
     public function __construct(
         $value,
         string $message = '',
