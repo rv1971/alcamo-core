@@ -5,29 +5,31 @@ namespace alcamo\integer;
 use alcamo\exception\{OutOfRange, SyntaxError};
 
 /**
- * @brief Range of integers.
+ * @brief Range of nonnegative integers
  *
- * @invariant @ref $min_ is a nonnegative integer.
+ * @invariant Immutable class.
  *
- * @invariant @ref $max_ is either `null` or an integer greater than or equal
- * to @ref $min_.
+ * @date Last reviewed 2021-06-08
  */
 class NonNegativeRange
 {
     /**
      * @brief Create from string.
      *
-     * Supports an empty string or the syntax `<min> [- [<max>]]`.
+     * Supports an empty string or the syntax `<min>[-[<max>]]`.
      */
     public static function newFromString(string $str): self
     {
+        /** Surrounding whitespace is ignored. */
         $str = trim($str);
 
+        /** The empty string represents the range [0,∞[. */
         if ($str == '') {
             return new static();
         }
 
-        /** @throw SyntaxError if the input is not well-formed. */
+        /** @throw alcamo::exception::SyntaxError if the input is
+         *  syntactically wrong. */
         if (
             !preg_match(
                 '/^(\d+)(\s*-\s*(\d+)?)?$/',
@@ -48,17 +50,22 @@ class NonNegativeRange
         return new static($min, $max);
     }
 
-    private $min_; ///< Minimum length (nonnegative integer)
-    private $max_; ///< Maximum length (nonnegative integer or null)
+    private $min_; ///< Minimum (nonnegative integer)
+    private $max_; ///< Maximum (nonnegative integer or null)
 
+    /**
+     * @param $min Minimum (nonnegative integer)
+     *
+     * @param $max Maximum (nonnegative integer or null)
+     */
     public function __construct(?int $min = null, ?int $max = null)
     {
-        /** @throw OutOfRange if `$min` is less than zero. */
+        /** @throw alcamo::exception::OutOfRange if $min is less than zero. */
         if ($min < 0) {
             throw new OutOfRange($min, 0);
         }
 
-        /** @throw InvalidArgument if `$max` is less than $min. */
+        /** @throw alcamo::exception::OutOfRange if $max is less than $min. */
         if (isset($max) && $max < $min) {
             throw new OutOfRange($max, $min);
         }
@@ -77,10 +84,9 @@ class NonNegativeRange
         return $this->max_;
     }
 
-    /// Convert to \<min>-\<max> representation.
     public function __toString()
     {
-        /** Return empty string if no limits are set. */
+        /** Return empty string for [0,∞[. */
         if (!$this->min_ && !isset($this->max_)) {
             return '';
         }
@@ -90,26 +96,26 @@ class NonNegativeRange
             return (string)$this->min_;
         }
 
-        /** Otherwise, return \<min>-\<max>. */
+        /** Otherwise, return `<min>-<max>`. */
         return "{$this->min_}-{$this->max_}";
     }
 
-    /// Whether any bounds are defined at all.
-    public function isBounded(): bool
+    /// Whether different from [0,∞[
+    public function isDefined(): bool
     {
         return $this->min_ || isset($this->max_);
     }
 
-    /// Whether the range is one exact length.
+    /// Whether the range is one exact value
     public function isExact(): bool
     {
         return $this->min_ === $this->max_;
     }
 
-    /// Whether $val is contained in the defined range.
-    public function contains(int $val): bool
+    /// Whether $value is contained in the defined range
+    public function contains(int $value): bool
     {
-        return $this->min_ <= $val
-            && (!isset($this->max_) || $val <= $this->max_);
+        return $this->min_ <= $value
+            && (!isset($this->max_) || $value <= $this->max_);
     }
 }
