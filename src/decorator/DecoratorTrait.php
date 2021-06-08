@@ -3,15 +3,28 @@
 namespace alcamo\decorator;
 
 /**
- * @brief Decorator pattern.
+ * @brief Provides a decorator for $handler_.
  *
- * The various interfaces must be written down explicitely, otherwise PHP does
- * not recognize that they are implemented.
+ * This includes the methods that implement
+ * - [Countable](https://www.php.net/manual/en/class.countable)
+ * - [Iterator](https://www.php.net/manual/en/class.iterator)
+ * - [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate)
+ * - [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess)
+ *
+ * @ref $handler_ must contain an object that implements all those methods
+ * which are actually used.
+ *
+ * These methods are written down explicitely, otherwise PHP would not
+ * recognize that they are implemented, even though their implementation is
+ * equivalent to the implicit use of the magic methods.
  */
 trait DecoratorTrait
 {
-    protected $handler_; ///< Handler object.
+    protected $handler_; ///< Handler object
 
+    /**
+     * @param $handler @copybreif $handler_
+     */
     public function __construct($handler)
     {
         $this->handler_ = $handler;
