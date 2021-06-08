@@ -2,7 +2,11 @@
 
 namespace alcamo\collection;
 
-/// Provide array interfaces accessing a class property $data_
+/**
+ * @brief Provide all array-like interfaces and a property $data_ they refer to.
+ *
+ * @date Last reviewed 2021-06-08
+ */
 trait CollectionTrait
 {
     use CountableTrait;
@@ -13,6 +17,7 @@ trait CollectionTrait
 
     protected $data_ = [];
 
+    /// Ensure that $data_ is intitialized with a (potentially empty) array
     public function __construct(?array $data = null)
     {
         $this->data_ = (array)$data;

@@ -2,7 +2,14 @@
 
 namespace alcamo\collection;
 
-// Decorator for a class property $data_
+/**
+ * @brief Provide __call() accessing a class property $data_
+ *
+ * @attention Any class using this trait must provide a class property $data_
+ * which must contain an object.
+ *
+ * @date Last reviewed 2021-06-08
+ */
 trait DecoratorTrait
 {
     public function __call($name, $params)

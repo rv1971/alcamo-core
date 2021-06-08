@@ -2,7 +2,12 @@
 
 namespace alcamo\collection;
 
-/// Provide readonly array interfaces accessing a class property $data_
+/**
+ * @brief Provide all array-like interfaces in a readonly way, and a property
+ * $data_ they refer to.
+ *
+ * @date Last reviewed 2021-06-08
+ */
 trait ReadonlyCollectionTrait
 {
     use CountableTrait;

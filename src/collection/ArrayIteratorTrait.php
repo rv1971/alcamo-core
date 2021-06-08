@@ -2,7 +2,16 @@
 
 namespace alcamo\collection;
 
-// Provide Iterator access to a class property $data_ which is an array
+/**
+ * @brief Provide the Iterator interface accessing a class property $data_
+ *
+ * @attention Any class using this trait must provide a class property $data_
+ * which must contain an array.
+ *
+ * @sa [Iterator interface](https://www.php.net/manual/en/class.iterator)
+ *
+ * @date Last reviewed 2021-06-08
+ */
 trait ArrayIteratorTrait
 {
     public function rewind()
@@ -30,7 +39,7 @@ trait ArrayIteratorTrait
         return $this->key() !== null;
     }
 
-    /// Get the first value.
+    /// Return the first value, or `null` if $data_ is empty
     public function first()
     {
         return $this->data_
@@ -38,7 +47,7 @@ trait ArrayIteratorTrait
             : null;
     }
 
-    /// Get the last value.
+    /// Return the last value, or `null` if $data_ is empty
     public function last()
     {
         return $this->data_
