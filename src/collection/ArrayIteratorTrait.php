@@ -3,7 +3,7 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide the Iterator interface accessing a class property $data_
+ * @brief Provide the Iterator interface by accessing a class property $data_
  *
  * @attention Any class using this trait must provide a class property $data_
  * which must contain an array.
