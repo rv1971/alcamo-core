@@ -194,8 +194,20 @@ class BinaryStringTest extends TestCase
             [ "123456789012", 0x123456789012 ],
             [ "12345678901234", 0x12345678901234 ],
             [ "1234567890123456", 0x1234567890123456 ],
-            [ "123456789012345678", null ]
+            [ "0000000000000000000000000000000123", 0x123 ]
         ];
+    }
+
+    public function testToIntException()
+    {
+        $binString = BinaryString::newFromHex("123456781234567812345678");
+
+        $this->expectException(OutOfRange::class);
+        $this->expectExceptionMessage(
+            'Value "12" out of range [0, 8]; too long for conversion to integer'
+        );
+
+        $binString->toInt();
     }
 
     /**

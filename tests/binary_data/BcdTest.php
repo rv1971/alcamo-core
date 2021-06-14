@@ -40,7 +40,7 @@ class BcdTest extends TestCase
 
     public function testConstruct()
     {
-        $bcd = new Bcd(
+        $bcd = Bcd::newFromString(
             "12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90"
         );
 
@@ -57,14 +57,14 @@ class BcdTest extends TestCase
             "Syntax error in \"12A34567\" at 2: \"A34567\"; not a valid integer literal"
         );
 
-        new Bcd('12A34567');
+        Bcd::newFromString('12A34567');
     }
 
     public function testToInt()
     {
-        $this->assertSame(0, (new Bcd(''))->toInt());
-        $this->assertSame(123, (new Bcd('123'))->toInt());
-        $this->assertSame(456, (new Bcd('000456'))->toInt());
+        $this->assertSame(0, (Bcd::newFromString(''))->toInt());
+        $this->assertSame(123, (Bcd::newFromString('123'))->toInt());
+        $this->assertSame(456, (Bcd::newFromString('000456'))->toInt());
     }
 
 
@@ -76,39 +76,28 @@ class BcdTest extends TestCase
             . ']; unable to convert BCD to integer'
         );
 
-        (new Bcd(PHP_INT_MAX . '0'))->toInt();
+        (Bcd::newFromString(PHP_INT_MAX . '0'))->toInt();
     }
 
     public function testPad()
     {
-        $bcd = new Bcd('123');
+        $bcd = Bcd::newFromString('123');
 
-        $bcd->pad();
+        $this->assertSame('0123', (string)$bcd->pad());
 
-        $this->assertSame('0123', (string)$bcd);
+        $this->assertSame('000123', (string)$bcd->pad(5));
 
-        $bcd->pad(5);
+        $this->assertSame('00000123', (string)$bcd->pad(8));
 
-        $this->assertSame('000123', (string)$bcd);
+        $this->assertSame('000000123', (string)$bcd->pad(9, true));
 
-        $bcd->pad(8);
+        $this->assertSame('0000000123', (string)$bcd->pad(9, true)->pad(6));
 
-        $this->assertSame('00000123', (string)$bcd);
+        $this->assertSame('00000000123', (string)$bcd->pad(11, true));
 
-        $bcd->pad(9, true);
-
-        $this->assertSame('000000123', (string)$bcd);
-
-        $bcd->pad(6);
-
-        $this->assertSame('0000000123', (string)$bcd);
-
-        $bcd->pad(11, true);
-
-        $this->assertSame('00000000123', (string)$bcd);
-
-        $bcd->pad(4, true);
-
-        $this->assertSame('00000000123', (string)$bcd);
+        $this->assertSame(
+            '00000000123',
+            (string)$bcd->pad(11, true)->pad(4, true)
+        );
     }
 }

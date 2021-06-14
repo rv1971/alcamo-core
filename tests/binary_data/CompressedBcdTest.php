@@ -40,7 +40,7 @@ class CompressedBcdTest extends TestCase
 
     public function testConstruct()
     {
-        $bcd = new CompressedBcd(
+        $bcd = CompressedBcd::newFromString(
             "12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 ff FF"
         );
 
@@ -57,39 +57,28 @@ class CompressedBcdTest extends TestCase
             "Syntax error in \"12A34567\" at 2: \"A34567\"; not a valid compressed BCD literal"
         );
 
-        new CompressedBcd('12A34567');
+        CompressedBcd::newFromString('12A34567');
     }
 
     public function testPad()
     {
-        $bcd = new CompressedBcd('123');
+        $bcd = CompressedBcd::newFromString('123');
 
-        $bcd->pad();
+        $this->assertSame('123F', (string)$bcd->pad());
 
-        $this->assertSame('123F', (string)$bcd);
+        $this->assertSame('123FFF', (string)$bcd->pad(5));
 
-        $bcd->pad(5);
+        $this->assertSame('123FFFFF', (string)$bcd->pad(8));
 
-        $this->assertSame('123FFF', (string)$bcd);
+        $this->assertSame('123FFFFFF', (string)$bcd->pad(9, true));
 
-        $bcd->pad(8);
+        $this->assertSame('123FFFFFFF', (string)$bcd->pad(9, true)->pad(6));
 
-        $this->assertSame('123FFFFF', (string)$bcd);
+        $this->assertSame('123FFFFFFFF', (string)$bcd->pad(11, true));
 
-        $bcd->pad(9, true);
-
-        $this->assertSame('123FFFFFF', (string)$bcd);
-
-        $bcd->pad(6);
-
-        $this->assertSame('123FFFFFFF', (string)$bcd);
-
-        $bcd->pad(11, true);
-
-        $this->assertSame('123FFFFFFFF', (string)$bcd);
-
-        $bcd->pad(4, true);
-
-        $this->assertSame('123FFFFFFFF', (string)$bcd);
+        $this->assertSame(
+            '123FFFFFFFF',
+            (string)$bcd->pad(11, true)->pad(4, true)
+        );
     }
 }

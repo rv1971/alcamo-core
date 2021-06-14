@@ -5,11 +5,15 @@ namespace alcamo\binary_data;
 use alcamo\exception\{OutOfRange, SyntaxError};
 
 /**
- * @brief Class representing BCD-encoded data.
+ * @brief BCD-encoded data of any length
  *
  * Implemented as an uppercase hex-string so that single digits can be
  * accessed through the ArrayAccess interface and the number of digits
  * can be obtained via count().
+ *
+ * @attention May contain an odd number of digits.
+ *
+ * @date Last reviewed 2021-06-10
  */
 class Bcd extends HexString
 {
@@ -21,7 +25,8 @@ class Bcd extends HexString
    * @param $minDigits int Minimum length of the result in digits.
    *
    * @param $allowOdd bool Whether the result may have an odd number of
-   * digits.
+   * digits. If `false` or `null`, the result my be left-padded with a '0'
+   * digit.
    */
     public static function newFromInt(
         int $value,
@@ -39,12 +44,14 @@ class Bcd extends HexString
         return new static(str_pad($data, $digits, '0', STR_PAD_LEFT));
     }
 
-    /// Create from numeric string that may contain whitespace.
-    public function __construct(string $text)
+    /// Create from string made of decimal digits and whitespace
+    public static function newFromString(string $text)
     {
         $text = preg_replace('/\s+/', '', $text);
 
         if (strspn($text, '0123456789') != strlen($text)) {
+            /** @throw alcamo::exception::SyntaxError if $text has content
+             *  other than decimal digits and whitespace. */
             throw new SyntaxError(
                 $text,
                 strspn($text, '0123456789'),
@@ -52,10 +59,20 @@ class Bcd extends HexString
             );
         }
 
+        return new self($text);
+    }
+
+    /**
+     * @brief Constructor is private because it does not carry out any checks
+     *
+     * @attention $text must be a valid BCD literal.
+     */
+    private function __construct(string $text)
+    {
         parent::__construct($text);
     }
 
-    /// Get as integer, if possible.
+    /// Get as integer, if possible
     public function toInt(): int
     {
         if (!isset($this->text_[0])) {
@@ -66,6 +83,8 @@ class Bcd extends HexString
             return (int)$this->text_;
         }
 
+        /** @throw alcamo::exception::OutOfRange if $content is too long to be
+         *  represented as an integer. */
         throw new OutOfRange(
             $this,
             0,
@@ -74,7 +93,8 @@ class Bcd extends HexString
         );
     }
 
-    public function pad(?int $minLength = null, ?bool $allowOdd = null)
+    /// Return new object left-padded with '0' to at least $minLength digits
+    public function pad(?int $minLength = null, ?bool $allowOdd = null): self
     {
         if (!$allowOdd) {
             $minLength = max($minLength, count($this));
@@ -84,6 +104,6 @@ class Bcd extends HexString
             }
         }
 
-        $this->text_ = str_pad($this->text_, $minLength, '0', STR_PAD_LEFT);
+        return new self(str_pad($this->text_, $minLength, '0', STR_PAD_LEFT));
     }
 }
