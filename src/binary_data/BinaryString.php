@@ -50,7 +50,7 @@ class BinaryString implements \ArrayAccess, \Countable
     }
 
     /// Create from hex string which may contain whitespace
-    public static function newFromHex(string $hex)
+    public static function newFromHex(string $hex): self
     {
         return new static(hex2bin(preg_replace('/\s+/', '', $hex)));
     }

@@ -13,12 +13,12 @@ class FileLocation
     private $line_;     ///< ?int
     private $column_;   ///< ?int
 
-    public static function newFromThrowable(\Throwable $throwable)
+    public static function newFromThrowable(\Throwable $throwable): self
     {
         return new static($throwable->getFile(), $throwable->getLine());
     }
 
-    public static function newFromBacktraceItem(array $frame)
+    public static function newFromBacktraceItem(array $frame): self
     {
         return new static($frame['file'] ?? null, $frame['line'] ?? null);
     }

@@ -24,7 +24,7 @@ class ErrorHandler
         string $errstr,
         string $errfile = null,
         int $errline = null
-    ) {
+    ): void {
         throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 

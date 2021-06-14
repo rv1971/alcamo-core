@@ -45,7 +45,7 @@ class Bcd extends HexString
     }
 
     /// Create from string made of decimal digits and whitespace
-    public static function newFromString(string $text)
+    public static function newFromString(string $text): self
     {
         $text = preg_replace('/\s+/', '', $text);
 

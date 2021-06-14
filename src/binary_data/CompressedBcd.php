@@ -38,7 +38,7 @@ class CompressedBcd extends HexString
     }
 
     /// Create from numeric string that may contain whitespace.
-    public static function newFromString(string $text)
+    public static function newFromString(string $text): self
     {
         $text = strtoupper(preg_replace('/\s+/', '', $text));
 

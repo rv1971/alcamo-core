@@ -23,7 +23,7 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate, \ArrayAccess
     private $pcre_;   ///< Pcre used by contains().
 
     /// Create from whitespace-separated list of prefixes
-    public static function newFromString(string $prefixText)
+    public static function newFromString(string $prefixText): self
     {
         return new self(new Set(preg_split('/\s+/', $prefixText)));
     }
