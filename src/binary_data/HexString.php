@@ -17,11 +17,11 @@ class HexString extends StringObject
 {
     public static function newFromBinaryString(string $data): self
     {
-        return new static(bin2hex($data));
+        return new static(strtoupper(bin2hex($data)));
     }
 
     /// Create from hex string that may contain whitespace
-    public function __construct(string $text)
+    public static function newFromString(string $text): self
     {
         $text = strtoupper(preg_replace('/\s+/', '', $text));
 
@@ -31,6 +31,16 @@ class HexString extends StringObject
             throw new SyntaxError($text, null, '; not a valid hex string');
         }
 
+        return new static($text);
+    }
+
+    /**
+     * @brief Constructor is protected because it does not carry out any checks
+     *
+     * @attention $text must be a valid uppercase hex string.
+     */
+    protected function __construct(string $text)
+    {
         parent::__construct($text);
     }
 

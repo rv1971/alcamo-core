@@ -24,7 +24,7 @@ class CompressedBcd extends HexString
    * digits.
    */
     public static function newFromInt(
-        string $value,
+        int $value,
         ?int $minDigits = null,
         ?bool $allowOdd = null
     ): self {
@@ -38,7 +38,7 @@ class CompressedBcd extends HexString
     }
 
     /// Create from numeric string that may contain whitespace.
-    public static function newFromString(string $text): self
+    public static function newFromString(string $text): HexString
     {
         $text = strtoupper(preg_replace('/\s+/', '', $text));
 
@@ -52,15 +52,15 @@ class CompressedBcd extends HexString
             );
         }
 
-        return new self($text);
+        return new static($text);
     }
 
     /**
-     * @brief Constructor is private because it does not carry out any checks
+     * @brief Constructor is protected because it does not carry out any checks
      *
      * @attention $text must be a valid BCD literal.
      */
-    private function __construct(string $text)
+    protected function __construct(string $text)
     {
         parent::__construct($text);
     }
@@ -76,6 +76,6 @@ class CompressedBcd extends HexString
             }
         }
 
-        return new self(str_pad($this->text_, $minLength, 'F'));
+        return new static(str_pad($this->text_, $minLength, 'F'));
     }
 }

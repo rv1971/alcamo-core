@@ -12,9 +12,9 @@ use alcamo\exception\SyntaxError;
 class EvenHexString extends HexString
 {
     /// Create from hex string that may contain whitespace
-    public function __construct(string $text)
+    public static function newFromString(string $text): HexString
     {
-        $text = preg_replace('/\s+/', '', $text);
+        $text = strtoupper(preg_replace('/\s+/', '', $text));
 
         /** @throw alcamo::exception::SyntaxError if $text does not have an
          *  even number of digits. */
@@ -26,6 +26,6 @@ class EvenHexString extends HexString
             );
         }
 
-        parent::__construct($text);
+        return new self($text);
     }
 }

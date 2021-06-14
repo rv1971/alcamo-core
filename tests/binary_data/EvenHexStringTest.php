@@ -9,7 +9,8 @@ class EvenHexStringTest extends TestCase
 {
     public function testConstruct()
     {
-        $hexString = new EvenHexString("ab\tcd\r\n   1234 56 78 Cdf0");
+        $hexString =
+            EvenHexString::newFromString("ab\tcd\r\n   1234 56 78 Cdf0");
 
         $this->assertSame('ABCD12345678CDF0', (string)$hexString);
     }
@@ -21,6 +22,6 @@ class EvenHexStringTest extends TestCase
             "Syntax error in \"123AB\" at 0: \"123AB\"; not an even number of hex digits"
         );
 
-        new EvenHexString('12 3A B');
+        EvenHexString::newFromString('12 3A B');
     }
 }

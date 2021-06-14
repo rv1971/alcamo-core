@@ -33,19 +33,17 @@ class Bcd extends HexString
         ?int $minDigits = null,
         ?bool $allowOdd = null
     ): self {
-        $data = (string)$value;
-
-        $digits = max(strlen($data), $minDigits);
+        $digits = max(strlen($value), $minDigits);
 
         if (!$allowOdd) {
             $digits = ($digits + 1) & ~1;
         }
 
-        return new static(str_pad($data, $digits, '0', STR_PAD_LEFT));
+        return new static(str_pad($value, $digits, '0', STR_PAD_LEFT));
     }
 
     /// Create from string made of decimal digits and whitespace
-    public static function newFromString(string $text): self
+    public static function newFromString(string $text): HexString
     {
         $text = preg_replace('/\s+/', '', $text);
 
@@ -59,15 +57,15 @@ class Bcd extends HexString
             );
         }
 
-        return new self($text);
+        return new static($text);
     }
 
     /**
-     * @brief Constructor is private because it does not carry out any checks
+     * @brief Constructor is protected because it does not carry out any checks
      *
      * @attention $text must be a valid BCD literal.
      */
-    private function __construct(string $text)
+    protected function __construct(string $text)
     {
         parent::__construct($text);
     }
@@ -104,6 +102,6 @@ class Bcd extends HexString
             }
         }
 
-        return new self(str_pad($this->text_, $minLength, '0', STR_PAD_LEFT));
+        return new static(str_pad($this->text_, $minLength, '0', STR_PAD_LEFT));
     }
 }

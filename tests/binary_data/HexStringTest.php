@@ -16,7 +16,7 @@ class HexStringTest extends TestCase
 
     public function testConstruct()
     {
-        $hexString = new HexString("ab\tcd\r\n   1234 56 78 Cdf");
+        $hexString = HexString::newFromString("ab\tcd\r\n   1234 56 78 Cdf");
 
         $this->assertSame('ABCD12345678CDF', (string)$hexString);
     }
@@ -28,12 +28,12 @@ class HexStringTest extends TestCase
             "Syntax error in \"12ABCDX789FF\"; not a valid hex string"
         );
 
-        new HexString('12abcdx789ff');
+        HexString::newFromString('12abcdx789ff');
     }
 
     public function testOffsetSet()
     {
-        $hexString = new HexString('98 76 5f ed');
+        $hexString = HexString::newFromString('98 76 5f ed');
 
         $hexString[0] = 'a';
         $hexString[5] = '0';
@@ -50,7 +50,7 @@ class HexStringTest extends TestCase
 
     public function testToBinaryString()
     {
-        $hexString = new HexString('abcd1234');
+        $hexString = HexString::newFromString('abcd1234');
 
         $this->assertEquals(
             new BinaryString("\xab\xcd\x12\x34"),
