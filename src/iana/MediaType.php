@@ -5,7 +5,7 @@ namespace alcamo\iana;
 use alcamo\exception\{FileNotFound, InvalidEnumerator, SyntaxError};
 
 /**
- * @brief Media type.
+ * @brief Media type
  *
  * @invariant Immutable class.
  *
@@ -13,18 +13,31 @@ use alcamo\exception\{FileNotFound, InvalidEnumerator, SyntaxError};
  * @sa [RFC 2046](https://tools.ietf.org/html/rfc2046)
  * @sa [RFC 6838](https://tools.ietf.org/html/rfc6838)
  * @sa [RFC 6839](https://tools.ietf.org/html/rfc6839)
+ *
+ * @date Last reviewed 2021-06-14
  */
 class MediaType
 {
+    /**
+     * @brief Valid top level types
+     *
+     * @sa [RFC 2046](https://tools.ietf.org/html/rfc2046)
+     */
     public const TOP_LEVEL_TYPES = [
-        'text', 'image', 'audio', 'video', 'application', 'message', 'multipart'
+        'text',
+        'image',
+        'audio',
+        'video',
+        'application',
+        'message',
+        'multipart'
     ];
 
     /// @sa [RFC 2045, section 5](https://tools.ietf.org/html/rfc2045#section-5)
     public const TSPECIALS = '()<>@,;:\\\\"\/\[\]?=';
 
     /// @sa [RFC 2045, section 5](https://tools.ietf.org/html/rfc2045#section-5)
-    public const TOKEN = '[^\x00-\x20' . self::TSPECIALS . ']+';
+    public const TOKEN = '[!#-\'\*\+\-.0-9A-Z^-~]+';
 
     /// @sa [RFC 822, section 3.3](https://tools.ietf.org/html/rfc822#section-3.3)
     public const LINEAR_WHITE_SPACE = '\r\n[\t ]';
@@ -36,7 +49,8 @@ class MediaType
     public const QUOTED_PAIR = '\\\\.';
 
     /// @sa [RFC 822, section 3.3](https://tools.ietf.org/html/rfc822#section-3.3)
-    public const QUOTED_STRING = '"(?:' . self::QTEXT . '|' . self::QUOTED_PAIR . ')*"';
+    public const QUOTED_STRING =
+        '"(?:' . self::QTEXT . '|' . self::QUOTED_PAIR . ')*"';
 
     /// @sa [RFC 2045, section 5](https://tools.ietf.org/html/rfc2045#section-5)
     public const VALUE = self::TOKEN . '|' . self::QUOTED_STRING;
@@ -49,15 +63,17 @@ class MediaType
     public const PARAM_REGEXP =
         '/^;\s*(' . self::TOKEN . ')\s*=\s*(' . self::VALUE . ')\s*/';
 
-    private $type_;           ///< Top-level type.
-    private $subtype_;        ///< Complete subtype.
-    private $representation_; ///< Representation subtype, if any.
-    private $params_ = [];    ///< Array of parameters.
+    private $type_;           ///< Top-level type
+    private $subtype_;        ///< Complete subtype
+    private $representation_; ///< Representation subtype, if any
+    private $params_ = [];    ///< Array of parameters
 
+    /// Create from string
     public static function newFromString(string $string): self
     {
         if (!preg_match(self::TYPE_SUBTYPE_REGEXP, $string, $matches)) {
-            /** @throw SyntaxError if $string is not a valid media type. */
+            /** @throw alcamo::exception::SyntaxError if $string is not a
+             *  valid media type. */
             throw new SyntaxError($string, null, '; not a valid media type');
         }
 
@@ -72,8 +88,8 @@ class MediaType
             $string = substr($string, strlen($matches[0]))
         ) {
             if (!preg_match(self::PARAM_REGEXP, $string, $matches)) {
-                /** @throw SyntaxError if next piece of $string is not a valid
-                 *  parameter. */
+                /** @throw alcamo::exception::SyntaxError if next piece of
+                 *  $string is not a valid parameter. */
                 throw new SyntaxError(
                     $string,
                     0,
@@ -81,6 +97,8 @@ class MediaType
                 );
             }
 
+            /* When translating parameter literals, remove quoting backslashes
+             * and condense folding to one space. */
             $params[$matches[1]] = $matches[2][0] == '"'
                 ? preg_replace(
                     [ '/\\\\([^\\\\])/', '/\r\n[\t ]/' ],
@@ -93,10 +111,12 @@ class MediaType
         return new self($type, $subtype, $params);
     }
 
-    public static function newFromFilename($filename)
+    /// Get media type of file
+    public static function newFromFilename(string $filename): self
     {
         if (!is_readable($filename)) {
-            /** @throw FileNotFound if the file is unreadable. */
+            /** @throw alcamo::exception::FileNotFound if the file is
+             *  unreadable. */
             throw new FileNotFound($filename);
         }
 
@@ -108,10 +128,11 @@ class MediaType
 
         switch ($mediaType->getType()) {
             case 'text':
-                // finfo does not recognize CSS and JS
+                // finfo does not recognize CSS, JS and JSON
                 switch (pathinfo($filename, PATHINFO_EXTENSION)) {
                     case 'css':
-                        $mediaType = new self('text', 'css', $mediaType->getParams());
+                        $mediaType =
+                            new self('text', 'css', $mediaType->getParams());
                         break;
 
                     case 'js':
@@ -126,6 +147,7 @@ class MediaType
                 break;
 
             case 'image':
+                // finfo always returns charset even where not applicable
                 unset($mediaType->params_['charset']);
 
                 switch ($mediaType->getSubtype()) {
@@ -137,6 +159,7 @@ class MediaType
                 break;
 
             default:
+                // finfo always returns charset even where not applicable
                 unset($mediaType->params_['charset']);
         }
 
@@ -155,7 +178,8 @@ class MediaType
         $type = strtolower($type);
 
         if (!in_array($type, self::TOP_LEVEL_TYPES)) {
-            /** @throw InvalidEnumerator if the top-level type is invalid. */
+            /** @throw alcamo::exception::InvalidEnumerator if the top-level
+             *  type is invalid. */
             throw new InvalidEnumerator(
                 $type,
                 self::TOP_LEVEL_TYPES,
@@ -179,21 +203,25 @@ class MediaType
         }
     }
 
+    /// Return top-level type
     public function getType(): string
     {
         return $this->type_;
     }
 
+    /// Return complete subtype
     public function getSubtype(): string
     {
         return $this->subtype_;
     }
 
+    /// Return representation subtype, if any
     public function getRepresentation(): ?string
     {
         return $this->representation_;
     }
 
+    /// Return parameters
     public function getParams(): array
     {
         return $this->params_;
@@ -206,17 +234,21 @@ class MediaType
 
     /**
      * @return Media type representation in lowercase with all parameters as
-     * quoted strings, without folding.
+     * quoted strings, without folding
      */
     public function __toString()
     {
         $result = "{$this->type_}/{$this->subtype_}";
 
         foreach ($this->params_ as $attr => $value) {
-            /* Replace `\` first to avoid applying it to the `\"` resulting from the
-             * replacement of `"`. */
+            /* Replace `\` first to avoid applying it to the `\"` resulting
+             * from the replacement of `"`. */
             $result .= "; $attr=\""
-                . str_replace([ '\\', '"', "\r" ], [ '\\\\', '\"', '\r' ], $value)
+                . str_replace(
+                    [ '\\',   '"',  "\r" ],
+                    [ '\\\\', '\"', '\r' ],
+                    $value
+                )
                 . '"';
         }
 
