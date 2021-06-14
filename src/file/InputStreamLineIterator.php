@@ -5,6 +5,11 @@ namespace alcamo\file;
 use alcamo\exception\Unsupported;
 use alcamo\iterator\IteratorCurrentTrait;
 
+/**
+ * @brief Iterator reading lines from a file pointer
+ *
+ * @date Last reviewed 2021-06-14
+ */
 class InputStreamLineIterator implements \Iterator
 {
     use IteratorCurrentTrait;
@@ -15,14 +20,20 @@ class InputStreamLineIterator implements \Iterator
     /// Whether to skip empty lines
     public const SKIP_EMPTY = 2;
 
-    private $handle_; ///< resource
+    private $handle_; ///< file pointer
     private $flags_;  ///< int
 
-    public function __construct($handle, int $flags = null)
+    /**
+     * @param $handle File pointer
+     *
+     * @param $flags Bitwise or of the above class constants
+     */
+    public function __construct($handle, ?int $flags = null)
     {
         $this->handle_ = $handle;
         $this->flags_ = (int)$flags;
 
+        /** Call readline() to read the first item. */
         $this->currentKey_ = 1;
         $this->current_ = $this->readLine();
     }
@@ -35,6 +46,8 @@ class InputStreamLineIterator implements \Iterator
     public function rewind()
     {
         if ($this->currentKey_ > 1) {
+            /** @throw alcamo::exception::Unsupported when attempting to
+             *  rewind, except if the iterator is still at the beginning. */
             throw new Unsupported('rewind');
         }
     }
@@ -47,7 +60,12 @@ class InputStreamLineIterator implements \Iterator
         }
     }
 
-    protected function readLine()
+    /**
+     * @brief Read a line, if possible
+     *
+     * @return The line read, or `null` if eof or any other low-level error
+     */
+    protected function readLine(): ?string
     {
         $line = fgets($this->handle_);
 
