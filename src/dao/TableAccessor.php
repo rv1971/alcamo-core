@@ -2,9 +2,16 @@
 
 namespace alcamo\dao;
 
+/**
+ * @brief Table accessor with iterator over all table records
+ *
+ * @todo Write unit tests
+ *
+ * @date Last reviewed 2021-06-14
+ */
 class TableAccessor extends AbstractDbAccessor implements \IteratorAggregate
 {
-    public const RECORD_CLASS = StdClass::class;
+    /// Default ORDER BY clause for iterator
     public const DEFAULT_ORDER_BY = '1, 2, 3';
 
     protected $tableName_;
@@ -16,6 +23,12 @@ class TableAccessor extends AbstractDbAccessor implements \IteratorAggregate
         $this->tableName_ = $tableName;
     }
 
+    public function getTableName(): string
+    {
+        return $this->tableName_;
+    }
+
+    /// Return iterator over all table records
     public function getIterator(): \Traversable
     {
         $stmt = $this->prepare(
@@ -24,17 +37,6 @@ class TableAccessor extends AbstractDbAccessor implements \IteratorAggregate
         );
 
         $stmt->execute();
-
-        return $stmt;
-    }
-
-    protected function prepare(
-        string $stmt,
-        ?array $driver_options = null
-    ): \PDOStatement {
-        $stmt = $this->pdo_->prepare($stmt, $driver_options ?? []);
-
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, static::RECORD_CLASS);
 
         return $stmt;
     }
