@@ -2,10 +2,14 @@
 
 namespace alcamo\path_creation;
 
-// Class just prepending an optinal base to a relative path
+/**
+ * @brief Factory just prepending an optional base to a relative path
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class TrivialPathFactory extends AbstractPathFactory
 {
-    private $basePath_; ///< Path to prepend
+    private $basePath_; ///< ?string
 
     public function __construct(?string $basePath = null)
     {

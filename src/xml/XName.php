@@ -5,20 +5,24 @@ namespace alcamo\xml;
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
 /**
- * @brief Expanded name.
+ * @brief Expanded name
  *
- * @sa [Namespaces in XML 1.0](https://www.w3.org/TR/xml-names/)
+ * @invariant Immutable class.
+ *
+ * @sa [Expanded name](https://www.w3.org/TR/xml-names/#dt-expname)
+ *
+ * @date Last reviewed 2021-06-15
  */
 class XName
 {
     /**
-     * @brief Create from qualified name and namespace map.
+     * @brief Create from qualified name and namespace map
      *
-     * @param $qName string qualified name.
+     * @param $qName qualified name.
      *
-     * @param $map array|ArrayAccess Map of prefixes to namespace names.
+     * @param $map array|ArrayAccess map of prefixes to namespace names.
      *
-     * @param $defaultNs string|null Default namespace to add to unprefixed
+     * @param $defaultNs string|null default namespace to add to unprefixed
      * names.
      */
     public static function newFromQNameAndMap(
@@ -33,8 +37,8 @@ class XName
         }
 
         if (!isset($map[$a[0]])) {
-            /** @throw UnknownNamespacePrefix if the prefix is not found in
-             *  the map. */
+            /** @throw alcamo::exception::UnknownNamespacePrefix if the prefix
+             *  is not found in the map. */
             throw new UnknownNamespacePrefix($a[0]);
         }
 
@@ -42,14 +46,14 @@ class XName
     }
 
     /**
-     * @brief Create from qualified name and DOM context node.
+     * @brief Create from qualified name and DOM context node
      *
-     * @param $qName string qualified name.
+     * @param $qName qualified name
      *
-     * @param $context DOMNode Context node.
+     * @param $context context node
      *
-     * @param $defaultNs string|null Default namespace to add to unprefixed
-     * names. If not provided, the context's default namespace is used.
+     * @param $defaultNs default namespace to add to unprefixed names; f not
+     * provided, the context's default namespace is used
      */
     public static function newFromQNameAndContext(
         string $qName,
@@ -68,16 +72,25 @@ class XName
         $nsName = $context->lookupNamespaceURI($a[0]);
 
         if (!isset($nsName)) {
-            /** @throw UnknownNamespacePrefix if the prefix cannot be
-             *  resolved. */
+            /** @throw alcamo::exception::UnknownNamespacePrefix if the prefix
+             *  cannot be resolved. */
             throw new UnknownNamespacePrefix($a[0]);
         }
 
         return new self($nsName, $a[1]);
     }
 
-    private $nsName_;    ///< Namespace name, if any.
-    private $localName_; ///< Local name.
+    private $nsName_;    ///< Namespace name, if any
+    private $localName_; ///< Local name
+
+    /**
+     * @warning The syntactic correctness of the arguments is not checked.
+     */
+    public function __construct(?string $nsName, string $localName)
+    {
+        $this->nsName_ = $nsName;
+        $this->localName_ = $localName;
+    }
 
     public function getNsName(): ?string
     {
@@ -87,12 +100,6 @@ class XName
     public function getLocalName(): string
     {
         return $this->localName_;
-    }
-
-    public function __construct(?string $nsName, string $localName)
-    {
-        $this->nsName_ = $nsName;
-        $this->localName_ = $localName;
     }
 
     /**
@@ -108,7 +115,7 @@ class XName
     public function __toString()
     {
         return isset($this->nsName_)
-            ? "{$this->nsName_} {$this->localName_}"
+            ? "$this->nsName_ $this->localName_"
             : $this->localName_;
     }
 }

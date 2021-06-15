@@ -2,7 +2,11 @@
 
 namespace alcamo\path_creation;
 
-/// Create path from relative path
+/**
+ * @brief Factory creating absolut paths from relative ones
+ *
+ * @date Last reviewed 2021-06-15
+ */
 interface PathFactoryInterface
 {
     /**

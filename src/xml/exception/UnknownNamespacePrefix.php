@@ -4,14 +4,24 @@ namespace alcamo\xml\exception;
 
 use alcamo\exception\ValueException;
 
-/// Unknown namespace prefix
+/**
+ * @brief Exception thrown when encountering an unknown namespace prefix
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class UnknownNamespacePrefix extends \UnexpectedValueException
 {
-    public $prefix;
-    public $validPrefixes;
+    public $prefix;        ///< Prefix that triggered the exception
+    public $validPrefixes; ///< Valid prefixes
 
-    /** If $message starts with a ';', it is appended to the generated message,
-     *  otherwise it replaces the generated one. */
+    /**
+     * @param $prefix @copybrief $prefix
+     *
+     * @param $validPrefixes @copybrief $validPrefixes
+     *
+     * @param $message If $message starts with a ';', it is appended to the
+     *  generated message, otherwise it replaces the generated one.
+     */
     public function __construct(
         $prefix,
         ?array $validPrefixes = null,
