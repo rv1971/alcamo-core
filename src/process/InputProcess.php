@@ -4,6 +4,16 @@ namespace alcamo\process;
 
 use alcamo\exception\Unsupported;
 
+/**
+ * @brief Input process opened by proc_open()
+ *
+ * Process used as input to the current PHP process. The functions listed
+ * in @ref MAGIC_METHODS can be called as methods to this class.
+ *
+ * @sa [proc_open()](https://www.php.net/manual/en/function.proc-open)
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class InputProcess extends Process
 {
     /**
@@ -25,10 +35,12 @@ class InputProcess extends Process
         'stream_get_meta_data'
     ];
 
+    /// Call the corresponding function, if supported
     public function __call($name, $params)
     {
         if (!in_array($name, static::MAGIC_METHODS)) {
-            /** @throw Unsupported is $name is not a supported method */
+            /** @throw alcamo::exception::Unsupported is $name is not a
+             *  supported method, i.e. not listed in @ref MAGIC_METHODS. */
             throw new Unsupported("$name()");
         }
 

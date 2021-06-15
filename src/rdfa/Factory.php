@@ -2,9 +2,9 @@
 
 namespace alcamo\rdfa;
 
-use alcamo\object_creation\StaticNamespaceFactory;
+use alcamo\object_creation\AbstractStaticNamespaceFactory;
 
-class Factory extends StaticNamespaceFactory
+class Factory extends AbstractStaticNamespaceFactory
 {
     public const NAMESPACE = __NAMESPACE__;
 
@@ -18,8 +18,9 @@ class Factory extends StaticNamespaceFactory
             return new $className(...$value);
         }
 
-        $objectClass =
-        defined("$className::OBJECT_CLASS") ? $className::OBJECT_CLASS : null;
+        $objectClass = defined("$className::OBJECT_CLASS")
+            ? $className::OBJECT_CLASS
+            : null;
 
         if (isset($objectClass)) {
             if ($value instanceof $objectClass) {
