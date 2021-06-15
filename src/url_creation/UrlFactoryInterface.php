@@ -2,13 +2,17 @@
 
 namespace alcamo\url_creation;
 
-/// Create URL from path
+/**
+ * @brief Factory creating URLs for local resources
+ *
+ * @date Last reviewed 2021-06-15
+ */
 interface UrlFactoryInterface
 {
-  /**
-   * @param $path string Local path.
-   *
-   * @return URL.
-   */
+    /**
+     * @param $path local path
+     *
+     * @return URL
+     */
     public function createFromPath(string $path): string;
 }

@@ -5,14 +5,22 @@ namespace alcamo\conf;
 use alcamo\exception\FileNotFound;
 
 /**
- * @brief Load JSON or INI files from $XDG_DATA_DIRS/subdir.
+ * @brief Configuration file loader based on a file finder and a file parser
+ *
+ * @date Last reviewed 2021-06-15
  */
-
 class Loader implements LoaderInterface
 {
-    private $fileFinder_;
-    private $fileParser_;
+    private $fileFinder_; ///< FileFinderInterface
+    private $fileParser_; ///< FileParserInterface
 
+    /**
+     * @param $fileFinder @copybrief getFileFinder(), defaults to a new
+     * XdgFileFinder instance.
+     *
+     * @param $fileParser @copybrief getFileParser(), defaults to a new
+     * FileParser instance.
+     */
     public function __construct(
         ?FileFinderInterface $fileFinder = null,
         ?FileParserInterface $fileParser = null
@@ -21,11 +29,13 @@ class Loader implements LoaderInterface
         $this->fileParser_ = $fileParser ?? new FileParser();
     }
 
+    /// Object used to find a configuration file
     public function getFileFinder(): FileFinderInterface
     {
         return $this->fileFinder_;
     }
 
+    /// Object used to parse a configuration file
     public function getFileParser(): FileParserInterface
     {
         return $this->fileParser_;
@@ -38,8 +48,6 @@ class Loader implements LoaderInterface
      *
      * Each file is parsed into an array. The arrays are merged such that
      * files later in the list take precedence over files earlier in the list.
-     *
-     * @return Array of the contents of all files.
      */
     public function load($filenames): array
     {
@@ -53,6 +61,8 @@ class Loader implements LoaderInterface
             $pathname = $this->fileFinder_->find($filename);
 
             if (!isset($pathname)) {
+                /** @throw alcamo::exception::FileNotFound inf the file finder
+                 *  cannot find a file. */
                 throw new FileNotFound($filename, (string)$this->fileFinder_);
             }
 

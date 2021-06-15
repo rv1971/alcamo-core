@@ -2,10 +2,14 @@
 
 namespace alcamo\url_creation;
 
-// Class just prepending an optinal base to a relative path
-class TrivialUrlFactory extends AbstractUrlFactory
+/**
+ * @brief Factory just prepending an optional base to a relative path
+ *
+ * @date Last reviewed 2021-06-15
+ */
+class TrivialUrlFactory implements UrlFactoryInterface
 {
-    private $baseUrl_; ///< URL to prepend
+    private $baseUrl_; ///< ?string
 
     public function __construct(?string $baseUrl = null)
     {

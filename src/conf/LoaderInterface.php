@@ -3,10 +3,12 @@
 namespace alcamo\conf;
 
 /**
- * @brief Load and merge configuration files.
+ * @brief Object implementing a load() to load configuration files
+ *
+ * @date Last reviewed 2021-06-15
  */
-
 interface LoaderInterface
 {
+    /// Load and merge configuration files and return an associative array
     public function load($filenames): array;
 }

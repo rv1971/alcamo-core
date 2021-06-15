@@ -5,9 +5,10 @@ namespace alcamo\conf;
 use alcamo\exception\InvalidEnumerator;
 
 /**
- * @brief Parse an INI or JSON configuration file into an array.
+ * @brief Parser for INI or JSON files
+ *
+ * @date Last reviewed 2021-06-15
  */
-
 class FileParser implements FileParserInterface
 {
     private $ext2parser_; // Map of filename extensions to parser objects
@@ -20,6 +21,11 @@ class FileParser implements FileParserInterface
         ];
     }
 
+    /**
+     * @copybrief FileParserInterface::parse()
+     *
+     * Use a parser object depending on the file suffix.
+     */
     public function parse(string $filename): array
     {
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -30,6 +36,8 @@ class FileParser implements FileParserInterface
 
         $extensions = array_keys($this->ext2parser_);
 
+        /** @throw alcamo::exception::InvalidEnumerator if the file extension
+         *  is not known. */
         throw new InvalidEnumerator(
             $extension,
             $extensions,

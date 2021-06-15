@@ -20,6 +20,8 @@ class XdgFileFinderTest extends TestCase
 
         $this->assertSame($subdir ?? 'alcamo', $finder->getSubdir());
 
+        $this->assertSame($type ?? 'CONFIG', $finder->getType());
+
         $pathname = $finder->find($filename);
 
         $this->assertSame($expectedPathname, $pathname);

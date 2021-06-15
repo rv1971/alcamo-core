@@ -4,14 +4,22 @@ namespace alcamo\url_creation;
 
 use alcamo\exception\FileNotFound;
 
+/**
+ * @brief Factory creating URLs from local paths
+ *
+ * @date Last reviewed 2021-06-15
+ */
 abstract class AbstractUrlFactory implements UrlFactoryInterface
 {
-    /// Whether to prefer a gzipped version, if available
-    private $disablePreferGz_;
+    private $disablePreferGz_; ///< bool
 
-    /// Whether to append the file modification timestamp as a GET parameter
-    private $disableAppendMtime_;
+    private $disableAppendMtime_; ///< bool
 
+    /**
+     * @param $disablePreferGz @copybrief getDisablePreferGz()
+     *
+     * @param $disableAppendMtime @copybrief getDisableAppendMtime()
+     */
     public function __construct(
         ?bool $disablePreferGz = null,
         ?bool $disableAppendMtime = null
@@ -20,35 +28,43 @@ abstract class AbstractUrlFactory implements UrlFactoryInterface
         $this->disableAppendMtime_ = (bool)$disableAppendMtime;
     }
 
+    /// Whether to avoid preferring a gzipped version of the resource
     public function getDisablePreferGz(): bool
     {
         return $this->disablePreferGz_;
     }
 
+    /// Whether to avoid appending the file timestamp as a GET parameter
     public function getDisableAppendMtime(): bool
     {
         return $this->disableAppendMtime_;
     }
 
-    public function createActualPath(string $path): string
+    /// Create local path using the gzipped version, if desired
+    public function createActualLocalPath(string $path): string
     {
         if (!is_readable($path)) {
-            /** @throw FileNotFound if $path cannot be read. */
+            /** @throw alcamo::exception::FileNotFound if $path cannot be
+             *  read. */
             throw new FileNotFound($path);
         }
 
-        /* The gzipped file has the additional suffix .gz except for SVG files
-         * where the suffix .svg becomes .svgz. */
-        $gzPath =
-        substr($path, -4) == '.svg' ? "${path}z" : "$path.gz";
+        if (!$this->disablePreferGz_) {
+            /* The gzipped file has the additional suffix .gz except for SVG
+             * files where the suffix .svg becomes .svgz. */
+            $gzPath = substr($path, -4) == '.svg'
+                ? "${path}z"
+                : "$path.gz";
 
-        if (!$this->disablePreferGz_ && is_readable($gzPath)) {
-            return $gzPath;
+            if (is_readable($gzPath)) {
+                return $gzPath;
+            }
         }
 
         return $path;
     }
 
+    /// Create query to append to the URL
     public function createQuery(string $path): ?string
     {
         return $this->disableAppendMtime_
@@ -56,5 +72,6 @@ abstract class AbstractUrlFactory implements UrlFactoryInterface
             : '?m=' . gmdate('YmdHis', filemtime($path));
     }
 
+    /// @copydoc UrlFactoryInterface::createFromPath()
     abstract public function createFromPath(string $path): string;
 }

@@ -4,15 +4,24 @@ namespace alcamo\url_creation;
 
 use alcamo\exception\DirectoryNotFound;
 
+/**
+ * @brief Factory mapping a htdocs directory to a htdocs URL
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class DirMapUrlFactory extends AbstractUrlFactory
 {
-    /// Real path of htdocs directory, without trailing delimiter.
-    private $htdocsDir_;
+    private $htdocsDir_; ///< string
+    private $htdocsUrl_; ///< string
 
-    /// URL pointing to htdocs directory, without trailing delimiter.
-    private $htdocsUrl_;
-
-    public function newFromConf(array $conf): self
+    /**
+     * @brief Create from associative array ot ArrayAccess object
+     *
+     * @param $conf array|ArrayAccess must contain the keys `htdocsDir` and
+     * `htdocsUrl`, may contain the keys `disablePreferGz` and
+     * `disableAppendMtime`
+     */
+    public function newFromConf($conf): self
     {
         return new self(
             $conf['htdocsDir'],
@@ -22,6 +31,15 @@ class DirMapUrlFactory extends AbstractUrlFactory
         );
     }
 
+    /**
+     * @param $htdocsDir @copybrief getHtdocsDir()
+     *
+     * @param $htdocsUrl @copybrief getHtdocsUrl()
+     *
+     * @param $disablePreferGz see AbstractUrlFactory::__construct()
+     *
+     * @param $disableAppendMtime see AbstractUrlFactory::__construct()
+     */
     public function __construct(
         string $htdocsDir,
         string $htdocsUrl,
@@ -31,8 +49,8 @@ class DirMapUrlFactory extends AbstractUrlFactory
         $this->htdocsDir_ = realpath($htdocsDir);
 
         if (!$this->htdocsDir_) {
-          /** @throw DirectoryNotFound if realpath of $htdocsDir culd not be
-           *  obtained. */
+          /** @throw alcamo::exception::DirectoryNotFound if
+           *  `realpath($htdocsDir)` fails. */
             throw new DirectoryNotFound($htdocsDir);
         }
 
@@ -41,38 +59,42 @@ class DirMapUrlFactory extends AbstractUrlFactory
         parent::__construct($disablePreferGz, $disableAppendMtime);
     }
 
+    /// Real path of htdocs directory, without trailing delimiter
     public function getHtdocsDir(): string
     {
         return $this->htdocsDir_;
     }
 
+    /// URL pointing to htdocs directory, without trailing delimiter
     public function getHtdocsUrl(): string
     {
         return $this->htdocsUrl_;
     }
 
+    /// @copydoc AbstractUrlFactory::createFromPath()
     public function createFromPath(string $path): string
     {
-        $actualpath = $this->createActualPath($path);
+        $localPath = $this->createActualLocalPath($path);
 
-      /**
-       * Replace a prefix corresponding to $htdocsDir_ with $htdocsUrl_. If
-       * there is no such prefix, use $path unchanged.
-       */
+        /**
+         * Replace a prefix corresponding to $htdocsDir_ with $htdocsUrl_. If
+         * there is no such prefix, use $path unchanged.
+         */
         if (
-            substr($actualpath, 0, strlen($this->htdocsDir_)) == $this->htdocsDir_
+            substr($localPath, 0, strlen($this->htdocsDir_))
+            == $this->htdocsDir_
         ) {
             $href = $this->htdocsUrl_
             . str_replace(
                 DIRECTORY_SEPARATOR,
                 '/',
-                substr($actualpath, strlen($this->htdocsDir_))
+                substr($localPath, strlen($this->htdocsDir_))
             );
         } else {
             $href = str_replace(DIRECTORY_SEPARATOR, '/', $path);
         }
 
-        $href .= $this->createQuery($actualpath);
+        $href .= $this->createQuery($localPath);
 
         return $href;
     }
