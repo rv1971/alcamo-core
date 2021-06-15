@@ -2,9 +2,14 @@
 
 namespace alcamo\xml_creation;
 
-/// Raw XML code that is taken as-is within Nodes.
+/**
+ * @brief Raw XML code to be serialized unchanged
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class Raw extends AbstractNode
 {
+    /// @copydoc NodeInterface::__toString()
     public function __toString()
     {
         return (string)$this->content_;

@@ -4,7 +4,11 @@ namespace alcamo\xml_creation;
 
 use alcamo\exception\SyntaxError;
 
-/// XML declaration
+/**
+ * @brief XML declaration that can be serialized to XML text
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class XmlDecl implements NodeInterface
 {
     public const ENCODING_REGEXP = '/^[A-Za-z][-A-Za-z0-9._]*$/';
@@ -12,8 +16,16 @@ class XmlDecl implements NodeInterface
 
     protected $version_;
     protected $encoding_;
-    protected $stanalone_; ///< Boolean
+    protected $standalone_; ///< bool
 
+    /**
+     * @param $version XML version, defaults to 1.0
+     *
+     * @param $encoding Encoding, defaults to UTF-8
+     *
+     * @param $standalone Standalone document declaration, defaults to
+     * `false`.
+     */
     public function __construct(
         ?string $version = null,
         ?string $encoding = null,
@@ -22,7 +34,8 @@ class XmlDecl implements NodeInterface
         if (
             isset($version) && !preg_match(self::VERSION_REGEXP, $version)
         ) {
-          /** @throw SyntaxError if $version is not a valid version. */
+            /** @throw alcamo::exception::SyntaxError if $version is not a
+             *  valid version. */
             throw new SyntaxError($version, null, '; not a valid XML version');
         }
 
@@ -31,7 +44,8 @@ class XmlDecl implements NodeInterface
         if (
             isset($encoding) && !preg_match(self::ENCODING_REGEXP, $encoding)
         ) {
-          /** @throw SyntaxError if $encoding is not a valid encoding. */
+            /** @throw alcamo::exception::SyntaxError if $encoding is not a
+             *  valid encoding. */
             throw new SyntaxError($encoding, null, '; not a valid XML encoding');
         }
 
@@ -40,6 +54,7 @@ class XmlDecl implements NodeInterface
         $this->standalone_ = $standalone ?? false;
     }
 
+    /// @copydoc NodeInterface::getContent()
     public function getContent()
     {
         return null;
@@ -60,10 +75,11 @@ class XmlDecl implements NodeInterface
         return $this->standalone_;
     }
 
+    /// @copydoc NodeInterface::__toString()
     public function __toString()
     {
         $result =
-        "<?xml version=\"{$this->version_}\" encoding=\"{$this->encoding_}\"";
+            "<?xml version=\"$this->version_\" encoding=\"$this->encoding_\"";
 
         if ($this->standalone_) {
             $result .= ' standalone="yes"';

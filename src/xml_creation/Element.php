@@ -7,9 +7,14 @@ use alcamo\exception\SyntaxError;
 use alcamo\xml\Syntax;
 
 /**
- * @brief XML element
+ * @brief XML element that can be serialized to XML text
  *
- * Provides array access to attributes.
+ * Attributes can be accessed readonly via the Iterator and ArrayAccess
+ * interfaces. The Countable interface provides the attribute count.
+ *
+ * @sa [XML logical structures](https://www.w3.org/TR/xml/#sec-logical-struct)
+ *
+ * @date Last reviewed 2021-06-15
  */
 class Element extends AbstractNode implements
     \Countable,
@@ -21,7 +26,7 @@ class Element extends AbstractNode implements
     /// Attribute class used for serialization of attributes
     public const ATTR_CLASS = Attribute::class;
 
-    protected $tagName_; ///< Tag name
+    protected $tagName_; ///< string
 
     public function __construct(
         string $tagName,
@@ -29,7 +34,8 @@ class Element extends AbstractNode implements
         $content = null
     ) {
         if (!preg_match(Syntax::NAME_REGEXP, $tagName)) {
-            /** @throw SyntaxError if $tagName is not a valid name. */
+            /** @throw alcamo::exception::SyntaxError if $tagName is not a
+             *  valid tag name. */
             throw
                 new SyntaxError($tagName, null, '; not a valid XML tag name');
         }
@@ -39,17 +45,17 @@ class Element extends AbstractNode implements
         if (isset($attrs)) {
             foreach ($attrs as $attrName => $attrValue) {
                 if (!preg_match(Syntax::NAME_REGEXP, $attrName)) {
-                    /** @throw SyntaxError if $attrs contains a invalid
-                     *  attribute name. */
+                    /** @throw alcamo::exception::SyntaxError if $attrs
+                     *  contains a key which is not a valid attribute name. */
                     $e = new SyntaxError(
                         $attrName,
                         null,
                         '; not a valid XML attribute name'
                     );
 
-                      $e->tagName = $tagName;
+                    $e->tagName = $tagName;
 
-                      throw $e;
+                    throw $e;
                 }
 
                 $this->data_[$attrName] = $attrValue;
@@ -69,6 +75,11 @@ class Element extends AbstractNode implements
         return $this->data_;
     }
 
+    /**
+     * @brief Serialize attributes to XML text
+     *
+     * If the result is nonempty, it starts with a space.
+     */
     public function createAttrString(): string
     {
         $result = '';
@@ -93,17 +104,19 @@ class Element extends AbstractNode implements
 
     public function createClosingTag(): string
     {
-        return "</{$this->tagName_}>";
+        return "</$this->tagName_>";
     }
 
 
+    /// @copydoc NodeInterface::__toString()
     public function __toString()
     {
         $result = "<{$this->tagName_}{$this->createAttrString()}";
 
         if (isset($this->content_)) {
+            /** Use Nodes::toXmlString() to serilaize the content. */
             $result .= '>'
-                . Nodes::xmlString($this->content_)
+                . Nodes::toXmlString($this->content_)
                 . "</{$this->tagName_}>";
         } else {
             $result .= '/>';
