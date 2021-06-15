@@ -2,9 +2,14 @@
 
 namespace alcamo\input_stream;
 
+/**
+ * @brief Seekable input stream vaguely inspired by C++ istream
+ *
+ * @date Last reviewed 2021-06-15
+ */
 interface SeekableInputStreamInterface extends InputStreamInterface
 {
-    /// Get current pffset in input data
+    /// Get current offset within input data
     public function getOffset(): int;
 
     /// Get size of complete input data

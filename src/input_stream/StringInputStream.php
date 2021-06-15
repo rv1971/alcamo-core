@@ -4,34 +4,53 @@ namespace alcamo\input_stream;
 
 use alcamo\exception\{Eof, Underflow};
 
+/**
+ * @brief Seekable input stream made from a string
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class StringInputStream implements SeekableInputStreamInterface
 {
+    /**
+     * @brief Regexp identifying white space in extractWs()
+     *
+     * May be redefined in derived classes to treat comments as whitespace.
+     */
     public const WS_REGEXP = '/^\s+/';
 
-    protected $text_;
-    protected $offset_;
+    protected $text_;   ///< string
+    protected $offset_; ///< int
 
+    /**
+     * @param $text Input stream data.
+     *
+     * @param $offset Offset to start at, defaults to beginning.
+     */
     public function __construct(string $text, ?int $offset = null)
     {
         $this->text_ = $text;
         $this->offset_ = (int)$offset;
     }
 
+    /// Return entire stream data
     public function __toString()
     {
         return $this->text_;
     }
 
+    /// @copydoc InputStreamInterface::isGood()
     public function isGood(): bool
     {
         return isset($this->text_[$this->offset_]);
     }
 
+    /// @copydoc InputStreamInterface::peek()
     public function peek(): ?string
     {
         return $this->text_[$this->offset_] ?? null;
     }
 
+    /// @copydoc InputStreamInterface::extract()
     public function extract(int $count = 1): ?string
     {
         if (!isset($this->text_[$this->offset_])) {
@@ -39,6 +58,7 @@ class StringInputStream implements SeekableInputStreamInterface
         }
 
         if (!isset($this->text_[$this->offset_ + $count - 1])) {
+            // throw already documented in InputStreamInterface::extract()
             throw new Eof($this, $count, strlen($this->text_) - $this->offset_);
         }
 
@@ -49,15 +69,18 @@ class StringInputStream implements SeekableInputStreamInterface
         return $result;
     }
 
-    public function putback()
+    /// @copydoc InputStreamInterface::putback()
+    public function putback(): void
     {
         if ($this->offset_) {
             $this->offset_--;
         } else {
+            // throw already documented in InputStreamInterface::extract()
             throw new Underflow($this);
         }
     }
 
+    /// @copydoc InputStreamInterface::extractUntil()
     public function extractUntil(
         string $sep,
         ?int $maxCount = null,
@@ -74,7 +97,7 @@ class StringInputStream implements SeekableInputStreamInterface
             // If not found, return $maxCount or the entire remainder.
             if (
                 isset($maxCount)
-                && $this->offset_ + $maxCount <= strlen($this->text_)
+                && isset($this->text_[$this->offset_ + $maxCount])
             ) {
                 $result = substr($this->text_, $this->offset_, $maxCount);
                 $this->offset_ += $maxCount;
@@ -108,22 +131,25 @@ class StringInputStream implements SeekableInputStreamInterface
         return $result;
     }
 
+    /// @copydoc SeekableInputStreamInterface::getOffset()
     public function getOffset(): int
     {
         return $this->offset_;
     }
 
+    /// @copydoc SeekableInputStreamInterface::getSize()
     public function getSize(): int
     {
         return strlen($this->text_);
     }
 
+    /// @copydoc SeekableInputStreamInterface::getContents()
     public function getContents(): string
     {
         return $this->text_;
     }
 
-    /// Get remining input data without extracting it
+    /// @copydoc SeekableInputStreamInterface::getRemainder()
     public function getRemainder(): ?string
     {
         return isset($this->text_[$this->offset_])
@@ -131,7 +157,7 @@ class StringInputStream implements SeekableInputStreamInterface
             : null;
     }
 
-    /// Extract remaining input data
+    /// @copydoc SeekableInputStreamInterface::extractRemainder()
     public function extractRemainder(): ?string
     {
         if (isset($this->text_[$this->offset_])) {
@@ -146,20 +172,20 @@ class StringInputStream implements SeekableInputStreamInterface
     /**
      * @brief Extract regular expression.
      *
-     * @return ?string, match $matchNo in the array of matches returned by
-     * preg_match().
+     * @return Match $matchNo in the array of matches returned by
+     * [preg_match()](https://www.php.net/manual/en/function.preg-match).
      */
     public function extractRegexp(string $regexp, ?int $matchNo = 0): ?string
     {
         if (
             preg_match(
                 $regexp,
-                mb_substr($this->text_, $this->offset_),
+                substr($this->text_, $this->offset_),
                 $matches,
                 PREG_OFFSET_CAPTURE
             )
         ) {
-            $this->offset_ += mb_strlen($matches[0][0]) + $matches[0][1];
+            $this->offset_ += strlen($matches[0][0]) + $matches[0][1];
 
             return $matches[(int)$matchNo][0];
         } else {
