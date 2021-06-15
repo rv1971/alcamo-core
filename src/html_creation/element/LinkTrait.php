@@ -4,13 +4,20 @@ namespace alcamo\html_creation\element;
 
 use alcamo\exception\FileNotFound;
 
+/**
+ * @brief Features for HTML elements that (may) represent a link
+ *
+ * @date Last reviewed 2021-06-15
+ */
 trait LinkTrait
 {
-  /**
-   * @param $href string Local URL, potentially with a query part.
-   *
-   * @return URL enriched with a modification date parameter.
-   */
+    /**
+     * @param $href string Local URL, potentially with a query part.
+     *
+     * @param $path Local path, defaults to $href without query part.
+     *
+     * @return URL enriched with a modification date parameter.
+     */
     public static function augmentLocalUrl(
         string $href,
         ?string &$path = null
@@ -22,16 +29,20 @@ trait LinkTrait
         }
 
         if (!is_readable($path)) {
+            /** @throw alcamo::exception::FileNotFound if $path is not
+             *  readable. */
             throw new FileNotFound($path);
         }
 
-      /** Append modification timestamp if not yet present in href. */
+        $m = 'm=' . gmdate('YmdHis', filemtime($path));
+
+        /** Append modification timestamp if not yet present in $href. */
         if (!isset($a[1])) {
-            $href .= '?m=' . gmdate('YmdHis', filemtime($path));
+            $href .= "?$m"
         } elseif (
             substr($a[1], 0, 2) != 'm=' && strpos($a[1], '&m=') === false
         ) {
-            $href .= '&m=' . gmdate('YmdHis', filemtime($path));
+            $href .= "&$m";
         }
 
         return $href;

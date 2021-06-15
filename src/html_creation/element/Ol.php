@@ -4,12 +4,19 @@ namespace alcamo\html_creation\element;
 
 use alcamo\xml_creation\Raw;
 
+/**
+ * @brief HTML element \<ol>
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class Ol extends AbstractSpecificElement
 {
     public const TAG_NAME = "ol";
 
-  /** Wrap each item into an Li if it is not yet an element allowed within
-   * TAG_NAME. */
+    /**
+     * @brief Wrap each item into an Li unless it is an element allowed within
+     * @ref TAG_NAME.
+     */
     public function __construct(iterable $items, ?iterable $attrs = null)
     {
         $content = [];

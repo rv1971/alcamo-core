@@ -5,12 +5,17 @@ namespace alcamo\html_creation;
 use alcamo\xml_creation\Element as XmlElement;
 use alcamo\xml_creation\TokenList;
 
-/// HTML element.
+/**
+ * @brief HTML element that can be serialized to HtML text
+ *
+ * @date Last reviewed 2021-06-15
+ */
 class Element extends XmlElement
 {
-    /// Attribute class used for serialization of attributes
+    /// @copydoc alcamo::xml_creation::Element::ATTR_CLASS
     public const ATTR_CLASS = Attribute::class;
 
+    /// Call XmlElement::__construct/(), then sanitizeAttrs()
     public function __construct(
         string $tagName,
         ?iterable $attrs = null,

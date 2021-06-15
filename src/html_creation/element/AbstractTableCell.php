@@ -2,7 +2,11 @@
 
 namespace alcamo\html_creation\element;
 
-/// Common base class for Td and Tr
+/**
+ * @brief Common base class for Td and Tr
+ *
+ * @date Last reviewed 2021-06-15
+ */
 abstract class AbstractTableCell extends AbstractSpecificElement
 {
 }
