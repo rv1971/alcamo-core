@@ -7,7 +7,10 @@ use alcamo\iana\MediaType;
 /**
  * @brief HTML element \<link>
  *
- * @date Last reviewed 2021-06-15
+ * Derived classes my define a class constant REL which becomes the default
+ * value for the `rel` attribute.
+ *
+ * @date Last reviewed 2021-06-16
  */
 class Link extends AbstractSpecificElement
 {
@@ -16,44 +19,47 @@ class Link extends AbstractSpecificElement
     public const TAG_NAME = "link";
 
     /**
-     * @param $rel `rel` attribute.
-     *
-     * @param $href `href` attribute.
-     *
-     * @param $attrs Further attributes. $rel and $href override
-     * `$attrs['rel']` and `$attrs['href']`.
+     * @copydetails __construct()
      *
      * @param $path Local path, defaults to $href without query part.
      */
-    public static function newFromRelAndLocalUrl(
-        $rel,
-        $href,
+    public static function newFromLocalUrl(
+        string $href,
         ?array $attrs = null,
         $path = null
     ): self {
         /** Call LinkTrait::augmentLocalUrl(). */
         $href = static::augmentLocalUrl($href, $path);
 
-        /** Determine media type from filename unless `$rel` is `stylesheet`
-         *  or the type is already set in `$attrs`. */
-        if ($rel != 'stylesheet' && !isset($attrs['type'])) {
+        /** Determine media type from filename unless the type is set in
+         *  `$attrs`. */
+        if (!isset($attrs['type'])) {
             $attrs =
             [ 'type' => MediaType::newFromFilename($path) ] + (array)$attrs;
         }
 
-        return new self($rel, $href, $attrs);
+        return new self($href, $attrs);
     }
 
     /**
-     * @param $rel `rel` attribute.
-     *
      * @param $href `href` attribute.
      *
-     * @param $attrs Further attributes. $rel and $href override
-     * `$attrs['rel']` and `$attrs['href']`.
+     * @param $attrs Further attributes. If `$attrs['rel']` is not set and
+     * a class constant REL is defiend, `$attrs['rel']` is set to
+     * static::REL. If $href is set, it overrides `$attrs['href']`.
      */
-    public function __construct($rel, $href, ?array $attrs = null)
+    public function __construct(?string $href, ?array $attrs = null)
     {
-        parent::__construct(null, compact('rel', 'href') + (array)$attrs);
+        $attrs = (array)$attrs;
+
+        if (!isset($attrs['rel']) && defined('static::REL')) {
+            $attrs['rel'] = static::REL;
+        }
+
+        if (isset($href)) {
+            $attrs['href'] = $href;
+        }
+
+        return parent::__construct(null, $attrs);
     }
 }

@@ -33,11 +33,11 @@ class StylesheetTest extends TestCase
     public function basicsProvider()
     {
         return [
-        'typical-use' => [
-        'foo.css',
-        null,
-        '<link rel="stylesheet" href="foo.css"/>'
-        ]
+            'typical-use' => [
+                'foo.css',
+                null,
+                '<link rel="stylesheet" href="foo.css"/>'
+            ]
         ];
     }
 
@@ -70,12 +70,12 @@ class StylesheetTest extends TestCase
         $mCss = gmdate('YmdHis', filemtime("${baseDir}alcamo.css"));
 
         return [
-        'css' => [
-        "${baseDir}alcamo.css",
-        [ 'disable' => true ],
-        null,
-        "<link rel=\"stylesheet\" href=\"${baseDir}alcamo.css?m=$mCss\" disable=\"disable\"/>"
-        ]
+            'css' => [
+                "${baseDir}alcamo.css",
+                [ 'disable' => true ],
+                null,
+                "<link disable=\"disable\" rel=\"stylesheet\" href=\"${baseDir}alcamo.css?m=$mCss\"/>"
+            ]
         ];
     }
 }

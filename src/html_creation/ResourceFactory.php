@@ -57,12 +57,7 @@ class ResourceFactory
 
           /** In all other cases, return a Link. `$attrs['rel']` must be set. */
             default:
-                return Link::newFromRelAndLocalUrl(
-                    $attrs['rel'],
-                    $url,
-                    $attrs,
-                    $path
-                );
+                return Link::newFromLocalUrl($url, $attrs, $path);
         }
     }
 

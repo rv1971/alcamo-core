@@ -14,17 +14,14 @@ class InputTest extends TestCase
    * @dataProvider basicsProvider
    */
     public function testBasics(
-        $type,
         $attrs,
         $expectedString
     ) {
-        $input = new Input($type, $attrs);
+        $input = new Input($attrs);
 
         $this->assertSame('input', $input->getTagName());
 
         $this->assertInstanceOf(TokenList::class, $input['class']);
-
-        $this->assertSame($type, $input['type']);
 
         $this->assertNull($input->getContent());
 
@@ -34,17 +31,15 @@ class InputTest extends TestCase
     public function basicsProvider()
     {
         return [
-        'typical-use' => [
-        'text',
-        [ 'name' => 'foo', 'disabled' => false ],
-        '<input type="text" name="foo"/>'
-        ],
+            'typical-use' => [
+                [ 'type' => 'text', 'name' => 'foo', 'disabled' => false ],
+                '<input type="text" name="foo"/>'
+            ],
 
-        'override-attrs' => [
-        'date',
-        [ 'type' => 'datetime-local', 'maxlength' => '30', 'disabled' => true ],
-        '<input type="date" maxlength="30" disabled="disabled"/>'
-        ]
+            'date' => [
+                [ 'type' => 'date', 'maxlength' => '30', 'disabled' => true ],
+                '<input type="date" maxlength="30" disabled="disabled"/>'
+            ]
         ];
     }
 
@@ -57,6 +52,6 @@ class InputTest extends TestCase
             . '"; not a valid <input> type'
         );
 
-        new Input('foo', [ 'name' => 'bar' ]);
+        new Input([ 'type' => 'foo', 'name' => 'bar' ]);
     }
 }

@@ -33,77 +33,77 @@ class CheckboxTest extends TestCase
     public function constructProvider()
     {
         return [
-        'no-comparison' => [
-        'foo',
-        'bar',
-        null,
-        [ 'id' => 'BAR' ],
-        '<input type="checkbox" name="foo" value="bar" id="BAR"/>'
-        ],
+            'no-comparison' => [
+                'foo',
+                'bar',
+                null,
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="checkbox"/>'
+            ],
 
-        'unchecked-string' => [
-        'foo',
-        'bar',
-        'barr',
-        [ 'id' => 'BAR' ],
-        '<input type="checkbox" name="foo" value="bar" id="BAR"/>'
-        ],
+            'unchecked-string' => [
+                'foo',
+                'bar',
+                'barr',
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="checkbox"/>'
+            ],
 
-        'checked-string' => [
-        'baz',
-        42,
-        42,
-        null,
-        '<input type="checkbox" name="baz" value="42" checked="checked"/>'
-        ],
+            'checked-string' => [
+                'baz',
+                42,
+                42,
+                null,
+                '<input name="baz" value="42" checked="checked" type="checkbox"/>'
+            ],
 
-        'unchecked-array' => [
-        'foo',
-        'bar',
-        [ 'barr', 'quuux' ],
-        [ 'id' => 'BAR' ],
-        '<input type="checkbox" name="foo" value="bar" id="BAR"/>'
-        ],
+            'unchecked-array' => [
+                'foo',
+                'bar',
+                [ 'barr', 'quuux' ],
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="checkbox"/>'
+            ],
 
-        'checked-array' => [
-        'baz',
-        42,
-        [ 41, 42, 43 ],
-        null,
-        '<input type="checkbox" name="baz" value="42" checked="checked"/>'
-        ],
+            'checked-array' => [
+                'baz',
+                42,
+                [ 41, 42, 43 ],
+                null,
+                '<input name="baz" value="42" checked="checked" type="checkbox"/>'
+            ],
 
-        'unchecked-set' => [
-        'foo',
-        'bar',
-        new Set([ 'barr', 'quuux' ]),
-        [ 'id' => 'BAR' ],
-        '<input type="checkbox" name="foo" value="bar" id="BAR"/>'
-        ],
+            'unchecked-set' => [
+                'foo',
+                'bar',
+                new Set([ 'barr', 'quuux' ]),
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="checkbox"/>'
+            ],
 
-        'checked-set' => [
-        'baz',
-        42,
-        new Set([ 41, 42, 43 ]),
-        null,
-        '<input type="checkbox" name="baz" value="42" checked="checked"/>'
-        ],
+            'checked-set' => [
+                'baz',
+                42,
+                new Set([ 41, 42, 43 ]),
+                null,
+                '<input name="baz" value="42" checked="checked" type="checkbox"/>'
+            ],
 
-        'unchecked-collection' => [
-        'foo',
-        'bar',
-        new Collection([ 'barr', 'quuux' ]),
-        [ 'id' => 'BAR' ],
-        '<input type="checkbox" name="foo" value="bar" id="BAR"/>'
-        ],
+            'unchecked-collection' => [
+                'foo',
+                'bar',
+                new Collection([ 'barr', 'quuux' ]),
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="checkbox"/>'
+            ],
 
-        'checked-collection' => [
-        'baz',
-        42,
-        new Collection([ 41, 42, 43 ]),
-        null,
-        '<input type="checkbox" name="baz" value="42" checked="checked"/>'
-        ]
+            'checked-collection' => [
+                'baz',
+                42,
+                new Collection([ 41, 42, 43 ]),
+                null,
+                '<input name="baz" value="42" checked="checked" type="checkbox"/>'
+            ]
         ];
     }
 }

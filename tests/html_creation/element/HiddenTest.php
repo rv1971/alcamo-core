@@ -30,19 +30,19 @@ class HiddenTest extends TestCase
     public function constructProvider()
     {
         return [
-        'typical-use' => [
-        'foo',
-        'bar',
-        null,
-        '<input type="hidden" name="foo" value="bar"/>'
-        ],
+            'typical-use' => [
+                'foo',
+                'bar',
+                null,
+                '<input name="foo" value="bar" type="hidden"/>'
+            ],
 
-        'with-attrs' => [
-        'foo',
-        'bar',
-        [ 'id' => 'QUX' ],
-        '<input type="hidden" name="foo" value="bar" id="QUX"/>'
-        ]
+            'with-attrs' => [
+                'foo',
+                'bar',
+                [ 'id' => 'QUX' ],
+                '<input name="foo" value="bar" id="QUX" type="hidden"/>'
+            ]
         ];
     }
 }

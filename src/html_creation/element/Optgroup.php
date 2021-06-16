@@ -2,11 +2,24 @@
 
 namespace alcamo\html_creation\element;
 
+/**
+ * @brief HTML element \<optgroup>
+ *
+ * @date Last reviewed 2021-06-16
+ */
 class Optgroup extends AbstractOptionList
 {
     public const TAG_NAME = "optgroup";
 
-  /// Create from sequence of values
+    /**
+     * @brief Create from sequence of values
+     *
+     * @param @label Group label
+     *
+     * @copydetails AbstractOptionList::createOptionArrayFromSequence()
+     *
+     * @param @attrs Further attributes.
+     */
     public static function newFromValueSequence(
         $label,
         iterable $values,
@@ -20,7 +33,15 @@ class Optgroup extends AbstractOptionList
         );
     }
 
-  /// Create from map of values to contents
+    /**
+     * @brief Create from map of values to contents
+     *
+     * @param @label Group label
+     *
+     * @copydetails AbstractOptionList::createOptionArrayFromMap()
+     *
+     * @param @attrs Further attributes.
+     */
     public static function newFromMap(
         $label,
         iterable $values,

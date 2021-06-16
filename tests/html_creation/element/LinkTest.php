@@ -11,18 +11,15 @@ class LinkTest extends TestCase
    * @dataProvider basicsProvider
    */
     public function testBasics(
-        $rel,
         $href,
         $attrs,
         $expectedString
     ) {
-        $link = new Link($rel, $href, $attrs);
+        $link = new Link($href, $attrs);
 
         $this->assertSame('link', $link->getTagName());
 
         $this->assertInstanceOf(TokenList::class, $link['class']);
-
-        $this->assertSame($rel, $link['rel']);
 
         $this->assertSame($href, $link['href']);
 
@@ -34,19 +31,17 @@ class LinkTest extends TestCase
     public function basicsProvider()
     {
         return [
-        'typical-use' => [
-        'stylesheet',
-        'foo.css',
-        [ 'type' => 'text/css' ],
-        '<link rel="stylesheet" href="foo.css" type="text/css"/>'
-        ],
+            'typical-use' => [
+                'foo.css',
+                [ 'rel' => 'stylesheet', 'type' => 'text/css' ],
+                '<link rel="stylesheet" type="text/css" href="foo.css"/>'
+            ],
 
-        'override-attrs' => [
-        'dc:isVersionOf',
-        'baz.php',
-        [ 'href' => 'qux.php', 'rel' => 'dc:source' ],
-        '<link rel="dc:isVersionOf" href="baz.php"/>'
-        ]
+            'override-attrs' => [
+                'baz.php',
+                [ 'href' => 'qux.php', 'rel' => 'dc:source' ],
+                '<link href="baz.php" rel="dc:source"/>'
+            ]
         ];
     }
 
@@ -54,19 +49,16 @@ class LinkTest extends TestCase
    * @dataProvider newFromRelAndLocalUrlProvider
    */
     public function testNewFromLocalUrl(
-        $rel,
         $href,
         $attrs,
         $path,
         $expectedString
     ) {
-        $link = Link::newFromRelAndLocalUrl($rel, $href, $attrs, $path);
+        $link = Link::newFromLocalUrl($href, $attrs, $path);
 
         $this->assertSame('link', $link->getTagName());
 
         $this->assertInstanceOf(TokenList::class, $link['class']);
-
-        $this->assertSame($rel, $link['rel']);
 
         $this->assertNull($link->getContent());
 
@@ -85,34 +77,35 @@ class LinkTest extends TestCase
         $mJson = gmdate('YmdHis', filemtime("${baseDir2}foo.json"));
 
         return [
-        'css' => [
-        'stylesheet',
-        "${baseDir}alcamo.css",
-        [ 'disable' => true ],
-        null,
-        "<link rel=\"stylesheet\" href=\"${baseDir}alcamo.css?m=$mCss\" disable=\"disable\"/>"
-        ],
-        'json' => [
-        'manifest',
-        "/foo.json?baz=qux",
-        [ 'id' => 'FOO' ],
-        "${baseDir2}foo.json",
-        "<link rel=\"manifest\" href=\"/foo.json?baz=qux&amp;m=$mJson\" type=\"application/json\" id=\"FOO\"/>"
-        ],
-        'explicit-type-and-modtime' => [
-        'dc:isVersionOf',
-        "/foo.json?m=19700101000000",
-        [ 'type' => 'application/x-quux' ],
-        "${baseDir2}foo.json",
-        "<link rel=\"dc:isVersionOf\" href=\"/foo.json?m=19700101000000\" type=\"application/x-quux\"/>"
-        ],
-        'explicit-modtime-2' => [
-        'dc:isPartOf',
-        "/foo.json?bar=foo&m=19700101000000",
-        null,
-        "${baseDir2}foo.json",
-        "<link rel=\"dc:isPartOf\" href=\"/foo.json?bar=foo&amp;m=19700101000000\" type=\"application/json\"/>"
-        ]
+            'css' => [
+                "${baseDir}alcamo.css",
+                [ 'rel' => 'stylesheet', 'disable' => true ],
+                null,
+                "<link type=\"text/css; charset=&quot;us-ascii&quot;\" "
+                . "rel=\"stylesheet\" disable=\"disable\" "
+                . "href=\"${baseDir}alcamo.css?m=$mCss\"/>"
+            ],
+            'json' => [
+                "/foo.json?baz=qux",
+                [ 'id' => 'FOO', 'rel' => 'manifest' ],
+                "${baseDir2}foo.json",
+                "<link type=\"application/json\" id=\"FOO\" rel=\"manifest\" "
+                . "href=\"/foo.json?baz=qux&amp;m=$mJson\"/>"
+            ],
+            'explicit-type-and-modtime' => [
+                "/foo.json?m=19700101000000",
+                [ 'rel' => 'dc:isVersionOf', 'type' => 'application/x-quux' ],
+                "${baseDir2}foo.json",
+                "<link rel=\"dc:isVersionOf\" type=\"application/x-quux\" "
+                . "href=\"/foo.json?m=19700101000000\"/>"
+            ],
+            'explicit-modtime-2' => [
+                "/foo.json?bar=foo&m=19700101000000",
+                [ 'rel' => 'dc:isPartOf' ],
+                "${baseDir2}foo.json",
+                "<link type=\"application/json\" rel=\"dc:isPartOf\" "
+                . "href=\"/foo.json?bar=foo&amp;m=19700101000000\"/>"
+            ]
         ];
     }
 }

@@ -33,11 +33,11 @@ class IconTest extends TestCase
     public function basicsProvider()
     {
         return [
-        'typical-use' => [
-        'quux.png',
-        [ 'type' => 'image/png' ],
-        '<link rel="icon" href="quux.png" type="image/png"/>'
-        ]
+            'typical-use' => [
+                'quux.png',
+                [ 'type' => 'image/png' ],
+                '<link type="image/png" rel="icon" href="quux.png"/>'
+            ]
         ];
     }
 
@@ -75,49 +75,52 @@ class IconTest extends TestCase
         $mIco = gmdate('YmdHis', filemtime("${baseDir}alcamo.ico"));
 
         return [
-        'png16' => [
-        "${baseDir}alcamo-16.png",
-        null,
-        null,
-        "<link rel=\"icon\" href=\"${baseDir}alcamo-16.png?m=$m16\" type=\"image/png\" sizes=\"16x16\"/>"
-        ],
+            'png16' => [
+                "${baseDir}alcamo-16.png",
+                null,
+                null,
+                "<link type=\"image/png\" sizes=\"16x16\" rel=\"icon\" href=\"${baseDir}alcamo-16.png?m=$m16\"/>"
+            ],
 
-        'png32' => [
-        "${baseDir}alcamo-32.png",
-        [ 'id' => 'BAZ' ],
-        null,
-        "<link rel=\"icon\" href=\"${baseDir}alcamo-32.png?m=$m32\" type=\"image/png\" sizes=\"32x32\" id=\"BAZ\"/>"
-        ],
+            'png32' => [
+                "${baseDir}alcamo-32.png",
+                [ 'id' => 'BAZ' ],
+                null,
+                "<link type=\"image/png\" sizes=\"32x32\" id=\"BAZ\" "
+                . "rel=\"icon\" href=\"${baseDir}alcamo-32.png?m=$m32\"/>"
+            ],
 
-        'jpeg' => [
-        "/icons/alcamo-16.jpeg",
-        [ 'rel' => 'apple-touch-icon' ],
-        "${baseDir}alcamo-16.jpeg",
-        "<link rel=\"apple-touch-icon\" href=\"/icons/alcamo-16.jpeg?m=$mJpeg\" type=\"image/jpeg\" sizes=\"16x16\"/>"
-        ],
+            'jpeg' => [
+                "/icons/alcamo-16.jpeg",
+                [ 'rel' => 'apple-touch-icon' ],
+                "${baseDir}alcamo-16.jpeg",
+                "<link type=\"image/jpeg\" sizes=\"16x16\" "
+                . "rel=\"apple-touch-icon\" href=\"/icons/alcamo-16.jpeg?m=$mJpeg\"/>"
+            ],
 
-        'svg' => [
-        "${baseDir}alcamo.svg",
-        null,
-        null,
-        "<link rel=\"icon\" href=\"${baseDir}alcamo.svg?m=$mSvg\" type=\"image/svg+xml\" sizes=\"any\"/>"
-        ],
+            'svg' => [
+                "${baseDir}alcamo.svg",
+                null,
+                null,
+                "<link type=\"image/svg+xml\" sizes=\"any\" "
+                . "rel=\"icon\" href=\"${baseDir}alcamo.svg?m=$mSvg\"/>"
+            ],
 
-        'ico' => [
-        "${baseDir}alcamo.ico",
-        null,
-        null,
-        "<link rel=\"icon\" href=\"${baseDir}alcamo.ico?m=$mIco\" type=\"image/vnd.microsoft.icon\" sizes=\"64x64\"/>"
-        ],
+            'ico' => [
+                "${baseDir}alcamo.ico",
+                null,
+                null,
+                "<link type=\"image/vnd.microsoft.icon\" sizes=\"64x64\" "
+                . "rel=\"icon\" href=\"${baseDir}alcamo.ico?m=$mIco\"/>"
+            ],
 
-        'explicit-type' => [
-        "${baseDir}alcamo-64.png",
-        [ 'type' => 'image/x-foo' ],
-        null,
-        "<link rel=\"icon\" href=\"${baseDir}alcamo-64.png?m=$m64\" type=\"image/x-foo\" sizes=\"64x64\"/>"
-        ],
-
-
+            'explicit-type' => [
+                "${baseDir}alcamo-64.png",
+                [ 'type' => 'image/x-foo' ],
+                null,
+                "<link type=\"image/x-foo\" sizes=\"64x64\" rel=\"icon\" "
+                . "href=\"${baseDir}alcamo-64.png?m=$m64\"/>"
+            ]
         ];
     }
 }

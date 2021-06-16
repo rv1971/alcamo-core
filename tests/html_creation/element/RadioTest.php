@@ -35,29 +35,29 @@ class RadioTest extends TestCase
     public function constructProvider()
     {
         return [
-        'no-comparison' => [
-        'foo',
-        'bar',
-        null,
-        [ 'id' => 'BAR' ],
-        '<input type="radio" name="foo" value="bar" id="BAR"/>'
-        ],
+            'no-comparison' => [
+                'foo',
+                'bar',
+                null,
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="radio"/>'
+            ],
 
-        'unchecked' => [
-        'foo',
-        'bar',
-        'barr',
-        [ 'id' => 'BAR' ],
-        '<input type="radio" name="foo" value="bar" id="BAR"/>'
-        ],
+            'unchecked' => [
+                'foo',
+                'bar',
+                'barr',
+                [ 'id' => 'BAR' ],
+                '<input name="foo" value="bar" id="BAR" type="radio"/>'
+            ],
 
-        'checked' => [
-        'baz',
-        42,
-        42,
-        null,
-        '<input type="radio" name="baz" value="42" checked="checked"/>'
-        ]
+            'checked' => [
+                'baz',
+                42,
+                42,
+                null,
+                '<input name="baz" value="42" checked="checked" type="radio"/>'
+            ]
         ];
     }
 }

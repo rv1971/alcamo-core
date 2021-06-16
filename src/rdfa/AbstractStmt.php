@@ -117,7 +117,7 @@ abstract class AbstractStmt implements StmtInterface
     {
         if ($this->isResource()) {
             $attrs = $this->toHtmlAttrs();
-            return new Nodes(new Link($attrs['rel'], $attrs['href'], $attrs));
+            return new Nodes(new Link($attrs['href'], $attrs));
         } else {
             return new Nodes(new Meta($this->toHtmlAttrs()));
         }

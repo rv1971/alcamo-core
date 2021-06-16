@@ -38,7 +38,7 @@ trait LinkTrait
 
         /** Append modification timestamp if not yet present in $href. */
         if (!isset($a[1])) {
-            $href .= "?$m"
+            $href .= "?$m";
         } elseif (
             substr($a[1], 0, 2) != 'm=' && strpos($a[1], '&m=') === false
         ) {

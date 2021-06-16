@@ -126,7 +126,7 @@ class FactoryTest extends TestCase
                 . '<meta property="owl:versionInfo" content="42.43.44"/>'
                 . "<link rel=\"stylesheet\" href=\"/element/alcamo.css.gz?m=$mCssGz\"/>"
                 . "<script src=\"/element/alcamo.js.gz?m=$mJsGz\"></script>"
-                . "<link rel=\"manifest\" href=\"/element/alcamo.json?m=$mJson\" type=\"application/json\"/>"
+                . "<link type=\"application/json\" rel=\"manifest\" href=\"/element/alcamo.json?m=$mJson\"/>"
                 . '<!-- consetetur sadipscing elitr -->'
                 . '</head>'
                 . '<body>Lorem ipsum.</body>'

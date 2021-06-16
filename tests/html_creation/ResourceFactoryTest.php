@@ -65,50 +65,55 @@ class ResourceFactoryTest extends TestCase
         $mSvgz = gmdate('YmdHis', filemtime("${svgPath}z"));
 
         return [
-        'simple' => [
-        new DirMapUrlFactory(__DIR__, '/test/', true, true),
-        [
-          $cssPath,
-          [ $jsonPath, 'manifest' ],
-          $jsPath,
-          $png16Path,
-          $svgPath
-        ],
-        [
-          Stylesheet::class,
-          Link::class,
-          Script::class,
-          Icon::class,
-          Icon::class
-        ],
-        "<link rel=\"stylesheet\" href=\"/test/element/alcamo.css?m=$mCss\"/>"
-        . "<link rel=\"manifest\" href=\"/test/element/alcamo.json?m=$mJson\" type=\"application/json\"/>"
-        . "<script src=\"/test/element/alcamo.js?m=$mJs\"></script>"
-        . "<link rel=\"icon\" href=\"/test/element/alcamo-16.png?m=$mPng16\" type=\"image/png\" sizes=\"16x16\"/>"
-        . "<link rel=\"icon\" href=\"/test/element/alcamo.svg?m=$mSvg\" type=\"image/svg+xml\" sizes=\"any\"/>"
-        ],
-        'gz-with-attrs' => [
-        new DirMapUrlFactory(__DIR__, '/test/'),
-        [
-          [ $jsPath, [ 'id' => 'JS' ] ],
-          $cssPath,
-          [ $jsonPath, [ 'rel' => 'dc:relation' ] ],
-          $png16Path,
-          $svgPath
-        ],
-        [
-          Script::class,
-          Stylesheet::class,
-          Link::class,
-          Icon::class,
-          Icon::class
-        ],
-        "<script src=\"/test/element/alcamo.js.gz?m=$mJsGz\" id=\"JS\"></script>"
-        . "<link rel=\"stylesheet\" href=\"/test/element/alcamo.css.gz?m=$mCssGz\"/>"
-        . "<link rel=\"dc:relation\" href=\"/test/element/alcamo.json?m=$mJson\" type=\"application/json\"/>"
-        . "<link rel=\"icon\" href=\"/test/element/alcamo-16.png?m=$mPng16\" type=\"image/png\" sizes=\"16x16\"/>"
-        . "<link rel=\"icon\" href=\"/test/element/alcamo.svgz?m=$mSvgz\" type=\"image/svg+xml\" sizes=\"any\"/>"
-        ]
+            'simple' => [
+                new DirMapUrlFactory(__DIR__, '/test/', true, true),
+                [
+                    $cssPath,
+                    [ $jsonPath, 'manifest' ],
+                    $jsPath,
+                    $png16Path,
+                    $svgPath
+                ],
+                [
+                    Stylesheet::class,
+                    Link::class,
+                    Script::class,
+                    Icon::class,
+                    Icon::class
+                ],
+                "<link rel=\"stylesheet\" href=\"/test/element/alcamo.css?m=$mCss\"/>"
+                . "<link type=\"application/json\" rel=\"manifest\" href=\"/test/element/alcamo.json?m=$mJson\"/>"
+                . "<script src=\"/test/element/alcamo.js?m=$mJs\"></script>"
+                . "<link type=\"image/png\" sizes=\"16x16\" rel=\"icon\" "
+                . "href=\"/test/element/alcamo-16.png?m=$mPng16\"/>"
+                . "<link type=\"image/svg+xml\" sizes=\"any\" rel=\"icon\" "
+                . "href=\"/test/element/alcamo.svg?m=$mSvg\"/>"
+            ],
+            'gz-with-attrs' => [
+                new DirMapUrlFactory(__DIR__, '/test/'),
+                [
+                    [ $jsPath, [ 'id' => 'JS' ] ],
+                    $cssPath,
+                    [ $jsonPath, [ 'rel' => 'dc:relation' ] ],
+                    $png16Path,
+                    $svgPath
+                ],
+                [
+                    Script::class,
+                    Stylesheet::class,
+                    Link::class,
+                    Icon::class,
+                    Icon::class
+                ],
+                "<script src=\"/test/element/alcamo.js.gz?m=$mJsGz\" id=\"JS\"></script>"
+                . "<link rel=\"stylesheet\" href=\"/test/element/alcamo.css.gz?m=$mCssGz\"/>"
+                . "<link type=\"application/json\" rel=\"dc:relation\" "
+                . "href=\"/test/element/alcamo.json?m=$mJson\"/>"
+                . "<link type=\"image/png\" sizes=\"16x16\" rel=\"icon\" "
+                . "href=\"/test/element/alcamo-16.png?m=$mPng16\"/>"
+                . "<link type=\"image/svg+xml\" sizes=\"any\" rel=\"icon\" "
+                . "href=\"/test/element/alcamo.svgz?m=$mSvgz\"/>"
+            ]
         ];
     }
 }

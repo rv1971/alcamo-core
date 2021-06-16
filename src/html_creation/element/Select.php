@@ -6,7 +6,15 @@ class Select extends AbstractOptionList
 {
     public const TAG_NAME = "select";
 
-  /// Create from sequence of values
+    /**
+     * @brief Create from sequence of values
+     *
+     * @param @name Value for `name` attribute
+     *
+     * @copydetails AbstractOptionList::createOptionArrayFromSequence()
+     *
+     * @param @attrs Further attributes.
+     */
     public static function newFromValueSequence(
         $name,
         iterable $values,
@@ -20,7 +28,15 @@ class Select extends AbstractOptionList
         );
     }
 
-  /// Create from map of values to contents
+    /**
+     * @brief Create from map of values to contents
+     *
+     * @param @name Value for `name` attribute
+     *
+     * @copydetails AbstractOptionList::createOptionArrayFromMap()
+     *
+     * @param @attrs Further attributes.
+     */
     public static function newFromMap(
         $name,
         iterable $values,
@@ -34,6 +50,9 @@ class Select extends AbstractOptionList
         );
     }
 
+    /**
+     * If $name ends with `[]`, the attribute `multiple` is automatically set.
+     */
     public function __construct($name, $content, ?array $attrs = null)
     {
         $attrs = compact('name') + (array)$attrs;
