@@ -31,11 +31,9 @@ class UriNormalizerTest extends TestCase
     public function testNormalize(
         $uri,
         $flags,
-        $osFamily,
         $expectedUri
     ) {
-        $normalizedUri =
-            UriNormalizer::normalize(new Uri($uri), $flags, $osFamily);
+        $normalizedUri = UriNormalizer::normalize(new Uri($uri), $flags);
 
         $this->assertEquals(
             $expectedUri ?? (string)$uri,
@@ -49,23 +47,18 @@ class UriNormalizerTest extends TestCase
             'no-realpath' => [
                 'file:///foo/bar/baz/qux',
                 GuzzleHttpUriNormalizer::PRESERVING_NORMALIZATIONS,
-                null,
                 null
             ],
             'no-scheme' => [
-                '/foo/bar/baz/qux', null, 'Linux', '/foo/bar/baz/qux'
+                '/foo/bar/baz/qux', null, '/foo/bar/baz/qux'
             ],
             'not-local' => [
                 'file://foo.example.org/bar/baz/../qux',
                 null,
-                null,
                 'file://foo.example.org/bar/qux',
             ],
             'relative' => [
-                'foo/bar/baz', null, null, 'foo/bar/baz'
-            ],
-            'windows' => [
-                'file:/c:/foo/bar/baz', null, 'Windows', 'file:///c:/foo/bar/baz'
+                'foo/bar/baz', null, 'foo/bar/baz'
             ]
         ];
 
@@ -73,7 +66,6 @@ class UriNormalizerTest extends TestCase
             $testCases['realpath'] = [
                 'file://' . __DIR__ . '/foobar/ietf/UriNormalizerTest.php',
                 null,
-                'Linux',
                 'file://' . __FILE__,
             ];
         }

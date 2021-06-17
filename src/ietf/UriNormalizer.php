@@ -5,18 +5,30 @@ namespace alcamo\ietf;
 use GuzzleHttp\Psr7\UriNormalizer as GuzzleHttpUriNormalizer;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * @brief Extended URI normalizer
+ *
+ * @date Last reviewed 2021-06-17
+ */
 class UriNormalizer
 {
-    /**
-     * Apply realpath() to file:/// URIs. On Windows platforms this has no
-     * effect.
-     */
+    /// Apply realpath() to local file:/// URIs
     public const APPLY_REALPATH = 0x8000;
 
+    /**
+     * @brief Extend GuzzleHttp\Psr7\UriNormalizer::normalize()
+     *
+     * @param $uri URI to normalize.
+     *
+     * @param $flags A bitmask of normalizations to apply, see class constants
+     * of GuzzleHttp\Psr7\UriNormalizer plus class constants in
+     * present class. Defaults to
+     * GuzzleHttp\Psr7\UriNormalizer::PRESERVING_NORMALIZATIONS | @ref
+     * APPLY_REALPATH.
+     */
     public static function normalize(
         UriInterface $uri,
-        $flags = null,
-        ?string $osFamily = null
+        ?int $flags = null
     ): UriInterface {
         if (!isset($flags)) {
             $flags = GuzzleHttpUriNormalizer::PRESERVING_NORMALIZATIONS
@@ -25,11 +37,12 @@ class UriNormalizer
 
         $uri = GuzzleHttpUriNormalizer::normalize($uri, $flags);
 
+        /** @ref APPLY_REALPATH is considered only if the scheme is `file` and
+         *  no host is given. */
         if (
             $flags & self::APPLY_REALPATH
             && $uri->getScheme() == 'file'
             && $uri->getHost() == ''
-            && ($osFamily ?? PHP_OS_FAMILY) != 'Windows'
         ) {
             return $uri->withPath(realpath($uri->getPath()));
         }
