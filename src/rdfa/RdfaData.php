@@ -37,19 +37,19 @@ class RdfaData extends ReadonlyCollection
         }
     }
 
-    public function getPrefixBindings(): array
+    public function getPrefixMap(): array
     {
-        $bindings = [];
+        $map = [];
 
         foreach ($this->data_ as $key => $value) {
-            $bindings += is_array($value)
-                ? reset($value)->getPrefixBinding()
-                : $value->getPrefixBinding();
+            $map += is_array($value)
+                ? reset($value)->getPrefixMap()
+                : $value->getPrefixMap();
         }
 
-        ksort($bindings);
+        ksort($map);
 
-        return $bindings;
+        return $map;
     }
 
     public function toHtmlNodes(): ?Nodes

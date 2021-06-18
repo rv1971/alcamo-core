@@ -11,7 +11,7 @@ class HeaderContentDisposition extends AbstractStmt
 {
     use LiteralContentTrait;
     use NoHtmlTrait;
-    use NoPrefixBindingTrait;
+    use NoPrefixMapTrait;
 
     public const PROPERTY_CURIE = 'header:content-disposition';
     public const HTTP_HEADER    = 'Content-Disposition';

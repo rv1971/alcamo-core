@@ -12,7 +12,7 @@ use alcamo\xml\exception\UnknownNamespacePrefix;
  * The `Laminas\Diactoros` implementation of Uri is not suitable because it
  * does not support `file:/` URIs.
  *
- * @sa [CURIE Syntax 1.0](https://www.w3.org/TR/curie/)
+ * @sa [CURIE Syntax](https://www.w3.org/TR/curie/)
  *
  * @date Last reviewed 2021-06-17
  */

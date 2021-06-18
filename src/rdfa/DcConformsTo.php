@@ -5,14 +5,15 @@ namespace alcamo\rdfa;
 use alcamo\html_creation\element\ConformsTo;
 
 /**
+ * @brief dc:abstract RDFa statement
+ *
  * @sa [dc:conformsTo](http://purl.org/dc/terms/conformsTo).
+ *
+ * @date Last reviewed 2021-06-18
  */
 class DcConformsTo extends AbstractStmt
 {
-    public const PROPERTY_CURIE = 'dc:conformsTo';
+    use ResourceObjectTrait;
 
-    public function __construct($conformsTo, $resourceLabel = null)
-    {
-        parent::__construct($conformsTo, $resourceLabel ?? true);
-    }
+    public const PROPERTY_CURIE = 'dc:conformsTo';
 }

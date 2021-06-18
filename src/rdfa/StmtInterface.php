@@ -4,39 +4,47 @@ namespace alcamo\rdfa;
 
 use alcamo\xml_creation\Nodes;
 
-/// RDFa Statement
+/**
+ * @brief RDFa statement
+ *
+ * @sa [RDFa Primer](https://www.w3.org/TR/rdfa-primer/)
+ *
+ * @sa [CURIE Syntax](https://www.w3.org/TR/curie/)
+ *
+ * @date Last reviewed 2021-06-18
+ */
 interface StmtInterface
 {
-    /// Returns the type the object must have, or null if there is no constraint
-    public static function getObjectType(): ?string;
+    /// Class the object must have, or null if there is no constraint
+    public static function getObjectClass(): ?string;
 
-    /// Returns the property as a CURIE
+    /// Property as a CURIE
     public function getPropertyCurie(): string;
 
-    /// Returns the property as a URI
+    /// Property as a URI
     public function getPropertyUri();
 
-    /// Returns a one-element map of the prefix to the URI it translates to
-    public function getPrefixBinding(): array;
+    /// One-element map of the CURIE prefix to the URI it translates to
+    public function getPrefixMap(): array;
 
-    /// May return any type
+    /// Object of the RDFa statement
     public function getObject();
 
     /// Whether the object is the URI of a resource
     public function isResource(): bool;
 
-    /// String representation of object
+    /// String representation of the object
     public function __toString();
 
-    /// Returns an array mapping attribute names to values, if any
+    /// Array of attributes needed in XML representation, if any
     public function toXmlAttrs(): ?array;
 
-    /// Returns an HTML-specific array mapping attribute names to values, if any
+    /// Array of attributes needed in HTML representation, if any
     public function toHtmlAttrs(): ?array;
 
-    /// Returns an HTML representation, if any
+    /// HTML representation, if any
     public function toHtmlNodes(): ?Nodes;
 
-    /// Returns a map of HTTP headers to arrays of values, if any
+    /// Map of HTTP headers to arrays of values, if any
     public function toHttpHeaders(): ?array;
 }

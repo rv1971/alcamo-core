@@ -9,7 +9,7 @@ class HeaderCacheControl extends AbstractStmt
 {
     use LiteralContentTrait;
     use NoHtmlTrait;
-    use NoPrefixBindingTrait;
+    use NoPrefixMapTrait;
 
     public const PROPERTY_CURIE = 'header:cache-control';
     public const HTTP_HEADER    = 'Cache-Control';
