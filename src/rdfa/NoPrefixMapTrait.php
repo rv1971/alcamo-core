@@ -2,9 +2,11 @@
 
 namespace alcamo\rdfa;
 
-use alcamo\xml_creation\Nodes;
-
-/// Do not create prefix maps from this
+/**
+ * @brief RDFa statement whose property URL is not a public one
+ *
+ * @date Last reviewed 2021-06-21
+ */
 trait NoPrefixMapTrait
 {
     public function getPrefixMap(): array

@@ -2,10 +2,15 @@
 
 namespace alcamo\rdfa;
 
-use alcamo\xml_creation\Nodes;
-
 /**
+ * @brief content-disposition RDFa statement
+ *
  * @sa [Content-Disposition](http://tools.ietf.org/html/rfc2616#section-19.5.1)
+ *
+ * If used, the statement object is the filename suggested for saving the
+ * attachment.
+ *
+ * @date Last reviewed 2021-06-21
  */
 class HeaderContentDisposition extends AbstractStmt
 {

@@ -25,7 +25,9 @@ abstract class AbstractStmt implements StmtInterface
     /// Prefix map for property CURIEs
     public const PREFIX_MAP = [
         'dc'  => 'http://purl.org/dc/terms/',
-        'owl' => 'http://www.w3.org/2002/07/owl#'
+        'owl' => 'http://www.w3.org/2002/07/owl#',
+        'meta' => 'tag:https://github.com/rv1971/alcamo-core,2021:rdfa:meta#',
+        'header' => 'tag:https://github.com/rv1971/alcamo-core,2021:rdfa:header#'
     ];
 
     private $object_; ///< any type

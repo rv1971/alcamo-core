@@ -5,7 +5,11 @@ namespace alcamo\rdfa;
 use alcamo\time\Duration;
 
 /**
+ * @brief expires RDFa statement
+ *
  * @sa [Expires](http://tools.ietf.org/html/rfc2616#section-14.21)
+ *
+ * @date Last reviewed 2021-06-21
  */
 class HeaderExpires extends AbstractStmt
 {

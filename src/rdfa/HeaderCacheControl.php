@@ -3,7 +3,11 @@
 namespace alcamo\rdfa;
 
 /**
+ * @brief cache-control RDFa statement
+ *
  * @sa [Caching](https://tools.ietf.org/html/rfc7234)
+ *
+ * @date Last reviewed 2021-06-21
  */
 class HeaderCacheControl extends AbstractStmt
 {

@@ -20,6 +20,7 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
     use HasUrlFactoryTrait;
     use ParentTrait;
 
+    /// Create XHTML by default
     public const DEFAULT_RDFA_DATA = [
         'dc:format' => 'application/xhtml+xml; charset="UTF-8"'
     ];

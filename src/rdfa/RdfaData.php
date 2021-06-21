@@ -5,8 +5,24 @@ namespace alcamo\rdfa;
 use alcamo\collection\ReadonlyCollection;
 use alcamo\xml_creation\Nodes;
 
+/**
+ * @brief Collection of RDFa statements
+ *
+ * Readonly map of properties to objects.
+ *
+ * @date Last reviewed 2021-06-21
+ */
 class RdfaData extends ReadonlyCollection
 {
+    /**
+     * @brief Create from map of property CURIEs to objects
+     *
+     * @param $data Map of property CURIEs to objects. @copydetail
+     * alcamo::object_creation::createArray()
+     *
+     * @param $factory RDFa factory used to create RDFa data by calling
+     * Factory::createArray(). Defaults to a new instance of Factory.
+     */
     public static function newFromIterable(
         iterable $data,
         ?Factory $factory = null
@@ -37,6 +53,7 @@ class RdfaData extends ReadonlyCollection
         }
     }
 
+    /// Key-sorted map of all used CURIE prefixes to their bindings
     public function getPrefixMap(): array
     {
         $map = [];
@@ -52,11 +69,12 @@ class RdfaData extends ReadonlyCollection
         return $map;
     }
 
+    /// Create HTML nodes for the document head
     public function toHtmlNodes(): ?Nodes
     {
         $result = [];
 
-      /** If `meta:charset` is present, output it first. */
+        /** If `meta:charset` is present, output it first. */
         if (isset($this->data_['meta:charset'])) {
             $result[] = $this->data_['meta:charset']->toHtmlNodes();
         }
@@ -114,7 +132,6 @@ class RdfaData extends ReadonlyCollection
                 /** If a key is already present, add new data to its
                  *  values. In all cases, the result is an array indexed by
                  *  the string representations of the values. */
-
                 $data = $this->data_[$key];
 
                 if (!is_array($data)) {
@@ -134,7 +151,7 @@ class RdfaData extends ReadonlyCollection
         return $this;
     }
 
-  /// Add further properties, overwriting existing ones.
+    /// Add further properties, overwriting existing ones
     public function replace(self $rdfaData): self
     {
         $this->data_ = $rdfaData->data_ + $this->data_;
