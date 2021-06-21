@@ -6,7 +6,7 @@ use Laminas\HttpHandlerRunner\Emitter\{EmitterInterface, SapiEmitterTrait};
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @brief Enhanced emitter.
+ * @brief Enhanced emitter
  *
  * Largely inspired by Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
  * enhancements include:
