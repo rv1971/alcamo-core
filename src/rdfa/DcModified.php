@@ -3,28 +3,16 @@
 namespace alcamo\rdfa;
 
 /**
+ * @brief dc:modified RDFa statement
+ *
  * @sa [dc:modified](http://purl.org/dc/terms/modified).
+ *
+ * @date Last reviewed 2021-06-21
  */
-class DcModified extends AbstractStmt
+class DcModified extends AbstractDateTimeContentStmt
 {
     public const PROPERTY_CURIE = 'dc:modified';
     public const HTTP_HEADER    = 'Last-Modified';
-    public const OBJECT_CLASS   = \DateTime::class;
-
-    public function __construct(\DateTime $timestamp)
-    {
-        parent::__construct($timestamp, false);
-    }
-
-    public function __toString()
-    {
-        return $this->format('c');
-    }
-
-    public function format(string $format): string
-    {
-        return $this->getObject()->format($format);
-    }
 
     public function toHttpHeaders(): array
     {

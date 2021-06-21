@@ -6,7 +6,11 @@ use alcamo\html_creation\element\Title;
 use alcamo\xml_creation\Nodes;
 
 /**
+ * @brief dc:title RDFa statement
+ *
  * @sa [dc:title](http://purl.org/dc/terms/title).
+ *
+ * @date Last reviewed 2021-06-21
  */
 class DcTitle extends AbstractStmt
 {

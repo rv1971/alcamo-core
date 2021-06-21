@@ -4,7 +4,11 @@ namespace alcamo\rdfa;
 
 use alcamo\xml_creation\Nodes;
 
-/// Do not create HTML code from this
+/**
+ * @brief RDFa statement without any HTML representation
+ *
+ * @date Last reviewed 2021-06-21
+ */
 trait NoHtmlTrait
 {
     public function toHtmlNodes(): ?Nodes

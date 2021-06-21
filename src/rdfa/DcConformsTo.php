@@ -5,7 +5,7 @@ namespace alcamo\rdfa;
 use alcamo\html_creation\element\ConformsTo;
 
 /**
- * @brief dc:abstract RDFa statement
+ * @brief dc:conformsTo RDFa statement
  *
  * @sa [dc:conformsTo](http://purl.org/dc/terms/conformsTo).
  *

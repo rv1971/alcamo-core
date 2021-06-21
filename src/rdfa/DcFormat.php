@@ -5,7 +5,11 @@ namespace alcamo\rdfa;
 use alcamo\iana\MediaType;
 
 /**
+ * @brief dc:format RDFa statement
+ *
  * @sa [dc:format](http://purl.org/dc/terms/format).
+ *
+ * @date Last reviewed 2021-06-21
  */
 class DcFormat extends AbstractStmt
 {

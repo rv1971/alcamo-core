@@ -2,10 +2,12 @@
 
 namespace alcamo\rdfa;
 
-use alcamo\html_creation\element\Identifier;
-
 /**
+ * @brief owl:versionInfo RDFa statement
+ *
  * @sa [owl:versionInfo](https://www.w3.org/TR/owl-ref/#versionInfo-def).
+ *
+ * @date Last reviewed 2021-06-21
  */
 class OwlVersionInfo extends AbstractStmt
 {

@@ -5,7 +5,11 @@ namespace alcamo\rdfa;
 use alcamo\ietf\Lang;
 
 /**
+ * @brief dc:language RDFa statement
+ *
  * @sa [dc:language](http://purl.org/dc/terms/language).
+ *
+ * @date Last reviewed 2021-06-21
  */
 class DcLanguage extends AbstractStmt
 {

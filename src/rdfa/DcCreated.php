@@ -3,25 +3,13 @@
 namespace alcamo\rdfa;
 
 /**
+ * @brief dc:created RDFa statement
+ *
  * @sa [dc:created](http://purl.org/dc/terms/created).
+ *
+ * @date Last reviewed 2021-06-21
  */
-class DcCreated extends AbstractStmt
+class DcCreated extends AbstractDateTimeContentStmt
 {
     public const PROPERTY_CURIE = 'dc:created';
-    public const OBJECT_CLASS   = \DateTime::class;
-
-    public function __construct(\DateTime $timestamp)
-    {
-        parent::__construct($timestamp, false);
-    }
-
-    public function __toString()
-    {
-        return $this->format('c');
-    }
-
-    public function format(string $format): string
-    {
-        return $this->getObject()->format($format);
-    }
 }

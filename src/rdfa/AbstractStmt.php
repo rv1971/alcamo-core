@@ -42,7 +42,7 @@ abstract class AbstractStmt implements StmtInterface
      *
      * @param $resourceInfo Indicates whether the object is a resource and
      * potentially its label
-     * - if `null`: object is not a resource
+     * - if `false`: object is not a resource
      * - if `true`: object is a resource without label
      * - else: label of the object resource, any type convertible to string
      */
@@ -83,14 +83,13 @@ abstract class AbstractStmt implements StmtInterface
     /// @copydoc StmtInterface::isResource()
     public function isResource(): bool
     {
-        return (bool);
+        return (bool)$this->resourceInfo_;
     }
 
     /// Resource label, if any
     public function getResourceLabel(): ?string
     {
-        return
-            !isset($this->resourceInfo_) || $this->resourceInfo_ === true
+        return is_bool($this->resourceInfo_)
             ? null
             : (string)$this->resourceInfo_;
     }
@@ -108,7 +107,7 @@ abstract class AbstractStmt implements StmtInterface
             'property'
             => static::PROPERTY_CURIE,
             ($this->resourceInfo_ ? 'resource' : 'content')
-            => (string)$this->object_
+            => (string)$this
         ];
     }
 
@@ -122,11 +121,11 @@ abstract class AbstractStmt implements StmtInterface
                 $rel .= ' ' . static::LINK_REL;
             }
 
-            return [ 'rel' => $rel, 'href' => (string)$this->object_ ];
+            return [ 'rel' => $rel, 'href' => (string)$this ];
         } else {
             $attrs = [
                 'property' => static::PROPERTY_CURIE,
-                'content' => (string)$this->object_
+                'content' => (string)$this
             ];
 
             if (defined('static::META_NAME')) {
@@ -163,22 +162,22 @@ abstract class AbstractStmt implements StmtInterface
         if ($this->resourceInfo_) {
             return new Nodes(
                 new A(
-                    ($this->resourceLabel_ === true
-                     ? $this->object_
-                     : $this->resourceLabel_),
+                    ($this->resourceInfo_ === true
+                     ? (string)$this
+                     : $this->resourceInfo_),
                     ($includeRdfaAttrs
                      ? $this->toHtmlAttrs()
-                     : [ 'href' => $this->object_ ])
+                     : [ 'href' => (string)$this ])
                 )
             );
         } else {
             return new Nodes(
                 $includeRdfaAttrs
                 ? new Span(
-                    $this->object_,
-                    [ 'property' => static:PROPERTY_CURIE ]
+                    (string)$this,
+                    [ 'property' => static::PROPERTY_CURIE ]
                 )
-                : $this->object_
+                : (string)$this
             );
         }
     }
@@ -187,7 +186,7 @@ abstract class AbstractStmt implements StmtInterface
     public function toHttpHeaders(): ?array
     {
         return defined('static::HTTP_HEADER')
-            ? [ static::HTTP_HEADER => [ (string)$this->object_ ] ]
+            ? [ static::HTTP_HEADER => [ (string)$this ] ]
             : null;
     }
 }

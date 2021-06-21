@@ -21,14 +21,14 @@ class RdfaDataTest extends TestCase
     public function testCreateFromFactory(
         $inputData,
         $expectedData,
-        $expectedBindings
+        $expectedMap
     ) {
         $factory = new Factory();
 
         $this->testData(
             $factory->createRdfaData($inputData),
             $expectedData,
-            $expectedBindings
+            $expectedMap
         );
     }
 
@@ -38,16 +38,16 @@ class RdfaDataTest extends TestCase
     public function testCreateFromRdfaData(
         $inputData,
         $expectedData,
-        $expectedBindings
+        $expectedMap
     ) {
         $this->testData(
             RdfaData::newFromIterable($inputData),
             $expectedData,
-            $expectedBindings
+            $expectedMap
         );
     }
 
-    private function testData($data, $expectedData, $expectedBindings)
+    private function testData($data, $expectedData, $expectedMap)
     {
         $aux = new FactoryTestAux();
 
@@ -57,7 +57,7 @@ class RdfaDataTest extends TestCase
 
         $this->assertSame($expectedData['httpHeaders'], $data->toHttpHeaders());
 
-        $this->assertSame($expectedBindings, $data->getPrefixBindings());
+        $this->assertSame($expectedMap, $data->getPrefixMap());
     }
 
     public function createProvider()
@@ -76,7 +76,7 @@ class RdfaDataTest extends TestCase
                         'class' => DcTitle::class,
                         'propertyCurie' => 'dc:title',
                         'propertyUri' => self::DC_NS . 'title',
-                        'prefixBinding' => [ 'dc' => self::DC_NS ],
+                        'prefixMap' => [ 'dc' => self::DC_NS ],
                         'isResource' => false,
                         'label' => null,
                         'string' => 'Lorem ipsum',
@@ -95,7 +95,7 @@ class RdfaDataTest extends TestCase
                         'class' => DcFormat::class,
                         'propertyCurie' => 'dc:format',
                         'propertyUri' => self::DC_NS . 'format',
-                        'prefixBinding' => [ 'dc' => self::DC_NS ],
+                        'prefixMap' => [ 'dc' => self::DC_NS ],
                         'isResource' => false,
                         'label' => null,
                         'string' => 'text/plain; charset="UTF-8"',
@@ -114,7 +114,7 @@ class RdfaDataTest extends TestCase
                         'class' => DcSource::class,
                         'propertyCurie' => 'dc:source',
                         'propertyUri' => self::DC_NS . 'source',
-                        'prefixBinding' => [ 'dc' => self::DC_NS ],
+                        'prefixMap' => [ 'dc' => self::DC_NS ],
                         'isResource' => true,
                         'label' => null,
                         'string' => 'https://factory.test.example.com',
@@ -139,7 +139,7 @@ class RdfaDataTest extends TestCase
                         'class' => OwlVersionInfo::class,
                         'propertyCurie' => 'owl:versionInfo',
                         'propertyUri' => self::OWL_NS . 'versionInfo',
-                        'prefixBinding' => [ 'owl' => self::OWL_NS ],
+                        'prefixMap' => [ 'owl' => self::OWL_NS ],
                         'isResource' => false,
                         'label' => null,
                         'string' => '1.2.3',

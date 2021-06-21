@@ -42,10 +42,10 @@ class FactoryTestAux extends TestCase
             );
         }
 
-        if (isset($expectedItem['prefixBinding'])) {
+        if (isset($expectedItem['prefixMap'])) {
             $this->assertSame(
-                $expectedItem['prefixBinding'],
-                $item->getPrefixBinding()
+                $expectedItem['prefixMap'],
+                $item->getPrefixMap()
             );
         }
 

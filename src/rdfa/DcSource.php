@@ -2,21 +2,20 @@
 
 namespace alcamo\rdfa;
 
-use alcamo\html_creation\element\ConformsTo;
-
 /**
+ * @brief dc:source RDFa statement
+ *
  * @sa [dc:source](http://purl.org/dc/terms/source).
+ *
+ * @date Last reviewed 2021-06-21
  */
 class DcSource extends AbstractStmt
 {
+    use ResourceObjectTrait;
+
     public const PROPERTY_CURIE = 'dc:source';
     public const HTTP_HEADER    = 'Link';
     public const LINK_REL       = 'canonical';
-
-    public function __construct($source)
-    {
-        parent::__construct($source, true);
-    }
 
     public function toHttpHeaders(): array
     {
