@@ -57,6 +57,11 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
         }
     }
 
+    public function setRdfaData(RdfaData $rdfaData): void
+    {
+        $this->rdfaData_ = $rdfaData;
+    }
+
     public function renderThrowable(\Throwable $e): Nodes
     {
         $exporter = new Exporter();
