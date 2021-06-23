@@ -197,9 +197,9 @@ class RdfaDataTest extends TestCase
         $data1 = RdfaData::newFromIterable($data1);
         $data2 = RdfaData::newFromIterable($data2);
 
-        $data1->add($data2);
+        $data3 = $data1->add($data2);
 
-        foreach ($data1 as $key => $item) {
+        foreach ($data3 as $key => $item) {
             if (is_array($item)) {
                 foreach ($item as $subkey => $subitem) {
                     $this->assertSame((string)$subitem, $subkey);
@@ -211,7 +211,7 @@ class RdfaDataTest extends TestCase
 
         $this->assertSame(
             (string)$expectedData->toHtmlNodes(),
-            (string)$data1->toHtmlNodes()
+            (string)$data3->toHtmlNodes()
         );
     }
 
@@ -257,13 +257,13 @@ class RdfaDataTest extends TestCase
         $data1 = RdfaData::newFromIterable($data1);
         $data2 = RdfaData::newFromIterable($data2);
 
-        $data1->replace($data2);
+        $data3 = $data1->replace($data2);
 
         $expectedData = RdfaData::newFromIterable($expectedData);
 
         $this->assertSame(
             (string)$expectedData->toHtmlNodes(),
-            (string)$data1->toHtmlNodes()
+            (string)$data3->toHtmlNodes()
         );
     }
 

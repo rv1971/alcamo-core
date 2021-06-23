@@ -10,7 +10,9 @@ use alcamo\xml_creation\Nodes;
  *
  * Readonly map of properties to objects.
  *
- * @date Last reviewed 2021-06-21
+ * @invariant Immutable class.
+ *
+ * @date Last reviewed 2021-06-23
  */
 class RdfaData extends ReadonlyCollection
 {
@@ -124,38 +126,38 @@ class RdfaData extends ReadonlyCollection
         }
     }
 
-    /// Add further properties without overwriting existing ones.
+    /// Return new object, adding properties without overwriting existing ones
     public function add(self $rdfaData): self
     {
+        $newData = $this->data_;
+
         foreach ($rdfaData->data_ as $key => $value) {
-            if (isset($this->data_[$key])) {
+            if (isset($newData[$key])) {
                 /** If a key is already present, add new data to its
                  *  values. In all cases, the result is an array indexed by
                  *  the string representations of the values. */
-                $data = $this->data_[$key];
+                $data = $newData[$key];
 
                 if (!is_array($data)) {
-                    $this->data_[$key] = [ (string)$data => $data ];
+                    $newData[$key] = [ (string)$data => $data ];
                 }
 
                 if (is_array($value)) {
-                    $this->data_[$key] += $value;
+                    $newData[$key] += $value;
                 } else {
-                    $this->data_[$key] += [ (string)$value => $value ];
+                    $newData[$key] += [ (string)$value => $value ];
                 }
             } else {
-                $this->data_[$key] = $value;
+                $newData[$key] = $value;
             }
         }
 
-        return $this;
+        return new self($newData);
     }
 
-    /// Add further properties, overwriting existing ones
+    /// Return a new object with added properties, overwriting existing ones
     public function replace(self $rdfaData): self
     {
-        $this->data_ = $rdfaData->data_ + $this->data_;
-
-        return $this;
+        return new self($rdfaData->data_ + $this->data_);
     }
 }

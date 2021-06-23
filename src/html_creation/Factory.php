@@ -45,7 +45,7 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
         $this->rdfaData_ = RdfaData::newFromIterable(static::DEFAULT_RDFA_DATA);
 
         if (isset($rdfaData)) {
-            $this->rdfaData_->replace($rdfaData);
+            $this->rdfaData_ = $this->rdfaData_->replace($rdfaData);
         }
 
         $this->urlFactory_ = $urlFactory ?? new TrivialUrlFactory();
