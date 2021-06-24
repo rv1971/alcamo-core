@@ -6,16 +6,33 @@ use alcamo\modular_class\ModuleTrait;
 use alcamo\html_creation\element\{Body, Head, Html};
 use alcamo\xml_creation\{Comment, DoctypeDecl, Nodes};
 
+/**
+ * @brief HTML code factory module for the enitre page
+ *
+ * @date Last reviewed 2021-06-24
+ */
 class PageFactory
 {
     use ModuleTrait {
         init as moduleInit;
     }
 
+    /// Module name
     public const NAME = 'page';
 
-    private $created_; ///< Microtime of creation of this object.
-    private $resourceFactory_;
+    /// Default attributes for the \<html> element
+    public const DEFAULT_HTML_ATTRS = [
+        'xmlns' => 'http://www.w3.org/1999/xhtml'
+    ];
+
+    /// Default attributes for the \<head> element
+    public const DEFAULT_HEAD_ATTRS = [];
+
+    /// Default attributes for the \<body> element
+    public const DEFAULT_BODY_ATTRS = [];
+
+    private $created_;         ///< Microtime of creation of this object
+    private $resourceFactory_; ///< ResourceFactory
 
     public function __construct(?ResourceFactory $resourceFactory = null)
     {
@@ -28,6 +45,7 @@ class PageFactory
         return $this->resourceFactory_;
     }
 
+    /// If no resource factory has been given, create a new ResourceFactory
     public function init(Factory $factory)
     {
         $this->moduleInit($factory);
@@ -49,18 +67,23 @@ class PageFactory
         return new DoctypeDecl('html', null, $intSubset);
     }
 
+    /// Default attributes for the \<html> element
     public function createDefaultHtmlAttrs(): array
     {
-        $attrs = [ 'xmlns' => 'http://www.w3.org/1999/xhtml' ];
+        /** - @ref DEFAULT_HTML_ATTRS */
+        $attrs = static::DEFAULT_HTML_ATTRS;
 
+        /** - namespace prefixes needed for RDFa data */
         foreach ($this->getRdfaData()->getPrefixMap() as $prefix => $ns) {
             $attrs["xmlns:$prefix"] = $ns;
         }
 
+        /** - `id` from `dc:identifier` if present in the RDFA data. */
         if (isset($this->getRdfaData()['dc:identifier'])) {
             $attrs['id'] = $this->getRdfaData()['dc:identifier'];
         }
 
+        /** - `lang` from `dc:language` if present in the RDFA data. */
         if (isset($this->getRdfaData()['dc:language'])) {
             $attrs['lang'] = $this->getRdfaData()['dc:language'];
         }
@@ -68,50 +91,71 @@ class PageFactory
         return $attrs;
     }
 
+    /// Opening \<html> tag
     public function createHtmlOpen(?array $attrs = null): string
     {
+        /** Use createDefaultHtmlAttrs(), potentially overriden by $attrs. */
         return
             (new Html(null, (array)$attrs + $this->createDefaultHtmlAttrs()))
             ->createOpeningTag();
     }
 
+    /// Default attributes for the \<head> element
     public function createDefaultHeadAttrs(): array
     {
-        return [];
+        /** Return @ref DEFAULT_HEAD_ATTRS. */
+        return static::DEFAULT_HEAD_ATTRS;
     }
 
+    /// \<head> element
     public function createHead(
         ?array $resources = null,
         ?Nodes $extraNodes = null,
         ?array $attrs = null
     ): Head {
+        /** - HTML nodes created from the RDFa data. */
         $content = [ $this->getRdfaData()->toHtmlNodes() ];
 
+        /** - HTML nodes created from $resources */
         if (isset($resources)) {
             $content[] =
                 $this->resourceFactory_->createElementsFromItems($resources);
         }
 
+        /** - Extra nodes, if any. */
         if (isset($extraNodes)) {
             $content[] = $extraNodes;
         }
 
+        /** Use createDefaultHeadAttrs(), potentially overriden by $attrs. */
         return
             new Head($content, (array)$attrs + $this->createDefaultHeadAttrs());
     }
 
+    /// Default attributes for the \<head> element
     public function createDefaultBodyAttrs(): array
     {
-        return [];
+        /** Return @ref DEFAULT_BODY_ATTRS. */
+        return static::DEFAULT_BODY_ATTRS;
     }
 
+    /// Opening \<body> tag
     public function createBodyOpen(?array $attrs = null): string
     {
+        /** Use createDefaultBodyAttrs(), potentially overriden by $attrs. */
         return
             (new Body(null, (array)$attrs + $this->createDefaultBodyAttrs()))
             ->createOpeningTag();
     }
 
+    /**
+     * @brief Create beginning of a page
+     *
+     * - doctype declaration
+     * - opening \<html> tag
+     * - \<head> element
+     * - opening \<body> tag
+     */
     public function createBegin(
         ?array $resources = null,
         ?Nodes $extraHeadNodes = null,
@@ -123,6 +167,13 @@ class PageFactory
             . $this->createBodyOpen($bodyAttrs);
     }
 
+    /**
+     * @brief Create end of a page
+     *
+     * - closing \</body> tag
+     * - comment telling elapsed time
+     * - closing \</html> tag
+     */
     public function createEnd(): string
     {
         return

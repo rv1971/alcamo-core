@@ -6,7 +6,7 @@ use alcamo\xml_creation\Element as XmlElement;
 use alcamo\xml_creation\TokenList;
 
 /**
- * @brief HTML element that can be serialized to HtML text
+ * @brief HTML element that can be serialized to HTML text
  *
  * @date Last reviewed 2021-06-15
  */

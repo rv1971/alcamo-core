@@ -5,16 +5,27 @@ namespace alcamo\html_creation;
 use Laminas\Diactoros\Stream;
 use alcamo\http\Response;
 
+/**
+ * @brief HTML page consisting of an HTML factory and a PSR7 message body
+ * stream
+ *
+ * @date Last reviewed 2021-06-24
+ */
 class Page
 {
     private $htmlFactory_; ///< Factory
     private $body_;        ///< Stream
-    private $statusCode_;  ///< Integer
+    private $statusCode_;  ///< integer
 
     public function __construct(?Factory $htmlFactory)
     {
+        /** If $factory is not given, create an insatnce of Factory. */
         $this->htmlFactory_ = $htmlFactory ?? new Factory();
+
         $this->body_ = new Stream('php://memory', 'wb+');
+
+        /** Intialize the status code to 200, may be changed later by
+         *  setStatusCode(). */
         $this->statusCode_ = 200;
     }
 
@@ -33,17 +44,19 @@ class Page
         return $this->statusCode_;
     }
 
-    public function setStatusCode(int $statusCode)
+    public function setStatusCode(int $statusCode): void
     {
         $this->statusCode_ = $statusCode;
     }
 
-    public function write(?string $htmlData)
+    /// Write data to the message body stream
+    public function write(?string $htmlData): int
     {
-        $this->body_->write((string)$htmlData);
+        return $this->body_->write((string)$htmlData);
     }
 
-    public function getResponse(): Response
+    /// Create a response
+    public function createResponse(): Response
     {
         return new Response(
             $this->htmlFactory_->getRdfaData(),
@@ -52,23 +65,34 @@ class Page
         );
     }
 
+    /**
+     * @brief Start the page
+     *
+     * Write result of Factory::createBegin() to the body stream.
+     */
     public function begin(
         ?iterable $resources = null,
         ?Nodes $extraHeadNodes = null,
         ?array $bodyAttrs = null
-    ) {
+    ): void {
         $this->body_->write(
             $this->htmlFactory_['page']
                 ->createBegin($resources, $extraHeadNodes, $bodyAttrs)
         );
     }
 
-    public function end(?bool $delayEmission = null)
+    /**
+     * @brief Finalize the page
+     *
+     * Write result of Factory::createEnd() to the body stream and emit the
+     * response unless $delayEmission isn true
+     */
+    public function end(?bool $delayEmission = null): void
     {
         $this->body_->write($this->htmlFactory_['page']->createEnd());
 
         if (!$delayEmission) {
-            $this->getResponse()->emit();
+            $this->createResponse()->emit();
         }
     }
 }

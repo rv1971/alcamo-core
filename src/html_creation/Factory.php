@@ -5,7 +5,7 @@ namespace alcamo\html_creation;
 use SebastianBergmann\Exporter\Exporter;
 use alcamo\exception\FileLocation;
 use alcamo\html_creation\element\{B, P, Ul};
-use alcamo\modular_class\ParentTrait;
+use alcamo\modular_class\ModularClassTrait;
 use alcamo\rdfa\{HasRdfaDataTrait, RdfaData};
 use alcamo\url_creation\{
     HasUrlFactoryTrait,
@@ -14,11 +14,19 @@ use alcamo\url_creation\{
 };
 use alcamo\xml_creation\Nodes;
 
+/**
+ * @brief Factory for HTML code
+ *
+ * Implemented as a modular class using
+ * alcamo::modular_class::ModularClassTrait.
+ *
+ * @date Last reviewed 2021-06-24
+ */
 class Factory implements \Countable, \Iterator, \ArrayAccess
 {
     use HasRdfaDataTrait;
     use HasUrlFactoryTrait;
-    use ParentTrait;
+    use ModularClassTrait;
 
     /// Create XHTML by default
     public const DEFAULT_RDFA_DATA = [
@@ -48,10 +56,16 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
             $this->rdfaData_ = $this->rdfaData_->replace($rdfaData);
         }
 
+        /** If no $urlFactory is given, create an insatnce of
+         *  alcamo::url_creation::TrivialUrlFactory. */
         $this->urlFactory_ = $urlFactory ?? new TrivialUrlFactory();
 
-        $this->addModules((array)$modules);
+        if (isset($modules)) {
+            $this->addModules($modules);
+        }
 
+        /** If no `page` module is given, add a new instance of
+         *  PageFactory. */
         if (!isset($this['page'])) {
             $this->addModule(new PageFactory());
         }
@@ -62,6 +76,7 @@ class Factory implements \Countable, \Iterator, \ArrayAccess
         $this->rdfaData_ = $rdfaData;
     }
 
+    /// Render a throwable in a human-readable manner in all detail
     public function renderThrowable(\Throwable $e): Nodes
     {
         $exporter = new Exporter();

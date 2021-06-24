@@ -13,6 +13,11 @@ use alcamo\iana\MediaType;
 use alcamo\url_creation\{HasUrlFactoryTrait, UrlFactoryInterface};
 use alcamo\xml_creation\Nodes;
 
+/**
+ * @brief Factory for Icon, Link, Script and Stylesheet objects
+ *
+ * @date Last reviewed 2021-06-24
+ */
 class ResourceFactory
 {
     use HasUrlFactoryTrait;
@@ -22,23 +27,25 @@ class ResourceFactory
         $this->urlFactory_ = $urlFactory;
     }
 
+    /// Create an HTML element from a local file path
     public function createElementFromPath(
         string $path,
         ?array $attrs = null
     ): Element {
-      /** Determine media type from filename unless the type is set in
-       *  `$attrs`. */
+        /** Determine the media type from filename unless the type is set in
+         *  $attrs. */
         $type = isset($attrs['type'])
-        ? ($attrs['type'] instanceof MediaType
-         ? $attrs['type']
-         : MediaType::newFromString($attrs['type']))
-        : MediaType::newFromFilename($path);
+            ? ($attrs['type'] instanceof MediaType
+               ? $attrs['type']
+               : MediaType::newFromString($attrs['type']))
+            : MediaType::newFromFilename($path);
 
+        /** Create a URL from $path using the UrlFactoryInterface object. */
         $url = $this->urlFactory_->createFromPath($path);
 
         switch ($type->getType()) {
             case 'image':
-                /** Return Icon if `$path` is an image file. */
+                /** Create an Icon if $path is an image file. */
                 return Icon::newFromLocalUrl(
                     $url,
                     compact('type') + (array)$attrs,
@@ -47,20 +54,22 @@ class ResourceFactory
         }
 
         switch ($type->getTypeAndSubtype()) {
-          /** Return Script if `$path` is a JavaScript file. */
+            /** Create a Script if $path is a JavaScript file. */
             case 'application/javascript':
                 return Script::newFromLocalUrl($url, $attrs, $path);
 
-          /** Return Stylesheet if `$path` is a CSS file. */
+            /** Create a Stylesheet if $path is a CSS file. */
             case 'text/css':
                 return Stylesheet::newFromLocalUrl($url, $attrs, $path);
 
-          /** In all other cases, return a Link. `$attrs['rel']` must be set. */
+            /** In all other cases, create a Link. $attrs['rel'] must be
+             *  set in this case. */
             default:
                 return Link::newFromLocalUrl($url, $attrs, $path);
         }
     }
 
+    /// Create HTML elements from an iterable
     public function createElementsFromItems(iterable $items): Nodes
     {
         $nodes = [];
@@ -72,7 +81,7 @@ class ResourceFactory
                     $nodes[] = $item;
                     break;
 
-                /** - If an item is an array, then take the first element as
+                 /** - If an item is an array, then take the first element as
                  *    the path. If the second element is an array, take it as
                  *    an array of attributes, otherwise as the value for the
                  *    `rel` attribute. */

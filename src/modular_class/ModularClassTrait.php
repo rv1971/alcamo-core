@@ -18,7 +18,7 @@ use alcamo\collection\ReadonlyCollectionTrait;
  *
  * @date Last reviewed 2021-06-14
  */
-trait ParentTrait
+trait ModularClassTrait
 {
     use ReadonlyCollectionTrait;
 
