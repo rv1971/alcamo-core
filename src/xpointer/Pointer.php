@@ -6,16 +6,22 @@ use alcamo\exception\SyntaxError;
 use alcamo\xml\{Syntax, XName};
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
-/*
- * @sa https://www.w3.org/TR/xptr-framework/
+/**
+ * @brief XPointer
+ *
+ * @sa [XPointer Framework](https://www.w3.org/TR/xptr-framework/)
+ *
+ * @date Last reviewed 2021-06-24
  */
 class Pointer implements PointerInterface
 {
+    /// Supported schemes
     public const SCHEME_MAP = [
         'xmlns'    => XmlnsPart::class,
         'xpointer' => XPointerPart::class
     ];
 
+    /// Predefind namespace bindings
     public const INITIAL_NS_BINDINGS = [
         'xml' => 'http://www.w3.org/XML/1998/namespace'
     ];
@@ -24,10 +30,12 @@ class Pointer implements PointerInterface
     private $parts_;     ///< ?array of pairs of scheme name and data
 
     /**
+     * @copybrief PointerInterface::newFromString()
+     *
      * @warning Unescaped parentheses in scheme data are not supported, not
      * even when balanced.
      */
-    public static function newFromString(string $fragment)
+    public static function newFromString(string $fragment): PointerInterface
     {
         if (strpos($fragment, '(') === false) {
             return new static($fragment, null);
@@ -46,6 +54,8 @@ class Pointer implements PointerInterface
                 $schemeData = $pieces[$i + 1];
 
                 if (!preg_match(Syntax::NAME_REGEXP, $schemeName)) {
+                    /** @throw alcamo::exception::SyntaxError when
+                     *  encountering a syntactically invalid scheme name. */
                     throw new SyntaxError(
                         $schemeName,
                         null,
@@ -61,6 +71,9 @@ class Pointer implements PointerInterface
                         PREG_OFFSET_CAPTURE
                     )
                 ) {
+                    /** @throw alcamo::exception::SyntaxError when a
+                     *  circumflex is used neither to escape a parenthesis nor
+                     *  another circumflex. */
                     throw new SyntaxError(
                         $schemeData,
                         $matches2[0][1],
@@ -81,12 +94,18 @@ class Pointer implements PointerInterface
         }
     }
 
-    private function __construct(?string $shorthand, ?array $parts)
+    /**
+     * @param $shorthand Shorthand pointer, or `null`.
+     *
+     * @param $parts Array of pairs of scheme name and data, or `null`.
+     */
+    protected function __construct(?string $shorthand, ?array $parts)
     {
         $this->shorthand_ = $shorthand;
         $this->parts_ = $parts;
     }
 
+    /// @copybrief PointerInterface::process()
     public function process(\DOMDocument $doc)
     {
         if (isset($this->shorthand_)) {
@@ -102,9 +121,11 @@ class Pointer implements PointerInterface
                 $schemeName =
                     (string)XName::newFromQNameAndMap($schemeName, $nsBindings);
             } catch (UnknownNamespacePrefix $e) {
+                // gracefully skip unknown namespace prefixes
                 continue;
             }
 
+                // gracefully skip unsupported schemes
             if (isset(static::SCHEME_MAP[$schemeName])) {
                 $class = static::SCHEME_MAP[$schemeName];
 

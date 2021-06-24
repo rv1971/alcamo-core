@@ -3,13 +3,20 @@
 namespace alcamo\xpointer;
 
 /**
- * @sa https://www.w3.org/TR/xptr-xmlns/
+ * @brief XPointer xmlns() Scheme
+ *
+ * @sa [XPointer xmlns() Scheme](https://www.w3.org/TR/xptr-xmlns/)
+ *
+ * @date Last reviewed 2021-06-24
  */
 class XmlnsPart implements PartInterface
 {
-    /*
-     * @warning The imeplementation does not ensure the constraints defined in
-     * https://www.w3.org/TR/xptr-framework/#nsContext.
+    /**
+     * @copybrief PartInterface::process()
+     *
+     * @warning The implementation does not enforce the constraints defined
+     * in [Namespace Binding
+     * Context](https://www.w3.org/TR/xptr-framework/#nsContext).
      */
     public function process(
         array &$nsBindings,

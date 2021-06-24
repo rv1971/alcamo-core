@@ -3,12 +3,22 @@
 namespace alcamo\xpointer;
 
 /**
+ * @brief XPointer xpointer() Scheme
+ *
  * @warning Extensions to XPath 1.0 are not supported.
  *
- * @sa https://www.w3.org/TR/xptr-xpointer/
+ * @sa
+ * [https://www.w3.org/TR/xptr-xpointer/](https://www.w3.org/TR/xptr-xpointer/)
+ *
+ * @date Last reviewed 2021-06-24
  */
 class XpointerPart implements PartInterface
 {
+    /**
+     * @copybrief PartInterface::process()
+     *
+     * @return DOMNodeList or `null`
+     */
     public function process(
         array &$nsBindings,
         string $schemeData,
