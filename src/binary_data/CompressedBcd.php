@@ -10,6 +10,8 @@ use alcamo\exception\{OutOfRange, SyntaxError};
  * Implemented as an uppercase hex-string so that single digits can be
  * accessed through the ArrayAccess interface and the number of digits
  * can be obtained via count().
+ *
+ * @date Last reviewed 2021-06-14
  */
 class CompressedBcd extends HexString
 {

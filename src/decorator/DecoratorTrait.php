@@ -3,7 +3,7 @@
 namespace alcamo\decorator;
 
 /**
- * @brief Provides a decorator for $handler_.
+ * @brief Provides a decorator for $handler_
  *
  * This includes the methods that implement
  * - [Countable](https://www.php.net/manual/en/class.countable)
@@ -17,13 +17,15 @@ namespace alcamo\decorator;
  * These methods are written down explicitely, otherwise PHP would not
  * recognize that they are implemented, even though their implementation is
  * equivalent to the implicit use of the magic methods.
+ *
+ * @date Last reviewed 2021-06-08
  */
 trait DecoratorTrait
 {
     protected $handler_; ///< Handler object
 
     /**
-     * @param $handler @copybreif $handler_
+     * @param $handler @copybrief $handler_
      */
     public function __construct($handler)
     {

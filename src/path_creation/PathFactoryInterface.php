@@ -3,7 +3,7 @@
 namespace alcamo\path_creation;
 
 /**
- * @brief Factory creating absolut paths from relative ones
+ * @brief Factory creating absolute paths from relative ones
  *
  * @date Last reviewed 2021-06-15
  */
