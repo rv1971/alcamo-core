@@ -3,7 +3,6 @@
 namespace alcamo\ietf;
 
 use PHPUnit\Framework\TestCase;
-use alcamo\dom\Document;
 use alcamo\exception\SyntaxError;
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
@@ -13,9 +12,11 @@ class UriTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$context =
-            Document::newFromUrl('file://' . dirname(__DIR__) . '/dom/foo.xml')
-            ->documentElement;
+        $doc = new \DOMDocument();
+
+        $doc->load('file://' . __DIR__ . '/foo.xml');
+
+        self::$context = $doc->documentElement;
     }
 
     /**

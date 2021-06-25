@@ -11,7 +11,6 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:qux="http://qux.example.org"
-    xsi:schemaLocation="http://foo.example.org foo.xsd http://www.w3.org/2000/01/rdf-schema# ../../xsd/rdfs.xsd"
     xml:lang="oc"
     dc:source="http://www.example.org/foo"
     qux="42-43"
