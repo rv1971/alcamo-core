@@ -125,76 +125,64 @@ class MediaTypeTest extends TestCase
     public function newFromFilenameProvider()
     {
         return [
-        'txt' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'alcamo' . DIRECTORY_SEPARATOR . 'baz.txt',
-        'text',
-        'plain',
-        [ 'charset' => 'us-ascii' ],
-        'text/plain; charset="us-ascii"'
-        ],
-        'json' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'alcamo' . DIRECTORY_SEPARATOR . 'foo.json',
-        'application',
-        'json',
-        [],
-        'application/json'
-        ],
-        'css' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'html_creation' . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.css',
-        'text',
-        'css',
-        [ 'charset' => 'us-ascii' ],
-        'text/css; charset="us-ascii"'
-        ],
-        'js' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'html_creation' . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.js',
-        'application',
-        'javascript',
-        [],
-        'application/javascript'
-        ],
-        'jpeg' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'html_creation' . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo-16.jpeg',
-        'image',
-        'jpeg',
-        [],
-        'image/jpeg'
-        ],
-        'png' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'html_creation' . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo-16.png',
-        'image',
-        'png',
-        [],
-        'image/png'
-        ],
-        'svg' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'html_creation' . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.svg',
-        'image',
-        'svg+xml',
-        [],
-        'image/svg+xml'
-        ],
-        'svg' => [
-        dirname(__DIR__) . DIRECTORY_SEPARATOR
-        . 'html_creation' . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.ico',
-        'image',
-        'vnd.microsoft.icon',
-        [],
-        'image/vnd.microsoft.icon'
-        ]
+            'txt' => [
+                dirname(__DIR__) . DIRECTORY_SEPARATOR
+                . 'alcamo' . DIRECTORY_SEPARATOR . 'baz.txt',
+                'text',
+                'plain',
+                [ 'charset' => 'us-ascii' ],
+                'text/plain; charset="us-ascii"'
+            ],
+            'json' => [
+                dirname(__DIR__) . DIRECTORY_SEPARATOR
+                . 'alcamo' . DIRECTORY_SEPARATOR . 'foo.json',
+                'application',
+                'json',
+                [],
+                'application/json'
+            ],
+            'css' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.css',
+                'text',
+                'css',
+                [ 'charset' => 'us-ascii' ],
+                'text/css; charset="us-ascii"'
+            ],
+            'js' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.js',
+                'application',
+                'javascript',
+                [],
+                'application/javascript'
+            ],
+            'jpeg' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo-16.jpeg',
+                'image',
+                'jpeg',
+                [],
+                'image/jpeg'
+            ],
+            'png' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo-16.png',
+                'image',
+                'png',
+                [],
+                'image/png'
+            ],
+            'svg' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.svg',
+                'image',
+                'svg+xml',
+                [],
+                'image/svg+xml'
+            ],
+            'svg' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.ico',
+                'image',
+                'vnd.microsoft.icon',
+                [],
+                'image/vnd.microsoft.icon'
+            ]
         ];
     }
 
