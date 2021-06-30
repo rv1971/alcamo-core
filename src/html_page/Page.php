@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_page;
 
 use Laminas\Diactoros\Stream;
 use alcamo\http\Response;

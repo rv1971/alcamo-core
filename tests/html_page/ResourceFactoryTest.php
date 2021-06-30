@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_page;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\html_creation\element\{Icon, Link, Script, Stylesheet};
@@ -33,20 +33,15 @@ class ResourceFactoryTest extends TestCase
 
     public function createElementsFromItemsProvider()
     {
-        $cssPath = __DIR__ . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.css';
+        $cssPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.css';
 
-        $jsonPath = __DIR__ . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.json';
+        $jsonPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.json';
 
-        $jsPath = __DIR__ . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.js';
+        $jsPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.js';
 
-        $png16Path = __DIR__ . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo-16.png';
+        $png16Path = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo-16.png';
 
-        $svgPath = __DIR__ . DIRECTORY_SEPARATOR
-        . 'element' . DIRECTORY_SEPARATOR . 'alcamo.svg';
+        $svgPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.svg';
 
         $mCss = gmdate('YmdHis', filemtime($cssPath));
 
@@ -81,13 +76,13 @@ class ResourceFactoryTest extends TestCase
                     Icon::class,
                     Icon::class
                 ],
-                "<link rel=\"stylesheet\" href=\"/test/element/alcamo.css?m=$mCss\"/>"
-                . "<link type=\"application/json\" rel=\"manifest\" href=\"/test/element/alcamo.json?m=$mJson\"/>"
-                . "<script src=\"/test/element/alcamo.js?m=$mJs\"></script>"
+                "<link rel=\"stylesheet\" href=\"/test/alcamo.css?m=$mCss\"/>"
+                . "<link type=\"application/json\" rel=\"manifest\" href=\"/test/alcamo.json?m=$mJson\"/>"
+                . "<script src=\"/test/alcamo.js?m=$mJs\"></script>"
                 . "<link type=\"image/png\" sizes=\"16x16\" rel=\"icon\" "
-                . "href=\"/test/element/alcamo-16.png?m=$mPng16\"/>"
+                . "href=\"/test/alcamo-16.png?m=$mPng16\"/>"
                 . "<link type=\"image/svg+xml\" sizes=\"any\" rel=\"icon\" "
-                . "href=\"/test/element/alcamo.svg?m=$mSvg\"/>"
+                . "href=\"/test/alcamo.svg?m=$mSvg\"/>"
             ],
             'gz-with-attrs' => [
                 new DirMapUrlFactory(__DIR__, '/test/'),
@@ -105,14 +100,14 @@ class ResourceFactoryTest extends TestCase
                     Icon::class,
                     Icon::class
                 ],
-                "<script src=\"/test/element/alcamo.js.gz?m=$mJsGz\" id=\"JS\"></script>"
-                . "<link rel=\"stylesheet\" href=\"/test/element/alcamo.css.gz?m=$mCssGz\"/>"
+                "<script src=\"/test/alcamo.js.gz?m=$mJsGz\" id=\"JS\"></script>"
+                . "<link rel=\"stylesheet\" href=\"/test/alcamo.css.gz?m=$mCssGz\"/>"
                 . "<link type=\"application/json\" rel=\"dc:relation\" "
-                . "href=\"/test/element/alcamo.json?m=$mJson\"/>"
+                . "href=\"/test/alcamo.json?m=$mJson\"/>"
                 . "<link type=\"image/png\" sizes=\"16x16\" rel=\"icon\" "
-                . "href=\"/test/element/alcamo-16.png?m=$mPng16\"/>"
+                . "href=\"/test/alcamo-16.png?m=$mPng16\"/>"
                 . "<link type=\"image/svg+xml\" sizes=\"any\" rel=\"icon\" "
-                . "href=\"/test/element/alcamo.svgz?m=$mSvgz\"/>"
+                . "href=\"/test/alcamo.svgz?m=$mSvgz\"/>"
             ]
         ];
     }

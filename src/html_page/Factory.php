@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_page;
 
 use SebastianBergmann\Exporter\Exporter;
 use alcamo\exception\FileLocation;

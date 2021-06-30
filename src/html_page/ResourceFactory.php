@@ -1,7 +1,8 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_page;
 
+use alcamo\html_creation\Element;
 use alcamo\html_creation\element\{
     AbstractSpecificElement,
     Icon,

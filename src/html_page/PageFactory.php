@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_page;
 
 use alcamo\modular_class\ModuleTrait;
 use alcamo\html_creation\element\{Body, Head, Html};

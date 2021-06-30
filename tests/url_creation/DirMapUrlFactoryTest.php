@@ -49,10 +49,7 @@ class DirMapUrlFactoryTest extends TestCase
         $composerPath = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
             . 'composer.json';
 
-        $svgPath = __DIR__ . DIRECTORY_SEPARATOR
-            . '..' . DIRECTORY_SEPARATOR
-            . 'html_creation' . DIRECTORY_SEPARATOR
-            . 'element' . DIRECTORY_SEPARATOR . 'alcamo.svg';
+        $svgPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.svg';
 
         $mSelf = gmdate('YmdHis', filemtime(__FILE__));
         $mBar = gmdate('YmdHis', filemtime($barPath));
@@ -91,7 +88,7 @@ class DirMapUrlFactoryTest extends TestCase
                     [ __FILE__, "/tests/url_creation/DirMapUrlFactoryTest.php?m=$mSelf" ],
                     [ $barPath, "/tests/alcamo/bar.ini.gz?m=$mBarGz" ],
                     [ $composerPath, "../../composer.json?m=$mComposer" ],
-                    [ realpath($svgPath), "/tests/html_creation/element/alcamo.svgz?m=$mSvgz" ]
+                    [ realpath($svgPath), "/tests/url_creation/alcamo.svgz?m=$mSvgz" ]
                 ]
             ]
         ];

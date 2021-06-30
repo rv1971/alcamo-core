@@ -1,6 +1,6 @@
 <?php
 
-namespace alcamo\html_creation;
+namespace alcamo\html_page;
 
 use PHPUnit\Framework\TestCase;
 use alcamo\modular_class\ModuleTrait;
@@ -69,14 +69,11 @@ class FactoryTest extends TestCase
 
     public function htmlGenerationProvider()
     {
-        $cssPath = __DIR__ . DIRECTORY_SEPARATOR
-            . 'element' . DIRECTORY_SEPARATOR . 'alcamo.css';
+        $cssPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.css';
 
-        $jsonPath = __DIR__ . DIRECTORY_SEPARATOR
-            . 'element' . DIRECTORY_SEPARATOR . 'alcamo.json';
+        $jsonPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.json';
 
-        $jsPath = __DIR__ . DIRECTORY_SEPARATOR
-            . 'element' . DIRECTORY_SEPARATOR . 'alcamo.js';
+        $jsPath = __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.js';
 
         $mCssGz = gmdate('YmdHis', filemtime("$cssPath.gz"));
 
@@ -124,9 +121,9 @@ class FactoryTest extends TestCase
                 . '<meta property="dc:identifier" content="baz.qux"/>'
                 . '<meta property="dc:language" content="en-UG"/>'
                 . '<meta property="owl:versionInfo" content="42.43.44"/>'
-                . "<link rel=\"stylesheet\" href=\"/element/alcamo.css.gz?m=$mCssGz\"/>"
-                . "<script src=\"/element/alcamo.js.gz?m=$mJsGz\"></script>"
-                . "<link type=\"application/json\" rel=\"manifest\" href=\"/element/alcamo.json?m=$mJson\"/>"
+                . "<link rel=\"stylesheet\" href=\"/alcamo.css.gz?m=$mCssGz\"/>"
+                . "<script src=\"/alcamo.js.gz?m=$mJsGz\"></script>"
+                . "<link type=\"application/json\" rel=\"manifest\" href=\"/alcamo.json?m=$mJson\"/>"
                 . '<!-- consetetur sadipscing elitr -->'
                 . '</head>'
                 . '<body>Lorem ipsum.</body>'
@@ -167,14 +164,14 @@ class FactoryTest extends TestCase
             'simple' => [
                 $factory,
                 $eSimple,
-                '<p><b>' . \Exception::class . '</b> at ' . __FILE__ . ':159</p>'
+                '<p><b>' . \Exception::class . '</b> at ' . __FILE__ . ':156</p>'
                 . '<p><b>Lorem ipsum</b></p>'
-                . '<p>alcamo\html_creation\{closure}() in ' . __FILE__ . ':160</p>'
+                . '<p>alcamo\html_page\{closure}() in ' . __FILE__ . ':157</p>'
             ],
             'with-props' => [
                 $factory,
                 $eWithProps,
-                '<p><b>' . \LogicException::class . '</b> at ' . __FILE__ . ':162</p>'
+                '<p><b>' . \LogicException::class . '</b> at ' . __FILE__ . ':159</p>'
                 . '<p><b>consetetur sadipscing elitr</b></p>'
                 . '<ul><li>intValue = 42</li>'
                 . "<li>stringValue = 'foo'</li></ul>"
