@@ -1,15 +1,12 @@
 {
     "name": "alcamo/core",
-    "description": "General-purpose package mainly focusing on the generation of HTML pages",
-    "keywords": [ "collection", "html", "rdfa", "xml" ],
+    "description": "Common base for other alcamo libraries",
+    "keywords": [ "collection", "exception" ],
     "license": "Apache-2.0",
     "require": {
         "php": "7.3 - 7.4",
         "php-ds/php-ds": "^1.3",
-        "guzzlehttp/psr7": "^1",
-        "laminas/laminas-diactoros": "^2.5",
-        "laminas/laminas-httphandlerrunner": "^1.3",
-        "sebastian/exporter": "^4.0"
+        "guzzlehttp/psr7": "^1"
     },
     "autoload": {
 	"psr-4": {
