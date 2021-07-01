@@ -25,6 +25,7 @@ class ErrorHandler
         string $errfile = null,
         int $errline = null
     ): void {
+        /** @throw ErrorException in each invocation. */
         throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 
