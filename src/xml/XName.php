@@ -5,6 +5,12 @@ namespace alcamo\xml;
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
 /**
+ * @namespace alcamo::xml
+ *
+ * @brief Fundamental XML-related classes
+ */
+
+/**
  * @brief Expanded name
  *
  * @invariant Immutable class.

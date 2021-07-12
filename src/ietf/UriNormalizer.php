@@ -16,7 +16,7 @@ class UriNormalizer
     public const APPLY_REALPATH = 0x8000;
 
     /**
-     * @brief Extend GuzzleHttp\Psr7\UriNormalizer::normalize()
+     * @brief Extend GuzzleHttp::Psr7::UriNormalizer::normalize()
      *
      * @param $uri URI to normalize.
      *

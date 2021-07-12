@@ -3,6 +3,12 @@
 namespace alcamo\object_creation;
 
 /**
+ * @namespace alcamo::object_creation
+ *
+ * @brief Classes that create objects from names
+ */
+
+/**
  * @brief Interface for a factory that creates objects from names
  *
  * @date Last reviewed 2021-06-14

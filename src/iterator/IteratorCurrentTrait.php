@@ -3,6 +3,12 @@
 namespace alcamo\iterator;
 
 /**
+ * @namespace alcamo::iterator
+ *
+ * @brief Generic traits useful to implement IteratorInterface
+ */
+
+/**
  * @brief Provide part of the Iterator interface by accessing class properties
  * $currentKey_ and $current_.
  *

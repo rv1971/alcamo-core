@@ -3,6 +3,12 @@
 namespace alcamo\exception;
 
 /**
+ * @namespace alcamo::exception
+ *
+ * @brief General-purpsoe exception classes
+ */
+
+/**
  * @brief Exception related to a specific value
  *
  * @date Last reviewed 2021-06-07

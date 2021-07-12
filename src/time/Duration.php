@@ -5,6 +5,12 @@ namespace alcamo\time;
 use alcamo\exception\SyntaxError;
 
 /**
+ * @namespace alcamo::time
+ *
+ * @brief Dat/time-related classes
+ */
+
+/**
  * @brief %Duration adding features to DateInterval
  *
  * @date Last reviewed 2021-06-07

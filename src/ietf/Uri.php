@@ -7,6 +7,12 @@ use alcamo\exception\SyntaxError;
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
 /**
+ * @namespace alcamo::ietf
+ *
+ * @brief Classes to model data specified by the ietf
+ */
+
+/**
  * @brief Extended URI class with additional factory methods
  *
  * The `Laminas\Diactoros` implementation of Uri is not suitable because it
@@ -57,7 +63,7 @@ class Uri extends GuzzleHttpUri
     /**
      * @brief Create from CURIE and prefix map.
      *
-     * @param $safeCurie CURIE.
+     * @param $curie CURIE.
      *
      * @param $map array|ArrayAccess Map of CURIE prefixes to namespace names.
      *
@@ -153,7 +159,7 @@ class Uri extends GuzzleHttpUri
     /**
      * @brief Create from CURIE and DOM context node.
      *
-     * @param $safeCurie CURIE.
+     * @param $curie CURIE.
      *
      * @param $context Context node.
      *

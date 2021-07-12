@@ -13,7 +13,7 @@ abstract class AbstractPathFactory implements PathFactoryInterface
     abstract public function createFromRelativePath(string $path): string;
 
     /**
-     * @copydoc PathFactoryInterface::createFromRelativePath()
+     * @copydoc PathFactoryInterface::createFromRelativePaths()
      *
      * Apply createFromRelativePath() to each item and return an array of the
      * results, using the same keys as $paths.

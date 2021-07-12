@@ -3,6 +3,12 @@
 namespace alcamo\path_creation;
 
 /**
+ * @namespace alcamo::path_creation
+ *
+ * @brief Classes to create absolute paths from relative ones
+ */
+
+/**
  * @brief Factory creating absolute paths from relative ones
  *
  * @date Last reviewed 2021-06-15

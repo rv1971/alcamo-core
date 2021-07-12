@@ -5,6 +5,12 @@ namespace alcamo\xml\exception;
 use alcamo\exception\ValueException;
 
 /**
+ * @namespace alcamo::xml::exception
+ *
+ * @brief XML-specific exception classes
+ */
+
+/**
  * @brief Exception thrown when encountering an unknown namespace prefix
  *
  * @date Last reviewed 2021-06-15

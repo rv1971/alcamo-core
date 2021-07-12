@@ -3,6 +3,12 @@
 namespace alcamo\decorator;
 
 /**
+ * @namespace alcamo::decorator
+ *
+ * @brief Generic decorator trait
+ */
+
+/**
  * @brief Provides a decorator for $handler_
  *
  * This includes the methods that implement

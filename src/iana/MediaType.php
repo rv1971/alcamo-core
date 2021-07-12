@@ -5,6 +5,12 @@ namespace alcamo\iana;
 use alcamo\exception\{FileNotFound, InvalidEnumerator, SyntaxError};
 
 /**
+ * @namespace alcamo::iana
+ *
+ * @brief Classes to model data registered by IANA
+ */
+
+/**
  * @brief Media type
  *
  * @invariant Immutable class.

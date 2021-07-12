@@ -5,6 +5,12 @@ namespace alcamo\modular_class;
 use alcamo\collection\ReadonlyCollectionTrait;
 
 /**
+ * @namespace alcamo::modular_class
+ *
+ * @brief Traits to create modular classes
+ */
+
+/**
  * @brief Trait for creating a modular class
  *
  * @attention Any modules added to an object of this class must use
