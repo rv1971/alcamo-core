@@ -118,7 +118,7 @@ class XName
      * implementation chosen here is simple to compose and simple to
      * re-convert into an expanded name.
      */
-    public function __toString()
+    public function __toString(): string
     {
         return isset($this->nsName_)
             ? "$this->nsName_ $this->localName_"

@@ -56,7 +56,7 @@ class Duration extends \DateInterval
     }
 
     /// Return minimal ISO 8601 representation.
-    public function __toString()
+    public function __toString(): string
     {
         $format = '%rP';
 

@@ -22,7 +22,7 @@ trait ModuleTrait
         $this->parent_ = $parent;
     }
 
-    public function __call($name, $params)
+    public function __call(string $name, array $params)
     {
         return call_user_func_array([ $this->parent_, $name ], $params);
     }

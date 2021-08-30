@@ -79,7 +79,7 @@ class Lang
     }
 
     /// Convert to RFC 4646 representation
-    public function __toString()
+    public function __toString(): string
     {
         return isset($this->region_)
             ? "{$this->primary_}-{$this->region_}"

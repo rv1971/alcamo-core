@@ -12,7 +12,7 @@ namespace alcamo\collection;
  */
 trait DecoratorTrait
 {
-    public function __call($name, $params)
+    public function __call(string $name, array $params)
     {
         return call_user_func_array([ $this->data_, $name ], $params);
     }

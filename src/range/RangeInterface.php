@@ -16,7 +16,7 @@ namespace alcamo\range;
  */
 interface RangeInterface
 {
-    public function __toString();
+    public function __toString(): string;
 
     /// Whether there is any lower or upper bound
     public function isDefined(): bool;

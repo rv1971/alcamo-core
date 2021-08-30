@@ -48,7 +48,7 @@ class FileLocation
         return $this->column_;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $result = [];
 

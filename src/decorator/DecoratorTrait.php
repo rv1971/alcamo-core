@@ -38,27 +38,27 @@ trait DecoratorTrait
         $this->handler_ = $handler;
     }
 
-    public function __isset($name)
+    public function __isset(string $name)
     {
         return isset($this->handler_->$name);
     }
 
-    public function __unset($name)
+    public function __unset(string $name): void
     {
         unset($this->handler_->$name);
     }
 
-    public function __get($name)
+    public function __get(string $name)
     {
         return $this->handler_->$name;
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, $value): void
     {
         $this->handler_->$name = $value;
     }
 
-    public function __call($name, $params)
+    public function __call(string $name, array $params)
     {
         return call_user_func_array([ $this->handler_, $name ], $params);
     }

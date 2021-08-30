@@ -74,7 +74,7 @@ class NonNegativeRange implements RangeInterface
         $this->max_ = $max;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         /** Return empty string for [0,∞[. */
         if (!$this->min_ && !isset($this->max_)) {

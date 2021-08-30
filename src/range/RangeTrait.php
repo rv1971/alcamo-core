@@ -10,7 +10,7 @@ trait RangeTrait
     protected $min_; ///< Minimum value or `null`
     protected $max_; ///< Maximum value or `null`
 
-    public function __toString()
+    public function __toString(): string
     {
         /** Return empty string if undefined. */
         if (!$this->isDefined()) {

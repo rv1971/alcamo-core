@@ -242,7 +242,7 @@ class MediaType
      * @return Media type representation in lowercase with all parameters as
      * quoted strings, without folding
      */
-    public function __toString()
+    public function __toString(): string
     {
         $result = "{$this->type_}/{$this->subtype_}";
 
