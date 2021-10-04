@@ -24,11 +24,11 @@ class UriTest extends TestCase
      */
     public function testNewFromFilesystemPath(
         $path,
-        $prependScheme,
+        $noPrependScheme,
         $osFamily,
         $expectedUri
     ) {
-        $uri = Uri::newFromFilesystemPath($path, $prependScheme, $osFamily);
+        $uri = Uri::newFromFilesystemPath($path, $noPrependScheme, $osFamily);
 
         $this->assertEquals($expectedUri, (string)$uri);
     }
@@ -37,25 +37,25 @@ class UriTest extends TestCase
     {
         return [
             'relative' => [
-                'foo/bar', false, 'Linux', 'foo/bar'
+                'foo/bar', true, 'Linux', 'foo/bar'
             ],
             'absolute' => [
-                '/foo/bar/baz', false, 'Linux', '/foo/bar/baz'
+                '/foo/bar/baz', true, 'Linux', '/foo/bar/baz'
             ],
             'absolute-with-scheme' => [
-                '/foo/bar/baz', true, 'Linux', 'file:///foo/bar/baz'
+                '/foo/bar/baz', false, 'Linux', 'file:///foo/bar/baz'
             ],
             'win-relative' => [
-                'foo\\bar', false, 'Windows', 'foo/bar'
+                'foo\\bar', true, 'Windows', 'foo/bar'
             ],
             'win-absolute' => [
-                '\\foo\\bar\\baz', false, 'Windows', '/foo/bar/baz'
+                '\\foo\\bar\\baz', true, 'Windows', '/foo/bar/baz'
             ],
             'win-absolute-with-drive' => [
-                'c:\\foo\\bar\\baz', false, 'Windows', '/c:/foo/bar/baz'
+                'c:\\foo\\bar\\baz', true, 'Windows', '/c:/foo/bar/baz'
             ],
             'win-absolute-with-drive-and-scheme' => [
-                'c:\\foo\\bar\\baz', true, 'Windows', 'file:///c:/foo/bar/baz'
+                'c:\\foo\\bar\\baz', false, 'Windows', 'file:///c:/foo/bar/baz'
             ],
         ];
     }

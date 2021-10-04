@@ -29,13 +29,13 @@ class Uri extends GuzzleHttpUri
      *
      * @param $path Local path.
      *
-     * @param $prependScheme Whether to prepend `file:///`.
+     * @param $noPrependScheme Unless this is true, prepend `file:///`.
      *
      * @param $osFamily OS Family, defaults to `PHP_OS_FAMILY`.
      */
     public static function newFromFilesystemPath(
         string $path,
-        ?bool $prependScheme = null,
+        ?bool $noPrependScheme = null,
         ?string $osFamily = null
     ): self {
         if (($osFamily ?? PHP_OS_FAMILY) == 'Windows') {
@@ -50,10 +50,10 @@ class Uri extends GuzzleHttpUri
             $uri = $path;
         }
 
-        /* If $path is absolute and $prependScheme is true, prepend
+        /* If $path is absolute, unless $noPrependScheme is true, prepend
          * `file:`. Due to the way GuzzleHttp\Psr7\Uri parses and re-assembles
          * URIs, `file:/` becomes `file:///` in __toString. */
-        if ($uri[0] == '/' && ($prependScheme ?? true)) {
+        if ($uri[0] == '/' && !$noPrependScheme) {
             $uri = "file:$uri";
         }
 
