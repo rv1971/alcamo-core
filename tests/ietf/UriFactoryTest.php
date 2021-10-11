@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use alcamo\exception\SyntaxError;
 use alcamo\xml\exception\UnknownNamespacePrefix;
 
-class UriTest extends TestCase
+class UriFactoryTest extends TestCase
 {
     public static $context;
 
@@ -28,7 +28,8 @@ class UriTest extends TestCase
         $osFamily,
         $expectedUri
     ) {
-        $uri = Uri::newFromFilesystemPath($path, $noPrependScheme, $osFamily);
+        $uri = (new UriFactory())
+            ->createFromFilesystemPath($path, $noPrependScheme, $osFamily);
 
         $this->assertEquals($expectedUri, (string)$uri);
     }
@@ -69,7 +70,7 @@ class UriTest extends TestCase
         $defaultPrefixValue,
         $expectedUri
     ) {
-        $uri = Uri::newFromUriOrSafeCurieAndMap(
+        $uri = (new UriFactory())->createFromUriOrSafeCurieAndMap(
             $uriOrSafeCurie,
             $map,
             $defaultPrefixValue
@@ -121,7 +122,7 @@ class UriTest extends TestCase
         $defaultPrefixValue,
         $expectedUri
     ) {
-        $uri = Uri::newFromUriOrSafeCurieAndContext(
+        $uri = (new UriFactory())->createFromUriOrSafeCurieAndContext(
             $uriOrSafeCurie,
             self::$context,
             $defaultPrefixValue
@@ -163,7 +164,7 @@ class UriTest extends TestCase
             'Syntax error in "foo]" at 0: "foo]"; safe CURIE must begin with "["'
         );
 
-        Uri::newFromSafeCurieAndMap('foo]', []);
+        (new UriFactory())->createFromSafeCurieAndMap('foo]', []);
     }
 
     public function testNewFromSafeCurieAndMapSyntaxException2()
@@ -173,7 +174,7 @@ class UriTest extends TestCase
             'Syntax error in "[foo" at 3: "o"; safe CURIE must end with "]"'
         );
 
-        Uri::newFromSafeCurieAndMap('[foo', []);
+        (new UriFactory())->createFromSafeCurieAndMap('[foo', []);
     }
 
     public function testNewFromSafeCurieAndContextSyntaxException1()
@@ -183,7 +184,8 @@ class UriTest extends TestCase
             'Syntax error in "foo]" at 0: "foo]"; safe CURIE must begin with "["'
         );
 
-        Uri::newFromSafeCurieAndContext('foo]', self::$context);
+        (new UriFactory())
+            ->createFromSafeCurieAndContext('foo]', self::$context);
     }
 
     public function testNewFromSafeCurieAndContextSyntaxException2()
@@ -193,7 +195,8 @@ class UriTest extends TestCase
             'Syntax error in "[foo" at 3: "o"; safe CURIE must end with "]"'
         );
 
-        Uri::newFromSafeCurieAndContext('[foo', self::$context);
+        (new UriFactory())
+            ->createFromSafeCurieAndContext('[foo', self::$context);
     }
 
     public function testNewFromCurieAndMapPrefixException()
@@ -203,7 +206,7 @@ class UriTest extends TestCase
             'Unknown namespace prefix "foofoo"'
         );
 
-        Uri::newFromCurieAndMap('foofoo:foo', []);
+        (new UriFactory())->createFromCurieAndMap('foofoo:foo', []);
     }
 
     public function testNewFromCurieAndContextPrefixException()
@@ -213,6 +216,7 @@ class UriTest extends TestCase
             'Unknown namespace prefix "foofoo"'
         );
 
-        Uri::newFromCurieAndContext('foofoo:foo', self::$context);
+        (new UriFactory())
+            ->createFromCurieAndContext('foofoo:foo', self::$context);
     }
 }
