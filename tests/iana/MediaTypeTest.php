@@ -45,9 +45,9 @@ class MediaTypeTest extends TestCase
     {
         $this->expectException(InvalidEnumerator::class);
         $this->expectExceptionMessage(
-            'Invalid value "foo", expected one of: "'
-            . implode('", "', MediaType::TOP_LEVEL_TYPES)
-            . '"; not a valid top-level media type'
+            'Invalid value "foo", expected one of '
+            . '["text", "image", "audio", "video", "a...]'
+            . '; not a valid top-level media type'
         );
 
         $comment = new MediaType('foo', 'bar');

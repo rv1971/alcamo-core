@@ -42,10 +42,11 @@ class Lang
         if (!preg_match(static::PRIMARY_TAG_REGEXP, $primary)) {
             /** @throw alcamo::exception::SyntaxError if $primary is not a
              *  syntactically valid ISO 639 language. */
-            throw new SyntaxError(
-                $primary,
-                null,
-                '; not a valid ISO 639 language'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $primary,
+                    'extraMessage' => 'not a valid ISO 639 language'
+                ]
             );
         }
 
@@ -55,10 +56,11 @@ class Lang
             if (!preg_match(static::REGION_TAG_REGEXP, $region)) {
                 /** @throw alcamo::exception::SyntaxError if $region is not a
                  *  syntactically valid ISO 3166-1 alpha-2 code. */
-                throw new SyntaxError(
-                    $region,
-                    null,
-                    '; not a valid ISO 3166-1 alpha-2 code'
+                throw (new SyntaxError())->setMessageContext(
+                    [
+                        'inData' => $region,
+                        'extraMessage' => 'not a valid ISO 3166-1 alpha-2 code'
+                    ]
                 );
             }
 

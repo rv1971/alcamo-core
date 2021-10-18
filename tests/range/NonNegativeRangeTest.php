@@ -61,7 +61,7 @@ class NonNegativeRangeTest extends TestCase
     {
         $this->expectException(OutOfRange::class);
         $this->expectExceptionMessage(
-            'Value "-1" out of range [0, ∞['
+            'Value -1 out of range [0, "∞"]'
         );
 
         new NonNegativeRange(-1);
@@ -71,7 +71,7 @@ class NonNegativeRangeTest extends TestCase
     {
         $this->expectException(OutOfRange::class);
         $this->expectExceptionMessage(
-            'Value "2" out of range [3, ∞['
+            'Value 2 out of range [3, "∞"]'
         );
 
         new NonNegativeRange(3, 2);

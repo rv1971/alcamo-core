@@ -56,8 +56,8 @@ class ReadonlyCollectionTest extends TestCase
 
         $this->expectException(ReadonlyViolation::class);
         $this->expectExceptionMessage(
-            'Attempt to modify readonly ' . ReadonlyCollection::class
-            . ' object through offsetUnset()'
+            'Attempt to modify readonly object <' . ReadonlyCollection::class
+            . '> in method "offsetUnset"'
         );
 
         unset($a[0]);
@@ -69,8 +69,8 @@ class ReadonlyCollectionTest extends TestCase
 
         $this->expectException(ReadonlyViolation::class);
         $this->expectExceptionMessage(
-            'Attempt to modify readonly ' . ReadonlyCollection::class
-            . ' object through offsetSet()'
+            'Attempt to modify readonly object <' . ReadonlyCollection::class
+            . '> in method "offsetSet"'
         );
 
         $a[0] = 1;

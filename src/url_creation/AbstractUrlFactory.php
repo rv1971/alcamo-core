@@ -46,7 +46,8 @@ abstract class AbstractUrlFactory implements UrlFactoryInterface
         if (!is_readable($path)) {
             /** @throw alcamo::exception::FileNotFound if $path cannot be
              *  read. */
-            throw new FileNotFound($path);
+            throw (new FileNotFound())
+                ->setMessageContext([ 'filename' => $path ]);
         }
 
         if (!$this->disablePreferGz_) {

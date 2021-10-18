@@ -72,7 +72,8 @@ class UriFactory
         if (!isset($map[$a[0]])) {
             /** @throw alcamo::xml::exception::UnknownNamespacePrefix if the
              *  prefix is not found in the map. */
-            throw new UnknownNamespacePrefix($a[0]);
+            throw (new UnknownNamespacePrefix())
+                ->setMessageContext([ 'prefix' => $a[0] ]);
         }
 
         return new Uri($map[$a[0]] . $a[1]);
@@ -96,20 +97,24 @@ class UriFactory
         if ($safeCurie[0] != '[') {
             /** @throw alcamo::exception::SyntaxError if a safe CURIE does not
              *  start with an opening bracket. */
-            throw new SyntaxError(
-                $safeCurie,
-                0,
-                '; safe CURIE must begin with "["'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $safeCurie,
+                    'atOffset' => 0,
+                    'extraMessage' => 'safe CURIE must begin with "["'
+                ]
             );
         }
 
         if ($safeCurie[-1] != ']') {
             /** @throw alcamo::exception::SyntaxError if a safe CURIE does not
              *  end with a closing bracket. */
-            throw new SyntaxError(
-                $safeCurie,
-                strlen($safeCurie) - 1,
-                '; safe CURIE must end with "]"'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $safeCurie,
+                    'atOffset' => strlen($safeCurie) - 1,
+                    'extraMessage' => 'safe CURIE must end with "]"'
+                ]
             );
         }
 
@@ -173,7 +178,8 @@ class UriFactory
         if (!isset($nsName)) {
             /** @throw alcamo::xml::exception::UnknownNamespacePrefix if the
              *  prefix cannot be resolved. */
-            throw new UnknownNamespacePrefix($a[0]);
+            throw (new UnknownNamespacePrefix())
+                ->setMessageContext([ 'prefix' => $a[0] ]);
         }
 
         return new Uri($nsName . $a[1]);
@@ -197,20 +203,24 @@ class UriFactory
         if ($safeCurie[0] != '[') {
             /** @throw alcamo::exception::SyntaxError if a safe CURIE does not
              *  start with an opening bracket. */
-            throw new SyntaxError(
-                $safeCurie,
-                0,
-                '; safe CURIE must begin with "["'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $safeCurie,
+                    'atOffset' => 0,
+                    'extraMessage' => 'safe CURIE must begin with "["'
+                ]
             );
         }
 
         if ($safeCurie[-1] != ']') {
             /** @throw alcamo::exception::SyntaxError if a safe CURIE does not
              *  end with a closing bracket. */
-            throw new SyntaxError(
-                $safeCurie,
-                strlen($safeCurie) - 1,
-                '; safe CURIE must end with "]"'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $safeCurie,
+                    'atOffset' => strlen($safeCurie) - 1,
+                    'extraMessage' => 'safe CURIE must end with "]"'
+                ]
             );
         }
 

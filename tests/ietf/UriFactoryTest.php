@@ -161,7 +161,7 @@ class UriFactoryTest extends TestCase
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "foo]" at 0: "foo]"; safe CURIE must begin with "["'
+            'Syntax error in "foo]" at offset 0 ("foo]"); safe CURIE must begin with "["'
         );
 
         (new UriFactory())->createFromSafeCurieAndMap('foo]', []);
@@ -171,7 +171,7 @@ class UriFactoryTest extends TestCase
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "[foo" at 3: "o"; safe CURIE must end with "]"'
+            'Syntax error in "[foo" at offset 3 ("o"); safe CURIE must end with "]"'
         );
 
         (new UriFactory())->createFromSafeCurieAndMap('[foo', []);
@@ -181,7 +181,7 @@ class UriFactoryTest extends TestCase
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "foo]" at 0: "foo]"; safe CURIE must begin with "["'
+            'Syntax error in "foo]" at offset 0 ("foo]"); safe CURIE must begin with "["'
         );
 
         (new UriFactory())
@@ -192,7 +192,7 @@ class UriFactoryTest extends TestCase
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "[foo" at 3: "o"; safe CURIE must end with "]"'
+            'Syntax error in "[foo" at offset 3 ("o"); safe CURIE must end with "]"'
         );
 
         (new UriFactory())

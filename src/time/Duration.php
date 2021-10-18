@@ -34,10 +34,12 @@ class Duration extends \DateInterval
             if (!preg_match('/^([0-9]*)S$/', $a[1], $matches)) {
                 /** @throw alcamo::exception::SyntaxError if not a supported
                  *  ISO 8601 duration */
-                throw new SyntaxError(
-                    $string,
-                    strlen($a[0]),
-                    '; not a supported ISO 8601 duration'
+                throw (new SyntaxError())->setMessageContext(
+                    [
+                        'inData' => $string,
+                        'atOffset' => strlen($a[0]),
+                        'extraMessage' => 'not a supported ISO 8601 duration'
+                    ]
                 );
             }
 

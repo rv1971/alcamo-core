@@ -51,7 +51,8 @@ class DirMapUrlFactory extends AbstractUrlFactory
         if (!$this->htdocsDir_) {
           /** @throw alcamo::exception::DirectoryNotFound if
            *  `realpath($htdocsDir)` fails. */
-            throw new DirectoryNotFound($htdocsDir);
+            throw (new DirectoryNotFound())
+                ->setMessageContext([ 'path' => $htdocsDir ]);
         }
 
         $this->htdocsUrl_ = rtrim($htdocsUrl, '/');

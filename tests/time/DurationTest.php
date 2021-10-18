@@ -69,7 +69,7 @@ class DurationTest extends TestCase
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "P0.5Y" at 2: ".5Y"; not a supported ISO 8601 duration'
+            'Syntax error in "P0.5Y" at offset 2 (".5Y"); not a supported ISO 8601 duration'
         );
 
         $duration = new Duration('P0.5Y');

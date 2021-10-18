@@ -40,7 +40,12 @@ class NonNegativeRange implements RangeInterface
                 PREG_UNMATCHED_AS_NULL
             )
         ) {
-            throw new SyntaxError($str, null, '; not a valid length range');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $str,
+                    'extraMessage' => 'not a valid length range'
+                ]
+            );
         }
 
         $min = intval($matches[1]);
@@ -62,12 +67,22 @@ class NonNegativeRange implements RangeInterface
     {
         /** @throw alcamo::exception::OutOfRange if $min is less than zero. */
         if ($min < 0) {
-            throw new OutOfRange($min, 0);
+            throw (new OutOfRange())->setMessageContext(
+                [
+                    'value' => $min,
+                    'lowerBound' => 0
+                ]
+            );
         }
 
         /** @throw alcamo::exception::OutOfRange if $max is less than $min. */
         if (isset($max) && $max < $min) {
-            throw new OutOfRange($max, $min);
+            throw (new OutOfRange())->setMessageContext(
+                [
+                    'value' => $max,
+                    'lowerBound' => $min
+                ]
+            );
         }
 
         $this->min_ = (int)$min;

@@ -80,7 +80,12 @@ class MediaType
         if (!preg_match(self::TYPE_SUBTYPE_REGEXP, $string, $matches)) {
             /** @throw alcamo::exception::SyntaxError if $string is not a
              *  valid media type. */
-            throw new SyntaxError($string, null, '; not a valid media type');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'data' => $string,
+                    'extraMessage' => 'not a valid media type'
+                ]
+            );
         }
 
         $type = $matches[1];
@@ -96,10 +101,11 @@ class MediaType
             if (!preg_match(self::PARAM_REGEXP, $string, $matches)) {
                 /** @throw alcamo::exception::SyntaxError if next piece of
                  *  $string is not a valid parameter. */
-                throw new SyntaxError(
-                    $string,
-                    0,
-                    '; not a valid media type parameter'
+                throw (new SyntaxError())->setMessageContext(
+                    [
+                        'data' => $string,
+                        'extraMessage' => 'not a valid media type parameter'
+                    ]
                 );
             }
 
@@ -123,7 +129,8 @@ class MediaType
         if (!is_readable($filename)) {
             /** @throw alcamo::exception::FileNotFound if the file is
              *  unreadable. */
-            throw new FileNotFound($filename);
+            throw (new FileNotFound())
+                ->setMessageContext([ 'filename' => $filename ]);
         }
 
         $finfo = new \finfo();
@@ -186,10 +193,12 @@ class MediaType
         if (!in_array($type, self::TOP_LEVEL_TYPES)) {
             /** @throw alcamo::exception::InvalidEnumerator if the top-level
              *  type is invalid. */
-            throw new InvalidEnumerator(
-                $type,
-                self::TOP_LEVEL_TYPES,
-                '; not a valid top-level media type'
+            throw (new InvalidEnumerator())->setMessageContext(
+                [
+                    'value' => $type,
+                    'expectedOneOf' => self::TOP_LEVEL_TYPES,
+                    'extraMessage' => 'not a valid top-level media type'
+                ]
             );
         }
 
