@@ -149,6 +149,7 @@ class MediaType
                         break;
 
                     case 'js':
+                    case 'mjs':
                         $mediaType = new self('application', 'javascript');
                         break;
 

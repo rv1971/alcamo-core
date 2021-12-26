@@ -155,6 +155,13 @@ class MediaTypeTest extends TestCase
                 [],
                 'application/javascript'
             ],
+            'mjs' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'alcamo.mjs',
+                'application',
+                'javascript',
+                [],
+                'application/javascript'
+            ],
             'jpeg' => [
                 __DIR__ . DIRECTORY_SEPARATOR . 'alcamo-16.jpeg',
                 'image',
