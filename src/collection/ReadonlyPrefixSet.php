@@ -47,9 +47,9 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate, \ArrayAccess
         return $this->pcre_;
     }
 
-    /// Whether the set contains an initial substring of $item
-    public function contains(string $item): bool
+    /// Whether the set contains an initial substring of $value
+    public function contains(string $value): bool
     {
-        return preg_match($this->pcre_, $item);
+        return preg_match($this->pcre_, $value);
     }
 }
