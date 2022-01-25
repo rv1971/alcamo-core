@@ -139,4 +139,34 @@ class XNameTest extends TestCase
 
         XName::newFromQNameAndContext('qux:foo', $doc);
     }
+
+    /**
+     * @dataProvider newFromUriProvider
+     */
+    public function testNewFromUri(
+        $uri,
+        $defaultNs,
+        $expectedNsName,
+        $expectedLocalName
+    ) {
+        $xName = XName::newFromUri($uri, $defaultNs);
+
+        $this->assertSame($expectedNsName, $xName->getNsName());
+
+        $this->assertSame($expectedLocalName, $xName->getLocalName());
+    }
+
+    public function newFromUriProvider()
+    {
+        return [
+            [ 'http://example.com/_foo', null, 'http://example.com/', '_foo' ],
+            [ 'http://example.biz#bar', null, 'http://example.biz#', 'bar' ],
+            [ 'https://example.biz?4baz', null, 'https://example.biz?4', 'baz' ],
+            [ 'http://example.com/', null, 'http://example.com/', '' ],
+            [ 'foo', null, '', 'foo' ],
+            [ 'foo', 'https://example.info#', 'https://example.info#', 'foo' ],
+            [ '', null, '', '' ],
+            [ '', 'https://example.org?', 'https://example.org?', '' ]
+        ];
+    }
 }

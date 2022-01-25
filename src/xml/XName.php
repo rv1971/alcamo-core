@@ -86,6 +86,43 @@ class XName
         return new self($nsName, $a[1]);
     }
 
+    /**
+     * @brief Split a URI into a namespace and a local name
+     *
+     * This method is designed for cases where a URI is known to be the
+     * concatenation of a namespace and an
+     * [NCName](https://www.w3.org/TR/xml-names/#NT-NCName).  While in theory
+     * the namespace `http://example.com/` and the local name `foo` would be
+     * concatenated to the same URI as `http://example.com/f` and `oo`, the
+     * latter namespace is very unlikely to be used in practice. Therefore
+     * this method splits the URL such that the local name is the longest
+     * NCName that can be found at the end of the URI.
+     *
+     * The method supports the cases where the namespace or the local name or
+     * both are the empty string.
+     *
+     * It is not chekced whether the input is a valid URI.
+     */
+    public static function newFromUri(
+        string $uri,
+        ?string $defaultNs = null
+    ): self {
+        if (
+            !preg_match(
+                '/^(.*[^\pL_]|)(' . Syntax::NC_NAME . ')$/u',
+                $uri,
+                $matches
+            )
+        ) {
+            return new self($uri != '' ? $uri : (string)$defaultNs, '');
+        }
+
+        return new self(
+            $matches[1] != '' ? $matches[1] : (string)$defaultNs,
+            $matches[2]
+        );
+    }
+
     private $nsName_;    ///< Namespace name, if any
     private $localName_; ///< Local name
 
