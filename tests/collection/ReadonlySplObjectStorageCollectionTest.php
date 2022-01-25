@@ -63,7 +63,7 @@ class ReadonlySplObjectStorageCollectionTest extends TestCase
         $this->expectExceptionMessage(
             'Attempt to modify readonly object <'
             . ReadonlySplObjectStorageCollection::class
-            . '> in method "offsetUnset"'
+            . '> in method offsetUnset()'
         );
 
         unset($collection[$foo]);
@@ -83,7 +83,7 @@ class ReadonlySplObjectStorageCollectionTest extends TestCase
         $this->expectExceptionMessage(
             'Attempt to modify readonly object <'
             . ReadonlySplObjectStorageCollection::class
-            . '> in method "offsetSet"'
+            . '> in method offsetSet()'
         );
 
         $collection[$foo] = false;
