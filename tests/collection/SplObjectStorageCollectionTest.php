@@ -26,6 +26,11 @@ class SplObjectStorageCollectionTest extends TestCase
         $values = [];
 
         foreach ($collection as $key => $value) {
+            foreach (clone $collection as $dummy) {
+                /* do nothing, but show that the clone is iterated
+                 * independently of the original object */
+            }
+
             $values[$key->id] = $value;
         }
 

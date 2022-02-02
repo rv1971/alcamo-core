@@ -4,6 +4,10 @@ namespace alcamo\collection;
 
 /**
  * @brief Provide all array-like interfaces and a property $data_ they refer to.
+ *
+ * @note Since this trait uses CloneTrait via SplObjectStorageIteratorTrait,
+ * write access to a clone through the ArrayAccess mechanism will not modify
+ * the data in the original object.
  */
 trait SplObjectStorageCollectionTrait
 {

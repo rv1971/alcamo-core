@@ -25,6 +25,11 @@ class CollectionTest extends TestCase
         $data2 = [];
 
         foreach ($a as $key => $value) {
+            foreach (clone $a as $dummy) {
+                /* do nothing, but show that the clone is iterated
+                 * independently of the original object */
+            }
+
             $data2[$value] = $key;
         }
 
