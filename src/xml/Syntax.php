@@ -18,7 +18,7 @@ class Syntax
 
     /// [NameChar](https://www.w3.org/TR/xml/#NT-NameChar) fragment
     public const NAME_CHAR =
-        '[-\pL:.\d\x{B7}\x{0300}-\x{036F}\x{203F}-\x{2040}]';
+        '[-\pL:_.\d\x{B7}\x{0300}-\x{036F}\x{203F}-\x{2040}]';
 
     /// [Name](https://www.w3.org/TR/xml/#NT-Name) fragment
     public const NAME = self::NAME_START_CHAR . self::NAME_CHAR . '*';
@@ -31,7 +31,7 @@ class Syntax
 
     /// [NCNameChar](https://www.w3.org/TR/xml-names/#NT-NCNameChar) fragment
     public const NC_NAME_CHAR =
-        '[-\pL.\d\x{B7}\x{0300}-\x{036F}\x{203F}-\x{2040}]';
+        '[-\pL_.\d\x{B7}\x{0300}-\x{036F}\x{203F}-\x{2040}]';
 
     /// [NCName](https://www.w3.org/TR/xml-names/#NT-NCName) fragment
     public const NC_NAME = self::NC_NAME_START_CHAR . self::NC_NAME_CHAR . '*';
