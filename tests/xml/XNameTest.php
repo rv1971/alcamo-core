@@ -159,8 +159,8 @@ class XNameTest extends TestCase
     public function newFromUriProvider()
     {
         return [
-            [ 'http://example.com/_foo', null, 'http://example.com/', '_foo' ],
-            [ 'http://example.biz#bar', null, 'http://example.biz#', 'bar' ],
+            [ 'http://example.com/_foo2', null, 'http://example.com/', '_foo2' ],
+            [ 'http://example.biz#b_a3r', null, 'http://example.biz#', 'b_a3r' ],
             [ 'https://example.biz?4baz', null, 'https://example.biz?4', 'baz' ],
             [ 'http://example.com/', null, 'http://example.com/', '' ],
             [ 'foo', null, '', 'foo' ],

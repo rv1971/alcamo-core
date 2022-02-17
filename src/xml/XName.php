@@ -109,7 +109,7 @@ class XName
     ): self {
         if (
             !preg_match(
-                '/^(.*[^\pL_]|)(' . Syntax::NC_NAME . ')$/u',
+                '/^(.*[^\pL_]|)(' . Syntax::NC_NAME . ')$/Uu',
                 $uri,
                 $matches
             )
