@@ -10,26 +10,57 @@ use alcamo\exception\SyntaxError;
  *
  * @invariant Immutable class.
  *
- * @warning Only ISO 639 primary tags and ISO 3166-1 region subtags are
- * supported.
- *
- * @date Last reviewed 2021-06-17
+ * @warning Only languages with an ISO 639 primary tag, zero or one ISO 3166-1
+ * region subtag and zero or more private subtags are supported.
  */
 class Lang
 {
-    public const PRIMARY_TAG_REGEXP = '/^[a-z]{2,3}$/';
-    public const REGION_TAG_REGEXP  = '/^[A-Z]{2}$/';
+    public const PRIMARY_SUBTAG_REGEXP = '/^[a-z]{2,3}$/';
+    public const REGION_SUBTAG_REGEXP  = '/^[A-Z]{2}$/';
+    public const PRIVATE_SUBTAGS_REGEXP = '/^[0-9A-Za-z]{1,8}(-[0-9A-Za-z]{1,8})*$/';
 
     private $primary_; ///< string
     private $region_;  ///< ?string
+    private $private_; ///< ?string
 
     public static function newFromString(string $string)
     {
-        if (isset($string[2])) {
-            return new self(substr($string, 0, 2), substr($string, 3));
+        $subtags = explode('-', $string);
+
+        $primary = array_shift($subtags);
+
+        if (!$subtags) {
+            return new self($primary);
         } else {
-            return new self($string);
+            $nextSubtag = array_shift($subtags);
+
+            if ($nextSubtag == 'X' || $nextSubtag == 'x') {
+                $region = null;
+            } else {
+                $region = $nextSubtag;
+
+                if ($subtags) {
+                    $nextSubtag = array_shift($subtags);
+                } else {
+                    return new self($primary, $region);
+                }
+            }
         }
+
+        if (($nextSubtag != 'X' && $nextSubtag != 'x') || !$subtags) {
+            /** @throw alcamo::exception::SyntaxError if remaining tags
+             *  do not match the privateuse production. */
+            array_unshift($subtags, $nextSubtag);
+
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => implode('-', $subtags),
+                    'extraMessage' => 'not a valid privateuse tag'
+                ]
+            );
+        }
+
+        return new self($primary, $region, implode('-', $subtags));
     }
 
     /**
@@ -37,9 +68,13 @@ class Lang
      *
      * @param $region @copybrief getRegion()
      */
-    public function __construct(string $primary, ?string $region = null)
+    public function __construct(
+        string $primary,
+        ?string $region = null,
+        ?string $private = null
+    )
     {
-        if (!preg_match(static::PRIMARY_TAG_REGEXP, $primary)) {
+        if (!preg_match(static::PRIMARY_SUBTAG_REGEXP, $primary)) {
             /** @throw alcamo::exception::SyntaxError if $primary is not a
              *  syntactically valid ISO 639 language. */
             throw (new SyntaxError())->setMessageContext(
@@ -53,7 +88,7 @@ class Lang
         $this->primary_ = $primary;
 
         if (isset($region)) {
-            if (!preg_match(static::REGION_TAG_REGEXP, $region)) {
+            if (!preg_match(static::REGION_SUBTAG_REGEXP, $region)) {
                 /** @throw alcamo::exception::SyntaxError if $region is not a
                  *  syntactically valid ISO 3166-1 alpha-2 code. */
                 throw (new SyntaxError())->setMessageContext(
@@ -65,6 +100,21 @@ class Lang
             }
 
             $this->region_ = $region;
+        }
+
+        if (isset($private)) {
+            if (!preg_match(static::PRIVATE_SUBTAGS_REGEXP, $private)) {
+                /** @throw alcamo::exception::SyntaxError if $private is not a
+                 *  syntactically valid sequence of private subtags. */
+                throw (new SyntaxError())->setMessageContext(
+                    [
+                        'inData' => $private,
+                        'extraMessage' => 'not a valid privateuse tag'
+                    ]
+                );
+            }
+
+            $this->private_ = $private;
         }
     }
 
@@ -80,11 +130,25 @@ class Lang
         return $this->region_;
     }
 
+    /// Private subtags
+    public function getPrivate(): ?string
+    {
+        return $this->private_;
+    }
+
     /// Convert to RFC 4646 representation
     public function __toString(): string
     {
-        return isset($this->region_)
-            ? "{$this->primary_}-{$this->region_}"
-            : $this->primary_;
+        $result = $this->primary_;
+
+        if (isset($this->region_)) {
+            $result .= "-{$this->region_}";
+        }
+
+        if (isset($this->private_)) {
+            $result .= "-x-{$this->private_}";
+        }
+
+        return $result;
     }
 }
