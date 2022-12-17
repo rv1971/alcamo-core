@@ -63,6 +63,19 @@ class Lang
         return new self($primary, $region, implode('-', $subtags));
     }
 
+    public static function newFromLocale(?string $locale = null): self
+    {
+        if (!isset($locale)) {
+            $locale = \Locale::getDefault();
+        }
+
+        $a = \Locale::parseLocale($locale);
+
+        return isset($a['region'])
+            ? new self($a['language'], $a['region'])
+            : new self($a['language']);
+    }
+
     /**
      * @param $primary @copybrief getPrimary()
      *
@@ -72,8 +85,7 @@ class Lang
         string $primary,
         ?string $region = null,
         ?string $private = null
-    )
-    {
+    ) {
         if (!preg_match(static::PRIMARY_SUBTAG_REGEXP, $primary)) {
             /** @throw alcamo::exception::SyntaxError if $primary is not a
              *  syntactically valid ISO 639 language. */

@@ -103,6 +103,21 @@ class LangTest extends TestCase
         ];
     }
 
+    public function testNewFromLocale()
+    {
+        setlocale(LC_ALL, 'de_CH.ISO-8859-1');
+
+        $this->assertEquals(
+            new Lang('de', 'CH'),
+            Lang::newFromLocale()
+        );
+
+        $this->assertEquals(
+            new Lang('oc'),
+            Lang::newFromLocale('oc')
+        );
+    }
+
     public function testNewFromStringException1()
     {
         $this->expectException(SyntaxError::class);
