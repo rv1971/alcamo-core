@@ -2,7 +2,7 @@
 
 namespace alcamo\xml;
 
-use alcamo\xml\exception\UnknownNamespacePrefix;
+use alcamo\exception\UnknownNamespacePrefix;
 
 /**
  * @namespace alcamo::xml
