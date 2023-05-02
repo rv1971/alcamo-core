@@ -45,7 +45,12 @@ class XName
         if (!isset($map[$a[0]])) {
             /** @throw alcamo::exception::UnknownNamespacePrefix if the prefix
              *  is not found in the map. */
-            throw new UnknownNamespacePrefix($a[0]);
+            throw (new UnknownNamespacePrefix())->setMessageContext(
+                [
+                    'prefix' => $a[0],
+                    'inData' => $qName
+                ]
+            );
         }
 
         return new self($map[$a[0]], $a[1]);
@@ -80,7 +85,14 @@ class XName
         if (!isset($nsName)) {
             /** @throw alcamo::exception::UnknownNamespacePrefix if the prefix
              *  cannot be resolved. */
-            throw new UnknownNamespacePrefix($a[0]);
+            throw (new UnknownNamespacePrefix())->setMessageContext(
+                [
+                    'prefix' => $a[0],
+                    'inData' => $qName,
+                    'atUri' => $context->ownerDocument->documentURI,
+                    'atLine' => $context->getLineNo()
+                ]
+            );
         }
 
         return new self($nsName, $a[1]);
