@@ -1,7 +1,6 @@
 {
     "name": "alcamo/core",
     "description": "Common base for other alcamo libraries",
-    "keywords": [ "collection", "exception" ],
     "license": "Apache-2.0",
     "require": {
         "php": "7.3 - 8.0",
